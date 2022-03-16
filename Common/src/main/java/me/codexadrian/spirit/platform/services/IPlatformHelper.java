@@ -1,4 +1,4 @@
-package com.example.examplemod.platform.services;
+package me.codexadrian.spirit.platform.services;
 
 import java.nio.file.Path;
 
