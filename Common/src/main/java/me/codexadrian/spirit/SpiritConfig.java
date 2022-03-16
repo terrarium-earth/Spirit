@@ -47,7 +47,7 @@ public class SpiritConfig {
     }
 
     public static SpiritConfig loadConfig(Path configFolder) throws IOException {
-        Path configPath = configFolder.resolve(Spirit.MODID + ".json");
+        Path configPath = configFolder.resolve(Constants.MODID + ".json");
 
         if (!Files.exists(configPath)) {
             return generateDefault(configPath);
@@ -61,7 +61,7 @@ public class SpiritConfig {
             }
             return config;
         } catch (Exception e) {
-            LOGGER.error("Error parsing config file for mod " + Spirit.MODID);
+            LOGGER.error("Error parsing config file for mod " + Constants.MODID);
         }
 
         return generateDefault(configPath);
@@ -74,7 +74,7 @@ public class SpiritConfig {
             GSON.toJson(config, writer);
         }
 
-        LOGGER.info("Created config file for mod " + Spirit.MODID);
+        LOGGER.info("Created config file for mod " + Constants.MODID);
         return config;
     }
 }

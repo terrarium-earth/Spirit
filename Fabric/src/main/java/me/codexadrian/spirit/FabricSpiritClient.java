@@ -1,7 +1,6 @@
 package me.codexadrian.spirit;
 
 import me.codexadrian.spirit.blocks.soulcage.SoulCageRenderer;
-import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -15,8 +14,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.ItemStack;
-
-import java.io.IOException;
 
 public class FabricSpiritClient implements ClientModInitializer {
 
@@ -33,7 +30,7 @@ public class FabricSpiritClient implements ClientModInitializer {
 
             @Override
             public void onResourceManagerReload(ResourceManager resourceManager) {
-            
+
             }
         });
 
@@ -52,15 +49,15 @@ public class FabricSpiritClient implements ClientModInitializer {
             } else return -1;
         }, FabricSpirit.SOUL_CRYSTAL);
 
-        FabricModelPredicateProviderRegistry.register(FabricSpirit.SOUL_CRYSTAL, new ResourceLocation(Spirit.MODID, "activation"), (stack, level, entity, seed) -> stack.hasTag() ? getActivation(stack) : 0);
+        FabricModelPredicateProviderRegistry.register(FabricSpirit.SOUL_CRYSTAL, new ResourceLocation(Constants.MODID, "activation"), (stack, level, entity, seed) -> stack.hasTag() ? getActivation(stack) : 0);
     }
-    
+
     private static float getActivation(ItemStack stack) {
         Tier tier = SoulUtils.getTier(stack);
-        if(tier == null) {
+        if (tier == null) {
             return 0f;
         }
 
-        return ((float)tier.getRequiredSouls()) / SoulUtils.getMaxSouls(stack);
+        return ((float) tier.getRequiredSouls()) / SoulUtils.getMaxSouls(stack);
     }
 }
