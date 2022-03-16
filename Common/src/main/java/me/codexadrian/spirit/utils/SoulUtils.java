@@ -1,5 +1,6 @@
 package me.codexadrian.spirit.utils;
 
+import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.Tier;
 import net.minecraft.world.item.ItemStack;
 
@@ -13,7 +14,7 @@ public class SoulUtils {
         int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
         String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
         Tier tier = null;
-        for(Tier t : spiritConfig.getTiers()) {
+        for(Tier t : Spirit.getSpiritConfig().getTiers()) {
             if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
                 if (t.getRequiredSouls() <= storedSouls) {
                     tier = t;
@@ -32,8 +33,8 @@ public class SoulUtils {
         int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
         String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
         int tier = 0;
-        for(int i = 0; i < spiritConfig.getTiers().length; i++) {
-            Tier t = spiritConfig.getTiers()[i];
+        for(int i = 0; i < Spirit.getSpiritConfig().getTiers().length; i++) {
+            Tier t = Spirit.getSpiritConfig().getTiers()[i];
             if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
                 if (t.getRequiredSouls() <= storedSouls) {
                     tier = i;
@@ -52,7 +53,7 @@ public class SoulUtils {
         int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
         String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
         Tier tier = null;
-        for(Tier t : spiritConfig.getTiers()) {
+        for(Tier t : Spirit.getSpiritConfig().getTiers()) {
             if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
                 if (t.getRequiredSouls() > storedSouls) {
                     tier = t;
@@ -69,8 +70,8 @@ public class SoulUtils {
         }
         String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
         int requiredSouls = 0;
-        for(int i = 0; i < spiritConfig.getTiers().length; i++) {
-            Tier t = spiritConfig.getTiers()[i];
+        for(int i = 0; i < Spirit.getSpiritConfig().getTiers().length; i++) {
+            Tier t = Spirit.getSpiritConfig().getTiers()[i];
             if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
                 if(requiredSouls < t.getRequiredSouls()) {
                     requiredSouls = t.getRequiredSouls();
@@ -86,7 +87,7 @@ public class SoulUtils {
         }
         String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
         Tier tier = null;
-        for(Tier t : spiritConfig.getTiers()) {
+        for(Tier t : Spirit.getSpiritConfig().getTiers()) {
             if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
                 tier = t;
             }

@@ -19,7 +19,7 @@ public class EntityRendererMixin {
 
     @Inject(method = "render", at = @At("HEAD"))
     private void preRender(LivingEntity livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-        if (((Corrupted) livingEntity).isCorrupted() && SpiritClient.getClientConfig().getShaderStatus()) {
+        if (((Corrupted) livingEntity).isCorrupted()) {
             currentlyRendered = livingEntity;
         }
     }
@@ -33,7 +33,7 @@ public class EntityRendererMixin {
     
     @Inject(method = "getRenderType", at = @At("RETURN"), cancellable = true)
     private void getRenderType(LivingEntity livingEntity, boolean bl, boolean bl2, boolean bl3, CallbackInfoReturnable<RenderType> cir){
-        if (((Corrupted) livingEntity).isCorrupted() && SpiritClient.getClientConfig().getShaderStatus()) {
+        if (((Corrupted) livingEntity).isCorrupted()) {
             cir.setReturnValue(MobSoulShaders.getSoulRenderType(livingEntity, (LivingEntityRenderer) (Object)this));
         }
     }
