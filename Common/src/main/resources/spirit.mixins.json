@@ -6,7 +6,10 @@
   "mixins": [
   ],
   "client": [
-    "ExampleCommonMixin"
+    "BaseFireBlockMixin",
+    "EntityRendererMixin",
+    "GameRendererMixin",
+    "LivingEntityMixin"
   ],
   "server": [
   ],

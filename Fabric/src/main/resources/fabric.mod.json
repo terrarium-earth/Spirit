@@ -9,6 +9,7 @@
   ],
   "license": "MIT",
   "environment": "*",
+  "accessWidener": "spirit.accesswidener",
   "entrypoints": {
     "main": [
       "me.codexadrian.spirit.FabricSpirit"

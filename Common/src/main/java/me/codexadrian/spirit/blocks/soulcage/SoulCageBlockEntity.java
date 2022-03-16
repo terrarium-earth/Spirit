@@ -14,8 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 public class SoulCageBlockEntity extends BlockEntity implements Container {
@@ -23,7 +21,6 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     EntityType<?> type;
     private ItemStack DivineCrystal = ItemStack.EMPTY;
 
-    @OnlyIn(Dist.CLIENT)
     public Entity entity;
 
     private final SoulCageSpawner enabledSpawner = new SoulCageSpawner(this);
