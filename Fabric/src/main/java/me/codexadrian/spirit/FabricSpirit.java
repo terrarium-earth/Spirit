@@ -4,7 +4,6 @@ import me.codexadrian.spirit.blocks.soulcage.SoulCageBlock;
 import me.codexadrian.spirit.blocks.soulcage.SoulCageBlockEntity;
 import me.codexadrian.spirit.items.DivineCrystalItem;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -14,10 +13,8 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import static me.codexadrian.spirit.Spirit.MODID;
+import static me.codexadrian.spirit.Constants.MODID;
 
 public class FabricSpirit implements ModInitializer {
 

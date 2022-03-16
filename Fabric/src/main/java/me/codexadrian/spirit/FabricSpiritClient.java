@@ -52,7 +52,7 @@ public class FabricSpiritClient implements ClientModInitializer {
             } else return -1;
         }, FabricSpirit.SOUL_CRYSTAL);
 
-        FabricModelPredicateProviderRegistry.register(FabricSpirit.SOUL_CRYSTAL, new ResourceLocation(Spirit.MODID, "activation"), (stack, level, entity, seed) -> stack.hasTag() ? getActivation(stack) : 0);
+        FabricModelPredicateProviderRegistry.register(FabricSpirit.SOUL_CRYSTAL, new ResourceLocation(Constants.MODID, "activation"), (stack, level, entity, seed) -> stack.hasTag() ? getActivation(stack) : 0);
     }
     
     private static float getActivation(ItemStack stack) {
