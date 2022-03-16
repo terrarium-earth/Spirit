@@ -110,4 +110,14 @@ public class SoulUtils {
 
         return tier;
     }
+
+    public static float getActivation(ItemStack stack) {
+        Tier tier = SoulUtils.getTier(stack);
+        if (tier == null) {
+            return 0f;
+        }
+
+        return ((float) tier.getRequiredSouls()) / SoulUtils.getMaxSouls(stack);
+    }
+
 }

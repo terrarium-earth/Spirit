@@ -8,8 +8,7 @@
     "BaseFireBlockMixin"
   ],
   "client": [
-    "EntityRendererMixin",
-    "GameRendererMixin"
+    "EntityRendererMixin"
   ],
   "server": [
   ],

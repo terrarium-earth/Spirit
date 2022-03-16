@@ -19,9 +19,6 @@ public class FabricSpiritClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        BlockRenderLayerMap.INSTANCE.putBlock(FabricSpirit.SOUL_CAGE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(FabricSpirit.BROKEN_SPAWNER, RenderType.cutout());
-        BlockEntityRendererRegistry.INSTANCE.register(FabricSpirit.SOUL_CAGE_ENTITY, SoulCageRenderer::new);
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
             @Override
             public ResourceLocation getFabricId() {
@@ -48,16 +45,5 @@ public class FabricSpiritClient implements ClientModInitializer {
                 return red << 16 | green << 8 | blue;
             } else return -1;
         }, FabricSpirit.SOUL_CRYSTAL);
-
-        FabricModelPredicateProviderRegistry.register(FabricSpirit.SOUL_CRYSTAL, new ResourceLocation(Constants.MODID, "activation"), (stack, level, entity, seed) -> stack.hasTag() ? getActivation(stack) : 0);
-    }
-
-    private static float getActivation(ItemStack stack) {
-        Tier tier = SoulUtils.getTier(stack);
-        if (tier == null) {
-            return 0f;
-        }
-
-        return ((float) tier.getRequiredSouls()) / SoulUtils.getMaxSouls(stack);
     }
 }
