@@ -4,12 +4,12 @@
   "package": "me.codexadrian.spirit.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "LivingEntityMixin",
+    "BaseFireBlockMixin"
   ],
   "client": [
-    "BaseFireBlockMixin",
     "EntityRendererMixin",
-    "GameRendererMixin",
-    "LivingEntityMixin"
+    "GameRendererMixin"
   ],
   "server": [
   ],
