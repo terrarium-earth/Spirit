@@ -21,12 +21,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BaseFireBlock.class)
 public abstract class BaseFireBlockMixin {
 
-    @Inject(method="entityInside", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "entityInside", at = @At("HEAD"), cancellable = true)
     private void onBurn(BlockState blockState, Level level, BlockPos blockPos, Entity entity, CallbackInfo ci) {
-        if(blockState.is(Blocks.SOUL_FIRE) && entity instanceof ItemEntity itemE) {
-            if(itemE.getItem().getItem().equals(Services.REGISTRY.getBrokenSpawner())) {
+        if (blockState.is(Blocks.SOUL_FIRE) && entity instanceof ItemEntity itemE) {
+            if (itemE.getItem().getItem().equals(Services.REGISTRY.getBrokenSpawner())) {
                 itemE.discard();
-                ItemEntity cage = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), new ItemStack(Services.REGISTRY.getSoulCageItem(),  itemE.getItem().getCount()));
+                ItemEntity cage = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), new ItemStack(Services.REGISTRY.getSoulCageItem(), itemE.getItem().getCount()));
                 cage.setInvulnerable(true);
                 itemE.level.addFreshEntity(cage);
                 if (!itemE.level.isClientSide()) {
@@ -35,7 +35,8 @@ public abstract class BaseFireBlockMixin {
                 }
                 ci.cancel();
             }
-            if(itemE.getItem().getItem().equals(Items.AMETHYST_CLUSTER) && RecipeUtils.checkMultiblock(blockPos, level)) {
+
+            if (itemE.getItem().getItem().equals(Items.AMETHYST_CLUSTER) && RecipeUtils.checkMultiblock(blockPos, level)) {
                 itemE.discard();
                 ItemEntity crystal = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), new ItemStack(Services.REGISTRY.getSoulCrystal(), itemE.getItem().getCount()));
                 crystal.setInvulnerable(true);

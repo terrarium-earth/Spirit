@@ -7,6 +7,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public interface IRegistryHelper {
+
     DivineCrystalItem getSoulCrystal();
 
     BlockItem getBrokenSpawner();
@@ -16,5 +17,4 @@ public interface IRegistryHelper {
     BlockEntityType<SoulCageBlockEntity> getSoulCageBlockEntity();
 
     BlockItem getSoulCageItem();
-
 }

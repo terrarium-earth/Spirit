@@ -5,6 +5,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 
 public class RecipeUtils {
+
     public static final BlockPos[] WARPED_WART_POSITIONS = new BlockPos[] {
             new BlockPos(0, -1,1),
             new BlockPos(0,-1,-1),
@@ -18,9 +19,11 @@ public class RecipeUtils {
                 return false;
             }
         }
+
         for(BlockPos glassPos : WARPED_WART_POSITIONS) {
             level.destroyBlock(blockPos.offset(glassPos), false);
         }
+
         return true;
     }
 }

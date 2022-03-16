@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 
 public class Spirit {
+
     public static final String MODID = "spirit";
     public static final Logger LOGGER = LogManager.getLogger();
     private static SpiritConfig spiritConfig;
@@ -14,7 +15,7 @@ public class Spirit {
     public static SpiritConfig getSpiritConfig() {
         return spiritConfig;
     }
-    
+
     public static void onInitialize() {
         try {
             spiritConfig = SpiritConfig.loadConfig(Services.PLATFORM.getConfigDir());

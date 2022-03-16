@@ -9,6 +9,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class FabricRegistryHelper implements IRegistryHelper {
+
     @Override
     public DivineCrystalItem getSoulCrystal() {
         return FabricSpirit.SOUL_CRYSTAL;

@@ -20,11 +20,11 @@ import java.util.function.Consumer;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
-    
+
     @Shadow
     @Final
     private Map<String, ShaderInstance> shaders;
-    
+
     @Inject(method = "reloadShaders", at = @At("TAIL"))
     private void reloadShaders(ResourceManager resourceManager, CallbackInfo ci) {
         List<Pair<ShaderInstance, Consumer<ShaderInstance>>> list = new ArrayList<>();
@@ -34,7 +34,6 @@ public class GameRendererMixin {
             list.forEach(pair -> pair.getFirst().close());
             throw new RuntimeException("could not reload shaders", e);
         }
-
 
         list.forEach(pair -> {
             ShaderInstance shaderInstance = pair.getFirst();

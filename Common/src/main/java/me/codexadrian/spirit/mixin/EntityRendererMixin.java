@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntityRenderer.class)
 public class EntityRendererMixin {
+
     private LivingEntity currentlyRendered;
 
     @Inject(method = "render", at = @At("HEAD"))
@@ -30,11 +31,11 @@ public class EntityRendererMixin {
             currentlyRendered = null;
         }
     }
-    
+
     @Inject(method = "getRenderType", at = @At("RETURN"), cancellable = true)
-    private void getRenderType(LivingEntity livingEntity, boolean bl, boolean bl2, boolean bl3, CallbackInfoReturnable<RenderType> cir){
+    private void getRenderType(LivingEntity livingEntity, boolean bl, boolean bl2, boolean bl3, CallbackInfoReturnable<RenderType> cir) {
         if (((Corrupted) livingEntity).isCorrupted()) {
-            cir.setReturnValue(MobSoulShaders.getSoulRenderType(livingEntity, (LivingEntityRenderer) (Object)this));
+            cir.setReturnValue(MobSoulShaders.getSoulRenderType(livingEntity, (LivingEntityRenderer) (Object) this));
         }
     }
 

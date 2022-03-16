@@ -1,6 +1,5 @@
 package me.codexadrian.spirit.items;
 
-import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.Tier;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.ChatFormatting;
@@ -34,7 +33,7 @@ public class DivineCrystalItem extends Item {
             if (storedEntity.contains("Type")) {
                 MutableComponent tooltip = new TranslatableComponent(Util.makeDescriptionId("entity", new ResourceLocation(storedEntity.getString("Type"))));
                 tooltip.append(new TextComponent(" " + (SoulUtils.getTierIndex(itemStack) + 1) + " - "));
-                if(!Screen.hasShiftDown()) {
+                if (!Screen.hasShiftDown()) {
                     tooltip.append(new TextComponent("(" + getPercentage(itemStack) + "%) "));
                 } else {
                     tooltip.append(new TextComponent("(" + Math.min(storedEntity.getInt("Souls"), SoulUtils.getMaxSouls(itemStack)) + "/" + Math.min(SoulUtils.getNextTier(itemStack) == null ? Integer.MAX_VALUE : SoulUtils.getNextTier(itemStack).getRequiredSouls(), SoulUtils.getMaxSouls(itemStack)) + ") "));
@@ -50,12 +49,14 @@ public class DivineCrystalItem extends Item {
     public static double getPercentage(ItemStack itemStack) {
         int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
         Tier tier = SoulUtils.getNextTier(itemStack);
-        if(tier == null) {
+        if (tier == null) {
             return 100;
         }
-        double percentage = ((double)storedSouls / (tier.getRequiredSouls())) * 100;
-        double p = percentage*10;
-        int p2 = (int)p;
-        return SoulUtils.getMaxTier(itemStack) == tier ? 100 : (double)p2/10;
+
+        double percentage = ((double) storedSouls / (tier.getRequiredSouls())) * 100;
+        double p = percentage * 10;
+        int p2 = (int) p;
+
+        return SoulUtils.getMaxTier(itemStack) == tier ? 100 : (double) p2 / 10;
     }
 }

@@ -31,6 +31,7 @@ import java.util.Arrays;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Corrupted {
+
     private static final EntityDataAccessor<Boolean> CORRUPTED = SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.BOOLEAN);
 
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
@@ -44,35 +45,39 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readCorrupted(CompoundTag compoundTag, CallbackInfo ci) {
-        if(compoundTag.getBoolean("Corrupted")) {
+        if (compoundTag.getBoolean("Corrupted")) {
             setCorrupted();
         }
     }
+
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void saveCorrupted(CompoundTag compoundTag, CallbackInfo ci) {
-        if(isCorrupted()) {
+        if (isCorrupted()) {
             compoundTag.putBoolean("Corrupted", true);
         }
     }
+
     @Inject(method = "die", at = @At("HEAD"))
     private void onDeath(DamageSource source, CallbackInfo ci) {
         LivingEntity victim = (LivingEntity) (Object) this;
-        Corrupted corrupt = (Corrupted)victim;
+        Corrupted corrupt = (Corrupted) victim;
         if (!victim.level.isClientSide) {
             if (source.getEntity() instanceof Player) {
                 Player player = (Player) source.getEntity();
-                if(!Arrays.stream(Spirit.getSpiritConfig().getBlacklist()).anyMatch(s -> {
+                if (!Arrays.stream(Spirit.getSpiritConfig().getBlacklist()).anyMatch(s -> {
                     ResourceLocation tag = new ResourceLocation(s);
                     return Registry.ENTITY_TYPE.getKey(victim.getType()).equals(tag);
                 })) {
                     if (victim.canChangeDimensions() && (Spirit.getSpiritConfig().isCollectFromCorrupt() || !corrupt.isCorrupted())) {
                         ItemStack savedStack = ItemStack.EMPTY;
                         int savedSouls = 0;
+
                         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
                             ItemStack currentItem = player.getInventory().getItem(i);
                             if (currentItem.getItem() != Services.REGISTRY.getSoulCrystal()) {
                                 continue;
                             }
+
                             if (savedStack.isEmpty() && (!currentItem.hasTag() || (currentItem.getTag().getCompound("StoredEntity").getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString())) && currentItem.getTag().getCompound("StoredEntity").getInt("Souls") < SoulUtils.getMaxSouls(currentItem))) {
                                 savedStack = currentItem;
                             } else {
@@ -88,9 +93,10 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
                                 }
                             }
                         }
+
                         if (!savedStack.isEmpty()) {
-            
                             CompoundTag storedEntity;
+
                             if (!savedStack.hasTag() || !savedStack.getTag().contains("StoredEntity")) {
                                 CompoundTag tag = new CompoundTag();
                                 tag.putString("Type", Registry.ENTITY_TYPE.getKey(victim.getType()).toString());
@@ -99,10 +105,12 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
                             } else {
                                 storedEntity = savedStack.getTag().getCompound("StoredEntity");
                             }
+
                             storedEntity.putInt("Souls", storedEntity.getInt("Souls") + 1);
                             ServerLevel serverLevel = (ServerLevel) player.level;
                             serverLevel.sendParticles(ParticleTypes.SOUL, victim.getX(), victim.getY(), victim.getZ(), 20, victim.getBbWidth(), victim.getBbHeight(), victim.getBbWidth(), 0);
                             Tier tier = SoulUtils.getTier(savedStack);
+
                             if (tier != null && storedEntity.getInt("Souls") == tier.getRequiredSouls()) {
                                 player.displayClientMessage(new TranslatableComponent("item.spirit.soul_crystal.upgrade_message").withStyle(ChatFormatting.AQUA), true);
                                 serverLevel.sendParticles(ParticleTypes.SOUL, player.getX(), player.getY(), player.getZ(), 40, 1, 2, 1, 0);

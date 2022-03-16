@@ -36,6 +36,7 @@ public class FabricSpiritClient implements ClientModInitializer {
             
             }
         });
+
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 0) {
                 int red = 0xC4;
@@ -50,6 +51,7 @@ public class FabricSpiritClient implements ClientModInitializer {
                 return red << 16 | green << 8 | blue;
             } else return -1;
         }, FabricSpirit.SOUL_CRYSTAL);
+
         FabricModelPredicateProviderRegistry.register(FabricSpirit.SOUL_CRYSTAL, new ResourceLocation(Spirit.MODID, "activation"), (stack, level, entity, seed) -> stack.hasTag() ? getActivation(stack) : 0);
     }
     
@@ -58,6 +60,7 @@ public class FabricSpiritClient implements ClientModInitializer {
         if(tier == null) {
             return 0f;
         }
+
         return ((float)tier.getRequiredSouls()) / SoulUtils.getMaxSouls(stack);
     }
 }
