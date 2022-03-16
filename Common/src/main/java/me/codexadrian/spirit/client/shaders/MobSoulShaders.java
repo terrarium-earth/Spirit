@@ -13,6 +13,10 @@ public class MobSoulShaders extends RenderType{
     //TODO scooby doo this shit
     public static ShaderInstance rendertypeTranslucentShader;
 
+    public MobSoulShaders(String s, VertexFormat v, VertexFormat.Mode m, int i, boolean b, boolean b2, Runnable r, Runnable r2) {
+        super(s, v, m, i, b, b2, r, r2);
+    }
+
     public static RenderType getSoulRenderType(LivingEntity entity, LivingEntityRenderer livingEntity) {
         return RenderType.create(
           "mob_soul_layer_" + entity.getDisplayName().getString(),
