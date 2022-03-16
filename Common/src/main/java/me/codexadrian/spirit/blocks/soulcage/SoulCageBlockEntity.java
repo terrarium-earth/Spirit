@@ -1,9 +1,6 @@
 package me.codexadrian.spirit.blocks.soulcage;
 
-import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.platform.Services;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -17,13 +14,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 public class SoulCageBlockEntity extends BlockEntity implements Container {
 
     EntityType<?> type;
     private ItemStack DivineCrystal = ItemStack.EMPTY;
-    @Environment(EnvType.CLIENT)
+
+    @OnlyIn(Dist.CLIENT)
     public Entity entity;
 
     private final SoulCageSpawner enabledSpawner = new SoulCageSpawner(this);
@@ -33,7 +33,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     }
 
     public static void tick(Level level, BlockPos blockPos, BlockState blockState, SoulCageBlockEntity blockEntity) {
-        if(blockEntity.hasLevel() && !blockEntity.isEmpty()) {
+        if (blockEntity.hasLevel() && !blockEntity.isEmpty()) {
             blockEntity.enabledSpawner.tick();
         }
     }
@@ -124,7 +124,6 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
             type = null;
         }
     }
-
 
 
     public SoulCageSpawner getSpawner() {
