@@ -15,7 +15,7 @@ public class Spirit {
         return spiritConfig;
     }
     
-    public void onInitialize() {
+    public static void onInitialize() {
         try {
             spiritConfig = SpiritConfig.loadConfig(Services.PLATFORM.getConfigDir());
         } catch (IOException e) {
