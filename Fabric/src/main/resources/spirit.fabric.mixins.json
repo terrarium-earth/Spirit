@@ -1,12 +1,11 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.example.examplemod.mixin",
+  "package": "me.codexadrian.spirit.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
   ],
   "client": [
-    "ExampleFabricMixin"
   ],
   "server": [
   ],

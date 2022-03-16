@@ -19,15 +19,9 @@ import net.minecraft.world.item.ItemStack;
 import java.io.IOException;
 
 public class FabricSpiritClient implements ClientModInitializer {
-    private static SpiritClientConfig clientConfig;
 
     @Override
     public void onInitializeClient() {
-        try {
-            clientConfig = SpiritClientConfig.loadConfig(Services.PLATFORM.getConfigDir());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         BlockRenderLayerMap.INSTANCE.putBlock(FabricSpirit.SOUL_CAGE, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(FabricSpirit.BROKEN_SPAWNER, RenderType.cutout());
         BlockEntityRendererRegistry.INSTANCE.register(FabricSpirit.SOUL_CAGE_ENTITY, SoulCageRenderer::new);
@@ -66,9 +60,4 @@ public class FabricSpiritClient implements ClientModInitializer {
         }
         return ((float)tier.getRequiredSouls()) / SoulUtils.getMaxSouls(stack);
     }
-    
-    public static SpiritClientConfig getClientConfig() {
-        return clientConfig;
-    }
-
 }
