@@ -1,8 +1,5 @@
 package me.codexadrian.spirit;
 
-import blue.endless.jankson.Jankson;
-import blue.endless.jankson.JsonElement;
-import io.github.cottonmc.jankson.JanksonFactory;
 import me.codexadrian.spirit.blocks.soulcage.SoulCageRenderer;
 import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.utils.SoulUtils;
@@ -13,7 +10,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -21,9 +17,6 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.ItemStack;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class FabricSpiritClient implements ClientModInitializer {
     private static SpiritClientConfig clientConfig;
@@ -55,14 +48,14 @@ public class FabricSpiritClient implements ClientModInitializer {
                 int green = 0xFF;
                 int blue = 0xFE;
                 if (stack.hasTag()) {
-                    float percentage = Math.min(stack.getTag().getCompound("StoredEntity").getInt("Souls") / (float) Spirit.getMaxSouls(stack), 1f);
+                    float percentage = Math.min(stack.getTag().getCompound("StoredEntity").getInt("Souls") / (float) SoulUtils.getMaxSouls(stack), 1f);
                     red -= percentage * 91;
                     green -= percentage * 7;
                     blue += percentage;
                 }
                 return red << 16 | green << 8 | blue;
             } else return -1;
-        }, Spirit.SOUL_CRYSTAL);
+        }, FabricSpirit.SOUL_CRYSTAL);
         FabricModelPredicateProviderRegistry.register(FabricSpirit.SOUL_CRYSTAL, new ResourceLocation(Spirit.MODID, "activation"), (stack, level, entity, seed) -> stack.hasTag() ? getActivation(stack) : 0);
     }
     
