@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "spirit:item/soul_crystal_unbound"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "spirit:activation": 0.25
+      },
+      "model": "spirit:item/soul_crystal_tier_1"
+    },
+    {
+      "predicate": {
+        "spirit:activation": 0.5
+      },
+      "model": "spirit:item/soul_crystal_tier_2"
+    },
+    {
+      "predicate": {
+        "spirit:activation": 0.75
+      },
+      "model": "spirit:item/soul_crystal_tier_3"
+    },
+    {
+      "predicate": {
+        "spirit:activation": 1
+      },
+      "model": "spirit:item/soul_crystal_tier_4"
+    }
+  ]
+}

@@ -2,7 +2,7 @@ package me.codexadrian.spirit.mixin;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.datafixers.util.Pair;
-import me.codexadrian.spirit.client.shaders.MobSoulShaders;
+import me.codexadrian.spirit.platform.Services;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -29,7 +29,7 @@ public class GameRendererMixin {
     private void reloadShaders(ResourceManager resourceManager, CallbackInfo ci) {
         List<Pair<ShaderInstance, Consumer<ShaderInstance>>> list = new ArrayList<>();
         try {
-            list.add(Pair.of(new ShaderInstance(resourceManager, "rendertype_entity_corrupted", DefaultVertexFormat.BLOCK), (shaderInstance) -> MobSoulShaders.rendertypeTranslucentShader = shaderInstance));
+            list.add(Pair.of(new ShaderInstance(resourceManager, "rendertype_entity_corrupted", DefaultVertexFormat.BLOCK), Services.SHADERS::setSoulShader));
         } catch (Exception e) {
             list.forEach(pair -> pair.getFirst().close());
             throw new RuntimeException("could not reload shaders", e);

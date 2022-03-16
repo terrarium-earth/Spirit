@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "spirit:block/soul_cage_top",
+    "side": "spirit:block/soul_cage_sides"
+  }
+}
