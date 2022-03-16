@@ -25,7 +25,6 @@ public class FabricSpirit implements ModInitializer {
     public static final BlockEntityType<SoulCageBlockEntity> SOUL_CAGE_ENTITY = FabricBlockEntityTypeBuilder.create(SoulCageBlockEntity::new, SOUL_CAGE).build(null);
     public static final BlockItem SOUL_CAGE_ITEM = new BlockItem(SOUL_CAGE, new Item.Properties().tab(FabricSpirit.SPIRIT).rarity(Rarity.EPIC));
     public static final DivineCrystalItem SOUL_CRYSTAL = new DivineCrystalItem(new Item.Properties().tab(FabricSpirit.SPIRIT).stacksTo(1).rarity(Rarity.RARE));
-    public static final Logger LOGGER = LogManager.getLogger();
     public static final Block BROKEN_SPAWNER = new Block(FabricBlockSettings.copyOf(Blocks.SPAWNER).requiresCorrectToolForDrops());
     public static final BlockItem BROKEN_SPAWNER_ITEM = new BlockItem(BROKEN_SPAWNER, new Item.Properties().tab(FabricSpirit.SPIRIT).rarity(Rarity.EPIC));
     @Override
