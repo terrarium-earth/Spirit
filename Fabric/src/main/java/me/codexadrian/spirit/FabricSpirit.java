@@ -28,6 +28,7 @@ public class FabricSpirit implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        Spirit.onInitialize();
         Registry.register(Registry.BLOCK, new ResourceLocation(MODID, "soul_cage"), SOUL_CAGE);
         Registry.register(Registry.BLOCK_ENTITY_TYPE, new ResourceLocation(MODID, "soul_cage"), SOUL_CAGE_ENTITY);
         Registry.register(Registry.ITEM, new ResourceLocation(MODID, "soul_cage"), SOUL_CAGE_ITEM);

@@ -62,8 +62,7 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
         LivingEntity victim = (LivingEntity) (Object) this;
         Corrupted corrupt = (Corrupted) victim;
         if (!victim.level.isClientSide) {
-            if (source.getEntity() instanceof Player) {
-                Player player = (Player) source.getEntity();
+            if (source.getEntity() instanceof Player player) {
                 if (!Arrays.stream(Spirit.getSpiritConfig().getBlacklist()).anyMatch(s -> {
                     ResourceLocation tag = new ResourceLocation(s);
                     return Registry.ENTITY_TYPE.getKey(victim.getType()).equals(tag);

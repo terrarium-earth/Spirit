@@ -53,6 +53,6 @@ public class ForgeSpirit {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         BLOCKS.register(eventBus);
         ITEMS.register(eventBus);
-        BLOCKS.register(eventBus);
+        BLOCK_ENTITIES.register(eventBus);
     }
 }
