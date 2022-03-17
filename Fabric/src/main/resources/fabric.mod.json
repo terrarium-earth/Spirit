@@ -3,9 +3,14 @@
   "id": "spirit",
   "version": "${version}",
   "name": "Spirit",
-  "description": "Spirit description TODO cc: @Adrian",
+  "description": "A Soul Shards inspired mod - Spawn your own mobs with an enhanced mob spawner",
   "authors": [
-    "CodexAdrian"
+    "Head Dev: CodexAdrian",
+    "Dev: Ashh/MsRandom1",
+    "Dev: ExpensiveKoala",
+    "Dev: ThatGravyBoat",
+    "Dev: abused_master/moe/pain in my ass",
+    "Artist: Kekie6"
   ],
   "license": "MIT",
   "environment": "*",

@@ -6,7 +6,7 @@ license="All rights reserved"
 modId="spirit"
 version="${file.jarVersion}"
 displayName="Spirit"
-authors="CodexAdrian"
+authors="Devs: (Lead) CodexAdrian, Ashh/MsRandom1, ThatGravyBoat, ExpensiveKoala, abused_master/moe/pain in my ass, Artist: Kekie6"
 description='''
-Some description, fix this @Adrian
+A Soul Shards inspired mod - Spawn your own mobs with an enhanced mob spawner
 '''
