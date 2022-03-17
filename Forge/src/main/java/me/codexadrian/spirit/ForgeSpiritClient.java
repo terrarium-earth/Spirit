@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -40,6 +39,10 @@ public class ForgeSpiritClient {
 
     @SubscribeEvent
     public static void onShadersRegistered(RegisterShadersEvent event) throws IOException {
-        event.registerShader(new ShaderInstance(event.getResourceManager(), new ResourceLocation("rendertype_entity_corrupted"), DefaultVertexFormat.BLOCK), shader -> ForgeSoulShader.rendertypeTranslucentShader = shader);
+        event.registerShader(new ShaderInstance(
+                event.getResourceManager(),
+                new ResourceLocation("rendertype_entity_corrupted"),
+                DefaultVertexFormat.BLOCK
+        ), shader -> ForgeSoulShader.rendertypeTranslucentShader = shader);
     }
 }

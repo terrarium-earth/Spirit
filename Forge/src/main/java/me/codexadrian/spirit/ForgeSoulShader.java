@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.world.entity.LivingEntity;
 
-
 public class ForgeSoulShader extends RenderType {
 
     public static ShaderInstance rendertypeTranslucentShader;

@@ -1,13 +1,8 @@
 package me.codexadrian.spirit.platform;
 
 import me.codexadrian.spirit.Constants;
-import me.codexadrian.spirit.ForgeSpirit;
-import me.codexadrian.spirit.blocks.soulcage.SoulCageBlock;
-import me.codexadrian.spirit.blocks.soulcage.SoulCageBlockEntity;
-import me.codexadrian.spirit.items.DivineCrystalItem;
 import me.codexadrian.spirit.platform.services.IRegistryHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -54,6 +49,4 @@ public class ForgeRegistryHelper implements IRegistryHelper {
             }
         };
     }
-
-
 }
