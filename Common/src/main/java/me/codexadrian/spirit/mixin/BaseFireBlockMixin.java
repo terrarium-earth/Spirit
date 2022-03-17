@@ -1,7 +1,6 @@
 package me.codexadrian.spirit.mixin;
 
 import me.codexadrian.spirit.SpiritRegistry;
-import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.utils.RecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -27,24 +26,28 @@ public abstract class BaseFireBlockMixin {
         if (blockState.is(Blocks.SOUL_FIRE) && entity instanceof ItemEntity itemE) {
             if (itemE.getItem().getItem().equals(SpiritRegistry.BROKEN_SPAWNER_ITEM.get())) {
                 itemE.discard();
-                ItemEntity cage = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), new ItemStack(SpiritRegistry.SOUL_CAGE_ITEM.get(), itemE.getItem().getCount()));
+                ItemEntity cage = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(),
+                        new ItemStack(SpiritRegistry.SOUL_CAGE_ITEM.get(), itemE.getItem().getCount()));
                 cage.setInvulnerable(true);
                 itemE.level.addFreshEntity(cage);
                 if (!itemE.level.isClientSide()) {
                     ServerLevel sLevel = (ServerLevel) itemE.level;
-                    sLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 40, 1, 2, 1, 0);
+                    sLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX(), blockPos.getY(),
+                            blockPos.getZ(), 40, 1, 2, 1, 0);
                 }
                 ci.cancel();
             }
 
             if (itemE.getItem().getItem().equals(Items.AMETHYST_CLUSTER) && RecipeUtils.checkMultiblock(blockPos, level)) {
                 itemE.discard();
-                ItemEntity crystal = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), new ItemStack(SpiritRegistry.SOUL_CRYSTAL.get(), itemE.getItem().getCount()));
+                ItemEntity crystal = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(),
+                        new ItemStack(SpiritRegistry.SOUL_CRYSTAL.get(), itemE.getItem().getCount()));
                 crystal.setInvulnerable(true);
                 itemE.level.addFreshEntity(crystal);
                 if (!itemE.level.isClientSide()) {
                     ServerLevel sLevel = (ServerLevel) itemE.level;
-                    sLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 40, 1, 2, 1, 0);
+                    sLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX(), blockPos.getY(),
+                            blockPos.getZ(), 40, 1, 2, 1, 0);
                 }
                 ci.cancel();
             }

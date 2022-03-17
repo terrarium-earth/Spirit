@@ -3,17 +3,20 @@ package me.codexadrian.spirit.blocks.soulcage;
 import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.Tier;
-import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 public class SoulCageSpawner {
+
     private double spin;
     private int spawnDelay = 20;
     private final SoulCageBlockEntity soulCageBlockEntity;
@@ -25,16 +28,16 @@ public class SoulCageSpawner {
     public void tick() {
         Level level = this.getLevel();
         BlockPos blockPos = this.getPos();
-        if (level.isClientSide){
+        if (level.isClientSide) {
             if (this.isNearPlayer()) {
                 double spinAmount = 20D;
                 Tier tier = SoulUtils.getTier(soulCageBlockEntity.getItem(0));
-                if(tier != null && tier.isRedstoneControlled() && level.hasNeighborSignal(soulCageBlockEntity.getBlockPos())) {
+                if (tier != null && tier.isRedstoneControlled() && level.hasNeighborSignal(soulCageBlockEntity.getBlockPos())) {
                     spinAmount /= 30;
                 } else {
-                    double d = (double)blockPos.getX() + level.random.nextDouble();
-                    double e = (double)blockPos.getY() + level.random.nextDouble();
-                    double f = (double)blockPos.getZ() + level.random.nextDouble();
+                    double d = (double) blockPos.getX() + level.random.nextDouble();
+                    double e = (double) blockPos.getY() + level.random.nextDouble();
+                    double f = (double) blockPos.getZ() + level.random.nextDouble();
                     level.addParticle(ParticleTypes.SOUL, d, e, f, 0.0D, 0.0D, 0.0D);
                     level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, d, e, f, 0.0D, 0.0D, 0.0D);
                 }
@@ -42,10 +45,10 @@ public class SoulCageSpawner {
             }
         } else if (this.isNearPlayer()) {
             Tier tier = SoulUtils.getTier(soulCageBlockEntity.getItem(0));
-            if(tier == null) {
+            if (tier == null) {
                 return;
             }
-            
+
             if (this.spawnDelay == -1) {
                 this.delay(tier);
             }
@@ -54,9 +57,9 @@ public class SoulCageSpawner {
                 --this.spawnDelay;
                 return;
             }
-            
-            if(tier.isRedstoneControlled() && level.hasNeighborSignal(soulCageBlockEntity.getBlockPos())) {
-               return;
+
+            if (tier.isRedstoneControlled() && level.hasNeighborSignal(soulCageBlockEntity.getBlockPos())) {
+                return;
             }
 
             boolean bl = false;
@@ -129,23 +132,28 @@ public class SoulCageSpawner {
     private boolean isNearPlayer() {
         BlockPos blockPos = this.getPos();
         BlockState blockState = getLevel().getBlockState(getPos());
-        if(blockState.is(SpiritRegistry.SOUL_CAGE.get())) {
+        if (blockState.is(SpiritRegistry.SOUL_CAGE.get())) {
             Tier tier = SoulUtils.getTier(soulCageBlockEntity.getItem(0));
-            if(tier == null) {
+            if (tier == null) {
                 return false;
             } else if (tier.getNearbyRange() > 0) {
-                return this.getLevel().hasNearbyAlivePlayer((double) blockPos.getX() + 0.5D, (double) blockPos.getY() + 0.5D, (double) blockPos.getZ() + 0.5D, tier.getNearbyRange());
+                return this.getLevel().hasNearbyAlivePlayer((double) blockPos.getX() + 0.5D,
+                        (double) blockPos.getY() + 0.5D, (double) blockPos.getZ() + 0.5D, tier.getNearbyRange());
             } else {
                 return true;
             }
-        } return false;
+        }
+
+        return false;
 
     }
+
     private void delay(Tier tier) {
         if (tier.getMaxSpawnDelay() <= tier.getMinSpawnDelay()) {
             this.spawnDelay = tier.getMinSpawnDelay();
         } else {
-            this.spawnDelay = tier.getMinSpawnDelay() + this.getLevel().random.nextInt(tier.getMaxSpawnDelay() - tier.getMinSpawnDelay());
+            this.spawnDelay = tier.getMinSpawnDelay() +
+                    this.getLevel().random.nextInt(tier.getMaxSpawnDelay() - tier.getMinSpawnDelay());
         }
 
         this.broadcastEvent(1);
@@ -154,9 +162,10 @@ public class SoulCageSpawner {
     public boolean onEventTriggered(int i) {
         if (i == 1 && this.getLevel().isClientSide) {
             Tier tier = SoulUtils.getTier(soulCageBlockEntity.getItem(0));
-            if(tier == null) {
+            if (tier == null) {
                 return false;
             }
+
             this.spawnDelay = tier.getMinSpawnDelay();
             return true;
         } else {
@@ -165,7 +174,7 @@ public class SoulCageSpawner {
     }
 
     public void broadcastEvent(int i) {
-        final Level level = soulCageBlockEntity.getLevel();
+        Level level = soulCageBlockEntity.getLevel();
         if (level != null) {
             level.blockEvent(soulCageBlockEntity.getBlockPos(), SpiritRegistry.SOUL_CAGE.get(), i, 0);
         }

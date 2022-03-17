@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class BrokenSpawnerBlock extends Block {
+
     //I only made a class because abused_master AKA pain in my ass AKA moe told me to.
     public BrokenSpawnerBlock() {
         super(BlockBehaviour.Properties.copy(Blocks.SPAWNER).requiresCorrectToolForDrops());
@@ -22,7 +23,8 @@ public class BrokenSpawnerBlock extends Block {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter getter, List<Component> components, TooltipFlag flag) {
-        MutableComponent component = new TranslatableComponent("block.spirit.broken_spawner.tooltip").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC);
+        MutableComponent component = new TranslatableComponent("block.spirit.broken_spawner.tooltip")
+                .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC);
         components.add(component);
     }
 }

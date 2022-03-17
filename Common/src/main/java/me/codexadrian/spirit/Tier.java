@@ -31,7 +31,8 @@ public class Tier {
     @SerializedName("blacklist")
     private String[] blacklist;
 
-    public Tier(int requiredSouls, int minSpawnDelay, int maxSpawnDelay, int spawnCount, int spawnRange, int nearbyRange, boolean redstoneControlled, boolean ignoreSpawnConditions, String[] blacklist) {
+    public Tier(int requiredSouls, int minSpawnDelay, int maxSpawnDelay, int spawnCount, int spawnRange, int nearbyRange,
+                boolean redstoneControlled, boolean ignoreSpawnConditions, String[] blacklist) {
         this.requiredSouls = requiredSouls;
         this.minSpawnDelay = minSpawnDelay;
         this.maxSpawnDelay = maxSpawnDelay;

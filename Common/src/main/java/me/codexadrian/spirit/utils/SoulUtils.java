@@ -1,6 +1,7 @@
 package me.codexadrian.spirit.utils;
 
 import me.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.Tier;
 import net.minecraft.world.item.ItemStack;
 
@@ -9,7 +10,8 @@ import java.util.Arrays;
 public class SoulUtils {
 
     public static Tier getTier(ItemStack itemStack) {
-        if (!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity")) {
+        if (!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity") ||
+                !itemStack.getItem().equals(SpiritRegistry.SOUL_CRYSTAL.get())) {
             return null;
         }
 
@@ -21,9 +23,9 @@ public class SoulUtils {
             if (Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
                 if (t.getRequiredSouls() <= storedSouls) {
                     tier = t;
-                } else {
-                    break;
                 }
+
+                break;
             }
         }
 
@@ -44,9 +46,9 @@ public class SoulUtils {
             if (Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
                 if (t.getRequiredSouls() <= storedSouls) {
                     tier = i;
-                } else {
-                    break;
                 }
+
+                break;
             }
         }
 
@@ -119,5 +121,4 @@ public class SoulUtils {
 
         return ((float) tier.getRequiredSouls()) / SoulUtils.getMaxSouls(stack);
     }
-
 }

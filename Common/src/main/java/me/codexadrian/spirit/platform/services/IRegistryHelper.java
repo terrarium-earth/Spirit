@@ -1,13 +1,7 @@
 package me.codexadrian.spirit.platform.services;
 
-import me.codexadrian.spirit.blocks.soulcage.SoulCageBlock;
-import me.codexadrian.spirit.blocks.soulcage.SoulCageBlockEntity;
-import me.codexadrian.spirit.items.DivineCrystalItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

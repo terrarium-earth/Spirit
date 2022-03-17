@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public interface IClientHelper {
+    
     void registerItemProperty(Item pItem, ResourceLocation pName, ClampedItemPropertyFunction pProperty);
 
     <T extends BlockEntity> void registerEntityRenderer(BlockEntityType<T> type, BlockEntityRendererProvider<T> provider);

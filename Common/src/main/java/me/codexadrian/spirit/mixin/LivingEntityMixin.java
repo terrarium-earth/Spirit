@@ -4,7 +4,6 @@ import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.Tier;
-import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
@@ -33,7 +32,8 @@ import java.util.Arrays;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Corrupted {
 
-    private static final EntityDataAccessor<Boolean> CORRUPTED = SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> CORRUPTED =
+            SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.BOOLEAN);
 
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -108,11 +108,13 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
 
                             storedEntity.putInt("Souls", storedEntity.getInt("Souls") + 1);
                             ServerLevel serverLevel = (ServerLevel) player.level;
-                            serverLevel.sendParticles(ParticleTypes.SOUL, victim.getX(), victim.getY(), victim.getZ(), 20, victim.getBbWidth(), victim.getBbHeight(), victim.getBbWidth(), 0);
+                            serverLevel.sendParticles(ParticleTypes.SOUL, victim.getX(), victim.getY(), victim.getZ(),
+                                    20, victim.getBbWidth(), victim.getBbHeight(), victim.getBbWidth(), 0);
                             Tier tier = SoulUtils.getTier(savedStack);
 
                             if (tier != null && storedEntity.getInt("Souls") == tier.getRequiredSouls()) {
-                                player.displayClientMessage(new TranslatableComponent("item.spirit.soul_crystal.upgrade_message").withStyle(ChatFormatting.AQUA), true);
+                                player.displayClientMessage(new TranslatableComponent("item.spirit.soul_crystal.upgrade_message")
+                                        .withStyle(ChatFormatting.AQUA), true);
                                 serverLevel.sendParticles(ParticleTypes.SOUL, player.getX(), player.getY(), player.getZ(), 40, 1, 2, 1, 0);
                             }
                         }

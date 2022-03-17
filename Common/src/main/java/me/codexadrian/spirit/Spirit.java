@@ -11,7 +11,8 @@ import static me.codexadrian.spirit.Constants.MODID;
 
 public class Spirit {
 
-    public static final CreativeModeTab SPIRIT = Services.REGISTRY.registerCreativeTab(new ResourceLocation(MODID, "itemgroup"), () -> new ItemStack(SpiritRegistry.SOUL_CRYSTAL.get()));
+    public static final CreativeModeTab SPIRIT = Services.REGISTRY.registerCreativeTab(
+            new ResourceLocation(MODID, "itemgroup"), () -> new ItemStack(SpiritRegistry.SOUL_CRYSTAL.get()));
 
     private static SpiritConfig spiritConfig;
 

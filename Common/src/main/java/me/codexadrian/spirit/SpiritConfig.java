@@ -49,16 +49,15 @@ public class SpiritConfig {
     public static SpiritConfig loadConfig(Path configFolder) throws IOException {
         Path configPath = configFolder.resolve(Constants.MODID + ".json");
 
-        if (!Files.exists(configPath)) {
+        if (!Files.exists(configPath))
             return generateDefault(configPath);
-        }
 
         try {
             SpiritConfig config = GSON.fromJson(new InputStreamReader(Files.newInputStream(configPath)), SpiritConfig.class);
             Arrays.sort(config.getTiers(), Comparator.comparing(Tier::getRequiredSouls));
-            if (config.getBlacklist() == null) {
+            if (config.getBlacklist() == null)
                 config.blacklist = new String[0];
-            }
+
             return config;
         } catch (Exception e) {
             LOGGER.error("Error parsing config file for mod " + Constants.MODID);

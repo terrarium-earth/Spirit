@@ -38,6 +38,7 @@ public class DivineCrystalItem extends Item {
                 } else {
                     tooltip.append(new TextComponent("(" + Math.min(storedEntity.getInt("Souls"), SoulUtils.getMaxSouls(itemStack)) + "/" + Math.min(SoulUtils.getNextTier(itemStack) == null ? Integer.MAX_VALUE : SoulUtils.getNextTier(itemStack).getRequiredSouls(), SoulUtils.getMaxSouls(itemStack)) + ") "));
                 }
+
                 list.add(tooltip.withStyle(ChatFormatting.GRAY));
             }
         } else {

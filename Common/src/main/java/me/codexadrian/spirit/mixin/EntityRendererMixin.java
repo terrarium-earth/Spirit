@@ -19,21 +19,24 @@ public class EntityRendererMixin {
     private LivingEntity currentlyRendered;
 
     @Inject(method = "render", at = @At("HEAD"))
-    private void preRender(LivingEntity livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
+    private void preRender(LivingEntity livingEntity, float f, float g, PoseStack poseStack,
+                           MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
         if (((Corrupted) livingEntity).isCorrupted()) {
             currentlyRendered = livingEntity;
         }
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void postRender(LivingEntity livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
+    private void postRender(LivingEntity livingEntity, float f, float g, PoseStack poseStack,
+                            MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
         if (currentlyRendered != null) {
             currentlyRendered = null;
         }
     }
 
     @Inject(method = "getRenderType", at = @At("RETURN"), cancellable = true)
-    private void getRenderType(LivingEntity livingEntity, boolean bl, boolean bl2, boolean bl3, CallbackInfoReturnable<RenderType> cir) {
+    private void getRenderType(LivingEntity livingEntity, boolean bl, boolean bl2, boolean bl3,
+                               CallbackInfoReturnable<RenderType> cir) {
         if (((Corrupted) livingEntity).isCorrupted()) {
             cir.setReturnValue(Services.SHADERS.getSoulShader(livingEntity, (LivingEntityRenderer) (Object) this));
         }
