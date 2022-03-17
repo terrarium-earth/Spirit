@@ -61,6 +61,8 @@ public class SoulCageBlock extends BaseEntityBlock {
                             soulSpawner.setType();
                         }
 
+                        soulSpawner.setChanged();
+                        level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
                         return InteractionResult.SUCCESS;
                     }
                 } else if (player.isShiftKeyDown()) {
@@ -78,11 +80,10 @@ public class SoulCageBlock extends BaseEntityBlock {
                         }
                     }
 
+                    soulSpawner.setChanged();
+                    level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
                     return InteractionResult.SUCCESS;
                 }
-
-                soulSpawner.setChanged();
-                level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
             }
         }
 
