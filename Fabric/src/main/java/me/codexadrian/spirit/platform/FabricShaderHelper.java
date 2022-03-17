@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.world.entity.LivingEntity;
 
 public class FabricShaderHelper implements IShaderHelper {
+
     @Override
     public void setSoulShader(ShaderInstance shader) {
         FabricSoulShader.rendertypeTranslucentShader = shader;
