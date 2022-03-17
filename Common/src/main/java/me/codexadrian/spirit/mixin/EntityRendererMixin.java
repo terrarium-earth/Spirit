@@ -2,7 +2,7 @@ package me.codexadrian.spirit.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.codexadrian.spirit.Corrupted;
-import me.codexadrian.spirit.platform.Services;
+import me.codexadrian.spirit.platform.ClientServices;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -38,7 +38,7 @@ public class EntityRendererMixin {
     private void getRenderType(LivingEntity livingEntity, boolean bl, boolean bl2, boolean bl3,
                                CallbackInfoReturnable<RenderType> cir) {
         if (((Corrupted) livingEntity).isCorrupted()) {
-            cir.setReturnValue(Services.SHADERS.getSoulShader(livingEntity, (LivingEntityRenderer) (Object) this));
+            cir.setReturnValue(ClientServices.SHADERS.getSoulShader(livingEntity, (LivingEntityRenderer) (Object) this));
         }
     }
 }

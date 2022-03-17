@@ -1,10 +1,8 @@
 package me.codexadrian.spirit.platform;
 
 import me.codexadrian.spirit.Constants;
-import me.codexadrian.spirit.platform.services.IClientHelper;
 import me.codexadrian.spirit.platform.services.IPlatformHelper;
 import me.codexadrian.spirit.platform.services.IRegistryHelper;
-import me.codexadrian.spirit.platform.services.IShaderHelper;
 
 import java.util.ServiceLoader;
 
@@ -12,8 +10,6 @@ public class Services {
 
     public static final IPlatformHelper PLATFORM = load(IPlatformHelper.class);
     public static final IRegistryHelper REGISTRY = load(IRegistryHelper.class);
-    public static final IShaderHelper SHADERS = load(IShaderHelper.class);
-    public static final IClientHelper CLIENT = load(IClientHelper.class);
 
     public static <T> T load(Class<T> clazz) {
         final T loadedService = ServiceLoader.load(clazz)
