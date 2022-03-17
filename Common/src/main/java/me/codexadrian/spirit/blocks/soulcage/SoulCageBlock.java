@@ -50,7 +50,7 @@ public class SoulCageBlock extends BaseEntityBlock {
             if (level.getBlockEntity(blockPos) instanceof SoulCageBlockEntity soulSpawner) {
                 if (soulSpawner.isEmpty()) {
                     if (SoulUtils.getTier(itemStack) != null) {
-                        if (level.isClientSide) soulSpawner.entity = null;
+                        soulSpawner.entity = null;
 
                         if (!level.isClientSide) {
                             if (!player.getAbilities().instabuild) {
@@ -66,12 +66,11 @@ public class SoulCageBlock extends BaseEntityBlock {
                         return InteractionResult.SUCCESS;
                     }
                 } else if (player.isShiftKeyDown()) {
-                    if (level.isClientSide) soulSpawner.entity = null;
+                    soulSpawner.entity = null;
+                    soulSpawner.type = null;
 
                     if (!level.isClientSide) {
                         ItemStack DivineCrystal = soulSpawner.removeItemNoUpdate(0);
-                        soulSpawner.type = null;
-
                         if (itemStack.isEmpty()) {
                             player.setItemInHand(interactionHand, DivineCrystal);
                         } else if (!player.addItem(DivineCrystal)) {
