@@ -10,8 +10,7 @@ import java.util.Arrays;
 public class SoulUtils {
 
     public static Tier getTier(ItemStack itemStack) {
-        if (!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity") ||
-                !itemStack.getItem().equals(SpiritRegistry.SOUL_CRYSTAL.get())) {
+        if (!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity")) {
             return null;
         }
 
