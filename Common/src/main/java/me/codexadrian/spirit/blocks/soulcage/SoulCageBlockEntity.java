@@ -101,6 +101,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     @Override
     public void load(CompoundTag compoundTag) {
         super.load(compoundTag);
+        type = null;
         if (compoundTag.contains("crystal")) {
             divineCrystal = ItemStack.of(compoundTag.getCompound("crystal"));
             setType();

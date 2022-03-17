@@ -71,7 +71,6 @@ public class SoulCageBlock extends BaseEntityBlock {
                     if (!level.isClientSide) {
                         ItemStack DivineCrystal = soulSpawner.removeItemNoUpdate(0);
                         soulSpawner.type = null;
-                        soulSpawner.setChanged();
 
                         if (itemStack.isEmpty()) {
                             player.setItemInHand(interactionHand, DivineCrystal);
