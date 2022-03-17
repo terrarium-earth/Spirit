@@ -1,13 +1,9 @@
 package me.codexadrian.spirit;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import me.codexadrian.spirit.blocks.soulcage.SoulCageRenderer;
 import me.codexadrian.spirit.utils.SoulUtils;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,13 +20,8 @@ import java.io.IOException;
 public class ForgeSpiritClient {
 
     @SubscribeEvent
-    public static void onShadersRegistered(RegisterShadersEvent event) throws IOException {
-        event.registerShader(new ShaderInstance(event.getResourceManager(), new ResourceLocation("rendertype_entity_corrupted"), DefaultVertexFormat.BLOCK), shader -> ForgeSoulShader.rendertypeTranslucentShader = shader);
-    }
-
-    @SubscribeEvent
-    public void onModelProvider(ColorHandlerEvent.Item event) {
-        event.getItemColors().register((stack, tintIndex) -> {
+    public static void onInitializeClient(FMLClientSetupEvent event) {
+        Minecraft.getInstance().getItemColors().register((stack, tintIndex) -> {
             if (tintIndex == 0) {
                 int red = 0xC4;
                 int green = 0xFF;
@@ -44,5 +35,11 @@ public class ForgeSpiritClient {
                 return red << 16 | green << 8 | blue;
             } else return -1;
         }, SpiritRegistry.SOUL_CRYSTAL.get());
+        SpiritClient.initClient();
+    }
+
+    @SubscribeEvent
+    public static void onShadersRegistered(RegisterShadersEvent event) throws IOException {
+        event.registerShader(new ShaderInstance(event.getResourceManager(), new ResourceLocation("rendertype_entity_corrupted"), DefaultVertexFormat.BLOCK), shader -> ForgeSoulShader.rendertypeTranslucentShader = shader);
     }
 }

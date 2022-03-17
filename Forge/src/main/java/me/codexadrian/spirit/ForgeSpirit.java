@@ -21,6 +21,7 @@ public class ForgeSpirit {
 
     public ForgeSpirit() {
         Spirit.onInitialize();
+
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ForgeRegistryHelper.BLOCKS.register(eventBus);
         ForgeRegistryHelper.ITEMS.register(eventBus);

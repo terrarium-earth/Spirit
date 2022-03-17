@@ -19,6 +19,7 @@ public class FabricSpiritClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        SpiritClient.initClient();
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
             @Override
             public ResourceLocation getFabricId() {
@@ -44,6 +45,6 @@ public class FabricSpiritClient implements ClientModInitializer {
                 }
                 return red << 16 | green << 8 | blue;
             } else return -1;
-        }, FabricSpirit.SOUL_CRYSTAL);
+        }, SpiritRegistry.SOUL_CRYSTAL.get());
     }
 }

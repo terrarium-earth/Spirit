@@ -1,9 +1,5 @@
 {
   "variants": {
-    "": { "model": "spirit:block/soul_cage" },
-    "tier=1": { "model": "spirit:block/soul_cage" },
-    "tier=2" : { "model": "spirit:block/soul_cage" },
-    "tier=3": { "model": "spirit:block/soul_cage" },
-    "tier=4": { "model": "spirit:block/soul_cage" }
+    "": { "model": "spirit:block/soul_cage" }
   }
 }

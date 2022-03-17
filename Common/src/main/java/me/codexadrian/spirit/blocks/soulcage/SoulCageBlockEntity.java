@@ -1,5 +1,6 @@
 package me.codexadrian.spirit.blocks.soulcage;
 
+import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.platform.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -11,7 +12,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +29,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     private final SoulCageSpawner enabledSpawner = new SoulCageSpawner(this);
 
     public SoulCageBlockEntity(BlockPos pos, BlockState state) {
-        super(Services.REGISTRY.getSoulCageBlockEntity(), pos, state);
+        super(SpiritRegistry.SOUL_CAGE_ENTITY.get(), pos, state);
     }
 
     public static void tick(Level level, BlockPos blockPos, BlockState blockState, SoulCageBlockEntity blockEntity) {
@@ -106,12 +109,21 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
         }
     }
 
+    @Override
     protected void saveAdditional(CompoundTag compoundTag) {
         super.saveAdditional(compoundTag);
         if (!DivineCrystal.isEmpty()) {
             compoundTag.put("crystal", DivineCrystal.save(new CompoundTag()));
         }
     }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag tag = new CompoundTag();
+        saveAdditional(tag);
+        return tag;
+    }
+
 
 
     public void setType() {

@@ -1,6 +1,7 @@
 package me.codexadrian.spirit.blocks.soulcage;
 
 import me.codexadrian.spirit.Corrupted;
+import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.Tier;
 import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.utils.SoulUtils;
@@ -128,7 +129,7 @@ public class SoulCageSpawner {
     private boolean isNearPlayer() {
         BlockPos blockPos = this.getPos();
         BlockState blockState = getLevel().getBlockState(getPos());
-        if(blockState.is(Services.REGISTRY.getSoulCage())) {
+        if(blockState.is(SpiritRegistry.SOUL_CAGE.get())) {
             Tier tier = SoulUtils.getTier(soulCageBlockEntity.getItem(0));
             if(tier == null) {
                 return false;
@@ -166,7 +167,7 @@ public class SoulCageSpawner {
     public void broadcastEvent(int i) {
         final Level level = soulCageBlockEntity.getLevel();
         if (level != null) {
-            level.blockEvent(soulCageBlockEntity.getBlockPos(), Services.REGISTRY.getSoulCage(), i, 0);
+            level.blockEvent(soulCageBlockEntity.getBlockPos(), SpiritRegistry.SOUL_CAGE.get(), i, 0);
         }
     }
 

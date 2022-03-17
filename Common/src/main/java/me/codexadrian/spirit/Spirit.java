@@ -20,6 +20,7 @@ public class Spirit {
     }
 
     public static void onInitialize() {
+        SpiritRegistry.registerAll();
         try {
             spiritConfig = SpiritConfig.loadConfig(Services.PLATFORM.getConfigDir());
         } catch (IOException e) {

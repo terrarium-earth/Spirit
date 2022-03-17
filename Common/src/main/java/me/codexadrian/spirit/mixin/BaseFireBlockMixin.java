@@ -1,5 +1,6 @@
 package me.codexadrian.spirit.mixin;
 
+import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.utils.RecipeUtils;
 import net.minecraft.core.BlockPos;
@@ -24,9 +25,9 @@ public abstract class BaseFireBlockMixin {
     @Inject(method = "entityInside", at = @At("HEAD"), cancellable = true)
     private void onBurn(BlockState blockState, Level level, BlockPos blockPos, Entity entity, CallbackInfo ci) {
         if (blockState.is(Blocks.SOUL_FIRE) && entity instanceof ItemEntity itemE) {
-            if (itemE.getItem().getItem().equals(Services.REGISTRY.getBrokenSpawner())) {
+            if (itemE.getItem().getItem().equals(SpiritRegistry.BROKEN_SPAWNER_ITEM.get())) {
                 itemE.discard();
-                ItemEntity cage = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), new ItemStack(Services.REGISTRY.getSoulCageItem(), itemE.getItem().getCount()));
+                ItemEntity cage = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), new ItemStack(SpiritRegistry.SOUL_CAGE_ITEM.get(), itemE.getItem().getCount()));
                 cage.setInvulnerable(true);
                 itemE.level.addFreshEntity(cage);
                 if (!itemE.level.isClientSide()) {
@@ -38,7 +39,7 @@ public abstract class BaseFireBlockMixin {
 
             if (itemE.getItem().getItem().equals(Items.AMETHYST_CLUSTER) && RecipeUtils.checkMultiblock(blockPos, level)) {
                 itemE.discard();
-                ItemEntity crystal = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), new ItemStack(Services.REGISTRY.getSoulCrystal(), itemE.getItem().getCount()));
+                ItemEntity crystal = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), new ItemStack(SpiritRegistry.SOUL_CRYSTAL.get(), itemE.getItem().getCount()));
                 crystal.setInvulnerable(true);
                 itemE.level.addFreshEntity(crystal);
                 if (!itemE.level.isClientSide()) {

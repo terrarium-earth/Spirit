@@ -2,6 +2,7 @@ package me.codexadrian.spirit.mixin;
 
 import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.Tier;
 import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.utils.SoulUtils;
@@ -73,7 +74,7 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
 
                         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
                             ItemStack currentItem = player.getInventory().getItem(i);
-                            if (currentItem.getItem() != Services.REGISTRY.getSoulCrystal()) {
+                            if (currentItem.getItem() != SpiritRegistry.SOUL_CRYSTAL.get()) {
                                 continue;
                             }
 
