@@ -1,0 +1,8 @@
+{
+  "name": "item.spirit.glossary",
+  "landing_text": "Your guide to catching all the butterflies in the overworld and beyond! $(br2)By CodexAdrian",
+  "book_texture": "patchouli:textures/gui/book_blue.png",
+  "creative_tab": "spirit",
+  "model": "spirit:glossary",
+  "version": 1
+}

@@ -1,5 +1,6 @@
 {
   "item.spirit.soul_crystal": "Soul Crystal",
+  "item.spirit.glossary": "Revenant Enchiridion",
   "item.spirit.soul_crystal.upgrade_message": "Your crystal's spirit reaches new heights! Tier upgraded.",
   "block.spirit.broken_spawner.tooltip": "Throw into Soul Fire to make a Soul Cage",
   "block.spirit.soul_cage": "Soul Cage",
