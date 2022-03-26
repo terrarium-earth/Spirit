@@ -53,11 +53,12 @@ public class SoulCageBlock extends BaseEntityBlock {
                             SoulUtils.getTier(itemStack) != null) {
                         soulSpawner.entity = null;
 
+                        soulSpawner.setItem(0, itemStack.copy());
+
                         if (!player.getAbilities().instabuild) {
                             itemStack.shrink(1);
                         }
 
-                        soulSpawner.setItem(0, itemStack.copy());
                         soulSpawner.setType();
 
                         soulSpawner.setChanged();
