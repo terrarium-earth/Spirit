@@ -9,7 +9,9 @@ archivesBaseName = "${mod_name}-fabric-${minecraft_version}"
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings loom.officialMojangMappings()
-    modImplementation "vazkii.patchouli:Patchouli:1.18.2-66-FABRIC-SNAPSHOT"
+    modImplementation "vazkii.patchouli:Patchouli:1.18.2-66-FABRIC"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     implementation project(":Common")

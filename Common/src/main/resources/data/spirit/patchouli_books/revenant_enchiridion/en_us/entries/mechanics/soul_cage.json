@@ -1,0 +1,42 @@
+{
+  "name": "Soul Cage",
+  "icon": "spirit:soul_cage",
+  "category": "spirit:mob_spawning",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "title": "Soul Cage",
+      "item": "spirit:soul_cage",
+      "link_recipe": true,
+      "text": "The Soul Cage is used to house the Soul Crystal after having gained enough souls in the crystal to be at least level 1. This spawner has many properties that improve as you continue to level up your crystal, from increased range and speed, to unlocking new capabilities like redstone control and ignoring spawning conditions"
+    },
+    {
+      "type": "patchouli:multiblock",
+      "name": "Soul Cage Recipe",
+      "text": "Form the multiblock and then throw a broken spawner into the soul fire in order to craft your soul cage!",
+      "multiblock": {
+        "mapping": {
+          "0": "minecraft:soul_sand",
+          "F": "minecraft:soul_fire",
+          "T": "minecraft:tinted_glass",
+          "L": "minecraft:soul_lantern",
+          "Z": "minecraft:obsidian"
+        },
+        "pattern": [
+          [
+            "L L",
+            " F ",
+            "L L"
+          ],
+          [
+            "TZT",
+            "Z0Z",
+            "TZT"
+          ]
+        ],
+        "symmetrical": true,
+        "enable_visualize": true
+      }
+    }
+  ]
+}

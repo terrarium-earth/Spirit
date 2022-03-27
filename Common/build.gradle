@@ -22,7 +22,8 @@ minecraft {
 }
 
 dependencies {
-     compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
+    compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
+    annotationProcessor('org.jetbrains:annotations:16.0.2')
     compileOnly "vazkii.patchouli:Patchouli-xplat:1.18.2-66-SNAPSHOT"
 }
 

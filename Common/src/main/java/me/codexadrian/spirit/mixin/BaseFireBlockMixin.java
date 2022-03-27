@@ -29,10 +29,10 @@ public abstract class BaseFireBlockMixin {
     @Inject(method = "entityInside", at = @At("HEAD"), cancellable = true)
     private void onBurn(BlockState blockState, Level level, BlockPos blockPos, Entity entity, CallbackInfo ci) {
         if (blockState.is(Blocks.SOUL_FIRE) && entity instanceof ItemEntity itemE) {
-            if (itemE.getItem().getItem().equals(SpiritRegistry.BROKEN_SPAWNER_ITEM.get())) {
+            if (itemE.getItem().getItem().equals(SpiritRegistry.BROKEN_SPAWNER_ITEM.get()) && RecipeUtils.checkMultiblock(blockPos, level, Blocks.OBSIDIAN)) {
                 itemE.discard();
                 ItemEntity cage = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(),
-                        new ItemStack(SpiritRegistry.SOUL_CAGE_ITEM.get(), itemE.getItem().getCount()));
+                        new ItemStack(SpiritRegistry.SOUL_CAGE_ITEM.get(), 1));
                 cage.setInvulnerable(true);
                 itemE.level.addFreshEntity(cage);
                 if (!itemE.level.isClientSide()) {
@@ -43,10 +43,10 @@ public abstract class BaseFireBlockMixin {
                 ci.cancel();
             }
 
-            if (itemE.getItem().getItem().equals(Items.AMETHYST_CLUSTER) && RecipeUtils.checkMultiblock(blockPos, level)) {
+            if (itemE.getItem().getItem().equals(Items.AMETHYST_SHARD) && RecipeUtils.checkMultiblock(blockPos, level, Blocks.LAPIS_BLOCK)) {
                 itemE.discard();
                 ItemEntity crystal = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(),
-                        new ItemStack(SpiritRegistry.SOUL_CRYSTAL.get(), itemE.getItem().getCount()));
+                        new ItemStack(SpiritRegistry.SOUL_CRYSTAL.get(), 1));
                 crystal.setInvulnerable(true);
                 itemE.level.addFreshEntity(crystal);
                 if (!itemE.level.isClientSide()) {
@@ -57,9 +57,22 @@ public abstract class BaseFireBlockMixin {
                 ci.cancel();
             }
 
-            if(!Services.PLATFORM.isModLoaded("patchouli")) {
+            if(Services.PLATFORM.isModLoaded("patchouli")) {
                 if (itemE.getItem().getItem().equals(Items.BOOK)) {
-                    ItemStack glossary = PatchouliAPI.get().getBookStack(new ResourceLocation(MODID, "glossary"));
+                    itemE.discard();
+                    ItemStack glossary = PatchouliAPI.get().getBookStack(new ResourceLocation(MODID, "revenant_enchiridion"));
+                    glossary.setCount(itemE.getItem().getCount());
+                    ItemEntity book = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), glossary);
+                    book.setInvulnerable(true);
+                    for(int i = 0; i < itemE.getItem().getCount(); i++) {
+                        itemE.getLevel().addFreshEntity(book);
+                    }
+                    if (!itemE.level.isClientSide()) {
+                        ServerLevel sLevel = (ServerLevel) itemE.level;
+                        sLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX(), blockPos.getY(),
+                                blockPos.getZ(), 40, 1, 2, 1, 0);
+                    }
+                    ci.cancel();
                 }
             }
         }

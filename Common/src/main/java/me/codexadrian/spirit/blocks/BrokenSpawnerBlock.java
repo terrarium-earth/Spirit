@@ -1,6 +1,7 @@
 package me.codexadrian.spirit.blocks;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -23,8 +24,14 @@ public class BrokenSpawnerBlock extends Block {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter getter, List<Component> components, TooltipFlag flag) {
-        MutableComponent component = new TranslatableComponent("block.spirit.broken_spawner.tooltip")
-                .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC);
+        MutableComponent component;
+        if(Minecraft.getInstance().player.isShiftKeyDown()) {
+            component = new TranslatableComponent("block.spirit.broken_spawner.tooltip")
+                    .withStyle(ChatFormatting.GRAY);
+        } else {
+            component = new TranslatableComponent("block.spirit.shiftkey.tooltip")
+                    .withStyle(ChatFormatting.GRAY);
+        }
         components.add(component);
     }
 }
