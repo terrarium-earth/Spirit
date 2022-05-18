@@ -14,19 +14,6 @@ public class RecipeUtils {
             new BlockPos(-1,-1,0)
     };
 
-    public static final BlockPos[] CORNER_BLOCK_POSITIONS = new BlockPos[] {
-            new BlockPos(1, -1,1),
-            new BlockPos(1,-1,-1),
-            new BlockPos(-1, -1,-1),
-            new BlockPos(-1,-1,1)
-    };
-
-    public static final BlockPos[] LANTERN_BLOCK_POSITIONS = new BlockPos[] {
-            new BlockPos(1,0,1),
-            new BlockPos(1,0,-1),
-            new BlockPos(-1,0,-1),
-            new BlockPos(-1,0,1)
-    };
 
     public static boolean checkMultiblock(BlockPos blockPos, Level level, Block cardinalBlock) {
         for(BlockPos lapisPos : CARDINAL_BLOCK_POSITIONS) {
@@ -35,29 +22,10 @@ public class RecipeUtils {
             }
         }
 
-        for(BlockPos tintedPos : CORNER_BLOCK_POSITIONS) {
-            if (!level.getBlockState(blockPos.offset(tintedPos)).is(Blocks.TINTED_GLASS)) {
-                return false;
-            }
-        }
-
-        for(BlockPos lanternPos : LANTERN_BLOCK_POSITIONS) {
-            if (!level.getBlockState(blockPos.offset(lanternPos)).is(Blocks.SOUL_LANTERN)) {
-                return false;
-            }
-        }
-
-        for(BlockPos lanternPos : LANTERN_BLOCK_POSITIONS) {
-            level.destroyBlock(blockPos.offset(lanternPos), false);
-        }
-
         for(BlockPos lapisPos : CARDINAL_BLOCK_POSITIONS) {
             level.destroyBlock(blockPos.offset(lapisPos), false);
         }
 
-        for(BlockPos tintedPos : CORNER_BLOCK_POSITIONS) {
-            level.destroyBlock(blockPos.offset(tintedPos), false);
-        }
 
         level.destroyBlock(blockPos, false);
         level.destroyBlock(blockPos.below(), false);

@@ -18,20 +18,18 @@
         "mapping": {
           "0": "minecraft:soul_sand",
           "F": "minecraft:soul_fire",
-          "T": "minecraft:tinted_glass",
-          "L": "minecraft:soul_lantern",
           "Z": "minecraft:obsidian"
         },
         "pattern": [
           [
-            "L L",
+            "   ",
             " F ",
-            "L L"
+            "   "
           ],
           [
-            "TZT",
+            " Z ",
             "Z0Z",
-            "TZT"
+            " Z "
           ]
         ],
         "symmetrical": true,
