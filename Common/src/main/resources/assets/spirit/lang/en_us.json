@@ -7,7 +7,7 @@
   "block.spirit.soul_cage": "Soul Cage",
   "block.spirit.soul_cage.empty_hover_text": "Empty",
   "block.spirit.broken_spawner": "Broken Spawner",
-  "effect.spirit.corrupted": "Corrupted",
+  "effect.spirit.corrupted": "Soulless",
   "itemGroup.spirit.itemgroup": "Spirit",
   "config.spirit.toggletooltip": "Disable/Enable Entity Visual Effect"
 }
