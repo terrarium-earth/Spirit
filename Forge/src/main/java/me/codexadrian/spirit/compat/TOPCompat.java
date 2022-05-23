@@ -27,8 +27,8 @@ public class TOPCompat implements Function<ITheOneProbe, Void> {
                 if (blockState.is(SpiritRegistry.SOUL_CAGE.get()) && level.getBlockEntity(probeHitData.getPos()) instanceof SoulCageBlockEntity blockEntity) {
                     if(blockEntity.isEmpty()) {
                         probeInfo.horizontal().text("block.spirit.soul_cage.empty_hover_text");
-                    } else if(blockEntity.entity != null) {
-                        probeInfo.horizontal().entity(blockEntity.entity).text(blockEntity.entity.getName()).text(" - Tier " + SoulUtils.getTierIndex(blockEntity.getItem(0)));
+                    } else if(blockEntity.type != null) {
+                        probeInfo.horizontal().text("").text(blockEntity.type.getDescription()).text(" - Tier " + SoulUtils.getTierIndex(blockEntity.getItem(0)));
                     }
                 }
             }

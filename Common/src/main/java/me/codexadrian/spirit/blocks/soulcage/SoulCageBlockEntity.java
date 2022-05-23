@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class SoulCageBlockEntity extends BlockEntity implements Container {
 
-    EntityType<?> type;
+    public EntityType<?> type;
     private ItemStack divineCrystal = ItemStack.EMPTY;
 
     @Nullable
