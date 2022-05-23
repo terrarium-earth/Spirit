@@ -21,6 +21,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     EntityType<?> type;
     private ItemStack divineCrystal = ItemStack.EMPTY;
 
+    @Nullable
     public Entity entity;
 
     private final SoulCageSpawner enabledSpawner = new SoulCageSpawner(this);

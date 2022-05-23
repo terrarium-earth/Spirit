@@ -41,6 +41,10 @@ subprojects {
         }
 
         maven { url = "https://dvs1.progwml6.com/files/maven/" }
+
+        maven { // McJtyLib
+            url "https://maven.k-4u.nl"
+        }
     }
 
     tasks.withType(JavaCompile).configureEach {

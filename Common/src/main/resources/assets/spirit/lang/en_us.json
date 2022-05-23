@@ -5,6 +5,7 @@
   "block.spirit.broken_spawner.tooltip": "Remains of a spawner that no longer works. See the Revenant Enchiridion for more details on how to use it",
   "block.spirit.shiftkey.tooltip": "Hold [SHIFT] for more info",
   "block.spirit.soul_cage": "Soul Cage",
+  "block.spirit.soul_cage.empty_hover_text": "Empty",
   "block.spirit.broken_spawner": "Broken Spawner",
   "effect.spirit.corrupted": "Corrupted",
   "itemGroup.spirit.itemgroup": "Spirit",

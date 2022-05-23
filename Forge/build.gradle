@@ -85,6 +85,9 @@ dependencies {
     implementation fg.deobf("vazkii.patchouli:Patchouli:1.18.2-66:api")
     implementation fg.deobf("mezz.jei:${jei_version}")
     compileOnly project(":Common")
+    implementation ("mcjty.theoneprobe:theoneprobe:${top_version}") {
+        transitive = false
+    }
     annotationProcessor 'org.spongepowered:mixin:0.8.4-SNAPSHOT:processor'
 }
 
