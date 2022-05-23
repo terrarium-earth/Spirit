@@ -58,6 +58,6 @@ public class DivineCrystalItem extends Item {
         double p = percentage * 10;
         int p2 = (int) p;
 
-        return SoulUtils.getMaxTier(itemStack) == tier ? 100 : (double) p2 / 10;
+        return SoulUtils.isMaxTier(itemStack) ? 100 : (double) p2 / 10;
     }
 }
