@@ -9,7 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -113,7 +113,7 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
                             Tier tier = SoulUtils.getTier(savedStack);
 
                             if (tier != null && storedEntity.getInt("Souls") == tier.getRequiredSouls()) {
-                                player.displayClientMessage(new TranslatableComponent("item.spirit.soul_crystal.upgrade_message")
+                                player.displayClientMessage(Component.translatable("item.spirit.soul_crystal.upgrade_message")
                                         .withStyle(ChatFormatting.AQUA), true);
                                 serverLevel.sendParticles(ParticleTypes.SOUL, player.getX(), player.getY(), player.getZ(), 40, 1, 2, 1, 0);
                             }

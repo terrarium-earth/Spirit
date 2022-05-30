@@ -1,12 +1,10 @@
 package me.codexadrian.spirit.mixin;
 
 import me.codexadrian.spirit.SpiritRegistry;
-import me.codexadrian.spirit.compat.PatchouliCompat;
 import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.utils.RecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -20,9 +18,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import vazkii.patchouli.api.PatchouliAPI;
-
-import static me.codexadrian.spirit.Constants.MODID;
 
 @Mixin(BaseFireBlock.class)
 public abstract class BaseFireBlockMixin {
@@ -62,7 +57,7 @@ public abstract class BaseFireBlockMixin {
 
             if(Services.PLATFORM.isModLoaded("patchouli")) {
                 if (itemE.getItem().getItem().equals(Items.BOOK)) {
-                    PatchouliCompat.bookRecipe(blockPos, itemE, ci);
+                    //PatchouliCompat.bookRecipe(blockPos, itemE, ci);
                 }
             }
         }
