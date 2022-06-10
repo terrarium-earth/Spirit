@@ -17,9 +17,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class DivineCrystalItem extends Item {
+public class SoulCrystalItem extends Item {
 
-    public DivineCrystalItem(Properties properties) {
+    public SoulCrystalItem(Properties properties) {
         super(properties);
     }
 

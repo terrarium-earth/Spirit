@@ -1,6 +1,6 @@
 package me.codexadrian.spirit;
 
-import me.codexadrian.spirit.blocks.soulcage.SoulCageRenderer;
+import me.codexadrian.spirit.client.SoulCageRenderer;
 import me.codexadrian.spirit.platform.ClientServices;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.client.renderer.RenderType;

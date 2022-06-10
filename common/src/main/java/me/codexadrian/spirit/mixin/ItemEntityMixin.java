@@ -67,8 +67,8 @@ public abstract class ItemEntityMixin implements EngulfableItem {
         if (isEngulfed() && !itemEntity.level.isClientSide()) {
             if (engulfTime % 5 == 0) {
                 ServerLevel sLevel = (ServerLevel) itemEntity.level;
-                sLevel.sendParticles(ParticleTypes.SOUL, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ() + 0.5, 10, 0.5, 0.5, 0.5, 0);
-                sLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ() + 0.5, 10, 0.5, 0.5, 0.5, 0);
+                sLevel.sendParticles(ParticleTypes.SOUL, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 10, 0.5, 0.5, 0.5, 0);
+                sLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 10, 0.5, 0.5, 0.5, 0);
             }
             engulfTime++;
         }

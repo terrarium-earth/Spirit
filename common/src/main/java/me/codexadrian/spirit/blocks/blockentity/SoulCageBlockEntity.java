@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.blocks.soulcage;
+package me.codexadrian.spirit.blocks.blockentity;
 
 import me.codexadrian.spirit.SpiritRegistry;
 import net.minecraft.core.BlockPos;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 public class SoulCageBlockEntity extends BlockEntity implements Container {
 
     public EntityType<?> type;
-    private ItemStack divineCrystal = ItemStack.EMPTY;
+    private ItemStack soulCrystal = ItemStack.EMPTY;
 
     @Nullable
     public Entity entity;
@@ -53,12 +53,12 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
 
     @Override
     public boolean isEmpty() {
-        return divineCrystal.isEmpty();
+        return soulCrystal.isEmpty();
     }
 
     @Override
     public ItemStack getItem(int i) {
-        return i == 0 ? divineCrystal : ItemStack.EMPTY;
+        return i == 0 ? soulCrystal : ItemStack.EMPTY;
     }
 
     @Override
@@ -69,10 +69,10 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     @Override
     public ItemStack removeItemNoUpdate(int i) {
         if (i == 0) {
-            ItemStack sword = divineCrystal;
-            divineCrystal = ItemStack.EMPTY;
+            ItemStack crystal = soulCrystal;
+            soulCrystal = ItemStack.EMPTY;
 
-            return sword;
+            return crystal;
         }
 
         return ItemStack.EMPTY;
@@ -81,7 +81,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     @Override
     public void setItem(int i, ItemStack itemStack) {
         if (i == 0)
-            divineCrystal = itemStack;
+            soulCrystal = itemStack;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
 
     @Override
     public void clearContent() {
-        divineCrystal = ItemStack.EMPTY;
+        soulCrystal = ItemStack.EMPTY;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
         super.load(compoundTag);
         type = null;
         if (compoundTag.contains("crystal")) {
-            divineCrystal = ItemStack.of(compoundTag.getCompound("crystal"));
+            soulCrystal = ItemStack.of(compoundTag.getCompound("crystal"));
             setType();
         }
     }
@@ -112,8 +112,8 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     @Override
     protected void saveAdditional(CompoundTag compoundTag) {
         super.saveAdditional(compoundTag);
-        if (!divineCrystal.isEmpty()) {
-            compoundTag.put("crystal", divineCrystal.save(new CompoundTag()));
+        if (!soulCrystal.isEmpty()) {
+            compoundTag.put("crystal", soulCrystal.save(new CompoundTag()));
         }
     }
 
@@ -125,8 +125,8 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     }
 
     public void setType() {
-        if (divineCrystal.hasTag()) {
-            type = Registry.ENTITY_TYPE.get(new ResourceLocation(divineCrystal.getTag().getCompound("StoredEntity").getString("Type")));
+        if (soulCrystal.hasTag()) {
+            type = Registry.ENTITY_TYPE.get(new ResourceLocation(soulCrystal.getTag().getCompound("StoredEntity").getString("Type")));
         } else {
             type = null;
         }

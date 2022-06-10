@@ -1,13 +1,17 @@
 package me.codexadrian.spirit;
 
 import me.codexadrian.spirit.blocks.BrokenSpawnerBlock;
-import me.codexadrian.spirit.blocks.soulcage.SoulCageBlock;
-import me.codexadrian.spirit.blocks.soulcage.SoulCageBlockEntity;
-import me.codexadrian.spirit.items.DivineCrystalItem;
+import me.codexadrian.spirit.blocks.SoulCageBlock;
+import me.codexadrian.spirit.blocks.SoulPedestalBlock;
+import me.codexadrian.spirit.blocks.blockentity.SoulCageBlockEntity;
+import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
+import me.codexadrian.spirit.items.CrudeSoulCrystalItem;
+import me.codexadrian.spirit.items.SoulCrystalItem;
 import me.codexadrian.spirit.platform.Services;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -25,11 +29,27 @@ public class SpiritRegistry {
     public static final Supplier<BlockEntityType<SoulCageBlockEntity>> SOUL_CAGE_ENTITY =
             register("soul_cage", () -> Services.REGISTRY.createBlockEntityType(SoulCageBlockEntity::new, SOUL_CAGE.get()));
 
+    public static final Supplier<Block> SOUL_PEDESTAL = registerBlock("soul_pedestal", () ->
+            new SoulPedestalBlock(BlockBehaviour.Properties.copy(Blocks.SPAWNER).requiresCorrectToolForDrops()));
+
+    public static final Supplier<BlockEntityType<SoulCageBlockEntity>> SOUL_PEDESTAL_ENTITY =
+            register("soul_pedestal", () -> Services.REGISTRY.createBlockEntityType(SoulPedestalBlockEntity::new, SOUL_PEDESTAL.get()));
+
     public static final Supplier<Item> SOUL_CAGE_ITEM = registerItem("soul_cage", () ->
             new BlockItem(SOUL_CAGE.get(), new Item.Properties().tab(SPIRIT).rarity(Rarity.EPIC)));
 
+    public static final Supplier<Item> SOUL_PEDESTAL_ITEM = registerItem("soul_cage", () ->
+            new BlockItem(SOUL_CAGE.get(), new Item.Properties().tab(SPIRIT)));
+
+
     public static final Supplier<Item> SOUL_CRYSTAL = registerItem("soul_crystal", () ->
-            new DivineCrystalItem(new Item.Properties().tab(SPIRIT).stacksTo(1).rarity(Rarity.RARE)));
+            new SoulCrystalItem(new Item.Properties().tab(SPIRIT).stacksTo(1).rarity(Rarity.RARE)));
+
+    public static final Supplier<Item> CRUDE_SOUL_CRYSTAL = registerItem("crude_soul_crystal", () ->
+            new CrudeSoulCrystalItem(new Item.Properties().tab(SPIRIT).stacksTo(1).rarity(Rarity.RARE)));
+
+    public static final Supplier<Item> CRUDE_SOUL_CRYSTAL = registerItem("crude_soul_crystal", () ->
+            new SwordItem(new SoulSwordMaterial(), 3, -2.4F, new Item.Properties().tab(SPIRIT).stacksTo(1).rarity(Rarity.RARE)));
 
     public static final Supplier<Block> BROKEN_SPAWNER = registerBlock("broken_spawner", BrokenSpawnerBlock::new);
 

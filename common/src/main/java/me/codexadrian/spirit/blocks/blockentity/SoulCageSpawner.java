@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.blocks.soulcage;
+package me.codexadrian.spirit.blocks.blockentity;
 
 import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.SpiritRegistry;
