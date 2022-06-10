@@ -13,5 +13,5 @@ pluginManagement {
 }
 
 rootProject.name = 'Spirit'
-//include("Common", "Fabric", "Forge")
-include("Common", "Fabric")
+include("Common", "Fabric", "Forge")
+//include("Common", "Fabric")

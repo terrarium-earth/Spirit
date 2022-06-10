@@ -1,5 +1,5 @@
 package me.codexadrian.spirit.compat;
-
+/*
 import mcjty.theoneprobe.api.*;
 import me.codexadrian.spirit.Constants;
 import me.codexadrian.spirit.Corrupted;
@@ -54,3 +54,4 @@ public class TOPCompat implements Function<ITheOneProbe, Void> {
         return null;
     }
 }
+ */

@@ -1,0 +1,15 @@
+{
+  "input": {
+    "ingredient": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "catalyst": {
+      "blocks": [
+        "minecraft:lapis_block"
+      ]
+    }
+  },
+  "duration": 40,
+  "destroysBlocks": true,
+  "outputItem": "spirit:soul_crystal"
+}

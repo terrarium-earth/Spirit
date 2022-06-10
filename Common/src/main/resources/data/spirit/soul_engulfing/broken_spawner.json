@@ -1,0 +1,15 @@
+{
+  "input": {
+    "ingredient": {
+      "item": "spirit:broken_spawner"
+    },
+    "catalyst": {
+      "blocks": [
+        "minecraft:obsidian"
+      ]
+    }
+  },
+  "duration": 40,
+  "destroysBlocks": true,
+  "outputItem": "spirit:soul_cage"
+}
