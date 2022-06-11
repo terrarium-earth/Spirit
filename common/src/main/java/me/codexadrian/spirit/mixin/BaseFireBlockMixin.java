@@ -1,6 +1,7 @@
 package me.codexadrian.spirit.mixin;
 
 import me.codexadrian.spirit.EngulfableItem;
+import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.recipe.SoulEnguflingRecipeManager;
 import me.codexadrian.spirit.recipe.SoulEngulfingRecipe;
@@ -10,6 +11,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
@@ -50,6 +53,16 @@ public abstract class BaseFireBlockMixin {
             if(Services.PLATFORM.isModLoaded("patchouli")) {
                 if (itemE.getItem().getItem().equals(Items.BOOK)) {
                     //PatchouliCompat.bookRecipe(blockPos, itemE, ci);
+                }
+            }
+
+            if(itemE.getItem().is(SpiritRegistry.SOUL_BLADE.get()) || itemE.getItem().is(SpiritRegistry.SOUL_BOW.get())) {
+                itemE.setInvulnerable(true);
+                ItemStack tool = itemE.getItem();
+                if(tool.isDamaged()) {
+                    tool.setDamageValue(tool.getDamageValue() + 1);
+                    ServerLevel sLevel = (ServerLevel) itemE.level;
+                    sLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 5, 0.5, 0.75, 0.5, 0);
                 }
             }
         }

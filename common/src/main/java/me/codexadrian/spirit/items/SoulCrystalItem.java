@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -31,11 +32,7 @@ public class SoulCrystalItem extends Item {
             if (storedEntity.contains("Type")) {
                 MutableComponent tooltip = Component.translatable(Util.makeDescriptionId("entity", new ResourceLocation(storedEntity.getString("Type"))));
                 tooltip.append(Component.literal(" " + (SoulUtils.getTierIndex(itemStack) + 1) + " - "));
-                if (!Screen.hasShiftDown()) {
-                    tooltip.append(Component.literal("(" + getPercentage(itemStack) + "%) "));
-                } else {
-                    tooltip.append(Component.literal("(" + Math.min(storedEntity.getInt("Souls"), SoulUtils.getMaxSouls(itemStack)) + "/" + Math.min(SoulUtils.getNextTier(itemStack) == null ? Integer.MAX_VALUE : SoulUtils.getNextTier(itemStack).getRequiredSouls(), SoulUtils.getMaxSouls(itemStack)) + ") "));
-                }
+                tooltip.append(Component.literal("(" + Math.min(storedEntity.getInt("Souls"), SoulUtils.getMaxSouls(itemStack)) + "/" + Math.min(SoulUtils.getNextTier(itemStack) == null ? Integer.MAX_VALUE : SoulUtils.getNextTier(itemStack).getRequiredSouls(), SoulUtils.getMaxSouls(itemStack)) + ") "));
 
                 list.add(tooltip.withStyle(ChatFormatting.GRAY));
             }
@@ -46,16 +43,28 @@ public class SoulCrystalItem extends Item {
     }
 
     public static double getPercentage(ItemStack itemStack) {
-        int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
         Tier tier = SoulUtils.getNextTier(itemStack);
         if (tier == null) {
-            return 100;
+            return 1;
         }
 
-        double percentage = ((double) storedSouls / (tier.getRequiredSouls())) * 100;
-        double p = percentage * 10;
-        int p2 = (int) p;
+        double percentage = ((double) SoulUtils.getSoulsInCrystal(itemStack) / (tier.getRequiredSouls()));
 
-        return SoulUtils.isMaxTier(itemStack) ? 100 : (double) p2 / 10;
+        return SoulUtils.isMaxTier(itemStack) ? 1 : percentage;
+    }
+
+    @Override
+    public int getBarColor(@NotNull ItemStack itemStack) {
+        return 0x00fffb;
+    }
+
+    @Override
+    public boolean isBarVisible(@NotNull ItemStack itemStack) {
+        return !SoulUtils.isMaxTier(itemStack) && itemStack.hasTag() && itemStack.getTag().contains("StoredEntity");
+    }
+
+    @Override
+    public int getBarWidth(@NotNull ItemStack itemStack) {
+        return (int) (getPercentage(itemStack) * 13);
     }
 }

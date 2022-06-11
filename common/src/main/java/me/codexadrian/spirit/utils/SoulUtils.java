@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -97,6 +98,17 @@ public class SoulUtils {
             }
         }
         return requiredSouls;
+    }
+
+    public static int getSoulsInCrystal(ItemStack itemStack) {
+        if(itemStack.hasTag()) {
+            if(itemStack.is(SpiritRegistry.SOUL_CRYSTAL.get()) && itemStack.getTag().contains("StoredEntity")) {
+                return itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
+            } else if(itemStack.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get()) && itemStack.getTag().contains("Souls")) {
+                return itemStack.getTag().getInt("Souls");
+            }
+        }
+        return 0;
     }
 
     public static boolean isMaxTier(ItemStack itemStack) {
@@ -216,6 +228,16 @@ public class SoulUtils {
         }
 
         storedEntity.putInt("Souls", storedEntity.getInt("Souls") + incrementAmount);
+    }
+
+    public static void decrementSoulCount(ItemStack stack, int decrement) {
+        if(stack.getTag() != null) {
+            if(stack.is(SpiritRegistry.SOUL_CRYSTAL.get())) {
+                stack.getTag().getCompound("StoredEntity").putInt("Souls", Math.max(0, getSoulsInCrystal(stack) - decrement));
+            } else if(stack.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get())) {
+                stack.getTag().putInt("Souls", Math.max(0, getSoulsInCrystal(stack) - decrement));
+            }
+        }
     }
 
     public static void handleCrudeSoulCrystal(ItemStack crudeCrystal, Player player, LivingEntity victim) {

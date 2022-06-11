@@ -8,6 +8,8 @@ import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
 import me.codexadrian.spirit.enchantments.SoulReaperEnchantment;
 import me.codexadrian.spirit.entity.SoulArrowEntity;
 import me.codexadrian.spirit.items.CrudeSoulCrystalItem;
+import me.codexadrian.spirit.items.SoulBladeItem;
+import me.codexadrian.spirit.items.SoulBowItem;
 import me.codexadrian.spirit.items.SoulCrystalItem;
 import me.codexadrian.spirit.platform.Services;
 import net.minecraft.world.entity.Entity;
@@ -55,7 +57,10 @@ public class SpiritRegistry {
             new CrudeSoulCrystalItem(new Item.Properties().tab(SPIRIT).stacksTo(1).rarity(Rarity.RARE)));
 
     public static final Supplier<Item> SOUL_BLADE = registerItem("soul_blade", () ->
-            new SwordItem(new SoulSwordMaterial(), 3, -2.4F, new Item.Properties().tab(SPIRIT).stacksTo(1).rarity(Rarity.RARE)));
+            new SoulBladeItem( new Item.Properties().tab(SPIRIT).rarity(Rarity.RARE)));
+
+    public static final Supplier<Item> SOUL_BOW = registerItem("soul_bow", () ->
+            new SoulBowItem( new Item.Properties().tab(SPIRIT).durability(200).rarity(Rarity.RARE)));
 
     public static final Supplier<Enchantment> SOUL_REAPER_ENCHANTMENT = registerEnchantment("soul_reaper", SoulReaperEnchantment::new);
 
