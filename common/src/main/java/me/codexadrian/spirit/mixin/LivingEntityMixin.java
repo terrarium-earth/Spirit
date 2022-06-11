@@ -71,7 +71,8 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
                 if (!Arrays.stream(Spirit.getSpiritConfig().getBlacklist()).anyMatch(s -> Registry.ENTITY_TYPE.getKey(victim.getType()).equals(new ResourceLocation(s)))) {
                     if (victim.canChangeDimensions() && (Spirit.getSpiritConfig().isCollectFromCorrupt() || !corrupt.isCorrupted())) {
                         ItemStack crystal = ItemStack.EMPTY;
-                        AABB entityArea = victim.getBoundingBox().inflate(3, 1, 3);
+                        int radius = Spirit.getSpiritConfig().getSoulPedestalRadius();
+                        AABB entityArea = victim.getBoundingBox().inflate(radius, 2, radius);
                         Optional<BlockPos> pedestalPos = BlockPos.betweenClosedStream(entityArea).filter(pos -> level.getBlockEntity(pos) instanceof SoulPedestalBlockEntity).map(BlockPos::immutable).findFirst();
                         if(pedestalPos.isPresent() && level.getBlockEntity(pedestalPos.get()) instanceof SoulPedestalBlockEntity pedestal && !pedestal.isEmpty()) {
                             crystal = pedestal.getItem(0);
@@ -85,6 +86,11 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
                         if(!crystal.isEmpty()) {
                             if(crystal.is(SpiritRegistry.SOUL_CRYSTAL.get())) SoulUtils.handleSoulCrystal(crystal, player, victim);
                             else if(crystal.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get())) SoulUtils.handleCrudeSoulCrystal(crystal, player, victim);
+                            if(pedestalPos.isPresent()) {
+                                ServerLevel sLevel = (ServerLevel) player.level;
+                                sLevel.sendParticles(ParticleTypes.SOUL, pedestalPos.get().getX() + 0.5, pedestalPos.get().getY() + 0.5, pedestalPos.get().getZ() + 0.5, 15, 0.5, 1, 0.5, 0);
+                                sLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, pedestalPos.get().getX() + 0.5, pedestalPos.get().getY() + 0.5, pedestalPos.get().getZ() + 0.5, 15, 0.5, 1, 0.5, 0);
+                            }
                         }
                     }
                 }

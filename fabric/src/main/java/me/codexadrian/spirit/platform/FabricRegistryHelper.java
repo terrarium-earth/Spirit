@@ -3,8 +3,13 @@ package me.codexadrian.spirit.platform;
 import me.codexadrian.spirit.platform.services.IRegistryHelper;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -45,6 +50,12 @@ public class FabricRegistryHelper implements IRegistryHelper {
     @Override
     public <T extends Enchantment> Supplier<T> registerEnchantment(String id, Supplier<T> enchantment) {
         var register = Registry.register(Registry.ENCHANTMENT, new ResourceLocation(MODID, id), enchantment.get());
+        return () -> register;
+    }
+
+    @Override
+    public <T extends Entity> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> factory, MobCategory group, float width, float height) {
+        var register = Registry.register(Registry.ENTITY_TYPE, new ResourceLocation(MODID, name), FabricEntityTypeBuilder.create(group, factory).dimensions(EntityDimensions.fixed(width, height)).build());
         return () -> register;
     }
 

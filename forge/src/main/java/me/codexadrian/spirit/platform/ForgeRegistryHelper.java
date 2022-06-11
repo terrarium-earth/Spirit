@@ -3,6 +3,9 @@ package me.codexadrian.spirit.platform;
 import me.codexadrian.spirit.Constants;
 import me.codexadrian.spirit.platform.services.IRegistryHelper;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -20,6 +23,7 @@ public class ForgeRegistryHelper implements IRegistryHelper {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Constants.MODID);
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, Constants.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Constants.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Constants.MODID);
 
     @Override
     public <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
@@ -44,6 +48,11 @@ public class ForgeRegistryHelper implements IRegistryHelper {
     @Override
     public <T extends Enchantment> Supplier<T> registerEnchantment(String id, Supplier<T> enchantment) {
         return ENCHANTMENTS.register(id, enchantment);
+    }
+
+    @Override
+    public <T extends Entity> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> factory, MobCategory group, float width, float height) {
+        return ENTITIES.register(name, () -> EntityType.Builder.of(factory, group).sized(width, height).build(name));
     }
 
     @Override

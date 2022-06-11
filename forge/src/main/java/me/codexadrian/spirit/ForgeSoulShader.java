@@ -5,7 +5,9 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 public class ForgeSoulShader extends RenderType {
@@ -16,7 +18,7 @@ public class ForgeSoulShader extends RenderType {
         super(s, v, m, i, b, b2, r, r2);
     }
 
-    public static RenderType getSoulRenderType(LivingEntity entity, LivingEntityRenderer livingEntity) {
+    public static <T extends Entity> RenderType getSoulRenderType(T entity, EntityRenderer<T> livingEntity) {
         return RenderType.create(
                 "mob_soul_layer_" + entity.getDisplayName().getString(),
                 DefaultVertexFormat.NEW_ENTITY,

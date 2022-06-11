@@ -22,6 +22,8 @@ public class ForgeSpirit {
         ForgeRegistryHelper.BLOCKS.register(eventBus);
         ForgeRegistryHelper.ITEMS.register(eventBus);
         ForgeRegistryHelper.BLOCK_ENTITIES.register(eventBus);
+        ForgeRegistryHelper.ENCHANTMENTS.register(eventBus);
+        ForgeRegistryHelper.ENTITIES.register(eventBus);
         eventBus.addListener(this::imcEvent);
         MinecraftForge.EVENT_BUS.addListener(this::reloadListenerEvent);
     }

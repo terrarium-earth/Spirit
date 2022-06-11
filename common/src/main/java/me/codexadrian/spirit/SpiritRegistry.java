@@ -6,9 +6,13 @@ import me.codexadrian.spirit.blocks.SoulPedestalBlock;
 import me.codexadrian.spirit.blocks.blockentity.SoulCageBlockEntity;
 import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
 import me.codexadrian.spirit.enchantments.SoulReaperEnchantment;
+import me.codexadrian.spirit.entity.SoulArrowEntity;
 import me.codexadrian.spirit.items.CrudeSoulCrystalItem;
 import me.codexadrian.spirit.items.SoulCrystalItem;
 import me.codexadrian.spirit.platform.Services;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -60,6 +64,8 @@ public class SpiritRegistry {
     public static final Supplier<Item> BROKEN_SPAWNER_ITEM = registerItem("broken_spawner", () ->
             new BlockItem(BROKEN_SPAWNER.get(), new Item.Properties().tab(SPIRIT).rarity(Rarity.EPIC)));
 
+    public static final Supplier<EntityType<SoulArrowEntity>> SOUL_ARROW_ENTITY = registerEntity("soul_arrow", SoulArrowEntity::new, MobCategory.MISC, 1, 1);
+
     private static Supplier<Item> registerItem(String id, Supplier<Item> item) {
         return Services.REGISTRY.registerItem(id, item);
     }
@@ -74,6 +80,10 @@ public class SpiritRegistry {
 
     private static <E extends BlockEntity, T extends BlockEntityType<E>> Supplier<T> register(String id, Supplier<T> item) {
         return Services.REGISTRY.registerBlockEntity(id, item);
+    }
+
+    private static <T extends Entity> Supplier<EntityType<T>> registerEntity(String id, EntityType.EntityFactory<T> item, MobCategory category, int width, int height) {
+        return Services.REGISTRY.registerEntity(id, item, category, width, height);
     }
 
     public static void registerAll() {

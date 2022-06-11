@@ -204,15 +204,18 @@ public class SoulUtils {
             storedEntity = soulCrystal.getTag().getCompound("StoredEntity");
         }
 
-        storedEntity.putInt("Souls", storedEntity.getInt("Souls") + getSoulHarvestAmount(player));
         ServerLevel serverLevel = (ServerLevel) player.level;
         serverLevel.sendParticles(ParticleTypes.SOUL, victim.getX(), victim.getY(), victim.getZ(), 20, victim.getBbWidth(), victim.getBbHeight(), victim.getBbWidth(), 0);
-        Tier tier = SoulUtils.getTier(soulCrystal);
+        Tier tier = SoulUtils.getNextTier(soulCrystal);
 
-        if (tier != null && storedEntity.getInt("Souls") == tier.getRequiredSouls()) {
+        int incrementAmount = getSoulHarvestAmount(player);
+
+        if (tier != null && storedEntity.getInt("Souls") + incrementAmount >= tier.getRequiredSouls()) {
             player.displayClientMessage(Component.translatable("item.spirit.soul_crystal.upgrade_message").withStyle(ChatFormatting.AQUA), true);
             serverLevel.sendParticles(ParticleTypes.SOUL, player.getX(), player.getY(), player.getZ(), 40, 1, 2, 1, 0);
         }
+
+        storedEntity.putInt("Souls", storedEntity.getInt("Souls") + incrementAmount);
     }
 
     public static void handleCrudeSoulCrystal(ItemStack crudeCrystal, Player player, LivingEntity victim) {

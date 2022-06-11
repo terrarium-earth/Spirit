@@ -2,6 +2,9 @@ package me.codexadrian.spirit.platform.services;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +28,8 @@ public interface IRegistryHelper {
     <E extends BlockEntity> BlockEntityType<E> createBlockEntityType(BlockEntityFactory<E> factory, Block... blocks);
 
     <T extends Enchantment> Supplier<T> registerEnchantment(String id, Supplier<T> enchantment);
+
+    <T extends Entity> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> factory, MobCategory group, float width, float height);
 
     @FunctionalInterface
     interface BlockEntityFactory<T extends BlockEntity> {

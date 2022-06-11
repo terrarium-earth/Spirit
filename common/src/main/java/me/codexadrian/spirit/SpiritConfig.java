@@ -23,6 +23,9 @@ public class SpiritConfig {
     @SerializedName("maxAmountCrudeSoulCrystalCanStore")
     private int crudeSoulCrystalCap = 256;
 
+    @SerializedName("soulPedestalRadius")
+    private int soulPedestalRadius = 3;
+
     @SerializedName("tiers")
     private Tier[] tiers = new Tier[]{
             new Tier(64, 300, 1000, 3, 5, 16, false, false, new String[0]),
@@ -51,6 +54,10 @@ public class SpiritConfig {
 
     public int getCrudeSoulCrystalCap() {
         return crudeSoulCrystalCap;
+    }
+
+    public int getSoulPedestalRadius() {
+        return soulPedestalRadius;
     }
 
     public static SpiritConfig loadConfig(Path configFolder) throws IOException {

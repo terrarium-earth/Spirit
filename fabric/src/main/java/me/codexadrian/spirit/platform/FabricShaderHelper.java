@@ -4,7 +4,9 @@ import me.codexadrian.spirit.FabricSoulShader;
 import me.codexadrian.spirit.platform.services.IShaderHelper;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 public class FabricShaderHelper implements IShaderHelper {
@@ -15,7 +17,7 @@ public class FabricShaderHelper implements IShaderHelper {
     }
 
     @Override
-    public RenderType getSoulShader(LivingEntity entity, LivingEntityRenderer livingEntity) {
+    public <T extends Entity> RenderType getSoulShader(T entity, EntityRenderer<T> livingEntity) {
         return FabricSoulShader.getSoulRenderType(entity, livingEntity);
     }
 }
