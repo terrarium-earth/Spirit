@@ -20,8 +20,8 @@ dependencies {
     //modImplementation "mezz.jei:jei-${minecraft_version}:${jei_version}"
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
-    //modCompileOnly ("mcjty.theoneprobe:theoneprobe:${top_version}:api") { transitive = false }
-    //modRuntimeOnly ("mcjty.theoneprobe:theoneprobe:${top_version}") { transitive = false }
+    modCompileOnly ("mcjty.theoneprobe:theoneprobe:${top_version}:api") { transitive = false }
+    modRuntimeOnly ("mcjty.theoneprobe:theoneprobe:${top_version}") { transitive = false }
 }
 
 processResources {

@@ -20,6 +20,9 @@ public class SpiritConfig {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
+    @SerializedName("maxAmountCrudeSoulCrystalCanStore")
+    private int crudeSoulCrystalCap = 256;
+
     @SerializedName("tiers")
     private Tier[] tiers = new Tier[]{
             new Tier(64, 300, 1000, 3, 5, 16, false, false, new String[0]),
@@ -44,6 +47,10 @@ public class SpiritConfig {
 
     public String[] getBlacklist() {
         return blacklist;
+    }
+
+    public int getCrudeSoulCrystalCap() {
+        return crudeSoulCrystalCap;
     }
 
     public static SpiritConfig loadConfig(Path configFolder) throws IOException {

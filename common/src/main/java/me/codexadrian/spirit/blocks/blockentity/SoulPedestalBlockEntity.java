@@ -15,7 +15,7 @@ public class SoulPedestalBlockEntity extends BlockEntity implements Container {
     ItemStack soulCrystal = ItemStack.EMPTY;
 
     public SoulPedestalBlockEntity(BlockPos $$1, BlockState $$2) {
-        super(SpiritRegistry.SOUL_PEDESTAL_ENTITY, $$1, $$2);
+        super(SpiritRegistry.SOUL_PEDESTAL_ENTITY.get(), $$1, $$2);
     }
 
     @Override
@@ -69,10 +69,8 @@ public class SoulPedestalBlockEntity extends BlockEntity implements Container {
     @Override
     public void load(CompoundTag compoundTag) {
         super.load(compoundTag);
-        type = null;
         if (compoundTag.contains("crystal")) {
             soulCrystal = ItemStack.of(compoundTag.getCompound("crystal"));
-            setType();
         }
     }
 

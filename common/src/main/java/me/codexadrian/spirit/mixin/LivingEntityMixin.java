@@ -72,19 +72,19 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
                     if (victim.canChangeDimensions() && (Spirit.getSpiritConfig().isCollectFromCorrupt() || !corrupt.isCorrupted())) {
                         ItemStack crystal = ItemStack.EMPTY;
                         AABB entityArea = victim.getBoundingBox().inflate(3, 1, 3);
-                        Optional<BlockPos> pedestalPos = BlockPos.betweenClosedStream(entityArea).filter(pos -> level.getBlockEntity(pos) instanceof SoulPedestalBlockEntity).findFirst();
+                        Optional<BlockPos> pedestalPos = BlockPos.betweenClosedStream(entityArea).filter(pos -> level.getBlockEntity(pos) instanceof SoulPedestalBlockEntity).map(BlockPos::immutable).findFirst();
                         if(pedestalPos.isPresent() && level.getBlockEntity(pedestalPos.get()) instanceof SoulPedestalBlockEntity pedestal && !pedestal.isEmpty()) {
                             crystal = pedestal.getItem(0);
                         }
-                        if(crystal.isEmpty() || !SoulUtils.canCrystalAcceptSoul(crystal, victim)) {
+                        if(crystal.isEmpty() && !SoulUtils.canCrystalAcceptSoul(crystal, victim)) {
                             crystal = SoulUtils.getSoulCrystal(player, victim);
                             if (crystal.isEmpty()) {
                                 crystal = SoulUtils.getCrudeSoulCrystal(player);
                             }
                         }
                         if(!crystal.isEmpty()) {
-                            if(crystal.is(SpiritRegistry.SOUL_CRYSTAL)) SoulUtils.handleSoulCrystal(crystal, player, victim);
-                            else if(crystal.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL)) SoulUtils.handleCrudeSoulCrystal(crystal, player, victim);
+                            if(crystal.is(SpiritRegistry.SOUL_CRYSTAL.get())) SoulUtils.handleSoulCrystal(crystal, player, victim);
+                            else if(crystal.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get())) SoulUtils.handleCrudeSoulCrystal(crystal, player, victim);
                         }
                     }
                 }

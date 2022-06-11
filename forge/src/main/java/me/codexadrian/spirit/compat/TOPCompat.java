@@ -1,14 +1,12 @@
 package me.codexadrian.spirit.compat;
-/*
 import mcjty.theoneprobe.api.*;
 import me.codexadrian.spirit.Constants;
 import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.SpiritRegistry;
-import me.codexadrian.spirit.blocks.soulcage.SoulCageBlockEntity;
+import me.codexadrian.spirit.blocks.blockentity.SoulCageBlockEntity;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -54,4 +52,3 @@ public class TOPCompat implements Function<ITheOneProbe, Void> {
         return null;
     }
 }
- */

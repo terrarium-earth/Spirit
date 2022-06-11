@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -39,6 +40,12 @@ public class FabricRegistryHelper implements IRegistryHelper {
     @Override
     public <E extends BlockEntity> BlockEntityType<E> createBlockEntityType(BlockEntityFactory<E> factory, Block... blocks) {
         return FabricBlockEntityTypeBuilder.create(factory::create, blocks).build();
+    }
+
+    @Override
+    public <T extends Enchantment> Supplier<T> registerEnchantment(String id, Supplier<T> enchantment) {
+        var register = Registry.register(Registry.ENCHANTMENT, new ResourceLocation(MODID, id), enchantment.get());
+        return () -> register;
     }
 
     @Override

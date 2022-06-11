@@ -14,8 +14,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Map;
 
 public class SoulUtils {
 
@@ -104,17 +108,16 @@ public class SoulUtils {
     }
 
     public static boolean canCrystalAcceptSoul(ItemStack crystal, LivingEntity victim) {
-        if(crystal.is(SpiritRegistry.SOUL_CRYSTAL)) {
-            boolean isEmpty = !currentItem.hasTag();
+        if(crystal.is(SpiritRegistry.SOUL_CRYSTAL.get())) {
+            boolean isEmpty = !crystal.hasTag();
             if(!isEmpty) {
-                boolean isCorrectType = currentItem.getTag().getCompound("StoredEntity").getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString());
-                boolean hasRoomForMore = currentItem.getTag().getCompound("StoredEntity").getInt("Souls") < SoulUtils.getMaxSouls(currentItem)
+                boolean isCorrectType = crystal.getTag().getCompound("StoredEntity").getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString());
+                boolean hasRoomForMore = crystal.getTag().getCompound("StoredEntity").getInt("Souls") < SoulUtils.getMaxSouls(crystal);
                 return isCorrectType && hasRoomForMore;
             } else return true;
-        } else if(crystal.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL)) {
+        } else if(crystal.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get())) {
             if(crystal.hasTag() && crystal.getTag().contains("Souls")) {
-                return crystal.getTag().getInt("Souls") >= SoulUtils.getMaxSouls(crystal);
-                //TODO make config for max souls for crude crystal
+                return crystal.getTag().getInt("Souls") < Spirit.getSpiritConfig().getCrudeSoulCrystalCap();
             } else return true;
         } else return false;
     }
@@ -225,7 +228,13 @@ public class SoulUtils {
     }
 
     public static int getSoulHarvestAmount(Player player) {
-
-        return 1;
+        int returnAmount = 1;
+        ItemStack stack = player.getMainHandItem();
+        if(stack.is(SpiritRegistry.SOUL_BLADE.get())) returnAmount += 1;
+        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+        if(enchantments.containsKey(SpiritRegistry.SOUL_REAPER_ENCHANTMENT.get())) {
+           returnAmount += enchantments.get(SpiritRegistry.SOUL_REAPER_ENCHANTMENT.get());
+        }
+        return returnAmount;
     }
 }
