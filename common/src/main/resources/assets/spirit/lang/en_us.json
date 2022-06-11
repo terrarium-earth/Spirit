@@ -10,5 +10,7 @@
   "effect.spirit.corrupted": "Soulless",
   "itemGroup.spirit.itemgroup": "Spirit",
   "config.spirit.toggletooltip": "Disable/Enable Entity Visual Effect",
-  "tooltip.spirit.soul_crystal.unbound": "Unbound"
+  "tooltip.spirit.soul_crystal.unbound": "Unbound",
+  "spirit.item.crude_soul_crystal.tooltip": "Souls: ",
+  "spirit.item.crude_soul_crystal.tooltip_empty": "Empty"
 }

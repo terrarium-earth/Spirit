@@ -119,18 +119,16 @@ public class SoulUtils {
         return tier == nextTier;
     }
 
-    public static boolean canCrystalAcceptSoul(ItemStack crystal, LivingEntity victim) {
+    public static boolean canCrystalAcceptSoul(ItemStack crystal, @Nullable LivingEntity victim) {
         if(crystal.is(SpiritRegistry.SOUL_CRYSTAL.get())) {
             boolean isEmpty = !crystal.hasTag();
-            if(!isEmpty) {
+            if(!isEmpty && victim != null) {
                 boolean isCorrectType = crystal.getTag().getCompound("StoredEntity").getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString());
                 boolean hasRoomForMore = crystal.getTag().getCompound("StoredEntity").getInt("Souls") < SoulUtils.getMaxSouls(crystal);
                 return isCorrectType && hasRoomForMore;
             } else return true;
         } else if(crystal.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get())) {
-            if(crystal.hasTag() && crystal.getTag().contains("Souls")) {
-                return crystal.getTag().getInt("Souls") < Spirit.getSpiritConfig().getCrudeSoulCrystalCap();
-            } else return true;
+            return SoulUtils.getSoulsInCrystal(crystal) < Spirit.getSpiritConfig().getCrudeSoulCrystalCap();
         } else return false;
     }
 
@@ -185,7 +183,7 @@ public class SoulUtils {
                 continue;
             }
 
-            if((currentItem.hasTag() && currentItem.getTag().getInt("Souls") >= SoulUtils.getMaxSouls(currentItem))) continue;
+            if(!SoulUtils.canCrystalAcceptSoul(currentItem, null)) continue;
 
             if (savedStack.isEmpty()) {
                 savedStack = currentItem;
@@ -249,7 +247,7 @@ public class SoulUtils {
         }
         ServerLevel serverLevel = (ServerLevel) player.level;
         serverLevel.sendParticles(ParticleTypes.SOUL, victim.getX(), victim.getY(), victim.getZ(), 20, victim.getBbWidth(), victim.getBbHeight(), victim.getBbWidth(), 0);
-        crudeCrystal.getOrCreateTag().putInt("Souls", soulCount + getSoulHarvestAmount(player));
+        crudeCrystal.getOrCreateTag().putInt("Souls", Math.min(soulCount + getSoulHarvestAmount(player), Spirit.getSpiritConfig().getCrudeSoulCrystalCap()));
     }
 
     public static int getSoulHarvestAmount(Player player) {

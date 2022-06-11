@@ -60,7 +60,7 @@ public class SpiritRegistry {
             new SoulBladeItem( new Item.Properties().tab(SPIRIT).rarity(Rarity.RARE)));
 
     public static final Supplier<Item> SOUL_BOW = registerItem("soul_bow", () ->
-            new SoulBowItem( new Item.Properties().tab(SPIRIT).durability(200).rarity(Rarity.RARE)));
+            new SoulBowItem( new Item.Properties().tab(SPIRIT).durability(64).rarity(Rarity.RARE)));
 
     public static final Supplier<Enchantment> SOUL_REAPER_ENCHANTMENT = registerEnchantment("soul_reaper", SoulReaperEnchantment::new);
 

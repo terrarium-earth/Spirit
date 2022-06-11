@@ -38,7 +38,7 @@ public class SoulCrystalItem extends Item {
             }
         } else {
             MutableComponent unboundTooltip = Component.translatable("tooltip.spirit.soul_crystal.unbound");
-            list.add(unboundTooltip.withStyle(ChatFormatting.BOLD, ChatFormatting.RED));
+            list.add(unboundTooltip.withStyle(ChatFormatting.DARK_GRAY));
         }
     }
 
