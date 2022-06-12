@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.platform;
+package me.codexadrian.spirit.platform.forge;
 
 import me.codexadrian.spirit.platform.services.IClientHelper;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;

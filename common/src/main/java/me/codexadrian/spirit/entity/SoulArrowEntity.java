@@ -28,6 +28,7 @@ public class SoulArrowEntity extends AbstractArrow implements ItemSupplier {
     @Override
     public void tick() {
         super.tick();
+        //TODO fix soul particles bein crazy
         var vec3 = this.getDeltaMovement();
         double e = vec3.x;
         double f = vec3.y;

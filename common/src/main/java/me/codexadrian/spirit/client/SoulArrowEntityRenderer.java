@@ -36,19 +36,9 @@ public class SoulArrowEntityRenderer extends ArrowRenderer<SoulArrowEntity> {
     @Override
     public void render(@NotNull SoulArrowEntity abstractArrow, float f, float g, PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i) {
         poseStack.pushPose();
-        poseStack.mulPose(Vector3f.YP.rotationDegrees(Mth.lerp(g, ((AbstractArrow)abstractArrow).yRotO, ((Entity)abstractArrow).getYRot()) - 90.0f));
-        poseStack.mulPose(Vector3f.ZP.rotationDegrees(Mth.lerp(g, ((AbstractArrow)abstractArrow).xRotO, ((Entity)abstractArrow).getXRot())));
-        boolean j = false;
-        float h = 0.0f;
-        float k = 0.5f;
-        float l = 0.0f;
-        float m = 0.15625f;
-        float n = 0.0f;
-        float o = 0.15625f;
-        float p = 0.15625f;
-        float q = 0.3125f;
-        float r = 0.05625f;
-        float s = (float)((AbstractArrow)abstractArrow).shakeTime - g;
+        poseStack.mulPose(Vector3f.YP.rotationDegrees(Mth.lerp(g, (abstractArrow).yRotO, (abstractArrow).getYRot()) - 90.0f));
+        poseStack.mulPose(Vector3f.ZP.rotationDegrees(Mth.lerp(g, (abstractArrow).xRotO, (abstractArrow).getXRot())));
+        float s = (float)(abstractArrow).shakeTime - g;
         if (s > 0.0f) {
             float t = -Mth.sin(s * 3.0f) * s;
             poseStack.mulPose(Vector3f.ZP.rotationDegrees(t));

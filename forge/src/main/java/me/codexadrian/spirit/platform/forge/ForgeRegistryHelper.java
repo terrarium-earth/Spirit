@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.platform;
+package me.codexadrian.spirit.platform.forge;
 
 import me.codexadrian.spirit.Constants;
 import me.codexadrian.spirit.platform.services.IRegistryHelper;
@@ -9,6 +9,9 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -24,6 +27,8 @@ public class ForgeRegistryHelper implements IRegistryHelper {
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, Constants.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Constants.MODID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Constants.MODID);
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, Constants.MODID);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Constants.MODID);
 
     @Override
     public <T extends Item> Supplier<T> registerItem(String id, Supplier<T> item) {
@@ -53,6 +58,16 @@ public class ForgeRegistryHelper implements IRegistryHelper {
     @Override
     public <T extends Entity> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> factory, MobCategory group, float width, float height) {
         return ENTITIES.register(name, () -> EntityType.Builder.of(factory, group).sized(width, height).build(name));
+    }
+
+    @Override
+    public <R extends Recipe<?>, T extends RecipeType<R>> Supplier<T> registerRecipeType(String name, Supplier<T> recipe) {
+        return RECIPE_TYPES.register(name, recipe);
+    }
+
+    @Override
+    public <R extends Recipe<?>, T extends RecipeSerializer<R>> Supplier<T> registerRecipeSerializer(String name, Supplier<T> recipe) {
+        return RECIPE_SERIALIZERS.register(name, recipe);
     }
 
     @Override

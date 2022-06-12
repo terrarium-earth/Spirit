@@ -1,4 +1,4 @@
-package me.codexadrian.spirit;
+package me.codexadrian.spirit.forge;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -29,8 +29,10 @@ public class ForgeSoulShader extends RenderType {
                         .builder()
                         .setShaderState(new ShaderStateShard(() -> rendertypeTranslucentShader))
                         .setTextureState(new TextureStateShard(livingEntity.getTextureLocation(entity), false, false))
-                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                        .setLightmapState(RenderStateShard.LIGHTMAP)
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                        .setCullState(NO_CULL)
+                        .setLayeringState(VIEW_OFFSET_Z_LAYERING)
+                        .setLightmapState(LIGHTMAP)
                         .createCompositeState(true)
         );
     }

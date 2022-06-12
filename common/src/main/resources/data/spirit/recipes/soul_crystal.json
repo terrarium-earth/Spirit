@@ -1,0 +1,15 @@
+{
+  "type": "spirit:soul_engulfing",
+  "input": {
+    "ingredient": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "catalyst": {
+      "blocks": [
+        "spirit:soul_glass"
+      ]
+    }
+  },
+  "duration": 40,
+  "outputItem": "spirit:soul_crystal"
+}

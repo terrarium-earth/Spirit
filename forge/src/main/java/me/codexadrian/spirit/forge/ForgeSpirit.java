@@ -1,10 +1,9 @@
-package me.codexadrian.spirit;
+package me.codexadrian.spirit.forge;
 
-import me.codexadrian.spirit.compat.TOPCompat;
-import me.codexadrian.spirit.platform.ForgeRegistryHelper;
-import me.codexadrian.spirit.recipe.SoulEnglufingReloadListener;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AddReloadListenerEvent;
+import me.codexadrian.spirit.Constants;
+import me.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.compat.forge.TOPCompat;
+import me.codexadrian.spirit.platform.forge.ForgeRegistryHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModList;
@@ -24,17 +23,14 @@ public class ForgeSpirit {
         ForgeRegistryHelper.BLOCK_ENTITIES.register(eventBus);
         ForgeRegistryHelper.ENCHANTMENTS.register(eventBus);
         ForgeRegistryHelper.ENTITIES.register(eventBus);
+        ForgeRegistryHelper.RECIPE_TYPES.register(eventBus);
+        ForgeRegistryHelper.RECIPE_SERIALIZERS.register(eventBus);
         eventBus.addListener(this::imcEvent);
-        MinecraftForge.EVENT_BUS.addListener(this::reloadListenerEvent);
     }
 
     private void imcEvent(InterModEnqueueEvent event) {
         if(ModList.get().isLoaded("theoneprobe")) {
             InterModComms.sendTo("theoneprobe", "getTheOneProbe", TOPCompat::new);
         }
-    }
-
-    private void reloadListenerEvent(AddReloadListenerEvent event) {
-        event.addListener(new SoulEnglufingReloadListener());
     }
 }

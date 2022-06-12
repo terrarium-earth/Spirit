@@ -12,26 +12,31 @@ import me.codexadrian.spirit.items.SoulBladeItem;
 import me.codexadrian.spirit.items.SoulBowItem;
 import me.codexadrian.spirit.items.SoulCrystalItem;
 import me.codexadrian.spirit.platform.Services;
+import me.codexadrian.spirit.recipe.ResourcefulRecipeSerializer;
+import me.codexadrian.spirit.recipe.SoulEngulfingRecipe;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.GlassBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
+import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import static me.codexadrian.spirit.Spirit.SPIRIT;
 
 public class SpiritRegistry {
-
+    public static final ArrayList<Supplier<Block>> SOUL_GLASS_BLOCKS = new ArrayList<>();
     public static final Supplier<Block> SOUL_CAGE = registerBlock("soul_cage", () ->
             new SoulCageBlock(BlockBehaviour.Properties.copy(Blocks.SPAWNER).requiresCorrectToolForDrops()));
 
@@ -69,7 +74,18 @@ public class SpiritRegistry {
     public static final Supplier<Item> BROKEN_SPAWNER_ITEM = registerItem("broken_spawner", () ->
             new BlockItem(BROKEN_SPAWNER.get(), new Item.Properties().tab(SPIRIT).rarity(Rarity.EPIC)));
 
+    public static final Supplier<Block> SOUL_GLASS = registerBlockWithItem("soul_glass", () -> new GlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS)));
+
     public static final Supplier<EntityType<SoulArrowEntity>> SOUL_ARROW_ENTITY = registerEntity("soul_arrow", SoulArrowEntity::new, MobCategory.MISC, 1, 1);
+
+    public static final Supplier<RecipeType<SoulEngulfingRecipe>> SOUL_ENGULFING_RECIPE = Services.REGISTRY.registerRecipeType("soul_engulfing", () -> new RecipeType<>() {
+        @Override
+        public String toString() {
+            return "soul_engulfing";
+        }
+    });
+
+    public static final Supplier<RecipeSerializer<SoulEngulfingRecipe>> SOUL_ENGULFING_SERIALIZER = Services.REGISTRY.registerRecipeSerializer("soul_engulfing", () -> new ResourcefulRecipeSerializer<>(SOUL_ENGULFING_RECIPE.get(), SoulEngulfingRecipe::codec));
 
     private static Supplier<Item> registerItem(String id, Supplier<Item> item) {
         return Services.REGISTRY.registerItem(id, item);
@@ -77,6 +93,18 @@ public class SpiritRegistry {
 
     private static Supplier<Block> registerBlock(String id, Supplier<Block> block) {
         return Services.REGISTRY.registerBlock(id, block);
+    }
+
+    private static Supplier<Block> registerBlockWithItem(String name, Supplier<Block> block) {
+        var newBlock = registerBlock(name, block);
+        registerItem(name, () -> new BlockItem(newBlock.get(), new Item.Properties().tab(SPIRIT)));
+        return newBlock;
+    }
+
+    private static void registerChippedVariants(String name, Supplier<Block> block, int amount) {
+        for (int i = 0; i < amount; i++) {
+            SOUL_GLASS_BLOCKS.add(registerBlockWithItem(name + "_" + (i + 1), block));
+        }
     }
 
     private static Supplier<Enchantment> registerEnchantment(String id, Supplier<Enchantment> enchantment) {
@@ -93,5 +121,6 @@ public class SpiritRegistry {
 
     public static void registerAll() {
         //TEEHEE
+        registerChippedVariants("soul_glass", () -> new GlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS)), 2);
     }
 }

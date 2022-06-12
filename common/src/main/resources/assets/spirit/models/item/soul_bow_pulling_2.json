@@ -1,0 +1,6 @@
+{
+  "parent": "item/bow",
+  "textures": {
+    "layer0": "spirit:item/soul_bow_pulling_2"
+  }
+}

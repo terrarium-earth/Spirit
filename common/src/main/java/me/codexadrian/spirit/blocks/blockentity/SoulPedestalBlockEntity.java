@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class SoulPedestalBlockEntity extends BlockEntity implements Container {
 
     ItemStack soulCrystal = ItemStack.EMPTY;
+    public int age;
 
     public SoulPedestalBlockEntity(BlockPos $$1, BlockState $$2) {
         super(SpiritRegistry.SOUL_PEDESTAL_ENTITY.get(), $$1, $$2);

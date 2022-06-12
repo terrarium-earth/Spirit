@@ -28,7 +28,7 @@ public record SoulEngulfingInput(Ingredient item, BlockPredicate catalyst) {
 
 
     private static DataResult<Ingredient> decodeIngredient(Dynamic<?> dynamic) {
-        return DataResult.success(Ingredient.fromJson((JsonElement) dynamic.convert(JsonOps.INSTANCE).getValue()));
+        return DataResult.success(Ingredient.fromJson(dynamic.convert(JsonOps.INSTANCE).getValue()));
     }
 
     private static Dynamic<JsonElement> encodeIngredient(Ingredient ingredient) {
@@ -36,7 +36,7 @@ public record SoulEngulfingInput(Ingredient item, BlockPredicate catalyst) {
     }
 
     private static DataResult<BlockPredicate> decodeBlockPredicate(Dynamic<?> dynamic) {
-        return DataResult.success(BlockPredicate.fromJson((JsonElement) dynamic.convert(JsonOps.INSTANCE).getValue()));
+        return DataResult.success(BlockPredicate.fromJson(dynamic.convert(JsonOps.INSTANCE).getValue()));
     }
 
     private static Dynamic<JsonElement> encodeBlockPredicate(BlockPredicate blockPredicate) {

@@ -13,6 +13,9 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -56,6 +59,18 @@ public class FabricRegistryHelper implements IRegistryHelper {
     @Override
     public <T extends Entity> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> factory, MobCategory group, float width, float height) {
         var register = Registry.register(Registry.ENTITY_TYPE, new ResourceLocation(MODID, name), FabricEntityTypeBuilder.create(group, factory).dimensions(EntityDimensions.fixed(width, height)).build());
+        return () -> register;
+    }
+
+    @Override
+    public <R extends Recipe<?>, T extends RecipeType<R>> Supplier<T> registerRecipeType(String name, Supplier<T> recipe) {
+        var register = Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(MODID, name), recipe.get());
+        return () -> register;
+    }
+
+    @Override
+    public <R extends Recipe<?>, T extends RecipeSerializer<R>> Supplier<T> registerRecipeSerializer(String name, Supplier<T> recipe) {
+        var register = Registry.register(Registry.RECIPE_SERIALIZER, new ResourceLocation(MODID, name), recipe.get());
         return () -> register;
     }
 

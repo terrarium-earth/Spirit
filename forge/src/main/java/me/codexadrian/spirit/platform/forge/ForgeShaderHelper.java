@@ -1,13 +1,11 @@
-package me.codexadrian.spirit.platform;
+package me.codexadrian.spirit.platform.forge;
 
-import me.codexadrian.spirit.ForgeSoulShader;
+import me.codexadrian.spirit.forge.ForgeSoulShader;
 import me.codexadrian.spirit.platform.services.IShaderHelper;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 
 public class ForgeShaderHelper implements IShaderHelper {
 

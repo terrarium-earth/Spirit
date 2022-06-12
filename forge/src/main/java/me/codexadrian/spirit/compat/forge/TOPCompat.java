@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.compat;
+package me.codexadrian.spirit.compat.forge;
 import mcjty.theoneprobe.api.*;
 import me.codexadrian.spirit.Constants;
 import me.codexadrian.spirit.Corrupted;

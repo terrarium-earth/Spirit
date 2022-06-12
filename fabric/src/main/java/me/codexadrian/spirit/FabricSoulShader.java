@@ -11,12 +11,16 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 
-public class FabricSoulShader {
+public class FabricSoulShader extends RenderType {
 
     public static ShaderInstance rendertypeTranslucentShader;
 
+    public FabricSoulShader(String string, VertexFormat vertexFormat, VertexFormat.Mode mode, int i, boolean bl, boolean bl2, Runnable runnable, Runnable runnable2) {
+        super(string, vertexFormat, mode, i, bl, bl2, runnable, runnable2);
+    }
+
     public static <T extends Entity> RenderType getSoulRenderType(T entity, EntityRenderer<T> livingEntity) {
-        return RenderType.create(
+        return create(
                 "mob_soul_layer_" + entity.getDisplayName().getString(),
                 DefaultVertexFormat.NEW_ENTITY,
                 VertexFormat.Mode.QUADS,
@@ -26,8 +30,10 @@ public class FabricSoulShader {
                         .builder()
                         .setShaderState(new RenderStateShard.ShaderStateShard(() -> rendertypeTranslucentShader))
                         .setTextureState(new RenderStateShard.TextureStateShard(livingEntity.getTextureLocation(entity), false, false))
-                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                        .setLightmapState(RenderStateShard.LIGHTMAP)
+                        .setCullState(NO_CULL)
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                        .setLayeringState(VIEW_OFFSET_Z_LAYERING)
+                        .setLightmapState(LIGHTMAP)
                         .createCompositeState(true)
         );
     }

@@ -1,6 +1,8 @@
-package me.codexadrian.spirit;
+package me.codexadrian.spirit.forge;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import me.codexadrian.spirit.SpiritClient;
+import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;

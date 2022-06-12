@@ -84,6 +84,8 @@ void main(void) {
 
     vec4 finalComputedColor = vec4(color, 1);
     vec4 textureColor = texture(Sampler0, p);// * vec4(0.90, 0.90, 0.90, 1);
-
+    if(textureColor.a < 0.1) {
+        discard;
+    }
     fragColor = mix(finalComputedColor, textureColor, 0.25);
 }
