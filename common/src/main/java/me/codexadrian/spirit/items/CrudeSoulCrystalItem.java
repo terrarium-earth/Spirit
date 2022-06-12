@@ -1,6 +1,7 @@
 package me.codexadrian.spirit.items;
 
 import me.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.utils.ClientUtils;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -47,6 +48,6 @@ public class CrudeSoulCrystalItem extends Item {
 
     @Override
     public boolean isBarVisible(@NotNull ItemStack itemStack) {
-        return SoulUtils.getSoulsInCrystal(itemStack) < Spirit.getSpiritConfig().getCrudeSoulCrystalCap();
+        return ClientUtils.isItemInHand(itemStack);
     }
 }

@@ -22,6 +22,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -67,7 +68,9 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
         LivingEntity victim = (LivingEntity) (Object) this;
         Corrupted corrupt = (Corrupted) victim;
         if (!victim.level.isClientSide) {
-            if (source.getEntity() instanceof Player player) {
+            Entity entity = source.getEntity();
+            if(entity instanceof Projectile projectile) entity = projectile.getOwner();
+            if (entity instanceof Player player) {
                 if (!Arrays.stream(Spirit.getSpiritConfig().getBlacklist()).anyMatch(s -> Registry.ENTITY_TYPE.getKey(victim.getType()).equals(new ResourceLocation(s)))) {
                     if (victim.canChangeDimensions() && (Spirit.getSpiritConfig().isCollectFromCorrupt() || !corrupt.isCorrupted())) {
                         ItemStack crystal = ItemStack.EMPTY;

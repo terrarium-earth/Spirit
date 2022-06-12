@@ -40,6 +40,7 @@ public class SoulBowItem extends BowItem {
                 int k;
                 AbstractArrow abstractArrow = SpiritRegistry.SOUL_ARROW_ENTITY.get().create(level);
                 if(abstractArrow == null) return;
+                abstractArrow.setOwner(player);
                 abstractArrow.setPos(player.getEyePosition());
                 abstractArrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, power * 3.0f, 1.0f);
                 if (power == 1.0f) {

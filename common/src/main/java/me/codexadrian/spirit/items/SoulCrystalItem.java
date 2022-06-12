@@ -1,14 +1,20 @@
 package me.codexadrian.spirit.items;
 
 import me.codexadrian.spirit.Tier;
+import me.codexadrian.spirit.utils.ClientUtils;
 import me.codexadrian.spirit.utils.SoulUtils;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -59,8 +65,9 @@ public class SoulCrystalItem extends Item {
     }
 
     @Override
-    public boolean isBarVisible(@NotNull ItemStack itemStack) {
-        return !SoulUtils.isMaxTier(itemStack) && itemStack.hasTag() && itemStack.getTag().contains("StoredEntity");
+    @Environment(EnvType.CLIENT)
+    public boolean isBarVisible(@NotNull ItemStack stack) {
+        return ClientUtils.isItemInHand(stack);
     }
 
     @Override
