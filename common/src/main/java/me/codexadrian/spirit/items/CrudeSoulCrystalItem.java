@@ -1,6 +1,7 @@
 package me.codexadrian.spirit.items;
 
 import me.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.SpiritConfig;
 import me.codexadrian.spirit.utils.ClientUtils;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.ChatFormatting;
@@ -24,12 +25,12 @@ public class CrudeSoulCrystalItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
+    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
         super.appendHoverText(itemStack, level, list, tooltipFlag);
         int souls = SoulUtils.getSoulsInCrystal(itemStack);
         if (souls != 0) {
             MutableComponent tooltip = Component.translatable("spirit.item.crude_soul_crystal.tooltip");
-            tooltip.append(Component.literal(souls + "/" + Spirit.getSpiritConfig().getCrudeSoulCrystalCap()));
+            tooltip.append(Component.literal(souls + "/" + SpiritConfig.getCrudeSoulCrystalCap()));
             list.add(tooltip.withStyle(ChatFormatting.GRAY));
         } else {
             list.add(Component.translatable("spirit.item.crude_soul_crystal.tooltip_empty").withStyle(ChatFormatting.DARK_GRAY));
@@ -43,7 +44,7 @@ public class CrudeSoulCrystalItem extends Item {
 
     @Override
     public int getBarWidth(@NotNull ItemStack itemStack) {
-        return (int) (SoulUtils.getSoulsInCrystal(itemStack) / (double) Spirit.getSpiritConfig().getCrudeSoulCrystalCap() * 13);
+        return (int) (SoulUtils.getSoulsInCrystal(itemStack) / (double) SpiritConfig.getCrudeSoulCrystalCap() * 13);
     }
 
     @Override

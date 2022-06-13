@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import org.jetbrains.annotations.NotNull;
 
 public class SoulCageRenderer implements BlockEntityRenderer<SoulCageBlockEntity> {
 
@@ -15,16 +16,14 @@ public class SoulCageRenderer implements BlockEntityRenderer<SoulCageBlockEntity
     }
 
     @Override
-    public void render(SoulCageBlockEntity blockEntity, float f, PoseStack matrixStack, MultiBufferSource multiBufferSource, int i, int j) {
-        if (!blockEntity.hasLevel() || blockEntity.type == null) return;
+    public void render(SoulCageBlockEntity blockEntity, float f, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource multiBufferSource, int i, int j) {
+        if (blockEntity.getLevel() != null || blockEntity.type == null) return;
         matrixStack.pushPose();
         matrixStack.translate(0.5D, 0.0D, 0.5D);
-        if (blockEntity.entity == null) {
-            blockEntity.entity = blockEntity.type.create(blockEntity.getLevel());
-        }
+        var entity = blockEntity.getOrCreateEntity();
 
         float g = 0.53125F;
-        float h = Math.max(blockEntity.entity.getBbWidth(), blockEntity.entity.getBbHeight());
+        float h = Math.max(entity.getBbWidth(), entity.getBbHeight());
         if ((double) h > 1.0D) {
             g /= h;
         }
@@ -34,7 +33,7 @@ public class SoulCageRenderer implements BlockEntityRenderer<SoulCageBlockEntity
         matrixStack.translate(0.0D, -0.20000000298023224D, 0.0D);
         matrixStack.mulPose(Vector3f.XP.rotationDegrees(-30.0F));
         matrixStack.scale(g, g, g);
-        Minecraft.getInstance().getEntityRenderDispatcher().render(blockEntity.entity, 0.0D, 0.0D, 0.0D, 0.0F, f, matrixStack, multiBufferSource, i);
+        Minecraft.getInstance().getEntityRenderDispatcher().render(entity, 0.0D, 0.0D, 0.0D, 0.0F, f, matrixStack, multiBufferSource, i);
         matrixStack.popPose();
     }
 }

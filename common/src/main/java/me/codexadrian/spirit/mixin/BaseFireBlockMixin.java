@@ -1,10 +1,8 @@
 package me.codexadrian.spirit.mixin;
 
-import me.codexadrian.spirit.EngulfableItem;
 import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.recipe.SoulEngulfingRecipe;
-import me.codexadrian.spirit.utils.RecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -27,7 +25,7 @@ public abstract class BaseFireBlockMixin {
     @Inject(method = "entityInside", at = @At("HEAD"), cancellable = true)
     private void onBurn(BlockState blockState, Level level, BlockPos blockPos, Entity entity, CallbackInfo ci) {
         if (blockState.is(Blocks.SOUL_FIRE) && entity instanceof ItemEntity itemE && !level.isClientSide) {
-            for(var recipe : SoulEngulfingRecipe.getRecipeForStack(itemE.getItem(), level.getRecipeManager())) {
+            for(var recipe : SoulEngulfingRecipe.getRecipesForStack(itemE.getItem(), level.getRecipeManager())) {
                 if(recipe.validateRecipe(blockPos, itemE, level)) {
                     ci.cancel();
                     break;

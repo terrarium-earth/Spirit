@@ -19,20 +19,6 @@ public class ForgeSpiritClient {
 
     @SubscribeEvent
     public static void onInitializeClient(FMLClientSetupEvent event) {
-        Minecraft.getInstance().getItemColors().register((stack, tintIndex) -> {
-            if (tintIndex == 0) {
-                int red = 0xC4;
-                int green = 0xFF;
-                int blue = 0xFE;
-                if (stack.hasTag()) {
-                    float percentage = Math.min(stack.getTag().getCompound("StoredEntity").getInt("Souls") / (float) SoulUtils.getMaxSouls(stack), 1f);
-                    red -= percentage * 91;
-                    green -= percentage * 7;
-                    blue += percentage;
-                }
-                return red << 16 | green << 8 | blue;
-            } else return -1;
-        }, SpiritRegistry.SOUL_CRYSTAL.get());
         SpiritClient.initClient();
     }
 

@@ -1,148 +1,98 @@
 package me.codexadrian.spirit.utils;
 
-import me.codexadrian.spirit.Corrupted;
-import me.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.SpiritConfig;
 import me.codexadrian.spirit.SpiritRegistry;
-import me.codexadrian.spirit.Tier;
+import me.codexadrian.spirit.recipe.Tier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.Objects;
 
 public class SoulUtils {
 
     @Nullable
-    public static Tier getTier(ItemStack itemStack) {
-        if(!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity")) {
+    public static Tier getTier(ItemStack itemStack, Level level) {
+        if(itemStack.getTag() == null || !itemStack.getTag().contains("StoredEntity")) {
             return null;
         }
-        int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
-        String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
-        Tier tier = null;
-        for(Tier t : Spirit.getSpiritConfig().getTiers()) {
-            if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
-                if (t.getRequiredSouls() <= storedSouls) {
-                    tier = t;
-                } else {
-                    break;
-                }
-            }
-        }
-        return tier;
+
+        return Tier.getTier(getSoulsInCrystal(itemStack), getSoulCrystalType(itemStack), level);
     }
 
-    public static int getTierIndex(ItemStack itemStack) {
-        if(!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity")) {
-            return -1;
-        }
-        int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
-        String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
-        int tier = 0;
-        for(int i = 0; i < Spirit.getSpiritConfig().getTiers().length; i++) {
-            Tier t = Spirit.getSpiritConfig().getTiers()[i];
-            if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
-                if (t.getRequiredSouls() <= storedSouls) {
-                    tier = i;
-                } else {
-                    break;
-                }
-            }
-        }
-        return tier;
+    public static String getTierDisplay(ItemStack itemStack, Level level) {
+        Tier tier = getTier(itemStack, level);
+        return tier == null ? SpiritConfig.getInitialTierName() : tier.displayName();
     }
 
+    @Contract(pure = true)
     @Nullable
-    public static Tier getNextTier(ItemStack itemStack) {
-        if(!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity")) {
+    public static Tier getNextTier(ItemStack itemStack, Level level) {
+        if(itemStack.getTag() == null || !itemStack.getTag().contains("StoredEntity")) {
             return null;
         }
-        int storedSouls = itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
-        String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
-        Tier tier = null;
-        for(Tier t : Spirit.getSpiritConfig().getTiers()) {
-            if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
-                if (t.getRequiredSouls() > storedSouls) {
-                    tier = t;
-                    break;
-                }
-            }
-        }
-        return tier;
+
+        return Tier.getTier(getSoulsInCrystal(itemStack), getSoulCrystalType(itemStack), level, true);
     }
 
-    public static int getMaxSouls(ItemStack itemStack) {
-        if(!itemStack.hasTag() || !itemStack.getTag().contains("StoredEntity")) {
+    public static int getMaxSouls(ItemStack itemStack, Level level) {
+        if(itemStack.getTag() == null || !itemStack.getTag().contains("StoredEntity")) {
             return Integer.MAX_VALUE;
         }
-        String type = itemStack.getTag().getCompound("StoredEntity").getString("Type");
-        int requiredSouls = 0;
-        for(int i = 0; i < Spirit.getSpiritConfig().getTiers().length; i++) {
-            Tier t = Spirit.getSpiritConfig().getTiers()[i];
-            if(Arrays.stream(t.getBlacklist()).noneMatch(b -> b.equals(type))) {
-                if(requiredSouls < t.getRequiredSouls()) {
-                    requiredSouls = t.getRequiredSouls();
-                }
-            }
-        }
-        return requiredSouls;
+        Tier maxTier = Tier.getHighestTier(getSoulCrystalType(itemStack), level);
+        return maxTier == null ? Integer.MAX_VALUE : maxTier.requiredSouls();
     }
 
     public static int getSoulsInCrystal(ItemStack itemStack) {
-        if(itemStack.hasTag()) {
-            if(itemStack.is(SpiritRegistry.SOUL_CRYSTAL.get()) && itemStack.getTag().contains("StoredEntity")) {
+        if(itemStack.getTag() != null) {
+            if(itemStack.is(SpiritRegistry.SOUL_CRYSTAL.get())) {
                 return itemStack.getTag().getCompound("StoredEntity").getInt("Souls");
-            } else if(itemStack.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get()) && itemStack.getTag().contains("Souls")) {
+            } else if(itemStack.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get())) {
                 return itemStack.getTag().getInt("Souls");
             }
         }
         return 0;
     }
 
-    public static boolean isMaxTier(ItemStack itemStack) {
-        Tier tier = getTier(itemStack);
-        Tier nextTier = getNextTier(itemStack);
-        if(tier == null || nextTier == null) return false;
-
-        return tier == nextTier;
-    }
-
     public static boolean canCrystalAcceptSoul(ItemStack crystal, @Nullable LivingEntity victim) {
         if(crystal.is(SpiritRegistry.SOUL_CRYSTAL.get())) {
-            boolean isEmpty = !crystal.hasTag();
-            if(!isEmpty && victim != null) {
-                boolean isCorrectType = crystal.getTag().getCompound("StoredEntity").getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString());
-                boolean hasRoomForMore = crystal.getTag().getCompound("StoredEntity").getInt("Souls") < SoulUtils.getMaxSouls(crystal);
+            if(crystal.getTag() != null && victim != null) {
+                boolean isCorrectType = Registry.ENTITY_TYPE.getKey(victim.getType()).toString().equals(getSoulCrystalType(crystal));
+                boolean hasRoomForMore = getSoulsInCrystal(crystal) < getMaxSouls(crystal, victim.level);
                 return isCorrectType && hasRoomForMore;
-            } else return true;
+            }
+            return true;
         } else if(crystal.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get())) {
-            return SoulUtils.getSoulsInCrystal(crystal) < Spirit.getSpiritConfig().getCrudeSoulCrystalCap();
-        } else return false;
+            return SoulUtils.getSoulsInCrystal(crystal) < SpiritConfig.getCrudeSoulCrystalCap();
+        }
+        return false;
     }
 
-    public static float getActivation(ItemStack stack) {
-        Tier tier = SoulUtils.getTier(stack);
-        if (tier == null) {
-            return 0f;
-        }
+    public static boolean doCrystalTypesMatch(ItemStack crystal1, ItemStack crystal2) {
+        return Objects.equals(getSoulCrystalType(crystal1), getSoulCrystalType(crystal2));
+    }
 
-        return ((float) tier.getRequiredSouls()) / SoulUtils.getMaxSouls(stack);
+    @Nullable
+    public static String getSoulCrystalType(ItemStack crystal) {
+        if(crystal.getTag() != null) {
+            String string = crystal.getTag().getCompound("StoredEntity").getString("Type");
+            return string.isBlank() ? null : string;
+        }
+        return null;
     }
 
     public static ItemStack getSoulCrystal(Player player, LivingEntity victim) {
-        Corrupted corrupt = (Corrupted) victim;
         ItemStack savedStack = ItemStack.EMPTY;
         int savedSouls = 0;
 
@@ -155,12 +105,11 @@ public class SoulUtils {
             if (savedStack.isEmpty() && canCrystalAcceptSoul(currentItem, victim)) {
                 savedStack = currentItem;
             } else {
-                if (currentItem.hasTag()) {
+                if (currentItem.getTag() != null) {
                     //if the current savedStack either is empty or has some amount of souls in it. therefore any new crystal that's empty
                     //is either equal to or worse than the saved stack, so the current item, if it is empty, should be skipped.
-                    CompoundTag tag = currentItem.getTag().getCompound("StoredEntity");
-                    if (tag.getString("Type").equals(Registry.ENTITY_TYPE.getKey(victim.getType()).toString()) && tag.getInt("Souls") < SoulUtils.getMaxSouls(currentItem)) {
-                        int souls = tag.getInt("Souls");
+                    int souls = getSoulsInCrystal(currentItem);
+                    if (canCrystalAcceptSoul(currentItem, victim)) {
                         if (souls > savedSouls) {
                             savedStack = currentItem;
                             savedSouls = souls;
@@ -179,23 +128,16 @@ public class SoulUtils {
 
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             ItemStack currentItem = player.getInventory().getItem(i);
-            if (currentItem.getItem() != SpiritRegistry.CRUDE_SOUL_CRYSTAL.get()) {
+            if (!currentItem.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get())) {
                 continue;
             }
 
             if(!SoulUtils.canCrystalAcceptSoul(currentItem, null)) continue;
 
-            if (savedStack.isEmpty()) {
+            int soulsInCrystal = getSoulsInCrystal(currentItem);
+            if (savedStack.isEmpty() || soulsInCrystal > savedSouls) {
                 savedStack = currentItem;
-                if(currentItem.hasTag() && currentItem.getTag().contains("Souls")) savedSouls = savedStack.getTag().getInt("Souls");
-            } else if(currentItem.hasTag() && currentItem.getTag().contains("Souls")){
-                CompoundTag tag = currentItem.getTag();
-                //if the current savedStack either is empty or has some amount of souls in it. therefore any new crystal that's empty
-                //is either equal to or worse than the saved stack, so the current item, if it is empty, should be skipped.
-                if(tag.getInt("Souls") > savedSouls) {
-                    savedStack = currentItem;
-                    savedSouls = tag.getInt("Souls");
-                }
+                savedSouls = soulsInCrystal;
             }
         }
 
@@ -203,61 +145,68 @@ public class SoulUtils {
     }
 
     public static void handleSoulCrystal(ItemStack soulCrystal, Player player, LivingEntity victim) {
-        CompoundTag storedEntity;
+        //Gravy seal of okayness
+        if(player.level instanceof ServerLevel serverLevel) {
+            CompoundTag storedEntity;
+            if (soulCrystal.getTag() == null || !soulCrystal.getTag().contains("StoredEntity")) {
+                CompoundTag tag = new CompoundTag();
+                tag.putString("Type", Registry.ENTITY_TYPE.getKey(victim.getType()).toString());
+                soulCrystal.getOrCreateTag().put("StoredEntity", tag);
+                storedEntity = tag;
+            } else {
+                storedEntity = soulCrystal.getTag().getCompound("StoredEntity");
+            }
 
-        if (!soulCrystal.hasTag() || !soulCrystal.getTag().contains("StoredEntity")) {
-            CompoundTag tag = new CompoundTag();
-            tag.putString("Type", Registry.ENTITY_TYPE.getKey(victim.getType()).toString());
-            soulCrystal.getOrCreateTag().put("StoredEntity", tag);
-            storedEntity = tag;
-        } else {
-            storedEntity = soulCrystal.getTag().getCompound("StoredEntity");
+            serverLevel.sendParticles(ParticleTypes.SOUL, victim.getX(), victim.getY(), victim.getZ(), 20, victim.getBbWidth(), victim.getBbHeight(), victim.getBbWidth(), 0);
+            Tier tier = SoulUtils.getNextTier(soulCrystal, serverLevel);
+
+            int incrementAmount = getSoulHarvestAmount(player);
+
+            if (tier != null && storedEntity.getInt("Souls") + incrementAmount >= tier.requiredSouls()) {
+                player.displayClientMessage(Component.translatable("item.spirit.soul_crystal.upgrade_message").withStyle(ChatFormatting.AQUA), true);
+                serverLevel.sendParticles(ParticleTypes.SOUL, player.getX(), player.getY(), player.getZ(), 40, 1, 2, 1, 0);
+            }
+
+            storedEntity.putInt("Souls", storedEntity.getInt("Souls") + incrementAmount);
         }
-
-        ServerLevel serverLevel = (ServerLevel) player.level;
-        serverLevel.sendParticles(ParticleTypes.SOUL, victim.getX(), victim.getY(), victim.getZ(), 20, victim.getBbWidth(), victim.getBbHeight(), victim.getBbWidth(), 0);
-        Tier tier = SoulUtils.getNextTier(soulCrystal);
-
-        int incrementAmount = getSoulHarvestAmount(player);
-
-        if (tier != null && storedEntity.getInt("Souls") + incrementAmount >= tier.getRequiredSouls()) {
-            player.displayClientMessage(Component.translatable("item.spirit.soul_crystal.upgrade_message").withStyle(ChatFormatting.AQUA), true);
-            serverLevel.sendParticles(ParticleTypes.SOUL, player.getX(), player.getY(), player.getZ(), 40, 1, 2, 1, 0);
-        }
-
-        storedEntity.putInt("Souls", storedEntity.getInt("Souls") + incrementAmount);
     }
 
-    public static void decrementSoulCount(ItemStack stack, int decrement) {
+    public static void deviateSoulCount(ItemStack stack, int deviation, Level level,@Nullable String mobType) {
         if(stack.getTag() != null) {
             if(stack.is(SpiritRegistry.SOUL_CRYSTAL.get())) {
-                stack.getTag().getCompound("StoredEntity").putInt("Souls", Math.max(0, getSoulsInCrystal(stack) - decrement));
+                CompoundTag storedEntity = stack.getTag().getCompound("StoredEntity");
+                storedEntity.putInt("Souls", Mth.clamp(getSoulsInCrystal(stack) + deviation, 0, SoulUtils.getMaxSouls(stack, level)));
+                if(storedEntity.getInt("Souls") == 0) {
+                    stack.setTag(null);
+                }
             } else if(stack.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get())) {
-                stack.getTag().putInt("Souls", Math.max(0, getSoulsInCrystal(stack) - decrement));
+                stack.getTag().putInt("Souls", Mth.clamp(getSoulsInCrystal(stack) + deviation, 0, SpiritConfig.getCrudeSoulCrystalCap()));
+                if(stack.getTag().getInt("Souls") == 0) {
+                    stack.setTag(null);
+                }
+            }
+        } else {
+            if(stack.is(SpiritRegistry.SOUL_CRYSTAL.get()) && mobType != null && deviation > 0) {
+                CompoundTag storedEntity = new CompoundTag();
+                storedEntity.putString("Type", mobType);
+                storedEntity.putInt("Souls", deviation);
+                stack.getOrCreateTag().put("StoredEntity", storedEntity);
+            } else if(stack.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get()) && deviation > 0) {
+                stack.getOrCreateTag().putInt("Souls", Math.min(deviation, SpiritConfig.getCrudeSoulCrystalCap()));
             }
         }
     }
 
     public static void handleCrudeSoulCrystal(ItemStack crudeCrystal, Player player, LivingEntity victim) {
-        int soulCount;
-        if(!crudeCrystal.hasTag() || !crudeCrystal.getTag().contains("Souls")) {
-            soulCount = 0;
-        } else {
-            soulCount = crudeCrystal.getTag().getInt("Souls");
+        if(player.level instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypes.SOUL, victim.getX(), victim.getY(), victim.getZ(), 20, victim.getBbWidth(), victim.getBbHeight(), victim.getBbWidth(), 0);
+            crudeCrystal.getOrCreateTag().putInt("Souls", Math.min(getSoulsInCrystal(crudeCrystal) + getSoulHarvestAmount(player), SpiritConfig.getCrudeSoulCrystalCap()));
         }
-        ServerLevel serverLevel = (ServerLevel) player.level;
-        serverLevel.sendParticles(ParticleTypes.SOUL, victim.getX(), victim.getY(), victim.getZ(), 20, victim.getBbWidth(), victim.getBbHeight(), victim.getBbWidth(), 0);
-        crudeCrystal.getOrCreateTag().putInt("Souls", Math.min(soulCount + getSoulHarvestAmount(player), Spirit.getSpiritConfig().getCrudeSoulCrystalCap()));
     }
 
     public static int getSoulHarvestAmount(Player player) {
         int returnAmount = 1;
-        ItemStack stack = player.getMainHandItem();
-        if(stack.is(SpiritRegistry.SOUL_BLADE.get())) returnAmount += 1;
-        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
-        if(enchantments.containsKey(SpiritRegistry.SOUL_REAPER_ENCHANTMENT.get())) {
-           returnAmount += enchantments.get(SpiritRegistry.SOUL_REAPER_ENCHANTMENT.get());
-        }
-        return returnAmount;
+        if(player.getMainHandItem().is(SpiritRegistry.SOUL_BLADE.get()) || player.getMainHandItem().is(SpiritRegistry.SOUL_BOW.get()) || player.getOffhandItem().is(SpiritRegistry.SOUL_BOW.get())) returnAmount++;
+        return returnAmount + EnchantmentHelper.getEnchantmentLevel(SpiritRegistry.SOUL_REAPER_ENCHANTMENT.get(), player);
     }
 }

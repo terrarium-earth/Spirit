@@ -2,16 +2,14 @@ package me.codexadrian.spirit.mixin;
 
 import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.SpiritConfig;
 import me.codexadrian.spirit.SpiritRegistry;
-import me.codexadrian.spirit.Tier;
 import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
 import me.codexadrian.spirit.utils.SoulUtils;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -37,8 +35,8 @@ import java.util.Optional;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Corrupted {
 
-    private static final EntityDataAccessor<Boolean> CORRUPTED =
-            SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.BOOLEAN);
+    @SuppressWarnings("WrongEntityDataParameterClass")
+    private static final EntityDataAccessor<Boolean> CORRUPTED = SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.BOOLEAN);
 
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -71,10 +69,10 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
             Entity entity = source.getEntity();
             if(entity instanceof Projectile projectile) entity = projectile.getOwner();
             if (entity instanceof Player player) {
-                if (!Arrays.stream(Spirit.getSpiritConfig().getBlacklist()).anyMatch(s -> Registry.ENTITY_TYPE.getKey(victim.getType()).equals(new ResourceLocation(s)))) {
-                    if (victim.canChangeDimensions() && (Spirit.getSpiritConfig().isCollectFromCorrupt() || !corrupt.isCorrupted())) {
+                if (!victim.getType().is(SpiritRegistry.BLACKLISTED_TAG)) {
+                    if (victim.canChangeDimensions() && (SpiritConfig.isCollectFromCorrupt() || !corrupt.isCorrupted())) {
                         ItemStack crystal = ItemStack.EMPTY;
-                        int radius = Spirit.getSpiritConfig().getSoulPedestalRadius();
+                        int radius = SpiritConfig.getSoulPedestalRadius();
                         AABB entityArea = victim.getBoundingBox().inflate(radius, 2, radius);
                         Optional<BlockPos> pedestalPos = BlockPos.betweenClosedStream(entityArea).filter(pos -> level.getBlockEntity(pos) instanceof SoulPedestalBlockEntity).map(BlockPos::immutable).findFirst();
                         if(pedestalPos.isPresent() && level.getBlockEntity(pedestalPos.get()) instanceof SoulPedestalBlockEntity pedestal && !pedestal.isEmpty()) {

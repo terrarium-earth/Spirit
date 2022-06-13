@@ -1,8 +1,11 @@
 package me.codexadrian.spirit;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import me.codexadrian.spirit.blocks.BrokenSpawnerBlock;
+import me.codexadrian.spirit.blocks.PedestalBlock;
 import me.codexadrian.spirit.blocks.SoulCageBlock;
 import me.codexadrian.spirit.blocks.SoulPedestalBlock;
+import me.codexadrian.spirit.blocks.blockentity.PedestalBlockEntity;
 import me.codexadrian.spirit.blocks.blockentity.SoulCageBlockEntity;
 import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
 import me.codexadrian.spirit.enchantments.SoulReaperEnchantment;
@@ -14,6 +17,11 @@ import me.codexadrian.spirit.items.SoulCrystalItem;
 import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.recipe.ResourcefulRecipeSerializer;
 import me.codexadrian.spirit.recipe.SoulEngulfingRecipe;
+import me.codexadrian.spirit.recipe.Tier;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -33,9 +41,12 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
+import static me.codexadrian.spirit.Constants.MODID;
 import static me.codexadrian.spirit.Spirit.SPIRIT;
 
 public class SpiritRegistry {
+
+    public static final TagKey<EntityType<?>> BLACKLISTED_TAG = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(MODID, "soul_cage_blacklisted"));
     public static final ArrayList<Supplier<Block>> SOUL_GLASS_BLOCKS = new ArrayList<>();
     public static final Supplier<Block> SOUL_CAGE = registerBlock("soul_cage", () ->
             new SoulCageBlock(BlockBehaviour.Properties.copy(Blocks.SPAWNER).requiresCorrectToolForDrops()));
@@ -43,17 +54,20 @@ public class SpiritRegistry {
     public static final Supplier<BlockEntityType<SoulCageBlockEntity>> SOUL_CAGE_ENTITY =
             register("soul_cage", () -> Services.REGISTRY.createBlockEntityType(SoulCageBlockEntity::new, SOUL_CAGE.get()));
 
-    public static final Supplier<Block> SOUL_PEDESTAL = registerBlock("soul_pedestal", () ->
+    public static final Supplier<Block> SOUL_PEDESTAL = registerBlockWithItem("soul_pedestal", () ->
             new SoulPedestalBlock(BlockBehaviour.Properties.copy(Blocks.SPAWNER).requiresCorrectToolForDrops()));
 
     public static final Supplier<BlockEntityType<SoulPedestalBlockEntity>> SOUL_PEDESTAL_ENTITY =
             register("soul_pedestal", () -> Services.REGISTRY.createBlockEntityType(SoulPedestalBlockEntity::new, SOUL_PEDESTAL.get()));
 
+    public static final Supplier<Block> PEDESTAL = registerBlockWithItem("pedestal", () ->
+            new PedestalBlock(BlockBehaviour.Properties.copy(Blocks.SPAWNER).requiresCorrectToolForDrops()));
+
+    public static final Supplier<BlockEntityType<PedestalBlockEntity>> PEDESTAL_ENTITY =
+            register("pedestal", () -> Services.REGISTRY.createBlockEntityType(PedestalBlockEntity::new, PEDESTAL.get()));
+
     public static final Supplier<Item> SOUL_CAGE_ITEM = registerItem("soul_cage", () ->
             new BlockItem(SOUL_CAGE.get(), new Item.Properties().tab(SPIRIT).rarity(Rarity.EPIC)));
-
-    public static final Supplier<Item> SOUL_PEDESTAL_ITEM = registerItem("soul_pedestal", () ->
-            new BlockItem(SOUL_PEDESTAL.get(), new Item.Properties().tab(SPIRIT)));
 
     public static final Supplier<Item> SOUL_CRYSTAL = registerItem("soul_crystal", () ->
             new SoulCrystalItem(new Item.Properties().tab(SPIRIT).stacksTo(1).rarity(Rarity.RARE)));
@@ -85,7 +99,16 @@ public class SpiritRegistry {
         }
     });
 
+    public static final Supplier<RecipeType<Tier>> TIER_RECIPE = Services.REGISTRY.registerRecipeType("soul_cage_tier", () -> new RecipeType<>() {
+        @Override
+        public String toString() {
+            return "soul_cage_tier";
+        }
+    });
+
     public static final Supplier<RecipeSerializer<SoulEngulfingRecipe>> SOUL_ENGULFING_SERIALIZER = Services.REGISTRY.registerRecipeSerializer("soul_engulfing", () -> new ResourcefulRecipeSerializer<>(SOUL_ENGULFING_RECIPE.get(), SoulEngulfingRecipe::codec));
+
+    public static final Supplier<RecipeSerializer<Tier>> TIER_SERIALIZER = Services.REGISTRY.registerRecipeSerializer("soul_cage_tier", () -> new ResourcefulRecipeSerializer<>(TIER_RECIPE.get(), Tier::codec));
 
     private static Supplier<Item> registerItem(String id, Supplier<Item> item) {
         return Services.REGISTRY.registerItem(id, item);
@@ -121,6 +144,6 @@ public class SpiritRegistry {
 
     public static void registerAll() {
         //TEEHEE
-        registerChippedVariants("soul_glass", () -> new GlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS)), 2);
+        registerChippedVariants("soul_glass", () -> new GlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS)), 10);
     }
 }

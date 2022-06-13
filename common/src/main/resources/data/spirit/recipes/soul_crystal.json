@@ -5,9 +5,7 @@
       "item": "minecraft:amethyst_shard"
     },
     "catalyst": {
-      "blocks": [
-        "spirit:soul_glass"
-      ]
+      "tag": "spirit:soul_glass"
     }
   },
   "duration": 40,

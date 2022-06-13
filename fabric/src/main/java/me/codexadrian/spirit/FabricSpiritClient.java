@@ -14,31 +14,5 @@ public class FabricSpiritClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         SpiritClient.initClient();
-        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
-            @Override
-            public ResourceLocation getFabricId() {
-                return new ResourceLocation("spirit_reload");
-            }
-
-            @Override
-            public void onResourceManagerReload(ResourceManager resourceManager) {
-
-            }
-        });
-
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (tintIndex == 0) {
-                int red = 0xC4;
-                int green = 0xFF;
-                int blue = 0xFE;
-                if (stack.hasTag()) {
-                    float percentage = Math.min(stack.getTag().getCompound("StoredEntity").getInt("Souls") / (float) SoulUtils.getMaxSouls(stack), 1f);
-                    red -= percentage * 91;
-                    green -= percentage * 7;
-                    blue += percentage;
-                }
-                return red << 16 | green << 8 | blue;
-            } else return -1;
-        }, SpiritRegistry.SOUL_CRYSTAL.get());
     }
 }

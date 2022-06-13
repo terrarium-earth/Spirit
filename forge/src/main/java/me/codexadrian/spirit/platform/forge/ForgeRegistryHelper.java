@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
@@ -74,7 +75,7 @@ public class ForgeRegistryHelper implements IRegistryHelper {
     public CreativeModeTab registerCreativeTab(ResourceLocation tab, Supplier<ItemStack> supplier) {
         return new CreativeModeTab(tab.getNamespace() + "." + tab.getPath()) {
             @Override
-            public ItemStack makeIcon() {
+            public @NotNull ItemStack makeIcon() {
                 return supplier.get();
             }
         };

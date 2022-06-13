@@ -4,6 +4,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 public class SoulBladeItem extends SwordItem {
     public SoulBladeItem(Properties properties) {
@@ -11,7 +12,7 @@ public class SoulBladeItem extends SwordItem {
     }
 
     @Override
-    public int getBarColor(ItemStack itemStack) {
+    public int getBarColor(@NotNull ItemStack itemStack) {
         return 0x00fffb;
     }
 

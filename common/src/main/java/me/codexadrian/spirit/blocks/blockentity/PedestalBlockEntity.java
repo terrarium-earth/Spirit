@@ -8,21 +8,20 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-public class SoulPedestalBlockEntity extends BlockEntity implements Container {
+public class PedestalBlockEntity extends BlockEntity implements Container {
 
-    ItemStack soulCrystal = ItemStack.EMPTY;
+    ItemStack item = ItemStack.EMPTY;
     public int age;
 
-    public SoulPedestalBlockEntity(BlockPos $$1, BlockState $$2) {
-        super(SpiritRegistry.SOUL_PEDESTAL_ENTITY.get(), $$1, $$2);
+    public PedestalBlockEntity(BlockPos $$1, BlockState $$2) {
+        super(SpiritRegistry.PEDESTAL_ENTITY.get(), $$1, $$2);
     }
 
     public static void tick(Level level1, BlockPos blockPos, BlockState blockState1, BlockEntity blockEntity) {
-        if(blockEntity instanceof SoulPedestalBlockEntity soulPedestal) {
+        if(blockEntity instanceof PedestalBlockEntity soulPedestal) {
             soulPedestal.age = (soulPedestal.age + 1) % Integer.MAX_VALUE;
         }
     }
@@ -34,12 +33,12 @@ public class SoulPedestalBlockEntity extends BlockEntity implements Container {
 
     @Override
     public boolean isEmpty() {
-        return soulCrystal.isEmpty();
+        return item.isEmpty();
     }
 
     @Override
     public ItemStack getItem(int i) {
-        return i == 0 ? soulCrystal : ItemStack.EMPTY;
+        return i == 0 ? item : ItemStack.EMPTY;
     }
 
     @Override
@@ -50,10 +49,10 @@ public class SoulPedestalBlockEntity extends BlockEntity implements Container {
     @Override
     public ItemStack removeItemNoUpdate(int i) {
         if (i == 0) {
-            ItemStack crystal = soulCrystal;
-            soulCrystal = ItemStack.EMPTY;
+            ItemStack itemStack = item;
+            item = ItemStack.EMPTY;
 
-            return crystal;
+            return itemStack;
         }
 
         return ItemStack.EMPTY;
@@ -61,13 +60,15 @@ public class SoulPedestalBlockEntity extends BlockEntity implements Container {
 
     @Override
     public void setItem(int i, @NotNull ItemStack itemStack) {
-        if (i == 0)
-            soulCrystal = itemStack;
+        if (i == 0) {
+            item = itemStack;
+            this.setChanged();
+        }
     }
 
     @Override
     public void clearContent() {
-        soulCrystal = ItemStack.EMPTY;
+        item = ItemStack.EMPTY;
     }
 
     @Override
@@ -79,15 +80,15 @@ public class SoulPedestalBlockEntity extends BlockEntity implements Container {
     public void load(@NotNull CompoundTag compoundTag) {
         super.load(compoundTag);
         if (compoundTag.contains("crystal")) {
-            soulCrystal = ItemStack.of(compoundTag.getCompound("crystal"));
+            item = ItemStack.of(compoundTag.getCompound("crystal"));
         }
     }
 
     @Override
     protected void saveAdditional(@NotNull CompoundTag compoundTag) {
         super.saveAdditional(compoundTag);
-        if (!soulCrystal.isEmpty()) {
-            compoundTag.put("crystal", soulCrystal.save(new CompoundTag()));
+        if (!item.isEmpty()) {
+            compoundTag.put("crystal", item.save(new CompoundTag()));
         }
     }
 

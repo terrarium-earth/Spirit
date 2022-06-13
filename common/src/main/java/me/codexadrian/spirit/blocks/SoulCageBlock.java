@@ -50,8 +50,7 @@ public class SoulCageBlock extends BaseEntityBlock {
             ItemStack itemStack = player.getMainHandItem();
             if (level.getBlockEntity(blockPos) instanceof SoulCageBlockEntity soulSpawner) {
                 if (soulSpawner.isEmpty()) {
-                    if (itemStack.getItem().equals(SpiritRegistry.SOUL_CRYSTAL.get()) && itemStack.hasTag() &&
-                            SoulUtils.getTier(itemStack) != null) {
+                    if (itemStack.getItem().equals(SpiritRegistry.SOUL_CRYSTAL.get()) && itemStack.hasTag() && SoulUtils.getTier(itemStack, level) != null) {
                         soulSpawner.entity = null;
 
                         soulSpawner.setItem(0, itemStack.copy());

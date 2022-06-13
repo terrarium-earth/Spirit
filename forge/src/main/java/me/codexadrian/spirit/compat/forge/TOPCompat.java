@@ -2,11 +2,9 @@ package me.codexadrian.spirit.compat.forge;
 import mcjty.theoneprobe.api.*;
 import me.codexadrian.spirit.Constants;
 import me.codexadrian.spirit.Corrupted;
-import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.blocks.blockentity.SoulCageBlockEntity;
 import me.codexadrian.spirit.utils.SoulUtils;
-import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -30,7 +28,7 @@ public class TOPCompat implements Function<ITheOneProbe, Void> {
                     if(blockEntity.isEmpty()) {
                         probeInfo.horizontal().text("block.spirit.soul_cage.empty_hover_text");
                     } else if(blockEntity.type != null) {
-                        probeInfo.horizontal().entity(blockEntity.type.create(level)).vertical().text(" ").horizontal().text(blockEntity.type.getDescription()).text(" - Tier " + (SoulUtils.getTierIndex(blockEntity.getItem(0)) + 1) + " ");
+                        probeInfo.horizontal().entity(blockEntity.type.create(level)).vertical().text(" ").horizontal().text(blockEntity.type.getDescription()).text(" - Tier ").text(SoulUtils.getTierDisplay(blockEntity.getItem(0), level)).text(" ");
                     }
                 }
             }

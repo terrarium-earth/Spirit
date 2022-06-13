@@ -7,7 +7,9 @@ import me.codexadrian.spirit.platform.forge.ForgeRegistryHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -16,7 +18,7 @@ public class ForgeSpirit {
 
     public ForgeSpirit() {
         Spirit.onInitialize();
-
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SpiritConfigImpl.CONFIG, "spirit.toml");
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ForgeRegistryHelper.BLOCKS.register(eventBus);
         ForgeRegistryHelper.ITEMS.register(eventBus);

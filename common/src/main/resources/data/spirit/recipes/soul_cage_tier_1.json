@@ -1,0 +1,13 @@
+{
+  "type": "spirit:soul_cage_tier",
+  "displayName": "spirit.soul_cage.tier_1",
+  "requiredSouls": 64,
+  "minSpawnDelay": 300,
+  "maxSpawnDelay": 1000,
+  "spawnCount": 3,
+  "spawnRange": 5,
+  "nearbyRange": 16,
+  "redstoneControlled": false,
+  "ignoreSpawnConditions": false,
+  "blacklist": []
+}

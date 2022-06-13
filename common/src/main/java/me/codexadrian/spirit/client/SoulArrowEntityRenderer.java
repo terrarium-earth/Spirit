@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SoulArrowEntityRenderer extends ArrowRenderer<SoulArrowEntity> {
 
-    public static ResourceLocation SOUL_ARROW = new ResourceLocation(Constants.MODID, "textures/entity/soul_arrow");
+    public static ResourceLocation SOUL_ARROW = new ResourceLocation(Constants.MODID, "textures/entity/soul_arrow.png");
 
     public SoulArrowEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -30,7 +30,7 @@ public class SoulArrowEntityRenderer extends ArrowRenderer<SoulArrowEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(@NotNull SoulArrowEntity entity) {
-        return TippableArrowRenderer.NORMAL_ARROW_LOCATION;
+        return SoulArrowEntityRenderer.SOUL_ARROW;
     }
 
     @Override

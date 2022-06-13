@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class SoulCageBlockEntity extends BlockEntity implements Container {
@@ -79,7 +80,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     }
 
     @Override
-    public void setItem(int i, ItemStack itemStack) {
+    public void setItem(int i, @NotNull ItemStack itemStack) {
         if (i == 0)
             soulCrystal = itemStack;
     }
@@ -100,7 +101,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     }
 
     @Override
-    public void load(CompoundTag compoundTag) {
+    public void load(@NotNull CompoundTag compoundTag) {
         super.load(compoundTag);
         type = null;
         if (compoundTag.contains("crystal")) {
@@ -110,7 +111,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag compoundTag) {
+    protected void saveAdditional(@NotNull CompoundTag compoundTag) {
         super.saveAdditional(compoundTag);
         if (!soulCrystal.isEmpty()) {
             compoundTag.put("crystal", soulCrystal.save(new CompoundTag()));
@@ -125,11 +126,19 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     }
 
     public void setType() {
-        if (soulCrystal.hasTag()) {
+        if (soulCrystal.getTag() != null) {
             type = Registry.ENTITY_TYPE.get(new ResourceLocation(soulCrystal.getTag().getCompound("StoredEntity").getString("Type")));
         } else {
             type = null;
         }
+    }
+    @NotNull
+    public Entity getOrCreateEntity() {
+        if(this.entity == null && this.getLevel() != null) {
+            this.entity = this.type.create(getLevel());
+        }
+        //noinspection ConstantConditions
+        return entity;
     }
 
     public SoulCageSpawner getSpawner() {

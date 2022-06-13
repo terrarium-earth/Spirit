@@ -1,6 +1,6 @@
 package me.codexadrian.spirit.items;
 
-import me.codexadrian.spirit.Tier;
+import me.codexadrian.spirit.recipe.Tier;
 import me.codexadrian.spirit.utils.ClientUtils;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.fabricmc.api.EnvType;
@@ -8,13 +8,11 @@ import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -31,14 +29,16 @@ public class SoulCrystalItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
+    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
         super.appendHoverText(itemStack, level, list, tooltipFlag);
-        if (itemStack.hasTag()) {
+        if (itemStack.getTag() != null && level != null) {
             final CompoundTag storedEntity = itemStack.getTag().getCompound("StoredEntity");
             if (storedEntity.contains("Type")) {
                 MutableComponent tooltip = Component.translatable(Util.makeDescriptionId("entity", new ResourceLocation(storedEntity.getString("Type"))));
-                tooltip.append(Component.literal(" " + (SoulUtils.getTierIndex(itemStack) + 1) + " - "));
-                tooltip.append(Component.literal("(" + Math.min(storedEntity.getInt("Souls"), SoulUtils.getMaxSouls(itemStack)) + "/" + Math.min(SoulUtils.getNextTier(itemStack) == null ? Integer.MAX_VALUE : SoulUtils.getNextTier(itemStack).getRequiredSouls(), SoulUtils.getMaxSouls(itemStack)) + ") "));
+                tooltip.append(Component.literal(" ").append(Component.translatable(SoulUtils.getTierDisplay(itemStack, level)).append(" - ")));
+                Tier nextTier = SoulUtils.getNextTier(itemStack, level);
+                int maxSouls = SoulUtils.getMaxSouls(itemStack, level);
+                tooltip.append(Component.literal("(" + Math.min(storedEntity.getInt("Souls"), maxSouls) + "/" + Math.min(nextTier == null ? maxSouls : nextTier.requiredSouls(), maxSouls) + ") "));
 
                 list.add(tooltip.withStyle(ChatFormatting.GRAY));
             }
@@ -48,15 +48,18 @@ public class SoulCrystalItem extends Item {
         }
     }
 
-    public static double getPercentage(ItemStack itemStack) {
-        Tier tier = SoulUtils.getNextTier(itemStack);
+    public static double getPercentage(ItemStack itemStack, Level level) {
+        Tier tier = SoulUtils.getNextTier(itemStack, level);
         if (tier == null) {
-            return 1;
+            tier = SoulUtils.getTier(itemStack, level);
+            if(tier == null) {
+                return 0;
+            }
         }
 
-        double percentage = ((double) SoulUtils.getSoulsInCrystal(itemStack) / (tier.getRequiredSouls()));
+        double percentage = ((double) SoulUtils.getSoulsInCrystal(itemStack) / (tier.requiredSouls()));
 
-        return SoulUtils.isMaxTier(itemStack) ? 1 : percentage;
+        return Math.min(percentage, 1);
     }
 
     @Override
@@ -70,8 +73,11 @@ public class SoulCrystalItem extends Item {
         return ClientUtils.isItemInHand(stack);
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
     public int getBarWidth(@NotNull ItemStack itemStack) {
-        return (int) (getPercentage(itemStack) * 13);
+        ClientLevel level = Minecraft.getInstance().level;
+        if(level != null) return (int) (getPercentage(itemStack, level) * 13);
+        return 0;
     }
 }

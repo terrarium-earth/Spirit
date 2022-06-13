@@ -6,7 +6,6 @@ import com.mojang.serialization.Encoder;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.codexadrian.spirit.EngulfableItem;
-import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.utils.RecipeUtils;
 import net.minecraft.core.BlockPos;
@@ -25,9 +24,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input, int duration, boolean breaksBlocks, Item output, int outputAmount) implements Recipe<Container> {
 
@@ -97,7 +94,7 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
         }
         return false;
     }
-    public static List<SoulEngulfingRecipe> getRecipeForStack(ItemStack stack, RecipeManager manager) {
+    public static List<SoulEngulfingRecipe> getRecipesForStack(ItemStack stack, RecipeManager manager) {
         return manager.getAllRecipesFor(SpiritRegistry.SOUL_ENGULFING_RECIPE.get()).stream().filter(recipe -> recipe.input.item().test(stack)).toList();
     }
 
