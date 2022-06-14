@@ -39,7 +39,7 @@ public class CrudeSoulCrystalItem extends Item {
 
     @Override
     public int getBarColor(@NotNull ItemStack itemStack) {
-        return 0x00fffb;
+        return Spirit.SOUL_COLOR;
     }
 
     @Override

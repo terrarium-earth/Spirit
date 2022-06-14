@@ -6,7 +6,8 @@
   "mixins": [
     "BaseFireBlockMixin",
     "ItemEntityMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "MobEffectInstanceAccessor"
   ],
   "client": [
     "EntityRendererMixin"

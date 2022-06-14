@@ -23,11 +23,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 public record Tier(ResourceLocation id, String displayName, int requiredSouls, int minSpawnDelay, int maxSpawnDelay, int spawnCount, int spawnRange, int nearbyRange,
-                   boolean redstoneControlled, boolean ignoreSpawnConditions, Set<String> blacklist) implements Recipe<Container> {
+                   boolean redstoneControlled, boolean ignoreSpawnConditions, Set<String> blacklist) implements SyncedData {
 
     public static Codec<Tier> codec(ResourceLocation id) {
         return RecordCodecBuilder.create(instance -> instance.group(
-                MapCodec.of(Encoder.empty(), Decoder.unit(() -> id)).forGetter(Tier::id),
+                RecordCodecBuilder.point(id),
                 Codec.STRING.fieldOf("displayName").forGetter(Tier::displayName),
                 Codec.INT.fieldOf("requiredSouls").forGetter(Tier::requiredSouls),
                 Codec.INT.fieldOf("minSpawnDelay").forGetter(Tier::minSpawnDelay),
@@ -42,28 +42,8 @@ public record Tier(ResourceLocation id, String displayName, int requiredSouls, i
     }
 
     @Override
-    public boolean matches(@NotNull Container container, @NotNull Level level) {
-        return false;
-    }
-
-    @Override
-    public ItemStack assemble(@NotNull Container container) {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public boolean canCraftInDimensions(int i, int j) {
-        return true;
-    }
-
-    @Override
-    public ItemStack getResultItem() {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
     public ResourceLocation getId() {
-        return id;
+        return id();
     }
 
     @Override

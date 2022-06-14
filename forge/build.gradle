@@ -56,6 +56,15 @@ sourcesJar {
     from commonSources.archiveFile.map { zipTree(it) }
 }
 
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from(sourceSets.main.resources.srcDirs) {
+        include('**/data/spirit/recipes/**')
+        expand "common": "forge"
+    }
+}
+
+
 components.java {
     withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
         skip()

@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -13,9 +14,10 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-public class SoulArrowEntity extends AbstractArrow implements ItemSupplier {
+public class SoulArrowEntity extends Arrow implements ItemSupplier {
 
-    public SoulArrowEntity(EntityType<? extends AbstractArrow> entityType, Level level) {
+
+    public SoulArrowEntity(EntityType<? extends Arrow> entityType, Level level) {
         super(entityType, level);
     }
 
@@ -43,16 +45,6 @@ public class SoulArrowEntity extends AbstractArrow implements ItemSupplier {
         for (int i = 0; i < 4; i++) {
             this.level.addParticle(ParticleTypes.SOUL, h - e * 0.25, j - f * 0.25, k - g * 0.25, e, f, g);
         }
-    }
-
-    @Override
-    public double getBaseDamage() {
-        return 3.25;
-    }
-
-    @Override
-    public void setBaseDamage(double d) {
-        super.setBaseDamage(d);
     }
 
     @Override

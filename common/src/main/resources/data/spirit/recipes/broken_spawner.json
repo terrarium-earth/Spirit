@@ -4,10 +4,24 @@
     "ingredient": {
       "item": "spirit:broken_spawner"
     },
-    "catalyst": {
-      "blocks": [
-        "minecraft:obsidian"
-      ]
+    "multiblock": {
+      "pattern": [
+        [
+          "   ",
+          " @ ",
+          "   "
+        ],
+        [
+          " S ",
+          "S S",
+          " S "
+        ]
+      ],
+      "keys": {
+        "S": {
+          "blocks": "minecraft:obsidian"
+        }
+      }
     }
   },
   "duration": 40,

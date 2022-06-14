@@ -4,10 +4,24 @@
     "ingredient": {
       "item": "minecraft:tinted_glass"
     },
-    "catalyst": {
-      "blocks": [
-        "minecraft:lapis_block"
-      ]
+    "multiblock": {
+      "pattern": [
+        [
+          "   ",
+          " @ ",
+          "   "
+        ],
+        [
+          " S ",
+          "S S",
+          " S "
+        ]
+      ],
+      "keys": {
+        "S": {
+          "blocks": "${modloader}:lapis"
+        }
+      }
     }
   },
   "duration": 40,

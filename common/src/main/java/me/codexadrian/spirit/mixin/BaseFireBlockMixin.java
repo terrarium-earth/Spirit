@@ -24,9 +24,9 @@ public abstract class BaseFireBlockMixin {
 
     @Inject(method = "entityInside", at = @At("HEAD"), cancellable = true)
     private void onBurn(BlockState blockState, Level level, BlockPos blockPos, Entity entity, CallbackInfo ci) {
-        if (blockState.is(Blocks.SOUL_FIRE) && entity instanceof ItemEntity itemE && !level.isClientSide) {
+        if (blockState.is(Blocks.SOUL_FIRE) && entity instanceof ItemEntity itemE && level instanceof ServerLevel serverLevel) {
             for(var recipe : SoulEngulfingRecipe.getRecipesForStack(itemE.getItem(), level.getRecipeManager())) {
-                if(recipe.validateRecipe(blockPos, itemE, level)) {
+                if(recipe.validateRecipe(blockPos, itemE, serverLevel)) {
                     ci.cancel();
                     break;
                 }
@@ -43,8 +43,7 @@ public abstract class BaseFireBlockMixin {
                 ItemStack tool = itemE.getItem();
                 if(tool.isDamaged() && level.random.nextBoolean()) {
                     tool.setDamageValue(tool.getDamageValue() - 1);
-                    ServerLevel sLevel = (ServerLevel) itemE.level;
-                    sLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 5, 0.5, 0.75, 0.5, 0);
+                    serverLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 5, 0.5, 0.75, 0.5, 0);
                 }
             }
         }

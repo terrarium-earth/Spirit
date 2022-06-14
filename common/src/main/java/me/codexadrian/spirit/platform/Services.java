@@ -1,6 +1,7 @@
 package me.codexadrian.spirit.platform;
 
 import me.codexadrian.spirit.Constants;
+import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.platform.services.IPlatformHelper;
 import me.codexadrian.spirit.platform.services.IRegistryHelper;
 
@@ -15,7 +16,7 @@ public class Services {
         final T loadedService = ServiceLoader.load(clazz)
                 .findFirst()
                 .orElseThrow(() -> new NullPointerException("Failed to load service for " + clazz.getName()));
-        Constants.LOGGER.debug("Loaded {} for service {}", loadedService, clazz);
+        Spirit.LOGGER.debug("Loaded {} for service {}", loadedService, clazz);
 
         return loadedService;
     }

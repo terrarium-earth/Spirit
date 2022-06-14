@@ -1,0 +1,11 @@
+{
+  "type": "spirit:soul_arrow_mob_effect",
+  "entity": "minecraft:stray",
+  "potionEffects": [
+    {
+      "effect": "minecraft:slowness",
+      "duration": 120,
+      "amplifier": 1
+    }
+  ]
+}

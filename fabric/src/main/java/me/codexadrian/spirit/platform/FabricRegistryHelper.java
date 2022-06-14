@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 
 import java.util.function.Supplier;
 
-import static me.codexadrian.spirit.Constants.MODID;
+import static me.codexadrian.spirit.Spirit.MODID;
 
 public class FabricRegistryHelper implements IRegistryHelper {
 

@@ -36,6 +36,15 @@ processResources {
     }
 }
 
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from(sourceSets.main.resources.srcDirs) {
+        include('**/data/spirit/recipes/**')
+        expand "dependent": "c"
+    }
+}
+
+
 shadowJar {
     exclude "architectury.common.json"
 

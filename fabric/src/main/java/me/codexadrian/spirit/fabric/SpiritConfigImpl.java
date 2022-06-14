@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.codexadrian.spirit.Constants;
+import me.codexadrian.spirit.Spirit;
 import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class SpiritConfigImpl {
     }
 
     public static FabricSpiritConfig loadConfig(Path configFolder) {
-        Path configPath = configFolder.resolve(Constants.MODID + ".json");
+        Path configPath = configFolder.resolve(Spirit.MODID + ".json");
         FabricSpiritConfig config = null;
 
         if (!Files.exists(configPath)) config = DEFAULT_CONFIG;
@@ -55,13 +56,13 @@ public class SpiritConfigImpl {
                 config = CODEC.parse(JsonOps.INSTANCE, json).result().orElse(DEFAULT_CONFIG);
 
             } catch (Exception e) {
-                Constants.LOGGER.error("Error parsing config file for mod " + Constants.MODID);
+                Spirit.LOGGER.error("Error parsing config file for mod " + Spirit.MODID);
             }
         }
         try {
             FileUtils.write(configPath.toFile(), CODEC.encodeStart(JsonOps.INSTANCE, config).toString(), StandardCharsets.UTF_8);
         } catch (Exception exception) {
-            Constants.LOGGER.error("Error writing config file for mod " + Constants.MODID);
+            Spirit.LOGGER.error("Error writing config file for mod " + Spirit.MODID);
         }
         SpiritConfigImpl.config = config;
         return config;

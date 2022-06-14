@@ -13,7 +13,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(Constants.MODID)
+@Mod(Spirit.MODID)
 public class ForgeSpirit {
 
     public ForgeSpirit() {

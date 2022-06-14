@@ -1,5 +1,6 @@
 package me.codexadrian.spirit.items;
 
+import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.recipe.Tier;
 import me.codexadrian.spirit.utils.ClientUtils;
 import me.codexadrian.spirit.utils.SoulUtils;
@@ -64,7 +65,7 @@ public class SoulCrystalItem extends Item {
 
     @Override
     public int getBarColor(@NotNull ItemStack itemStack) {
-        return 0x00fffb;
+        return Spirit.SOUL_COLOR;
     }
 
     @Override

@@ -71,23 +71,22 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
             if (entity instanceof Player player) {
                 if (!victim.getType().is(SpiritRegistry.BLACKLISTED_TAG)) {
                     if (victim.canChangeDimensions() && (SpiritConfig.isCollectFromCorrupt() || !corrupt.isCorrupted())) {
+                        boolean pedestalHasCrystal = false;
                         ItemStack crystal = ItemStack.EMPTY;
                         int radius = SpiritConfig.getSoulPedestalRadius();
                         AABB entityArea = victim.getBoundingBox().inflate(radius, 2, radius);
                         Optional<BlockPos> pedestalPos = BlockPos.betweenClosedStream(entityArea).filter(pos -> level.getBlockEntity(pos) instanceof SoulPedestalBlockEntity).map(BlockPos::immutable).findFirst();
                         if(pedestalPos.isPresent() && level.getBlockEntity(pedestalPos.get()) instanceof SoulPedestalBlockEntity pedestal && !pedestal.isEmpty()) {
                             crystal = pedestal.getItem(0);
+                            pedestalHasCrystal = true;
                         }
                         if(crystal.isEmpty() && !SoulUtils.canCrystalAcceptSoul(crystal, victim)) {
-                            crystal = SoulUtils.getSoulCrystal(player, victim);
-                            if (crystal.isEmpty()) {
-                                crystal = SoulUtils.getCrudeSoulCrystal(player);
-                            }
+                            crystal = SoulUtils.findCrystal(player, victim, false);
                         }
                         if(!crystal.isEmpty()) {
                             if(crystal.is(SpiritRegistry.SOUL_CRYSTAL.get())) SoulUtils.handleSoulCrystal(crystal, player, victim);
                             else if(crystal.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get())) SoulUtils.handleCrudeSoulCrystal(crystal, player, victim);
-                            if(pedestalPos.isPresent()) {
+                            if(pedestalPos.isPresent() && pedestalHasCrystal) {
                                 ServerLevel sLevel = (ServerLevel) player.level;
                                 sLevel.sendParticles(ParticleTypes.SOUL, pedestalPos.get().getX() + 0.5, pedestalPos.get().getY() + 0.5, pedestalPos.get().getZ() + 0.5, 15, 0.5, 1, 0.5, 0);
                                 sLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, pedestalPos.get().getX() + 0.5, pedestalPos.get().getY() + 0.5, pedestalPos.get().getZ() + 0.5, 15, 0.5, 1, 0.5, 0);

@@ -1,5 +1,6 @@
 package me.codexadrian.spirit.utils;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import me.codexadrian.spirit.SpiritConfig;
 import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.recipe.Tier;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -92,24 +94,39 @@ public class SoulUtils {
         return null;
     }
 
-    public static ItemStack getSoulCrystal(Player player, LivingEntity victim) {
+    public static ItemStack findCrystal(Player player, @Nullable LivingEntity victim, boolean mustContainSouls) {
+        ItemStack returnStack;
+        returnStack = searchTrinkets(player, victim);
+        if(returnStack.isEmpty()) returnStack = getSoulCrystal(player.getHandSlots(), victim, mustContainSouls);
+        if(returnStack.isEmpty()) returnStack = getCrudeSoulCrystal(player.getHandSlots(), mustContainSouls);
+        if(returnStack.isEmpty()) returnStack = getSoulCrystal(player.getInventory().items, victim, mustContainSouls);
+        if(returnStack.isEmpty()) returnStack = getCrudeSoulCrystal(player.getInventory().items, mustContainSouls);
+        return returnStack;
+    }
+
+    @ExpectPlatform
+    public static ItemStack searchTrinkets(Player player, @Nullable LivingEntity victim) {
+        throw new AssertionError();
+    }
+
+    public static ItemStack getSoulCrystal(Iterable<ItemStack> inventory, @Nullable LivingEntity victim, boolean mustContainSouls) {
         ItemStack savedStack = ItemStack.EMPTY;
         int savedSouls = 0;
-
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            ItemStack currentItem = player.getInventory().getItem(i);
-            if (currentItem.getItem() != SpiritRegistry.SOUL_CRYSTAL.get()) {
+        for (ItemStack currentItem : inventory) {
+            if (!currentItem.is(SpiritRegistry.SOUL_CRYSTAL.get()) || getSoulsInCrystal(currentItem) <= 0 && !mustContainSouls) {
                 continue;
             }
-
-            if (savedStack.isEmpty() && canCrystalAcceptSoul(currentItem, victim)) {
-                savedStack = currentItem;
-            } else {
-                if (currentItem.getTag() != null) {
-                    //if the current savedStack either is empty or has some amount of souls in it. therefore any new crystal that's empty
-                    //is either equal to or worse than the saved stack, so the current item, if it is empty, should be skipped.
-                    int souls = getSoulsInCrystal(currentItem);
-                    if (canCrystalAcceptSoul(currentItem, victim)) {
+            if(victim == null) {
+                return currentItem;
+            }
+            if(canCrystalAcceptSoul(currentItem, victim)) {
+                if (savedStack.isEmpty()) {
+                    savedStack = currentItem;
+                } else {
+                    if (currentItem.getTag() != null) {
+                        //if the current savedStack either is empty or has some amount of souls in it. therefore any new crystal that's empty
+                        //is either equal to or worse than the saved stack, so the current item, if it is empty, should be skipped.
+                        int souls = getSoulsInCrystal(currentItem);
                         if (souls > savedSouls) {
                             savedStack = currentItem;
                             savedSouls = souls;
@@ -118,17 +135,15 @@ public class SoulUtils {
                 }
             }
         }
-
         return savedStack;
     }
 
-    public static ItemStack getCrudeSoulCrystal(Player player) {
+    public static ItemStack getCrudeSoulCrystal(Iterable<ItemStack> inventory, boolean mustContainSouls) {
         ItemStack savedStack = ItemStack.EMPTY;
         int savedSouls = 0;
 
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            ItemStack currentItem = player.getInventory().getItem(i);
-            if (!currentItem.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get())) {
+        for (ItemStack currentItem : inventory) {
+            if (!currentItem.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get()) || getSoulsInCrystal(currentItem) <= 0 && !mustContainSouls) {
                 continue;
             }
 

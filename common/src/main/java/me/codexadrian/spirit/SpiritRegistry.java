@@ -16,6 +16,7 @@ import me.codexadrian.spirit.items.SoulBowItem;
 import me.codexadrian.spirit.items.SoulCrystalItem;
 import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.recipe.ResourcefulRecipeSerializer;
+import me.codexadrian.spirit.recipe.SoulArrowEffect;
 import me.codexadrian.spirit.recipe.SoulEngulfingRecipe;
 import me.codexadrian.spirit.recipe.Tier;
 import net.minecraft.core.Registry;
@@ -41,7 +42,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
-import static me.codexadrian.spirit.Constants.MODID;
+import static me.codexadrian.spirit.Spirit.MODID;
 import static me.codexadrian.spirit.Spirit.SPIRIT;
 
 public class SpiritRegistry {
@@ -98,6 +99,7 @@ public class SpiritRegistry {
             return "soul_engulfing";
         }
     });
+    public static final Supplier<RecipeSerializer<SoulEngulfingRecipe>> SOUL_ENGULFING_SERIALIZER = Services.REGISTRY.registerRecipeSerializer("soul_engulfing", () -> new ResourcefulRecipeSerializer<>(SOUL_ENGULFING_RECIPE.get(), SoulEngulfingRecipe::codec));
 
     public static final Supplier<RecipeType<Tier>> TIER_RECIPE = Services.REGISTRY.registerRecipeType("soul_cage_tier", () -> new RecipeType<>() {
         @Override
@@ -106,9 +108,17 @@ public class SpiritRegistry {
         }
     });
 
-    public static final Supplier<RecipeSerializer<SoulEngulfingRecipe>> SOUL_ENGULFING_SERIALIZER = Services.REGISTRY.registerRecipeSerializer("soul_engulfing", () -> new ResourcefulRecipeSerializer<>(SOUL_ENGULFING_RECIPE.get(), SoulEngulfingRecipe::codec));
 
     public static final Supplier<RecipeSerializer<Tier>> TIER_SERIALIZER = Services.REGISTRY.registerRecipeSerializer("soul_cage_tier", () -> new ResourcefulRecipeSerializer<>(TIER_RECIPE.get(), Tier::codec));
+
+    public static final Supplier<RecipeType<SoulArrowEffect>> SOUL_ARROW_EFFECT_RECIPE = Services.REGISTRY.registerRecipeType("soul_arrow_mob_effect", () -> new RecipeType<>() {
+        @Override
+        public String toString() {
+            return "soul_arrow_mob_effect";
+        }
+    });
+
+    public static final Supplier<RecipeSerializer<SoulArrowEffect>> SOUL_ARROW_EFFECT_SERIALIZER = Services.REGISTRY.registerRecipeSerializer("soul_arrow_mob_effect", () -> new ResourcefulRecipeSerializer<>(SOUL_ARROW_EFFECT_RECIPE.get(), SoulArrowEffect::codec));
 
     private static Supplier<Item> registerItem(String id, Supplier<Item> item) {
         return Services.REGISTRY.registerItem(id, item);

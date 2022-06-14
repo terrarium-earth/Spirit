@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import me.codexadrian.spirit.Constants;
+import me.codexadrian.spirit.Spirit;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.function.Function;
 
+//Completely copied and pasted from the Resourceful bees mod, with the expressed permission of Mr.ThatGravyBoat
 public class ResourcefulRecipeSerializer<R extends Recipe<?>> implements RecipeSerializer<R> {
     private static final Gson GSON = new Gson();
     private final RecipeType<R> recipeType;
@@ -30,7 +32,7 @@ public class ResourcefulRecipeSerializer<R extends Recipe<?>> implements RecipeS
 
     @Override
     public @NotNull R fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
-        return codecInitializer.apply(id).parse(JsonOps.INSTANCE, json).getOrThrow(false, s -> Constants.LOGGER.error("Could not parse {}", id));
+        return codecInitializer.apply(id).parse(JsonOps.INSTANCE, json).getOrThrow(false, s -> Spirit.LOGGER.error("Could not parse {}", id));
     }
 
     @Nullable

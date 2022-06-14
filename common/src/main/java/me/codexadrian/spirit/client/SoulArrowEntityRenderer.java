@@ -6,6 +6,7 @@ import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import me.codexadrian.spirit.Constants;
+import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.entity.SoulArrowEntity;
 import me.codexadrian.spirit.platform.ClientServices;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -22,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SoulArrowEntityRenderer extends ArrowRenderer<SoulArrowEntity> {
 
-    public static ResourceLocation SOUL_ARROW = new ResourceLocation(Constants.MODID, "textures/entity/soul_arrow.png");
+    public static ResourceLocation SOUL_ARROW = new ResourceLocation(Spirit.MODID, "textures/entity/soul_arrow.png");
 
     public SoulArrowEntityRenderer(EntityRendererProvider.Context context) {
         super(context);

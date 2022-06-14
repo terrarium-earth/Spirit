@@ -1,5 +1,6 @@
 package me.codexadrian.spirit.items;
 
+import me.codexadrian.spirit.Spirit;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
@@ -13,7 +14,7 @@ public class SoulBladeItem extends SwordItem {
 
     @Override
     public int getBarColor(@NotNull ItemStack itemStack) {
-        return 0x00fffb;
+        return Spirit.SOUL_COLOR;
     }
 
     public static class SoulSwordMaterial implements Tier {

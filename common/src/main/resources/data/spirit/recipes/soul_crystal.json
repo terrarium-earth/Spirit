@@ -4,8 +4,24 @@
     "ingredient": {
       "item": "minecraft:amethyst_shard"
     },
-    "catalyst": {
-      "tag": "spirit:soul_glass"
+    "multiblock": {
+      "pattern": [
+        [
+          "   ",
+          " @ ",
+          "   "
+        ],
+        [
+          " S ",
+          "S S",
+          " S "
+        ]
+      ],
+      "keys": {
+        "S": {
+          "blocks": "#spirit:soul_glass"
+        }
+      }
     }
   },
   "duration": 40,
