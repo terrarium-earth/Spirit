@@ -1,0 +1,12 @@
+{
+  "type": "spirit:soul_arrow_mob_effect",
+  "entity": "minecraft:shulker",
+  "potionEffects": [
+    {
+      "effect": "minecraft:shulker",
+      "duration": 120,
+      "amplifier": 1
+    }
+  ],
+  "additionalDamage": 1.5
+}

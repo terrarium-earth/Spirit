@@ -1,9 +1,9 @@
 {
   "type": "spirit:soul_arrow_mob_effect",
-  "entity": "minecraft:stray",
+  "entity": "minecraft:magma_cube",
   "potionEffects": [
     {
-      "effect": "minecraft:slowness",
+      "effect": "minecraft:fire_resistance",
       "duration": 120
     }
   ]

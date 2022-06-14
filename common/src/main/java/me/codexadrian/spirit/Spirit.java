@@ -23,20 +23,6 @@ public class Spirit {
     public static final int SOUL_COLOR = 0xFF00fffb;
 
     public static void onInitialize() {
-        //TODO make soul bow shoot effects per entity type if the bow shoots from a soul crystal
-        //Blaze shoot fire
-        //Wither shoot with wither effect
-        //Slime & Rabbit shoot with jump boost
-        //Witch shoot with
-        //Strays shoot with slowness
-        //Husks shoot with hunger
-        //Allays shoot with regeneration
-        //Wardens shoot with Darkness
-        //Cave Spiders & Bees shoot with poison
-        //Cats shoot with Speed
-        //Shulkers shoot levitation
-        //Glowsquid shoots glowing
-        //Dolphin shoots dolphin's grace
         SpiritRegistry.registerAll();
     }
 }

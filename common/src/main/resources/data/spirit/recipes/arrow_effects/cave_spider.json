@@ -1,0 +1,11 @@
+{
+  "type": "spirit:soul_arrow_mob_effect",
+  "entity": "minecraft:cave_spider",
+  "potionEffects": [
+    {
+      "effect": "minecraft:poison",
+      "duration": 120
+    }
+  ],
+  "additionalDamage": 0.75
+}

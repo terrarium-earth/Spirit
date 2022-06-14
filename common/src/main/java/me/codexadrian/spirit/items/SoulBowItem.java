@@ -38,7 +38,7 @@ public class SoulBowItem extends BowItem {
             float power;
             boolean isCreative = player.getAbilities().instabuild;
             ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true);
-            if ((soulCrystal.isEmpty() && SoulUtils.getSoulsInCrystal(soulCrystal) == 0) || !isCreative) {
+            if ((soulCrystal.isEmpty() || SoulUtils.getSoulsInCrystal(soulCrystal) == 0) && !isCreative) {
                 return;
             }
             if ((double)(power = BowItem.getPowerForTime(this.getUseDuration(itemStack) - drawTime)) < 0.1) {
@@ -64,6 +64,9 @@ public class SoulBowItem extends BowItem {
                             for(var effect : potionEffects.get()) {
                                 abstractArrow.addEffect(new MobEffectInstance(effect));
                             }
+                        }
+                        if(arrowEffect.get().isExplosive()) {
+                            abstractArrow.enableExplosion(arrowEffect.get().explosionPower());
                         }
                     }
                 }

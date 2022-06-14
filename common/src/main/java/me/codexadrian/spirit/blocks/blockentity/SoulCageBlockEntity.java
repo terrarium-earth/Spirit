@@ -1,5 +1,6 @@
 package me.codexadrian.spirit.blocks.blockentity;
 
+import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.SpiritRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -132,12 +133,13 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
             type = null;
         }
     }
+    @SuppressWarnings("ConstantConditions")
     @NotNull
     public Entity getOrCreateEntity() {
-        if(this.entity == null && this.getLevel() != null) {
+        if(this.entity == null && this.hasLevel()) {
             this.entity = this.type.create(getLevel());
+            if(entity instanceof Corrupted corrupted) corrupted.setCorrupted();
         }
-        //noinspection ConstantConditions
         return entity;
     }
 

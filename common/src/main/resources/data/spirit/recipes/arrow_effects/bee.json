@@ -1,9 +1,9 @@
 {
   "type": "spirit:soul_arrow_mob_effect",
-  "entity": "minecraft:stray",
+  "entity": "minecraft:bee",
   "potionEffects": [
     {
-      "effect": "minecraft:slowness",
+      "effect": "minecraft:poison",
       "duration": 120
     }
   ]

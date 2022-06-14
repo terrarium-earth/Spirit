@@ -1,0 +1,7 @@
+{
+  "type": "spirit:soul_arrow_mob_effect",
+  "entity": "minecraft:creeper",
+  "additionalDamage": 0.5,
+  "isExplosive": true,
+  "explosionPower": 3.0
+}

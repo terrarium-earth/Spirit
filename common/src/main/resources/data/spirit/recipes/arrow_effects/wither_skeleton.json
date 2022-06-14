@@ -1,0 +1,12 @@
+{
+  "type": "spirit:soul_arrow_mob_effect",
+  "entity": "minecraft:wither_skeleton",
+  "potionEffects": [
+    {
+      "effect": "minecraft:wither",
+      "duration": 120,
+      "amplifier": 1
+    }
+  ],
+  "additionalDamage": 1.5
+}

@@ -17,7 +17,7 @@ public class SoulCageRenderer implements BlockEntityRenderer<SoulCageBlockEntity
 
     @Override
     public void render(SoulCageBlockEntity blockEntity, float f, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource multiBufferSource, int i, int j) {
-        if (blockEntity.getLevel() != null || blockEntity.type == null) return;
+        if (!blockEntity.hasLevel() || blockEntity.type == null) return;
         matrixStack.pushPose();
         matrixStack.translate(0.5D, 0.0D, 0.5D);
         var entity = blockEntity.getOrCreateEntity();

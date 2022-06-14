@@ -1,0 +1,11 @@
+{
+  "type": "spirit:soul_arrow_mob_effect",
+  "entity": "minecraft:rabbit",
+  "potionEffects": [
+    {
+      "effect": "minecraft:jump_boost",
+      "duration": 120,
+      "amplifier": 1
+    }
+  ]
+}

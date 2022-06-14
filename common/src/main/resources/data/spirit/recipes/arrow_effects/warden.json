@@ -1,0 +1,11 @@
+{
+  "type": "spirit:soul_arrow_mob_effect",
+  "entity": "minecraft:warden",
+  "potionEffects": [
+    {
+      "effect": "minecraft:darkness",
+      "duration": 120
+    }
+  ],
+  "additionalDamage": 2.5
+}

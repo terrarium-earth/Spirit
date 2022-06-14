@@ -1,0 +1,7 @@
+{
+  "type": "spirit:soul_arrow_mob_effect",
+  "entity": "minecraft:ghast",
+  "additionalDamage": 1.0,
+  "isOnFire": true,
+  "isExplosive": true
+}

@@ -15,7 +15,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import java.util.List;
 import java.util.Optional;
 
-public record SoulArrowEffect(ResourceLocation id, EntityType<?> entity, boolean isOnFire, int burnTime, double additionalDamage, Optional<List<MobEffectInstance>> potionEffects) implements SyncedData {
+public record SoulArrowEffect(ResourceLocation id, EntityType<?> entity, boolean isOnFire, int burnTime, boolean isExplosive, float explosionPower, double additionalDamage, Optional<List<MobEffectInstance>> potionEffects) implements SyncedData {
 
     public static Codec<MobEffectInstance> EFFECT_CODEC;
 
@@ -37,6 +37,8 @@ public record SoulArrowEffect(ResourceLocation id, EntityType<?> entity, boolean
                 Registry.ENTITY_TYPE.byNameCodec().fieldOf("entity").forGetter(SoulArrowEffect::entity),
                 Codec.BOOL.fieldOf("isOnFire").orElse(false).forGetter(SoulArrowEffect::isOnFire),
                 Codec.INT.fieldOf("burnTime").orElse(100).forGetter(SoulArrowEffect::burnTime),
+                Codec.BOOL.fieldOf("isExplosive").orElse(false).forGetter(SoulArrowEffect::isExplosive),
+                Codec.FLOAT.fieldOf("explosionPower").orElse(2.0F).forGetter(SoulArrowEffect::explosionPower),
                 Codec.DOUBLE.fieldOf("additionalDamage").orElse(0.0).forGetter(SoulArrowEffect::additionalDamage),
                 EFFECT_CODEC.listOf().optionalFieldOf("potionEffects").forGetter(SoulArrowEffect::potionEffects)
         ).apply(instance, SoulArrowEffect::new));

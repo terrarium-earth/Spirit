@@ -25,7 +25,6 @@ public class SoulPedestalRenderer implements BlockEntityRenderer<SoulPedestalBlo
         if (!blockEntity.hasLevel() || blockEntity.isEmpty()) return;
         matrixStack.pushPose();
         matrixStack.translate(0.5D, 0.85, 0.5D);
-        //TODO make spin
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(blockEntity.age % 360));
         matrixStack.translate(0, Math.sin(blockEntity.age * .1) * 0.05 + 0.05,0);
         itemRenderer.renderStatic(blockEntity.getItem(0), ItemTransforms.TransformType.GROUND, i, OverlayTexture.NO_OVERLAY, matrixStack, multiBufferSource, 0);
