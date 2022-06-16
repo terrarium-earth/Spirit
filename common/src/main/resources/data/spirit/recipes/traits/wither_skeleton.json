@@ -3,7 +3,7 @@
   "entity": "minecraft:wither_skeleton",
   "traits": [
     {
-      "spirit": "potion_effect",
+      "type": "spirit:potion_effect",
       "effects": [
         {
           "effect": "minecraft:wither",

@@ -24,10 +24,11 @@ public class SoulPedestalRenderer implements BlockEntityRenderer<SoulPedestalBlo
     public void render(SoulPedestalBlockEntity blockEntity, float f, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource multiBufferSource, int i, int j) {
         if (!blockEntity.hasLevel() || blockEntity.isEmpty()) return;
         matrixStack.pushPose();
-        matrixStack.translate(0.5D, 0.85, 0.5D);
+        matrixStack.translate(0.5D, 1.05D, 0.5D);
         matrixStack.mulPose(Vector3f.YP.rotationDegrees(blockEntity.age % 360));
+        matrixStack.scale(0.615f, 0.615f, 0.615f);
         matrixStack.translate(0, Math.sin(blockEntity.age * .1) * 0.05 + 0.05,0);
-        itemRenderer.renderStatic(blockEntity.getItem(0), ItemTransforms.TransformType.GROUND, i, OverlayTexture.NO_OVERLAY, matrixStack, multiBufferSource, 0);
+        itemRenderer.renderStatic(blockEntity.getItem(0), ItemTransforms.TransformType.NONE, i, OverlayTexture.NO_OVERLAY, matrixStack, multiBufferSource, 0);
         matrixStack.popPose();
     }
 }

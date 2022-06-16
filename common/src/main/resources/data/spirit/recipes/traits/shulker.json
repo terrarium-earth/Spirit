@@ -3,7 +3,7 @@
   "entity": "minecraft:shulker",
   "traits": [
     {
-      "type": "spirit:potion",
+      "type": "spirit:potion_effect",
       "effects": [
         {
           "effect": "minecraft:levitation",

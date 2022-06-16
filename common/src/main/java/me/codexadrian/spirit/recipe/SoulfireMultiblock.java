@@ -1,24 +1,21 @@
 package me.codexadrian.spirit.recipe;
 
-import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.critereon.BlockPredicate;
 import net.minecraft.advancements.critereon.NbtPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public record SoulfireMultiblock(List<List<String>> pattern, Map<String, StrippedBlockPredicate> keys) {
     //'@' for soul fire
@@ -38,8 +35,6 @@ public record SoulfireMultiblock(List<List<String>> pattern, Map<String, Strippe
             Codec.unboundedMap(Codec.STRING, StrippedBlockPredicate.CODEC).fieldOf("keys").forGetter(SoulfireMultiblock::keys)
     ).apply(instance, SoulfireMultiblock::new));
 
-    public static final SoulfireMultiblock DEFAULT_RECIPE = new SoulfireMultiblock(List.of(List.of("@"), List.of(" ")), new HashMap<>());
-
     public static HashMap<String, StrippedBlockPredicate> RESERVED_VALUES = new HashMap<>();
 
     static {
@@ -48,11 +43,11 @@ public record SoulfireMultiblock(List<List<String>> pattern, Map<String, Strippe
     }
 
     public boolean validateMultiblock(BlockPos blockPos, ServerLevel level, boolean breakBlock) {
-        BlockPos fireCoordinate = new BlockPos(0,0,0);
+        BlockPos fireCoordinate = new BlockPos(0, 0, 0);
         for (int y = pattern.size() - 1; y >= 0; y--) {
             for (int x = 0; x < pattern.get(0).size(); x++) {
                 char[] chars = pattern.get(y).get(x).toCharArray();
-                for(int z = 0; z < chars.length; z++) {
+                for (int z = 0; z < chars.length; z++) {
                     if (chars[z] == '@') {
                         fireCoordinate = new BlockPos(x, y, z);
                         break;
@@ -61,31 +56,29 @@ public record SoulfireMultiblock(List<List<String>> pattern, Map<String, Strippe
             }
         }
 
-        //blockPos = blockPos.subtract(fireCoordinate);
-
         Map<BlockPos, Character> placementMap = new HashMap<>();
         for (int y = pattern.size() - 1; y >= 0; y--) {
             for (int x = 0; x < pattern.get(0).size(); x++) {
                 char[] chars = pattern.get(y).get(x).toCharArray();
-                for(int z = 0; z < chars.length; z++) {
+                for (int z = 0; z < chars.length; z++) {
                     placementMap.put(blockPos.offset(x - fireCoordinate.getX(), fireCoordinate.getY() - y, z - fireCoordinate.getZ()).immutable(), chars[z]);
                 }
             }
         }
-        for(Map.Entry<BlockPos, Character> block : placementMap.entrySet()) {
+        for (Map.Entry<BlockPos, Character> block : placementMap.entrySet()) {
             String key = String.valueOf(block.getValue());
             StrippedBlockPredicate blockPredicate = keys.get(key);
-            if(blockPredicate == null) blockPredicate = RESERVED_VALUES.get(key);
-            if(blockPredicate == null || !blockPredicate.matches(level, block.getKey())) {
+            if (blockPredicate == null) blockPredicate = RESERVED_VALUES.get(key);
+            if (blockPredicate == null || !blockPredicate.matches(level, block.getKey())) {
                 return false;
             }
         }
-        if(breakBlock) {
-            for(Map.Entry<BlockPos, Character> block : placementMap.entrySet()) {
+        if (breakBlock) {
+            for (Map.Entry<BlockPos, Character> block : placementMap.entrySet()) {
                 String key = String.valueOf(block.getValue());
                 StrippedBlockPredicate blockPredicate = keys.get(key);
-                if(blockPredicate == null) blockPredicate = RESERVED_VALUES.get(key);
-                if(blockPredicate != null) {
+                if (blockPredicate == null) blockPredicate = RESERVED_VALUES.get(key);
+                if (blockPredicate != null) {
                     if (blockPredicate.matches(level, block.getKey())) {
                         level.destroyBlock(block.getKey(), false);
                     }
@@ -112,12 +105,13 @@ public record SoulfireMultiblock(List<List<String>> pattern, Map<String, Strippe
         ).apply(instance, StrippedBlockPredicate::new));
 
         public boolean matches(ServerLevel serverLevel, BlockPos blockPos) {
-            if(blocks().isPresent()) {
-                if(!serverLevel.getBlockState(blockPos).is(this.blocks().get())) return false;
+            if (blocks().isPresent()) {
+                if (!serverLevel.getBlockState(blockPos).is(this.blocks().get())) return false;
             }
-            if(nbtTag().isPresent()) {
+            if (nbtTag().isPresent()) {
                 var blockEntity = serverLevel.getBlockEntity(blockPos);
-                if(blockEntity != null) return new NbtPredicate(this.nbtTag().get()).matches(blockEntity.saveWithFullMetadata());
+                if (blockEntity != null)
+                    return new NbtPredicate(this.nbtTag().get()).matches(blockEntity.saveWithFullMetadata());
             }
             return true;
         }

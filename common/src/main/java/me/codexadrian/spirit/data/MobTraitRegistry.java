@@ -2,15 +2,18 @@ package me.codexadrian.spirit.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import me.codexadrian.spirit.data.entitytraits.DamageTrait;
-import me.codexadrian.spirit.data.entitytraits.ExplosionTrait;
-import me.codexadrian.spirit.data.entitytraits.FireTrait;
-import me.codexadrian.spirit.data.entitytraits.PotionTrait;
+import me.codexadrian.spirit.data.entitytraits.*;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+/**
+ * This class was largely inspired by or taken from the Resourceful Bees repository with
+ * the expressed permission from one of their developers.
+ * @author Team Resourceful
+ */
 
 public class MobTraitRegistry {
     public static final Codec<MobTraitSerializer<?>> TRAIT_CODEC = ResourceLocation.CODEC.comapFlatMap(MobTraitRegistry::decode, MobTraitSerializer::id);
@@ -22,6 +25,7 @@ public class MobTraitRegistry {
         add(PotionTrait.SERIALIZER);
         add(FireTrait.SERIALIZER);
         add(DamageTrait.SERIALIZER);
+        add(KnockbackTrait.SERIALIZER);
     }
 
     private static DataResult<? extends MobTraitSerializer<?>> decode(ResourceLocation id) {

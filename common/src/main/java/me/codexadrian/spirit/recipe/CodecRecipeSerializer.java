@@ -19,13 +19,18 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.function.Function;
 
-//Completely copied and pasted from the Resourceful bees mod, with the expressed permission of Mr.ThatGravyBoat
-public class ResourcefulRecipeSerializer<R extends Recipe<?>> implements RecipeSerializer<R> {
+/**
+ * This class was largely inspired by or taken from the Resourceful Bees repository with
+ * the expressed permission from one of their developers.
+ * @author Team Resourceful
+ */
+
+public class CodecRecipeSerializer<R extends Recipe<?>> implements RecipeSerializer<R> {
     private static final Gson GSON = new Gson();
     private final RecipeType<R> recipeType;
     private final Function<ResourceLocation, Codec<R>> codecInitializer;
 
-    public ResourcefulRecipeSerializer(RecipeType<R> recipeType, Function<ResourceLocation, Codec<R>> codecInitializer) {
+    public CodecRecipeSerializer(RecipeType<R> recipeType, Function<ResourceLocation, Codec<R>> codecInitializer) {
         this.recipeType = recipeType;
         this.codecInitializer = codecInitializer;
     }

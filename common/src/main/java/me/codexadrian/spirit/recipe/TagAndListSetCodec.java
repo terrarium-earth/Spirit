@@ -14,6 +14,12 @@ import net.minecraft.util.ExtraCodecs;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * This class was largely inspired by or taken from the Resourceful Bees repository with
+ * the expressed permission from one of their developers.
+ * @author Team Resourceful
+ */
+
 public class TagAndListSetCodec<E> implements Codec<HolderSet<E>> {
 
     private final Registry<E> registry;
