@@ -1,7 +1,0 @@
-{
-  "type": "spirit:soul_arrow_mob_effect",
-  "entity": "minecraft:blaze",
-  "isOnFire": true,
-  "additionalDamage": 1.5,
-  "burnTime": 180
-}

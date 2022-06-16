@@ -1,0 +1,13 @@
+{
+  "ctm": {
+    "ctm_version": 1,
+    "type": "pillar",
+    "layer": "TRANSLUCENT",
+    "textures": [
+      "spirit:block/soul_glass_13_pillar"
+    ],
+    "extra": {
+      "light": 0
+    }
+  }
+}

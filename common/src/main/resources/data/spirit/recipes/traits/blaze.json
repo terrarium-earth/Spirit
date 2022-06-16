@@ -1,0 +1,10 @@
+{
+  "type": "spirit:mob_trait",
+  "entity": "minecraft:blaze",
+  "traits": [
+    {
+      "type": "spirit:fire",
+      "duration": 200
+    }
+  ]
+}

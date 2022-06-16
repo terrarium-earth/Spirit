@@ -1,0 +1,13 @@
+{
+  "ctm": {
+    "ctm_version": 1,
+    "type": "ctm",
+    "layer": "TRANSLUCENT",
+    "textures": [
+      "spirit:block/soul_glass_9_ctm"
+    ],
+    "extra": {
+      "light": 0
+    }
+  }
+}

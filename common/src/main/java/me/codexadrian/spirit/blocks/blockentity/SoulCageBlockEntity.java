@@ -1,7 +1,7 @@
 package me.codexadrian.spirit.blocks.blockentity;
 
 import me.codexadrian.spirit.Corrupted;
-import me.codexadrian.spirit.SpiritRegistry;
+import me.codexadrian.spirit.registry.SpiritBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -29,7 +29,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     private final SoulCageSpawner enabledSpawner = new SoulCageSpawner(this);
 
     public SoulCageBlockEntity(BlockPos pos, BlockState state) {
-        super(SpiritRegistry.SOUL_CAGE_ENTITY.get(), pos, state);
+        super(SpiritBlocks.SOUL_CAGE_ENTITY.get(), pos, state);
     }
 
     public static void tick(Level level, BlockPos blockPos, BlockState blockState, SoulCageBlockEntity blockEntity) {

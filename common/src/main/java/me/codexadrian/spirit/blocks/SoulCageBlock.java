@@ -1,7 +1,8 @@
 package me.codexadrian.spirit.blocks;
 
-import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.blocks.blockentity.SoulCageBlockEntity;
+import me.codexadrian.spirit.registry.SpiritBlocks;
+import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -37,12 +38,12 @@ public class SoulCageBlock extends BaseEntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
-        return SpiritRegistry.SOUL_CAGE_ENTITY.get().create(blockPos, blockState);
+        return SpiritBlocks.SOUL_CAGE_ENTITY.get().create(blockPos, blockState);
     }
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState blockState, @NotNull BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, SpiritRegistry.SOUL_CAGE_ENTITY.get(), SoulCageBlockEntity::tick);
+        return createTickerHelper(blockEntityType, SpiritBlocks.SOUL_CAGE_ENTITY.get(), SoulCageBlockEntity::tick);
     }
 
     public @NotNull InteractionResult use(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
@@ -50,7 +51,7 @@ public class SoulCageBlock extends BaseEntityBlock {
             ItemStack itemStack = player.getMainHandItem();
             if (level.getBlockEntity(blockPos) instanceof SoulCageBlockEntity soulSpawner) {
                 if (soulSpawner.isEmpty()) {
-                    if (itemStack.getItem().equals(SpiritRegistry.SOUL_CRYSTAL.get()) && itemStack.hasTag() && SoulUtils.getTier(itemStack, level) != null) {
+                    if (itemStack.getItem().equals(SpiritItems.SOUL_CRYSTAL.get()) && itemStack.hasTag() && SoulUtils.getTier(itemStack, level) != null) {
                         soulSpawner.entity = null;
 
                         soulSpawner.setItem(0, itemStack.copy());

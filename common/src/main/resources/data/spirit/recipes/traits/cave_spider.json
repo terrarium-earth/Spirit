@@ -1,0 +1,15 @@
+{
+  "type": "spirit:mob_trait",
+  "entity": "minecraft:cave_spider",
+  "traits": [
+    {
+      "type": "spirit:potion_effect",
+      "effects": [
+        {
+          "effect": "minecraft:poison",
+          "duration": 150
+        }
+      ]
+    }
+  ]
+}

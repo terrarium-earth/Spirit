@@ -1,6 +1,6 @@
 package me.codexadrian.spirit.blocks.blockentity;
 
-import me.codexadrian.spirit.SpiritRegistry;
+import me.codexadrian.spirit.registry.SpiritBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
@@ -17,7 +17,7 @@ public class PedestalBlockEntity extends BlockEntity implements Container {
     public int age;
 
     public PedestalBlockEntity(BlockPos $$1, BlockState $$2) {
-        super(SpiritRegistry.PEDESTAL_ENTITY.get(), $$1, $$2);
+        super(SpiritBlocks.PEDESTAL_ENTITY.get(), $$1, $$2);
     }
 
     public static void tick(Level level1, BlockPos blockPos, BlockState blockState1, BlockEntity blockEntity) {

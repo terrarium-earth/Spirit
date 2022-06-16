@@ -42,4 +42,9 @@ public class SpiritConfig {
         throw new AssertionError();
     }
 
+    @Contract(pure = true)
+    @ExpectPlatform
+    public static boolean showChippedError() {
+        throw new AssertionError();
+    }
 }

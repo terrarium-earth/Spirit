@@ -1,12 +1,8 @@
 package me.codexadrian.spirit.blocks;
 
-import me.codexadrian.spirit.Spirit;
-import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.blocks.blockentity.PedestalBlockEntity;
-import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
-import me.codexadrian.spirit.utils.SoulUtils;
+import me.codexadrian.spirit.registry.SpiritBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -32,8 +28,9 @@ public class PedestalBlock extends BaseEntityBlock {
     public static final VoxelShape SHAPE = Shapes.or(
             Block.box(4, 3, 4, 12, 7, 12),
             Block.box(2, 0, 2, 14, 3, 14),
-            Block.box(2, 7, 2, 14, 10,14)
+            Block.box(2, 7, 2, 14, 10, 14)
     );
+
     public PedestalBlock(Properties properties) {
         super(properties);
     }
@@ -71,7 +68,7 @@ public class PedestalBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState blockState, @NotNull BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, SpiritRegistry.PEDESTAL_ENTITY.get(), PedestalBlockEntity::tick);
+        return createTickerHelper(blockEntityType, SpiritBlocks.PEDESTAL_ENTITY.get(), PedestalBlockEntity::tick);
     }
 
     @Override

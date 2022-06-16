@@ -1,29 +1,20 @@
 package me.codexadrian.spirit.recipe;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.Decoder;
-import com.mojang.serialization.Encoder;
-import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import me.codexadrian.spirit.SpiritRegistry;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryCodecs;
+import me.codexadrian.spirit.registry.SpiritMisc;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public record Tier(ResourceLocation id, String displayName, int requiredSouls, int minSpawnDelay, int maxSpawnDelay, int spawnCount, int spawnRange, int nearbyRange,
-                   boolean redstoneControlled, boolean ignoreSpawnConditions, Set<String> blacklist) implements SyncedData {
+public record Tier(ResourceLocation id, String displayName, int requiredSouls, int minSpawnDelay, int maxSpawnDelay,
+                   int spawnCount, int spawnRange, int nearbyRange,
+                   boolean redstoneControlled, boolean ignoreSpawnConditions,
+                   Set<String> blacklist) implements SyncedData {
 
     public static Codec<Tier> codec(ResourceLocation id) {
         return RecordCodecBuilder.create(instance -> instance.group(
@@ -41,6 +32,10 @@ public record Tier(ResourceLocation id, String displayName, int requiredSouls, i
         ).apply(instance, Tier::new));
     }
 
+    /*
+        TODO consume souls config for tier
+     */
+
     @Override
     public ResourceLocation getId() {
         return id();
@@ -48,24 +43,24 @@ public record Tier(ResourceLocation id, String displayName, int requiredSouls, i
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return SpiritRegistry.TIER_SERIALIZER.get();
+        return SpiritMisc.TIER_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType() {
-        return SpiritRegistry.TIER_RECIPE.get();
+        return SpiritMisc.TIER_RECIPE.get();
     }
 
     @Nullable
     public static Tier getTier(int souls, String type, Level level, boolean getNextTier) {
         Tier storedTier = null;
         List<Tier> tiers = new ArrayList<>(getTiers(level));
-        if(tiers.isEmpty()) return null;
+        if (tiers.isEmpty()) return null;
         tiers.sort(Comparator.comparingInt(value -> -value.requiredSouls()));
-        if(!getNextTier && souls < tiers.get(tiers.size() - 1).requiredSouls()) return null;
+        if (!getNextTier && souls < tiers.get(tiers.size() - 1).requiredSouls()) return null;
         for (Tier tier : tiers) {
-            if(type == null || !tier.blacklist().contains(type)) {
-                if(souls < tier.requiredSouls()) storedTier = tier;
+            if (type == null || !tier.blacklist().contains(type)) {
+                if (souls < tier.requiredSouls()) storedTier = tier;
                 else if (!getNextTier) {
                     storedTier = tier;
                     break;
@@ -74,11 +69,12 @@ public record Tier(ResourceLocation id, String displayName, int requiredSouls, i
         }
         return storedTier;
     }
+
     public static Tier getHighestTier(String type, Level level) {
         Tier storedTier = null;
         for (Tier tier : getTiers(level)) {
-            if(type == null || !tier.blacklist().contains(type)) {
-                if(storedTier == null || storedTier.requiredSouls() < tier.requiredSouls()) {
+            if (type == null || !tier.blacklist().contains(type)) {
+                if (storedTier == null || storedTier.requiredSouls() < tier.requiredSouls()) {
                     storedTier = tier;
                 }
             }
@@ -91,7 +87,7 @@ public record Tier(ResourceLocation id, String displayName, int requiredSouls, i
     }
 
     public static List<Tier> getTiers(Level level) {
-        return level.getRecipeManager().getAllRecipesFor(SpiritRegistry.TIER_RECIPE.get());
+        return level.getRecipeManager().getAllRecipesFor(SpiritMisc.TIER_RECIPE.get());
     }
 
 

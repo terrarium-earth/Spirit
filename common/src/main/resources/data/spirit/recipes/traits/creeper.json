@@ -1,0 +1,10 @@
+{
+  "type": "spirit:mob_trait",
+  "entity": "minecraft:creeper",
+  "traits": [
+    {
+      "type": "spirit:explosion",
+      "power": 2.0
+    }
+  ]
+}

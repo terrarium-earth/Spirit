@@ -1,9 +1,9 @@
 package me.codexadrian.spirit.blocks;
 
-import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.SpiritConfig;
-import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
+import me.codexadrian.spirit.registry.SpiritBlocks;
+import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -47,7 +47,7 @@ public class SoulPedestalBlock extends BaseEntityBlock {
             if (level.getBlockEntity(blockPos) instanceof SoulPedestalBlockEntity soulPedestal) {
                 ItemStack pedestalItem = soulPedestal.getItem(0);
                 if (soulPedestal.isEmpty()) {
-                    if ((itemStack.is(SpiritRegistry.SOUL_CRYSTAL.get()) || itemStack.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get()))) {
+                    if ((itemStack.is(SpiritItems.SOUL_CRYSTAL.get()) || itemStack.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()))) {
                         soulPedestal.setItem(0, itemStack.copy());
                         if (!player.getAbilities().instabuild) {
                             itemStack.shrink(1);
@@ -63,9 +63,9 @@ public class SoulPedestalBlock extends BaseEntityBlock {
                     soulPedestal.setChanged();
                     level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
                     return InteractionResult.SUCCESS;
-                } else if(SoulUtils.getSoulsInCrystal(itemStack) > 0){
-                    if(pedestalItem.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get()) && (itemStack.is(SpiritRegistry.SOUL_CRYSTAL.get()) || itemStack.is(SpiritRegistry.CRUDE_SOUL_CRYSTAL.get()))) {
-                        if(SoulUtils.canCrystalAcceptSoul(pedestalItem, null)) {
+                } else if (SoulUtils.getSoulsInCrystal(itemStack) > 0) {
+                    if (pedestalItem.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()) && (itemStack.is(SpiritItems.SOUL_CRYSTAL.get()) || itemStack.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()))) {
+                        if (SoulUtils.canCrystalAcceptSoul(pedestalItem, null)) {
                             int deviateSoulCount = Math.min(SpiritConfig.getCrudeSoulCrystalCap() - SoulUtils.getSoulsInCrystal(pedestalItem), SoulUtils.getSoulsInCrystal(itemStack));
                             combineSoulCrystals(level, blockPos, itemStack, pedestalItem, deviateSoulCount, null);
                             soulPedestal.setChanged();
@@ -73,10 +73,10 @@ public class SoulPedestalBlock extends BaseEntityBlock {
                             return InteractionResult.SUCCESS;
                         }
                     }
-                    if(pedestalItem.is(SpiritRegistry.SOUL_CRYSTAL.get()) && itemStack.is(SpiritRegistry.SOUL_CRYSTAL.get())) {
+                    if (pedestalItem.is(SpiritItems.SOUL_CRYSTAL.get()) && itemStack.is(SpiritItems.SOUL_CRYSTAL.get())) {
                         int maxSouls = SoulUtils.getMaxSouls(pedestalItem, level);
                         int soulsInCrystal = SoulUtils.getSoulsInCrystal(pedestalItem);
-                        if((SoulUtils.doCrystalTypesMatch(pedestalItem, itemStack) && soulsInCrystal < maxSouls) || !pedestalItem.hasTag()) {
+                        if ((SoulUtils.doCrystalTypesMatch(pedestalItem, itemStack) && soulsInCrystal < maxSouls) || !pedestalItem.hasTag()) {
                             int deviateSoulCount = Math.min(maxSouls - soulsInCrystal, SoulUtils.getSoulsInCrystal(itemStack));
                             combineSoulCrystals(level, blockPos, itemStack, pedestalItem, deviateSoulCount, SoulUtils.getSoulCrystalType(pedestalItem));
                             soulPedestal.setChanged();
@@ -94,7 +94,7 @@ public class SoulPedestalBlock extends BaseEntityBlock {
     private void combineSoulCrystals(@NotNull Level level, @NotNull BlockPos blockPos, ItemStack itemStack, ItemStack pedestalItem, int deviateSoulCount, @Nullable String mobType) {
         SoulUtils.deviateSoulCount(pedestalItem, deviateSoulCount, level, mobType);
         SoulUtils.deviateSoulCount(itemStack, -deviateSoulCount, level, mobType);
-        if(!level.isClientSide()) {
+        if (!level.isClientSide()) {
             ServerLevel sLevel = (ServerLevel) level;
             sLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX() + 0.5, blockPos.getY() + 0.4, blockPos.getZ() + 0.5, 10, 0.5, 0.5, 0.5, 0);
             sLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, 10, 0.5, 0.5, 0.5, 0);
@@ -104,7 +104,7 @@ public class SoulPedestalBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState blockState, @NotNull BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, SpiritRegistry.SOUL_PEDESTAL_ENTITY.get(), SoulPedestalBlockEntity::tick);
+        return createTickerHelper(blockEntityType, SpiritBlocks.SOUL_PEDESTAL_ENTITY.get(), SoulPedestalBlockEntity::tick);
     }
 
 

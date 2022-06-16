@@ -1,0 +1,14 @@
+{
+  "type": "spirit:mob_trait",
+  "entity": "minecraft:warden",
+  "traits": [
+    {
+      "type": "spirit:knockback",
+      "knockback": 2
+    },
+    {
+      "type": "spirit:damage",
+      "additionalDamage": 5.0
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 package me.codexadrian.spirit.blocks.blockentity;
 
 import me.codexadrian.spirit.Corrupted;
-import me.codexadrian.spirit.SpiritRegistry;
 import me.codexadrian.spirit.recipe.Tier;
+import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -132,7 +132,7 @@ public class SoulCageSpawner {
     private boolean isNearPlayer() {
         BlockPos blockPos = this.getPos();
         BlockState blockState = getLevel().getBlockState(getPos());
-        if (blockState.is(SpiritRegistry.SOUL_CAGE.get())) {
+        if (blockState.is(SpiritBlocks.SOUL_CAGE.get())) {
             Tier tier = SoulUtils.getTier(soulCageBlockEntity.getItem(0), this.getLevel());
             if (tier == null) {
                 return false;
@@ -176,7 +176,7 @@ public class SoulCageSpawner {
     public void broadcastEvent(int i) {
         Level level = soulCageBlockEntity.getLevel();
         if (level != null) {
-            level.blockEvent(soulCageBlockEntity.getBlockPos(), SpiritRegistry.SOUL_CAGE.get(), i, 0);
+            level.blockEvent(soulCageBlockEntity.getBlockPos(), SpiritBlocks.SOUL_CAGE.get(), i, 0);
         }
     }
 

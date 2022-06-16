@@ -1,0 +1,10 @@
+{
+  "type": "spirit:mob_trait",
+  "entity": "minecraft:iron_golem",
+  "traits": [
+    {
+      "type": "spirit:knockback",
+      "knockback": 3
+    }
+  ]
+}

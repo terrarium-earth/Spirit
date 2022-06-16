@@ -1,7 +1,36 @@
 {
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "spirit:block/soul_cage_top",
-    "side": "spirit:block/soul_cage_sides"
-  }
+	"parent": "block/block",
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 64],
+	"textures": {
+		"0": "spirit:block/soul_cage",
+		"particle": "spirit:block/soul_cage"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 4, 4], "texture": "#2"},
+				"east": {"uv": [0, 4, 4, 8], "texture": "#2"},
+				"south": {"uv": [4, 0, 8, 4], "texture": "#2"},
+				"west": {"uv": [4, 4, 8, 8], "texture": "#2"},
+				"up": {"uv": [4, 12, 0, 8], "texture": "#2"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#2"}
+			}
+		},
+		{
+			"from": [16, 16, 16],
+			"to": [0, 0, 0],
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [4, 0, 8, 4], "rotation": 180, "texture": "#2"},
+				"east": {"uv": [0, 4, 4, 8], "rotation": 180, "texture": "#2"},
+				"south": {"uv": [0, 0, 4, 4], "rotation": 180, "texture": "#2"},
+				"west": {"uv": [4, 4, 8, 8], "rotation": 180, "texture": "#2"},
+				"up": {"uv": [12, 0, 8, 4], "texture": "#2"},
+				"down": {"uv": [4, 12, 0, 8], "texture": "#2"}
+			}
+		}
+	]
 }

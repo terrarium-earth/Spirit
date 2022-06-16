@@ -1,6 +1,6 @@
 package me.codexadrian.spirit.blocks.blockentity;
 
-import me.codexadrian.spirit.SpiritRegistry;
+import me.codexadrian.spirit.registry.SpiritBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
@@ -8,7 +8,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,11 +17,11 @@ public class SoulPedestalBlockEntity extends BlockEntity implements Container {
     public int age;
 
     public SoulPedestalBlockEntity(BlockPos $$1, BlockState $$2) {
-        super(SpiritRegistry.SOUL_PEDESTAL_ENTITY.get(), $$1, $$2);
+        super(SpiritBlocks.SOUL_PEDESTAL_ENTITY.get(), $$1, $$2);
     }
 
     public static void tick(Level level1, BlockPos blockPos, BlockState blockState1, BlockEntity blockEntity) {
-        if(blockEntity instanceof SoulPedestalBlockEntity soulPedestal) {
+        if (blockEntity instanceof SoulPedestalBlockEntity soulPedestal) {
             soulPedestal.age = (soulPedestal.age + 1) % Integer.MAX_VALUE;
         }
     }

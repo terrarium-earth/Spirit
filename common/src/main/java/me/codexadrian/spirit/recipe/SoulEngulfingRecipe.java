@@ -1,28 +1,31 @@
 package me.codexadrian.spirit.recipe;
 
 import com.google.gson.JsonElement;
-import com.mojang.serialization.*;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.codexadrian.spirit.EngulfableItem;
-import me.codexadrian.spirit.SpiritRegistry;
-import me.codexadrian.spirit.utils.RecipeUtils;
+import me.codexadrian.spirit.registry.SpiritMisc;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 
 import java.util.List;
 import java.util.Optional;
 
-public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input, int duration, boolean breaksBlocks, Item output, int outputAmount) implements SyncedData {
+public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input, int duration, boolean breaksBlocks,
+                                  Item output, int outputAmount) implements SyncedData {
 
     public static Codec<SoulEngulfingRecipe> codec(ResourceLocation id) {
         return RecordCodecBuilder.create(instance -> instance.group(
@@ -34,6 +37,7 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
                 Codec.INT.fieldOf("outputAmount").orElse(1).forGetter(SoulEngulfingRecipe::outputAmount)
         ).apply(instance, SoulEngulfingRecipe::new));
     }
+
     @Override
     public ItemStack getResultItem() {
         return new ItemStack(this.output, this.outputAmount);
@@ -46,21 +50,22 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return SpiritRegistry.SOUL_ENGULFING_SERIALIZER.get();
+        return SpiritMisc.SOUL_ENGULFING_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType() {
-        return SpiritRegistry.SOUL_ENGULFING_RECIPE.get();
+        return SpiritMisc.SOUL_ENGULFING_RECIPE.get();
     }
 
     public boolean validateRecipe(BlockPos blockPos, ItemEntity itemE, ServerLevel level) {
         Optional<SoulfireMultiblock> multiblock = input().multiblock();
         if (itemE instanceof EngulfableItem engulfableItem) {
-            if(!engulfableItem.isEngulfed() && this.duration() > 0) engulfableItem.setMaxEngulfTime(this.duration());
-            else if(engulfableItem.isEngulfed() || this.duration() == 0) {
-                if(multiblock.isPresent() && !multiblock.get().validateMultiblock(blockPos, level, false)) engulfableItem.resetEngulfing();
-                if(engulfableItem.isFullyEngulfed() && multiblock.isPresent() && multiblock.get().validateMultiblock(blockPos, level, breaksBlocks())){
+            if (!engulfableItem.isEngulfed() && this.duration() > 0) engulfableItem.setMaxEngulfTime(this.duration());
+            else if (engulfableItem.isEngulfed() || this.duration() == 0) {
+                if (multiblock.isPresent() && !multiblock.get().validateMultiblock(blockPos, level, false))
+                    engulfableItem.resetEngulfing();
+                if (engulfableItem.isFullyEngulfed() && multiblock.isPresent() && multiblock.get().validateMultiblock(blockPos, level, breaksBlocks())) {
                     itemE.setInvulnerable(true);
                     ItemEntity output = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), this.getResultItem());
                     output.setInvulnerable(true);
@@ -74,8 +79,9 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
         }
         return false;
     }
+
     public static List<SoulEngulfingRecipe> getRecipesForStack(ItemStack stack, RecipeManager manager) {
-        return manager.getAllRecipesFor(SpiritRegistry.SOUL_ENGULFING_RECIPE.get()).stream().filter(recipe -> recipe.input.item().test(stack)).toList();
+        return manager.getAllRecipesFor(SpiritMisc.SOUL_ENGULFING_RECIPE.get()).stream().filter(recipe -> recipe.input.item().test(stack)).toList();
     }
 
     public record SoulEngulfingInput(Ingredient item, Optional<SoulfireMultiblock> multiblock) {

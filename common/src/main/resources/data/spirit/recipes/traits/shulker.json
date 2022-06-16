@@ -1,0 +1,15 @@
+{
+  "type": "spirit:mob_trait",
+  "entity": "minecraft:shulker",
+  "traits": [
+    {
+      "type": "spirit:potion",
+      "effects": [
+        {
+          "effect": "minecraft:levitation",
+          "duration": 200
+        }
+      ]
+    }
+  ]
+}
