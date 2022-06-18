@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.recipe;
+package me.codexadrian.spirit.data;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;

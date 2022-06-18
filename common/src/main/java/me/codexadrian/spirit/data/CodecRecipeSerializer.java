@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.recipe;
+package me.codexadrian.spirit.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

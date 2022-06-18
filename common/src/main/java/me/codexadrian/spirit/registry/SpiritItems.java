@@ -28,6 +28,8 @@ public class SpiritItems {
     public static final Supplier<Item> SOUL_STEEL_SHIELD = REGISTRY.registerItem("soul_steel_shield", () ->
             new SoulSteelShield( new Item.Properties().tab(SPIRIT).rarity(Rarity.RARE)));
 
+    public static final Supplier<Item> SOUL_STEEL_WAND = REGISTRY.registerItem("soul_steel_wand", () -> new Item(new Item.Properties().tab(SPIRIT).rarity(Rarity.RARE)));
+
     public static void registerAll() {
     }
 }

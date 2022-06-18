@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -17,7 +18,7 @@ public class FabricShaderHelper implements IShaderHelper {
     }
 
     @Override
-    public <T extends Entity> RenderType getSoulShader(T entity, EntityRenderer<T> livingEntity) {
-        return FabricSoulShader.getSoulRenderType(entity, livingEntity);
+    public <T extends Entity> RenderType getSoulShader(T entity, ResourceLocation texture) {
+        return FabricSoulShader.getSoulRenderType(entity, texture);
     }
 }

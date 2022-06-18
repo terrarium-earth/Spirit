@@ -7,7 +7,9 @@ import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.codexadrian.spirit.EngulfableItem;
+import me.codexadrian.spirit.data.SyncedData;
 import me.codexadrian.spirit.registry.SpiritMisc;
+import me.codexadrian.spirit.utils.CodecUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
@@ -85,19 +87,9 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
     }
 
     public record SoulEngulfingInput(Ingredient item, Optional<SoulfireMultiblock> multiblock) {
-        public static final Codec<Ingredient> INGREDIENT_CODEC = Codec.PASSTHROUGH.comapFlatMap(SoulEngulfingInput::decodeIngredient, SoulEngulfingInput::encodeIngredient);
         public static final Codec<SoulEngulfingInput> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                INGREDIENT_CODEC.fieldOf("ingredient").forGetter(SoulEngulfingInput::item),
+                CodecUtils.INGREDIENT_CODEC.fieldOf("ingredient").forGetter(SoulEngulfingInput::item),
                 SoulfireMultiblock.CODEC.optionalFieldOf("multiblock").forGetter(SoulEngulfingInput::multiblock)
         ).apply(instance, SoulEngulfingInput::new));
-
-
-        private static DataResult<Ingredient> decodeIngredient(Dynamic<?> dynamic) {
-            return DataResult.success(Ingredient.fromJson(dynamic.convert(JsonOps.INSTANCE).getValue()));
-        }
-
-        private static Dynamic<JsonElement> encodeIngredient(Ingredient ingredient) {
-            return new Dynamic<>(JsonOps.INSTANCE, ingredient.toJson()).convert(JsonOps.COMPRESSED);
-        }
     }
 }

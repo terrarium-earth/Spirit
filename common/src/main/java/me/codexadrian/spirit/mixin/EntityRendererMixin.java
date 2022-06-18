@@ -38,7 +38,7 @@ public class EntityRendererMixin {
     private void getRenderType(LivingEntity livingEntity, boolean bl, boolean bl2, boolean bl3,
                                CallbackInfoReturnable<RenderType> cir) {
         if (((Corrupted) livingEntity).isCorrupted()) {
-            cir.setReturnValue(ClientServices.SHADERS.getSoulShader(livingEntity, (LivingEntityRenderer) (Object) this));
+            cir.setReturnValue(ClientServices.SHADERS.getSoulShader(livingEntity, ((LivingEntityRenderer) (Object) this).getTextureLocation(livingEntity)));
         }
     }
 }

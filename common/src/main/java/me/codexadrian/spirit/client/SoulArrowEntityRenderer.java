@@ -47,7 +47,7 @@ public class SoulArrowEntityRenderer extends ArrowRenderer<SoulArrowEntity> {
         poseStack.mulPose(Vector3f.XP.rotationDegrees(45.0f));
         poseStack.scale(0.05625f, 0.05625f, 0.05625f);
         poseStack.translate(-4.0, 0.0, 0.0);
-        VertexConsumer vertexConsumer = multiBufferSource.getBuffer(ClientServices.SHADERS.getSoulShader(abstractArrow, this));
+        VertexConsumer vertexConsumer = multiBufferSource.getBuffer(ClientServices.SHADERS.getSoulShader(abstractArrow, SOUL_ARROW));
         PoseStack.Pose pose = poseStack.last();
         Matrix4f matrix4f = pose.pose();
         Matrix3f matrix3f = pose.normal();

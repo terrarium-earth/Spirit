@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.data.entitytraits;
+package me.codexadrian.spirit.data.traits;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

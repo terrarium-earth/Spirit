@@ -1,7 +1,7 @@
 package me.codexadrian.spirit.items;
 
 import me.codexadrian.spirit.Spirit;
-import me.codexadrian.spirit.recipe.Tier;
+import me.codexadrian.spirit.data.Tier;
 import me.codexadrian.spirit.utils.ClientUtils;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.fabricmc.api.EnvType;

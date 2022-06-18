@@ -3,7 +3,10 @@ package me.codexadrian.spirit.forge;
 import me.codexadrian.spirit.Constants;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.compat.forge.TOPCompat;
+import me.codexadrian.spirit.entity.SoulEntity;
 import me.codexadrian.spirit.platform.forge.ForgeRegistryHelper;
+import me.codexadrian.spirit.registry.SpiritMisc;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModList;
@@ -27,6 +30,7 @@ public class ForgeSpirit {
         ForgeRegistryHelper.ENTITIES.register(eventBus);
         ForgeRegistryHelper.RECIPE_TYPES.register(eventBus);
         ForgeRegistryHelper.RECIPE_SERIALIZERS.register(eventBus);
+        eventBus.addListener(this::entityAttributeStuff);
         eventBus.addListener(this::imcEvent);
     }
 
@@ -34,5 +38,9 @@ public class ForgeSpirit {
         if(ModList.get().isLoaded("theoneprobe")) {
             InterModComms.sendTo("theoneprobe", "getTheOneProbe", TOPCompat::new);
         }
+    }
+
+    private void entityAttributeStuff(EntityAttributeCreationEvent event) {
+        event.put(SpiritMisc.SOUL_ENTITY.get(), SoulEntity.createMobAttributes().build());
     }
 }

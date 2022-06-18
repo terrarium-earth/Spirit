@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.recipe;
+package me.codexadrian.spirit.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -31,10 +31,6 @@ public record Tier(ResourceLocation id, String displayName, int requiredSouls, i
                 createSetCodec(Codec.STRING).orElse(new HashSet<>()).fieldOf("blacklist").forGetter(Tier::blacklist)
         ).apply(instance, Tier::new));
     }
-
-    /*
-        TODO consume souls config for tier
-     */
 
     @Override
     public ResourceLocation getId() {

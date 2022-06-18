@@ -22,8 +22,7 @@ configurations {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
-    //modCompileOnly "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
-    //modRuntimeOnly "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
+    modImplementation "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
     modImplementation "me.codexadrian:ctm-refabricated:1.0.0+1.19"
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -74,6 +73,10 @@ components.java {
     withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
         skip()
     }
+}
+
+repositories {
+    //maven { url = "https://nexus.resourcefulbees.com/repository/maven-public/"}
 }
 
 publishing {

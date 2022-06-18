@@ -2,7 +2,7 @@ package me.codexadrian.spirit.items;
 
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.entity.SoulArrowEntity;
-import me.codexadrian.spirit.recipe.MobTraitData;
+import me.codexadrian.spirit.data.MobTraitData;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.registry.SpiritMisc;
 import me.codexadrian.spirit.utils.SoulUtils;

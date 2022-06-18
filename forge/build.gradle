@@ -7,6 +7,12 @@ architectury {
     forge()
 }
 
+loom {
+    forge {
+        mixinConfig "spirit.mixins.json"
+    }
+}
+
 configurations {
     common
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
@@ -17,8 +23,7 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
-    //modCompileOnly "mezz.jei:jei-${minecraft_version}-forge:${jei_version}"
-    //modRuntimeOnly "mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"
+    modImplementation "mezz.jei:jei-${minecraft_version}-forge:${jei_version}"
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
     modCompileOnly ("mcjty.theoneprobe:theoneprobe:${top_version}:api") { transitive = false }

@@ -2,6 +2,7 @@ package me.codexadrian.spirit.blocks.blockentity;
 
 import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.registry.SpiritBlocks;
+import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -65,7 +66,10 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
 
     @Override
     public ItemStack removeItem(int i, int j) {
-        return removeItemNoUpdate(i);
+        var itemStack = removeItemNoUpdate(i);
+        this.setChanged();
+        getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), j);
+        return itemStack;
     }
 
     @Override
@@ -127,14 +131,14 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     }
 
     public void setType() {
-        if (soulCrystal.getTag() != null) {
-            type = Registry.ENTITY_TYPE.get(new ResourceLocation(soulCrystal.getTag().getCompound("StoredEntity").getString("Type")));
+        String soulCrystalType = SoulUtils.getSoulCrystalType(soulCrystal);
+        if (soulCrystalType != null) {
+            type = Registry.ENTITY_TYPE.get(new ResourceLocation(soulCrystalType));
         } else {
             type = null;
         }
     }
-    @SuppressWarnings("ConstantConditions")
-    @NotNull
+
     public Entity getOrCreateEntity() {
         if(this.entity == null && this.hasLevel()) {
             this.entity = this.type.create(getLevel());

@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.data.entitytraits;
+package me.codexadrian.spirit.data.traits;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -24,7 +24,7 @@ public record DamageTrait(float additionalDamage) implements MobTrait<DamageTrai
 
     private static class Serializer implements MobTraitSerializer<DamageTrait> {
         public static final Codec<DamageTrait> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Codec.FLOAT.fieldOf("additionalDamage").orElse(2.0F).forGetter(DamageTrait::additionalDamage)
+                Codec.FLOAT.fieldOf("additionalDamage").forGetter(DamageTrait::additionalDamage)
         ).apply(instance, DamageTrait::new));
 
         @Override

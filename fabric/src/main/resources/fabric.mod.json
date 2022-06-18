@@ -21,6 +21,9 @@
     ],
     "client": [
       "me.codexadrian.spirit.FabricSpiritClient"
+    ],
+    "jei_mod_plugin": [
+      "me.codexadrian.spirit.compat.jei.SpiritPlugin"
     ]
   },
   "mixins": [

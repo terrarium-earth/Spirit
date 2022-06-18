@@ -1,9 +1,7 @@
-package me.codexadrian.spirit.recipe;
+package me.codexadrian.spirit.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import me.codexadrian.spirit.data.MobTrait;
-import me.codexadrian.spirit.data.MobTraitRegistry;
 import me.codexadrian.spirit.registry.SpiritMisc;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;

@@ -1,6 +1,6 @@
 package me.codexadrian.spirit.entity;
 
-import me.codexadrian.spirit.recipe.MobTraitData;
+import me.codexadrian.spirit.data.MobTraitData;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

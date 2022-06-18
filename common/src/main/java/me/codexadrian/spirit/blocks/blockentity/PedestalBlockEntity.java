@@ -43,18 +43,22 @@ public class PedestalBlockEntity extends BlockEntity implements Container {
 
     @Override
     public ItemStack removeItem(int i, int j) {
-        return removeItemNoUpdate(i);
+        var item = removeItemNoUpdate(i);
+        update(j);
+        return item;
+    }
+
+    public void update(int j) {
+        getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), j);
     }
 
     @Override
     public ItemStack removeItemNoUpdate(int i) {
         if (i == 0) {
-            ItemStack itemStack = item;
+            ItemStack crystal = item;
             item = ItemStack.EMPTY;
-
-            return itemStack;
+            return crystal;
         }
-
         return ItemStack.EMPTY;
     }
 
@@ -79,8 +83,8 @@ public class PedestalBlockEntity extends BlockEntity implements Container {
     @Override
     public void load(@NotNull CompoundTag compoundTag) {
         super.load(compoundTag);
-        if (compoundTag.contains("crystal")) {
-            item = ItemStack.of(compoundTag.getCompound("crystal"));
+        if (compoundTag.contains("item")) {
+            item = ItemStack.of(compoundTag.getCompound("item"));
         }
     }
 
@@ -88,7 +92,7 @@ public class PedestalBlockEntity extends BlockEntity implements Container {
     protected void saveAdditional(@NotNull CompoundTag compoundTag) {
         super.saveAdditional(compoundTag);
         if (!item.isEmpty()) {
-            compoundTag.put("crystal", item.save(new CompoundTag()));
+            compoundTag.put("item", item.save(new CompoundTag()));
         }
     }
 

@@ -2,7 +2,7 @@ package me.codexadrian.spirit.utils;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import me.codexadrian.spirit.SpiritConfig;
-import me.codexadrian.spirit.recipe.Tier;
+import me.codexadrian.spirit.data.Tier;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.registry.SpiritMisc;
 import net.minecraft.ChatFormatting;
@@ -12,6 +12,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -68,12 +69,19 @@ public class SoulUtils {
     }
 
     public static boolean canCrystalAcceptSoul(ItemStack crystal, @Nullable LivingEntity victim) {
+        if(victim == null) return canCrystalAcceptSoul(crystal, null, null);
+        return canCrystalAcceptSoul(crystal, victim.getLevel(), victim.getType());
+    }
+
+    public static boolean canCrystalAcceptSoul(ItemStack crystal, @Nullable Level level, @Nullable EntityType<?> type) {
         if (crystal.is(SpiritItems.SOUL_CRYSTAL.get())) {
-            if (crystal.getTag() != null && victim != null) {
-                boolean isCorrectType = Registry.ENTITY_TYPE.getKey(victim.getType()).toString().equals(getSoulCrystalType(crystal));
-                boolean hasRoomForMore = getSoulsInCrystal(crystal) < getMaxSouls(crystal, victim.level);
+            if (crystal.getTag() != null && type != null) {
+                if (type.equals(SpiritMisc.SOUL_ENTITY.get())) return false;
+                boolean isCorrectType = Registry.ENTITY_TYPE.getKey(type).toString().equals(getSoulCrystalType(crystal));
+                boolean hasRoomForMore = getSoulsInCrystal(crystal) < getMaxSouls(crystal, level);
                 return isCorrectType && hasRoomForMore;
             }
+            //todo check to make sure it isnt of type plain soul
             return true;
         } else if (crystal.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get())) {
             return SoulUtils.getSoulsInCrystal(crystal) < SpiritConfig.getCrudeSoulCrystalCap();

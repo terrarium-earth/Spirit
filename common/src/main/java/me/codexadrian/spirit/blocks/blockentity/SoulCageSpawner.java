@@ -1,7 +1,7 @@
 package me.codexadrian.spirit.blocks.blockentity;
 
 import me.codexadrian.spirit.Corrupted;
-import me.codexadrian.spirit.recipe.Tier;
+import me.codexadrian.spirit.data.Tier;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.client.multiplayer.ClientLevel;

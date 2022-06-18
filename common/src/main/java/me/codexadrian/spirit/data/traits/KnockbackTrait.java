@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.data.entitytraits;
+package me.codexadrian.spirit.data.traits;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -24,7 +24,7 @@ public record KnockbackTrait(int knockback) implements MobTrait<KnockbackTrait> 
 
     private static class Serializer implements MobTraitSerializer<KnockbackTrait> {
         public static final Codec<KnockbackTrait> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Codec.INT.fieldOf("knockback").orElse(2).forGetter(KnockbackTrait::knockback)
+                Codec.INT.fieldOf("knockback").forGetter(KnockbackTrait::knockback)
         ).apply(instance, KnockbackTrait::new));
 
         @Override

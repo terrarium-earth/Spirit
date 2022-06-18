@@ -2,7 +2,6 @@ package me.codexadrian.spirit.data;
 
 import me.codexadrian.spirit.entity.SoulArrowEntity;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 
 /**

@@ -1,9 +1,6 @@
 package me.codexadrian.spirit;
 
-import me.codexadrian.spirit.client.PedestalRenderer;
-import me.codexadrian.spirit.client.SoulArrowEntityRenderer;
-import me.codexadrian.spirit.client.SoulCageRenderer;
-import me.codexadrian.spirit.client.SoulPedestalRenderer;
+import me.codexadrian.spirit.client.*;
 import me.codexadrian.spirit.platform.ClientServices;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritItems;
@@ -29,6 +26,7 @@ public class SpiritClient {
         ClientServices.CLIENT.registerBlockEntityRenderers(SpiritBlocks.SOUL_PEDESTAL_ENTITY.get(), SoulPedestalRenderer::new);
         ClientServices.CLIENT.registerBlockEntityRenderers(SpiritBlocks.PEDESTAL_ENTITY.get(), PedestalRenderer::new);
         ClientServices.CLIENT.registerEntityRenderer(SpiritMisc.SOUL_ARROW_ENTITY, SoulArrowEntityRenderer::new);
+        ClientServices.CLIENT.registerEntityRenderer(SpiritMisc.SOUL_ENTITY, SoulEntityRenderer::new);
         ClientServices.CLIENT.registerItemProperty(SpiritItems.SOUL_BOW.get(), new ResourceLocation("pull"), (itemStack, clientLevel, livingEntity, i) -> {
             if (livingEntity == null) {
                 return 0.0f;

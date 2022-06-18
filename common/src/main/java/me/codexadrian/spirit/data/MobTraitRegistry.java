@@ -2,7 +2,7 @@ package me.codexadrian.spirit.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import me.codexadrian.spirit.data.entitytraits.*;
+import me.codexadrian.spirit.data.traits.*;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;

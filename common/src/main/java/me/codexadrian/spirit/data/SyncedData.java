@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.recipe;
+package me.codexadrian.spirit.data;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;

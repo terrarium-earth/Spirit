@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.data.entitytraits;
+package me.codexadrian.spirit.data.traits;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -6,18 +6,10 @@ import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.data.MobTrait;
 import me.codexadrian.spirit.data.MobTraitSerializer;
 import me.codexadrian.spirit.entity.SoulArrowEntity;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 
 public record FireTrait(int burnTime) implements MobTrait<FireTrait> {
