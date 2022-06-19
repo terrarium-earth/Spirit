@@ -4,19 +4,26 @@ import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.SpiritConfig;
 import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
+import me.codexadrian.spirit.data.MobTraitData;
+import me.codexadrian.spirit.data.traits.DamageTrait;
+import me.codexadrian.spirit.data.traits.KnockbackTrait;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +33,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Mixin(LivingEntity.class)
@@ -105,5 +114,22 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
     @Override
     public void setCorrupted() {
         entityData.set(CORRUPTED, true);
+    }
+
+    @Inject(method = "getAttributeValue", at = @At("RETURN"))
+    public void getMobTraitDamage(Attribute attribute, CallbackInfoReturnable<Double> cir) {
+        if(attribute == Attributes.ATTACK_DAMAGE && (Object) this instanceof Player player) {
+            ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
+            var entityEffect = MobTraitData.getEffectForEntity(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(Objects.requireNonNull(SoulUtils.getSoulCrystalType(soulCrystal)))), player.getLevel().getRecipeManager());
+            if(entityEffect.isPresent()) {
+                int damage = 0;
+                for(var trait : entityEffect.get().traits()) {
+                    if(trait instanceof DamageTrait knockbackTrait) {
+                        damage += knockbackTrait.additionalDamage();
+                    }
+                }
+                cir.setReturnValue(cir.getReturnValueD() + damage);
+            }
+        }
     }
 }

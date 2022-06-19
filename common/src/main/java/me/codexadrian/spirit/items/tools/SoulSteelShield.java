@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.items;
+package me.codexadrian.spirit.items.tools;
 
 import net.minecraft.world.item.ShieldItem;
 

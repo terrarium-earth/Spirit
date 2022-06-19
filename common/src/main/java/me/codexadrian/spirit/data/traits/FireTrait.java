@@ -5,11 +5,15 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.data.MobTrait;
 import me.codexadrian.spirit.data.MobTraitSerializer;
+import me.codexadrian.spirit.data.ToolType;
 import me.codexadrian.spirit.entity.SoulArrowEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 public record FireTrait(int burnTime) implements MobTrait<FireTrait> {
@@ -22,15 +26,15 @@ public record FireTrait(int burnTime) implements MobTrait<FireTrait> {
     }
 
     @Override
-    public void onHitEntity(Entity attacker, Entity victim) {
+    public void onHitEntity(ToolType type, Entity attacker, Entity victim) {
+        if(type == ToolType.BOW) return;
         victim.setSecondsOnFire(burnTime());
     }
 
     @Override
-    public void onHitBlock(Entity owner, BlockHitResult hitResult) {
-        Level level = owner.level;
-        if (BaseFireBlock.canBePlacedAt(level, hitResult.getBlockPos(), hitResult.getDirection())) {
-            level.setBlock(hitResult.getBlockPos(), BaseFireBlock.getState(level, hitResult.getBlockPos()), 11);
+    public void onHitBlock(ToolType type, Entity entity, BlockState blockState, Level level, BlockPos pos) {
+        if (BaseFireBlock.canBePlacedAt(level, pos, Direction.DOWN)) {
+            level.setBlock(pos, BaseFireBlock.getState(level, pos), 11);
         }
     }
 

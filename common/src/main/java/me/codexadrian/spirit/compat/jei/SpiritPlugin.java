@@ -37,9 +37,6 @@ public class SpiritPlugin implements IModPlugin {
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
         IModPlugin.super.registerRecipes(registration);
-        if(!Services.PLATFORM.isModLoaded("chipped") && SpiritConfig.showChippedError()) {
-            registration.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, SpiritBlocks.SOUL_GLASS_BLOCKS.stream().map(blockSupplier -> new ItemStack(blockSupplier.get().asItem())).toList());
-        }
         var level = Minecraft.getInstance().level;
         if(level != null) {
             registration.addRecipes(PedestalRecipeCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritMisc.SOUL_TRANSMUTATION_RECIPE.get()));

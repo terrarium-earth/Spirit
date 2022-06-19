@@ -5,7 +5,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.data.MobTrait;
 import me.codexadrian.spirit.data.MobTraitSerializer;
+import me.codexadrian.spirit.data.ToolType;
 import me.codexadrian.spirit.entity.SoulArrowEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
@@ -14,6 +16,8 @@ import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.List;
@@ -30,8 +34,7 @@ public record PotionTrait(List<MobEffectInstance> effects) implements MobTrait<P
     }
 
     @Override
-    public void onHitBlock(Entity entity, BlockHitResult hitResult) {
-        if(!(entity instanceof SoulArrowEntity)) return;
+    public void onHitBlock(ToolType type, Entity entity, BlockState blockState, Level level, BlockPos pos) {
         AreaEffectCloud potionCloud = EntityType.AREA_EFFECT_CLOUD.create(entity.level);
         if(potionCloud == null) return;
         for(var effect : effects()) {
@@ -40,11 +43,12 @@ public record PotionTrait(List<MobEffectInstance> effects) implements MobTrait<P
         potionCloud.setDuration(60);
         potionCloud.setRadius(1);
         potionCloud.setPos(entity.getX(), entity.getY(), entity.getZ());
-        entity.level.addFreshEntity(potionCloud);
+        level.addFreshEntity(potionCloud);
     }
 
     @Override
-    public void onHitEntity(Entity attacker, Entity victim) {
+    public void onHitEntity(ToolType type, Entity attacker, Entity victim) {
+        if(type == ToolType.BOW) return;
         if(victim instanceof LivingEntity livingEntity) {
             for (MobEffectInstance effect : effects()) {
                 livingEntity.addEffect(new MobEffectInstance(effect));

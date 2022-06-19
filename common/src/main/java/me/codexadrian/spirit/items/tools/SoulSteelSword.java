@@ -1,14 +1,17 @@
-package me.codexadrian.spirit.items;
+package me.codexadrian.spirit.items.tools;
 
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.data.MobTrait;
 import me.codexadrian.spirit.data.MobTraitData;
+import me.codexadrian.spirit.data.ToolType;
+import me.codexadrian.spirit.items.SoulMetalMaterial;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -36,10 +39,10 @@ public class SoulSteelSword extends SwordItem {
             ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
             if (soulCrystal.is(SpiritItems.SOUL_CRYSTAL.get()) && SoulUtils.getSoulsInCrystal(soulCrystal) > 0) {
                 if (itemStack.getOrCreateTag().getBoolean("Charged")) {
-                    Optional<MobTraitData> entityEffect = MobTraitData.getEffect(itemStack.getOrCreateTag().getString("EntityCharge"), victim.getLevel().getRecipeManager());
+                    var entityEffect = MobTraitData.getEffectForEntity(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(Objects.requireNonNull(SoulUtils.getSoulCrystalType(soulCrystal)))), attacker.getLevel().getRecipeManager());
                     if (entityEffect.isPresent()) {
                         for (MobTrait<?> trait : entityEffect.get().traits()) {
-                            trait.onHitEntity(attacker, victim);
+                            trait.onHitEntity(ToolType.SWORD, attacker, victim);
                         }
                         SoulUtils.deviateSoulCount(soulCrystal, -1, attacker.level, null);
                     }
@@ -47,32 +50,6 @@ public class SoulSteelSword extends SwordItem {
             }
         }
         return super.hurtEnemy(itemStack, victim, attacker);
-    }
-
-    @Override
-    public void releaseUsing(ItemStack itemStack, Level level, LivingEntity livingEntity, int drawTime) {
-        if (livingEntity instanceof Player player) {
-            ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
-            if (drawTime < 30) {
-                return;
-            }
-            if (soulCrystal.is(SpiritItems.SOUL_CRYSTAL.get())) {
-                if (!itemStack.getOrCreateTag().getBoolean("Charged")) {
-                    var entityEffect = MobTraitData.getEffectForEntity(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(Objects.requireNonNull(SoulUtils.getSoulCrystalType(soulCrystal)))), level.getRecipeManager());
-                    entityEffect.ifPresent(effect -> {
-                        itemStack.getOrCreateTag().putBoolean("Charged", true);
-                    });
-                } else {
-                    itemStack.getOrCreateTag().putBoolean("Charged", false);
-                    var entityEffect = MobTraitData.getEffect(itemStack.getOrCreateTag().getString("MobTrait"), level.getRecipeManager());
-                    entityEffect.ifPresent(effect -> {
-                        itemStack.getOrCreateTag().remove("MobTrait");
-                    });
-                }
-            } else {
-                itemStack.getOrCreateTag().putBoolean("Charged", false);
-            }
-        }
     }
 
     @Override
@@ -87,11 +64,24 @@ public class SoulSteelSword extends SwordItem {
     }
 
     @Override
+    public void releaseUsing(ItemStack itemStack, Level level, LivingEntity livingEntity, int drawTime) {
+        if (livingEntity instanceof Player player) {
+            ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
+            if (drawTime < 30) {
+                return;
+            }
+            if (soulCrystal.is(SpiritItems.SOUL_CRYSTAL.get())) {
+                itemStack.getOrCreateTag().putBoolean("Charged", !itemStack.getOrCreateTag().getBoolean("Charged"));
+            } else {
+                itemStack.getOrCreateTag().putBoolean("Charged", false);
+            }
+        }
+    }
+
+    @Override
     public UseAnim getUseAnimation(ItemStack itemStack) {
         return UseAnim.BOW;
     }
-
-
 
     @Override
     public int getUseDuration(ItemStack itemStack) {

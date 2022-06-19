@@ -1,6 +1,9 @@
 package me.codexadrian.spirit.registry;
 
 import me.codexadrian.spirit.items.*;
+import me.codexadrian.spirit.items.tools.SoulSteelBow;
+import me.codexadrian.spirit.items.tools.SoulSteelShield;
+import me.codexadrian.spirit.items.tools.SoulSteelSword;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 

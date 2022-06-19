@@ -1,6 +1,7 @@
 package me.codexadrian.spirit.entity;
 
 import me.codexadrian.spirit.data.MobTraitData;
+import me.codexadrian.spirit.data.ToolType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -64,7 +65,7 @@ public class SoulArrowEntity extends Arrow implements ItemSupplier {
     protected void onHitEntity(@NotNull EntityHitResult entityHitResult) {
         super.onHitEntity(entityHitResult);
         if(effect != null) {
-            effect.traits().forEach(soulArrowTrait -> soulArrowTrait.onHitEntity(this.getOwner(), entityHitResult.getEntity()));
+            effect.traits().forEach(soulArrowTrait -> soulArrowTrait.onHitEntity(ToolType.BOW, this.getOwner(), entityHitResult.getEntity()));
         }
     }
 
@@ -72,7 +73,7 @@ public class SoulArrowEntity extends Arrow implements ItemSupplier {
     protected void onHitBlock(@NotNull BlockHitResult blockHitResult) {
         super.onHitBlock(blockHitResult);
         if(effect != null) {
-            effect.traits().forEach(soulArrowTrait -> soulArrowTrait.onHitBlock(this, blockHitResult));
+            effect.traits().forEach(soulArrowTrait -> soulArrowTrait.onHitBlock(ToolType.BOW,this, blockHitResult));
             this.discard();
         }
     }

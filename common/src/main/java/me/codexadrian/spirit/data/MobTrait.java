@@ -1,7 +1,10 @@
 package me.codexadrian.spirit.data;
 
 import me.codexadrian.spirit.entity.SoulArrowEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 /**
@@ -14,11 +17,9 @@ public interface MobTrait<T extends MobTrait<T>> {
 
     default void initializeArrow(SoulArrowEntity soulArrow){}
 
-    default void onHitEntity(Entity attacker, Entity victim){}
+    default void onHitEntity(ToolType type, Entity attacker, Entity victim){}
 
-    default void onHitBlock(Entity owner, BlockHitResult hitResult){}
-
-    default void onBreakBlock(Entity owner, BlockHitResult hitResult){}
+    default void onHitBlock(ToolType type, Entity owner, BlockState blockState, Level level, BlockPos pos){}
 
     default void onArrowFire(SoulArrowEntity soulArrow) {}
 

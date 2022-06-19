@@ -64,7 +64,7 @@ public class SpiritBlocks {
     private static void registerChippedVariants(String name, Supplier<Block> block, int blocks) {
         for (int i = 1; i <= blocks; i++) {
             Supplier<Block> ctmBlock = REGISTRY.registerBlock(name + "_" + i, block);
-            REGISTRY.registerItem(name + "_" + i, () -> new ChippedBlockItem(ctmBlock.get(), new Item.Properties().tab(SPIRIT)));
+            REGISTRY.registerItem(name + "_" + i, () -> new ChippedBlockItem(ctmBlock.get(), Services.PLATFORM.isModLoaded("chipped") ? new Item.Properties().tab(SPIRIT) : new Item.Properties()));
             SOUL_GLASS_BLOCKS.add(ctmBlock);
         }
     }
