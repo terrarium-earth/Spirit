@@ -22,6 +22,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -29,13 +31,15 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public class CrystalPedestalBlock extends BaseEntityBlock {
 
     public static final VoxelShape SHAPE = Shapes.or(
-            Block.box(0, 5, 0, 16, 10, 16),
-            Block.box(3, 10, 3, 13, 11, 13),
-            Block.box(4, 3, 4, 12, 5, 12),
-            Block.box(2, 0, 2, 14, 3, 14)
+            Block.box(4, 3, 4, 12, 6, 12),
+            Block.box(2, 0, 2, 14, 3, 14),
+            Block.box(2, 6, 2, 14, 9, 14),
+            Block.box(4, 9, 4, 12, 10, 12)
     );
 
     public CrystalPedestalBlock(Properties $$0) {
@@ -45,20 +49,20 @@ public class CrystalPedestalBlock extends BaseEntityBlock {
     public @NotNull InteractionResult use(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
         if (interactionHand != InteractionHand.OFF_HAND) {
             ItemStack itemStack = player.getMainHandItem();
-            if (level.getBlockEntity(blockPos) instanceof SoulPedestalBlockEntity soulPedestal) {
-                ItemStack pedestalItem = soulPedestal.getItem(0);
-                if (soulPedestal.isEmpty()) {
+            if (level.getBlockEntity(blockPos) instanceof PedestalBlockEntity crystalPedestal) {
+                ItemStack pedestalItem = crystalPedestal.getItem(0);
+                if (crystalPedestal.isEmpty()) {
                     if ((itemStack.is(SpiritItems.SOUL_CRYSTAL.get()) || itemStack.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()))) {
-                        soulPedestal.setItem(0, itemStack.copy());
+                        crystalPedestal.setItem(0, itemStack.copy());
                         if (!player.getAbilities().instabuild) {
                             itemStack.shrink(1);
                         }
-                        soulPedestal.setChanged();
+                        crystalPedestal.setChanged();
                         level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
                         return InteractionResult.SUCCESS;
                     }
                 } else if (itemStack.isEmpty()) {
-                    ItemStack soulCrystal = soulPedestal.removeItem(0, Block.UPDATE_ALL);
+                    ItemStack soulCrystal = crystalPedestal.removeItem(0, Block.UPDATE_ALL);
                     player.getInventory().placeItemBackInInventory(soulCrystal);
                     return InteractionResult.SUCCESS;
                 } else if (SoulUtils.getSoulsInCrystal(itemStack) > 0) {
@@ -66,7 +70,7 @@ public class CrystalPedestalBlock extends BaseEntityBlock {
                         if (SoulUtils.canCrystalAcceptSoul(pedestalItem, null)) {
                             int deviateSoulCount = Math.min(SpiritConfig.getCrudeSoulCrystalCap() - SoulUtils.getSoulsInCrystal(pedestalItem), SoulUtils.getSoulsInCrystal(itemStack));
                             combineSoulCrystals(level, blockPos, itemStack, pedestalItem, deviateSoulCount, null);
-                            soulPedestal.setChanged();
+                            crystalPedestal.setChanged();
                             level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
                             return InteractionResult.SUCCESS;
                         }
@@ -77,7 +81,7 @@ public class CrystalPedestalBlock extends BaseEntityBlock {
                         if ((SoulUtils.doCrystalTypesMatch(pedestalItem, itemStack) && soulsInCrystal < maxSouls) || !pedestalItem.hasTag()) {
                             int deviateSoulCount = Math.min(maxSouls - soulsInCrystal, SoulUtils.getSoulsInCrystal(itemStack));
                             combineSoulCrystals(level, blockPos, itemStack, pedestalItem, deviateSoulCount, SoulUtils.getSoulCrystalType(pedestalItem));
-                            soulPedestal.setChanged();
+                            crystalPedestal.setChanged();
                             level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
                             return InteractionResult.SUCCESS;
                         }
@@ -102,7 +106,7 @@ public class CrystalPedestalBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState blockState, @NotNull BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, SpiritBlocks.SOUL_PEDESTAL_ENTITY.get(), SoulPedestalBlockEntity::tick);
+        return createTickerHelper(blockEntityType, SpiritBlocks.PEDESTAL_ENTITY.get(), PedestalBlockEntity::tick);
     }
 
 
@@ -114,10 +118,21 @@ public class CrystalPedestalBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
-        return new SoulPedestalBlockEntity(blockPos, blockState);
+        return new PedestalBlockEntity(blockPos, blockState);
     }
 
     @Override
+    public @NotNull List<ItemStack> getDrops(@NotNull BlockState blockState, LootContext.@NotNull Builder builder) {
+        List<ItemStack> drops = super.getDrops(blockState, builder);
+        BlockEntity blockE = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
+        if (blockE instanceof PedestalBlockEntity pedestalBlock) {
+            drops.add(pedestalBlock.getItem(0));
+        }
+
+        return drops;
+    }
+
+        @Override
     public RenderShape getRenderShape(@NotNull BlockState blockState) {
         return RenderShape.MODEL;
     }

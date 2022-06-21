@@ -1,11 +1,12 @@
 package me.codexadrian.spirit.items.tools;
 
 import me.codexadrian.spirit.Spirit;
-import me.codexadrian.spirit.entity.SoulArrowEntity;
 import me.codexadrian.spirit.data.MobTraitData;
+import me.codexadrian.spirit.entity.SoulArrowEntity;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.registry.SpiritMisc;
 import me.codexadrian.spirit.utils.SoulUtils;
+import me.codexadrian.spirit.utils.ToolUtils;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -80,13 +81,7 @@ public class SoulSteelBow extends BowItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand interactionHand) {
-        ItemStack itemStack = player.getItemInHand(interactionHand);
-        ItemStack crystal = SoulUtils.findCrystal(player, null, true);
-        if (player.getAbilities().instabuild || (!crystal.isEmpty() && SoulUtils.getSoulsInCrystal(crystal) > 0)) {
-            player.startUsingItem(interactionHand);
-            return InteractionResultHolder.consume(itemStack);
-        }
-        return InteractionResultHolder.fail(itemStack);
+        return ToolUtils.handleToolDrawing(player, interactionHand);
     }
 
     @Override

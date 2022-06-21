@@ -1,6 +1,7 @@
 package me.codexadrian.spirit.utils;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.SpiritConfig;
 import me.codexadrian.spirit.data.Tier;
 import me.codexadrian.spirit.registry.SpiritItems;
@@ -233,7 +234,7 @@ public class SoulUtils {
 
     public static int getSoulHarvestAmount(Player player) {
         int returnAmount = 1;
-        if (player.getMainHandItem().is(SpiritItems.SOUL_STEEL_BLADE.get()) || player.getMainHandItem().is(SpiritItems.SOUL_BOW.get()) || player.getOffhandItem().is(SpiritItems.SOUL_BOW.get()))
+        if (player.getMainHandItem().is(Spirit.SOUL_STEEL_MAINHAND) || player.getOffhandItem().is(Spirit.SOUL_STEEL_OFFHAND))
             returnAmount++;
         return returnAmount + EnchantmentHelper.getEnchantmentLevel(SpiritMisc.SOUL_REAPER_ENCHANTMENT.get(), player);
     }

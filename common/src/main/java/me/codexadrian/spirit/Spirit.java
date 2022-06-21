@@ -1,5 +1,6 @@
 package me.codexadrian.spirit;
 
+import me.codexadrian.spirit.network.NetworkHandler;
 import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritItems;
@@ -10,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +29,9 @@ public class Spirit {
             new ResourceLocation(MODID, "itemgroup"), () -> new ItemStack(SpiritItems.SOUL_CRYSTAL.get()));
 
     public static final TagKey<EntityType<?>> BLACKLISTED_TAG = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(MODID, "soul_cage_blacklisted"));
+    public static final TagKey<Item> SOUL_STEEL_MAINHAND = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(MODID, "soul_steel_mainhand"));
+    public static final TagKey<Item> SOUL_FIRE_IMMUNE = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(MODID, "soul_fire_immune"));
+    public static final TagKey<Item> SOUL_STEEL_OFFHAND = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(MODID, "soul_steel_offhand"));
 
     public static final int SOUL_COLOR = 0xFF00fffb;
 
@@ -34,5 +39,6 @@ public class Spirit {
         SpiritMisc.registerAll();
         SpiritBlocks.registerAll();
         SpiritItems.registerAll();
+        NetworkHandler.register();
     }
 }

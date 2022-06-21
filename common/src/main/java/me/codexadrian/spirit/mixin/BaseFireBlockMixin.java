@@ -1,8 +1,8 @@
 package me.codexadrian.spirit.mixin;
 
+import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.recipe.SoulEngulfingRecipe;
-import me.codexadrian.spirit.registry.SpiritItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -38,7 +38,11 @@ public abstract class BaseFireBlockMixin {
                 }
             }
 
-            if (itemE.getItem().is(SpiritItems.SOUL_STEEL_BLADE.get()) || itemE.getItem().is(SpiritItems.SOUL_BOW.get())) {
+            if(itemE.getItem().is(Spirit.SOUL_STEEL_MAINHAND)) {
+                itemE.setInvulnerable(true);
+            }
+
+            if (itemE.getItem().is(Spirit.SOUL_STEEL_MAINHAND)) {
                 itemE.setInvulnerable(true);
                 ItemStack tool = itemE.getItem();
                 if (tool.isDamaged() && level.random.nextBoolean()) {

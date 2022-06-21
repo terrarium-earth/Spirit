@@ -73,7 +73,7 @@ public class SoulArrowEntity extends Arrow implements ItemSupplier {
     protected void onHitBlock(@NotNull BlockHitResult blockHitResult) {
         super.onHitBlock(blockHitResult);
         if(effect != null) {
-            effect.traits().forEach(soulArrowTrait -> soulArrowTrait.onHitBlock(ToolType.BOW,this, blockHitResult));
+            effect.traits().forEach(soulArrowTrait -> soulArrowTrait.onHitBlock(ToolType.BOW,this, level.getBlockState(blockHitResult.getBlockPos()), level, blockHitResult.getBlockPos()));
             this.discard();
         }
     }

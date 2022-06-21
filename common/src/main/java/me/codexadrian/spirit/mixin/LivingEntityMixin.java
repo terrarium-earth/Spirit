@@ -116,19 +116,25 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
         entityData.set(CORRUPTED, true);
     }
 
-    @Inject(method = "getAttributeValue", at = @At("RETURN"))
+    @Inject(method = "getAttributeValue", at = @At("RETURN"), cancellable = true)
     public void getMobTraitDamage(Attribute attribute, CallbackInfoReturnable<Double> cir) {
-        if(attribute == Attributes.ATTACK_DAMAGE && (Object) this instanceof Player player) {
+        //noinspection ConstantConditions
+        if(attribute == Attributes.ATTACK_DAMAGE && (Object) this instanceof Player player && player.getMainHandItem().is(Spirit.SOUL_STEEL_MAINHAND)) {
             ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
-            var entityEffect = MobTraitData.getEffectForEntity(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(Objects.requireNonNull(SoulUtils.getSoulCrystalType(soulCrystal)))), player.getLevel().getRecipeManager());
-            if(entityEffect.isPresent()) {
-                int damage = 0;
-                for(var trait : entityEffect.get().traits()) {
-                    if(trait instanceof DamageTrait knockbackTrait) {
-                        damage += knockbackTrait.additionalDamage();
+            if(!soulCrystal.isEmpty()) {
+                String soulCrystalType = SoulUtils.getSoulCrystalType(soulCrystal);
+                if(soulCrystalType != null && SoulUtils.getSoulsInCrystal(soulCrystal) > 0) {
+                    var entityEffect = MobTraitData.getEffectForEntity(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(soulCrystalType)), player.getLevel().getRecipeManager());
+                    if(entityEffect.isPresent()) {
+                        int damage = 0;
+                        for(var trait : entityEffect.get().traits()) {
+                            if(trait instanceof DamageTrait damageTrait) {
+                                damage += damageTrait.additionalDamage();
+                            }
+                        }
+                        cir.setReturnValue(cir.getReturnValueD() + damage);
                     }
                 }
-                cir.setReturnValue(cir.getReturnValueD() + damage);
             }
         }
     }

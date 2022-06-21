@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "spirit:item/soul_blade"
+    "layer0": "spirit:item/soul_steel_pickaxe"
   }
 }
 

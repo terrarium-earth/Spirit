@@ -42,7 +42,7 @@ public record PotionTrait(List<MobEffectInstance> effects) implements MobTrait<P
         }
         potionCloud.setDuration(60);
         potionCloud.setRadius(1);
-        potionCloud.setPos(entity.getX(), entity.getY(), entity.getZ());
+        potionCloud.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
         level.addFreshEntity(potionCloud);
     }
 

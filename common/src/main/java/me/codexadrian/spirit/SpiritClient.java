@@ -1,6 +1,7 @@
 package me.codexadrian.spirit;
 
 import me.codexadrian.spirit.client.*;
+import me.codexadrian.spirit.network.NetworkHandler;
 import me.codexadrian.spirit.platform.ClientServices;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritItems;

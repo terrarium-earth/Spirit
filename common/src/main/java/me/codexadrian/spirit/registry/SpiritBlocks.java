@@ -1,9 +1,6 @@
 package me.codexadrian.spirit.registry;
 
-import me.codexadrian.spirit.blocks.BrokenSpawnerBlock;
-import me.codexadrian.spirit.blocks.PedestalBlock;
-import me.codexadrian.spirit.blocks.SoulCageBlock;
-import me.codexadrian.spirit.blocks.SoulPedestalBlock;
+import me.codexadrian.spirit.blocks.*;
 import me.codexadrian.spirit.blocks.blockentity.PedestalBlockEntity;
 import me.codexadrian.spirit.blocks.blockentity.SoulCageBlockEntity;
 import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
@@ -36,6 +33,9 @@ public class SpiritBlocks {
     public static final Supplier<Block> SOUL_PEDESTAL = registerBlockWithItem("soul_pedestal", () ->
             new SoulPedestalBlock(BlockBehaviour.Properties.copy(Blocks.SPAWNER).requiresCorrectToolForDrops()));
 
+    public static final Supplier<Block> CRYSTAL_PEDESTAL = registerBlockWithItem("crystal_pedestal", () ->
+            new CrystalPedestalBlock(BlockBehaviour.Properties.copy(Blocks.SPAWNER).requiresCorrectToolForDrops()));
+
     public static final Supplier<BlockEntityType<SoulPedestalBlockEntity>> SOUL_PEDESTAL_ENTITY =
             REGISTRY.registerBlockEntity("soul_pedestal", () -> Services.REGISTRY.createBlockEntityType(SoulPedestalBlockEntity::new, SOUL_PEDESTAL.get()));
 
@@ -43,7 +43,15 @@ public class SpiritBlocks {
             new PedestalBlock(BlockBehaviour.Properties.copy(Blocks.SPAWNER).requiresCorrectToolForDrops()));
 
     public static final Supplier<BlockEntityType<PedestalBlockEntity>> PEDESTAL_ENTITY =
-            REGISTRY.registerBlockEntity("pedestal", () -> Services.REGISTRY.createBlockEntityType(PedestalBlockEntity::new, PEDESTAL.get()));
+            REGISTRY.registerBlockEntity("pedestal", () -> Services.REGISTRY.createBlockEntityType(PedestalBlockEntity::new, PEDESTAL.get(), CRYSTAL_PEDESTAL.get()));
+
+    public static final Supplier<Block> SOUL_GLASS = registerBlockWithItem("soul_glass", () -> new GlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS)));
+
+    public static final Supplier<Block> SOUL_SLATE = registerBlockWithItem("soul_slate", () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE)));
+
+    public static final Supplier<Block> SOUL_STEEL_BLOCK = registerBlockWithItem("soul_steel_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)), new Item.Properties().tab(SPIRIT).rarity(Rarity.RARE));
+
+    public static final Supplier<Block> BROKEN_SPAWNER = registerBlockWithItem("broken_spawner", BrokenSpawnerBlock::new);
 
     private static Supplier<Block> registerBlockWithItem(String name, Supplier<Block> block, Item.Properties properties) {
         var newBlock = REGISTRY.registerBlock(name, block);
@@ -54,12 +62,6 @@ public class SpiritBlocks {
     private static Supplier<Block> registerBlockWithItem(String name, Supplier<Block> block) {
         return registerBlockWithItem(name, block, new Item.Properties().tab(SPIRIT));
     }
-
-    public static final Supplier<Block> SOUL_GLASS = registerBlockWithItem("soul_glass", () -> new GlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS)));
-
-    public static final Supplier<Block> SOUL_STEEL_BLOCK = registerBlockWithItem("soul_steel_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)), new Item.Properties().tab(SPIRIT).rarity(Rarity.RARE));
-
-    public static final Supplier<Block> BROKEN_SPAWNER = registerBlockWithItem("broken_spawner", BrokenSpawnerBlock::new);
 
     private static void registerChippedVariants(String name, Supplier<Block> block, int blocks) {
         for (int i = 1; i <= blocks; i++) {
