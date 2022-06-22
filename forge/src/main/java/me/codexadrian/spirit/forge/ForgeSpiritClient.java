@@ -2,8 +2,10 @@ package me.codexadrian.spirit.forge;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import me.codexadrian.spirit.SpiritClient;
+import me.codexadrian.spirit.client.CrudeSoulEntityModel;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -26,5 +28,10 @@ public class ForgeSpiritClient {
                 new ResourceLocation("rendertype_entity_corrupted"),
                 DefaultVertexFormat.BLOCK
         ), shader -> ForgeSoulShader.rendertypeTranslucentShader = shader);
+    }
+
+    @SubscribeEvent
+    public static void addLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(CrudeSoulEntityModel.LAYER_LOCATION, CrudeSoulEntityModel::createBodyLayer);
     }
 }

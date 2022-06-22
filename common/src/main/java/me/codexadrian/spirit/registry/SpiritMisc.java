@@ -4,7 +4,7 @@ import me.codexadrian.spirit.enchantments.SoulReaperEnchantment;
 import me.codexadrian.spirit.entity.SoulArrowEntity;
 import me.codexadrian.spirit.data.CodecRecipeSerializer;
 import me.codexadrian.spirit.data.MobTraitData;
-import me.codexadrian.spirit.entity.SoulEntity;
+import me.codexadrian.spirit.entity.CrudeSoulEntity;
 import me.codexadrian.spirit.recipe.PedestalRecipe;
 import me.codexadrian.spirit.recipe.SoulEngulfingRecipe;
 import me.codexadrian.spirit.data.Tier;
@@ -21,7 +21,7 @@ import static me.codexadrian.spirit.platform.Services.REGISTRY;
 public class SpiritMisc {
     public static final Supplier<EntityType<SoulArrowEntity>> SOUL_ARROW_ENTITY = REGISTRY.registerEntity("soul_arrow", SoulArrowEntity::new, MobCategory.MISC, 0.5F, 0.5F);
 
-    public static final Supplier<EntityType<SoulEntity>> SOUL_ENTITY = REGISTRY.registerEntity("soul", SoulEntity::new, MobCategory.MISC, 0.5F, 0.5F);
+    public static final Supplier<EntityType<CrudeSoulEntity>> SOUL_ENTITY = REGISTRY.registerEntity("soul", CrudeSoulEntity::new, MobCategory.MISC, 0.5F, 0.5F);
 
     public static final Supplier<RecipeType<SoulEngulfingRecipe>> SOUL_ENGULFING_RECIPE = REGISTRY.registerRecipeType("soul_engulfing", () -> new RecipeType<>() {
         @Override

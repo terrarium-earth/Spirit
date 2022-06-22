@@ -35,7 +35,7 @@ public class ToolUtils {
     }
 
     public static InteractionResult handleOnHitBlock(InteractionResult result, ToolType type, Player player, ItemStack tool, Level level, BlockPos pos) {
-        if(result == InteractionResult.SUCCESS) {
+        if(result == InteractionResult.CONSUME) {
             ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
             if (soulCrystal.is(SpiritItems.SOUL_CRYSTAL.get()) && SoulUtils.getSoulsInCrystal(soulCrystal) > 0) {
                 if (tool.getOrCreateTag().getBoolean("Charged")) {

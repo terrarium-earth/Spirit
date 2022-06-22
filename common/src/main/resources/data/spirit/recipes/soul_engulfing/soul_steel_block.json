@@ -1,0 +1,10 @@
+{
+  "type": "spirit:soul_engulfing",
+  "input": {
+    "ingredient": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "duration": 300,
+  "outputItem": "spirit:soul_steel_block"
+}

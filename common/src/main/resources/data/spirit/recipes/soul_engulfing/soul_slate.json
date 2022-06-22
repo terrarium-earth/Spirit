@@ -1,0 +1,10 @@
+{
+  "type": "spirit:soul_engulfing",
+  "input": {
+    "ingredient": {
+      "item": "minecraft:deepslate"
+    }
+  },
+  "duration": 10,
+  "outputItem": "spirit:soul_slate"
+}

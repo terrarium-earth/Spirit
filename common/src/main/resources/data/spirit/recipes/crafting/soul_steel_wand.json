@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "spirit:soul_steel_ingot"
+    },
+    "X": {
+      "item": "spirit:crude_soul_crystal"
+    }
+  },
+  "pattern": [
+    "  X",
+    " # ",
+    "#  "
+  ],
+  "result": {
+    "item": "spirit:soul_steel_wand"
+  }
+}

@@ -38,7 +38,7 @@ public abstract class BaseFireBlockMixin {
                 }
             }
 
-            if(itemE.getItem().is(Spirit.SOUL_STEEL_MAINHAND)) {
+            if(itemE.getItem().is(Spirit.SOUL_FIRE_IMMUNE)) {
                 itemE.setInvulnerable(true);
             }
 

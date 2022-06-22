@@ -2,7 +2,7 @@
   "type": "spirit:soul_engulfing",
   "input": {
     "ingredient": {
-      "item": "minecraft:tinted_glass"
+      "item": "spirit:crude_soul_crystal"
     },
     "multiblock": {
       "pattern": [
@@ -19,12 +19,11 @@
       ],
       "keys": {
         "S": {
-          "blocks": "${modloader}:lapis"
+          "block": "#spirit:soul_glass"
         }
       }
     }
   },
   "duration": 40,
-  "destroysStructure": false,
-  "outputItem": "spirit:soul_glass"
+  "outputItem": "spirit:soul_crystal"
 }

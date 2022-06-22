@@ -35,7 +35,7 @@ public class SoulCrystalItem extends Item {
         if (itemStack.getTag() != null && level != null) {
             final CompoundTag storedEntity = itemStack.getTag().getCompound("StoredEntity");
             if (storedEntity.contains("Type")) {
-                MutableComponent tooltip = Component.translatable(Util.makeDescriptionId("entity", new ResourceLocation(storedEntity.getString("Type"))));
+                MutableComponent tooltip = Component.translatable(Util.makeDescriptionId("entity", ResourceLocation.tryParse(storedEntity.getString("Type"))));
                 tooltip.append(Component.literal(" ").append(Component.translatable(SoulUtils.getTierDisplay(itemStack, level)).append(" - ")));
                 Tier nextTier = SoulUtils.getNextTier(itemStack, level);
                 int maxSouls = SoulUtils.getMaxSouls(itemStack, level);

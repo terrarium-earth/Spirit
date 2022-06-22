@@ -33,8 +33,8 @@ public record FireTrait(int burnTime) implements MobTrait<FireTrait> {
 
     @Override
     public void onHitBlock(ToolType type, Entity entity, BlockState blockState, Level level, BlockPos pos) {
-        if (BaseFireBlock.canBePlacedAt(level, pos, Direction.DOWN)) {
-            level.setBlock(pos, BaseFireBlock.getState(level, pos), 11);
+        if (BaseFireBlock.canBePlacedAt(level, pos.relative(Direction.UP), Direction.UP)) {
+            level.setBlock(pos.relative(Direction.UP), BaseFireBlock.getState(level, pos.relative(Direction.UP)), 11);
         }
     }
 

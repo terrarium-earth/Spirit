@@ -1,9 +1,8 @@
 package me.codexadrian.spirit.forge;
 
-import me.codexadrian.spirit.Constants;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.compat.forge.TOPCompat;
-import me.codexadrian.spirit.entity.SoulEntity;
+import me.codexadrian.spirit.entity.CrudeSoulEntity;
 import me.codexadrian.spirit.platform.forge.ForgeRegistryHelper;
 import me.codexadrian.spirit.registry.SpiritMisc;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -41,6 +40,6 @@ public class ForgeSpirit {
     }
 
     private void entityAttributeStuff(EntityAttributeCreationEvent event) {
-        event.put(SpiritMisc.SOUL_ENTITY.get(), SoulEntity.createMobAttributes().build());
+        event.put(SpiritMisc.SOUL_ENTITY.get(), CrudeSoulEntity.createMobAttributes().build());
     }
 }

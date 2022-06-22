@@ -1,16 +1,13 @@
 package me.codexadrian.spirit;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import me.codexadrian.spirit.client.*;
-import me.codexadrian.spirit.network.NetworkHandler;
 import me.codexadrian.spirit.platform.ClientServices;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.registry.SpiritMisc;
-import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
 
 public class SpiritClient {
 
@@ -27,7 +24,7 @@ public class SpiritClient {
         ClientServices.CLIENT.registerBlockEntityRenderers(SpiritBlocks.SOUL_PEDESTAL_ENTITY.get(), SoulPedestalRenderer::new);
         ClientServices.CLIENT.registerBlockEntityRenderers(SpiritBlocks.PEDESTAL_ENTITY.get(), PedestalRenderer::new);
         ClientServices.CLIENT.registerEntityRenderer(SpiritMisc.SOUL_ARROW_ENTITY, SoulArrowEntityRenderer::new);
-        ClientServices.CLIENT.registerEntityRenderer(SpiritMisc.SOUL_ENTITY, SoulEntityRenderer::new);
+        ClientServices.CLIENT.registerEntityRenderer(SpiritMisc.SOUL_ENTITY, CrudeSoulEntityRenderer::new);
         ClientServices.CLIENT.registerItemProperty(SpiritItems.SOUL_BOW.get(), new ResourceLocation("pull"), (itemStack, clientLevel, livingEntity, i) -> {
             if (livingEntity == null) {
                 return 0.0f;

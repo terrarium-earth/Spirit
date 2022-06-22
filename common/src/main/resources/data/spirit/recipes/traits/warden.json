@@ -9,6 +9,15 @@
     {
       "type": "spirit:damage",
       "additionalDamage": 5.0
+    },
+    {
+      "type": "spirit:potion_effect",
+      "effects": [
+        {
+          "effect": "minecraft:darkness",
+          "duration": 100
+        }
+      ]
     }
   ]
 }

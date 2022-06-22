@@ -16,6 +16,6 @@ public class SoulSteelHoe extends HoeItem {
 
     @Override
     public InteractionResult useOn(@NotNull UseOnContext useOnContext) {
-        return ToolUtils.handleOnHitBlock(super.useOn(useOnContext), ToolType.HOE, useOnContext.getPlayer(), useOnContext.getItemInHand(), useOnContext.getLevel(), useOnContext.getClickedPos());
+        return ToolUtils.handleOnHitBlock(super.useOn(useOnContext), ToolType.HOE, useOnContext.getPlayer(), useOnContext.getItemInHand(), useOnContext.getLevel(), useOnContext.getClickedPos().relative(useOnContext.getClickedFace()));
     }
 }

@@ -126,7 +126,7 @@ public class SoulUtils {
         ItemStack savedStack = ItemStack.EMPTY;
         int savedSouls = 0;
         for (ItemStack currentItem : inventory) {
-            if (!currentItem.is(SpiritItems.SOUL_CRYSTAL.get()) || getSoulsInCrystal(currentItem) <= 0 && !mustContainSouls) {
+            if (!currentItem.is(SpiritItems.SOUL_CRYSTAL.get()) || (getSoulsInCrystal(currentItem) == 0 && mustContainSouls)) {
                 continue;
             }
             if (victim == null) {
@@ -156,7 +156,7 @@ public class SoulUtils {
         int savedSouls = 0;
 
         for (ItemStack currentItem : inventory) {
-            if (!currentItem.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()) || getSoulsInCrystal(currentItem) <= 0 && !mustContainSouls) {
+            if (!currentItem.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()) || (getSoulsInCrystal(currentItem) == 0 && mustContainSouls)) {
                 continue;
             }
 

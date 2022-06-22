@@ -5,6 +5,10 @@
     {
       "type": "spirit:fire",
       "duration": 200
+    },
+    {
+      "type": "spirit:damage",
+      "additionalDamage": 1.5
     }
   ]
 }

@@ -2,7 +2,7 @@
   "type": "spirit:soul_engulfing",
   "input": {
     "ingredient": {
-      "item": "minecraft:amethyst_shard"
+      "item": "minecraft:tinted_glass"
     },
     "multiblock": {
       "pattern": [
@@ -19,11 +19,12 @@
       ],
       "keys": {
         "S": {
-          "blocks": "#spirit:soul_glass"
+          "block": "minecraft:lapis_block"
         }
       }
     }
   },
   "duration": 40,
-  "outputItem": "spirit:soul_crystal"
+  "destroysStructure": false,
+  "outputItem": "spirit:soul_glass"
 }

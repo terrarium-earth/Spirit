@@ -65,9 +65,12 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
         if (itemE instanceof EngulfableItem engulfableItem) {
             if (!engulfableItem.isEngulfed() && this.duration() > 0) engulfableItem.setMaxEngulfTime(this.duration());
             else if (engulfableItem.isEngulfed() || this.duration() == 0) {
-                if (multiblock.isPresent() && !multiblock.get().validateMultiblock(blockPos, level, false))
+                if (multiblock.isPresent() && !multiblock.get().validateMultiblock(blockPos, level, false)) {
                     engulfableItem.resetEngulfing();
-                if (engulfableItem.isFullyEngulfed() && multiblock.isPresent() && multiblock.get().validateMultiblock(blockPos, level, breaksBlocks())) {
+                    itemE.setInvulnerable(false);
+                    return false;
+                }
+                if (engulfableItem.isFullyEngulfed() && (multiblock.isEmpty() || multiblock.get().validateMultiblock(blockPos, level, breaksBlocks()))) {
                     itemE.setInvulnerable(true);
                     ItemEntity output = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), this.getResultItem());
                     output.setInvulnerable(true);
