@@ -9,12 +9,15 @@
     },
     "X": {
       "item": "spirit:soul_steel_block"
+    },
+    "S": {
+      "item": "spirit:soul_slate"
     }
   },
   "pattern": [
     "#X#",
     " @ ",
-    "###"
+    "SSS"
   ],
   "result": {
     "item": "spirit:soul_pedestal"

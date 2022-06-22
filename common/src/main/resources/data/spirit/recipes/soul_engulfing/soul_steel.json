@@ -6,5 +6,6 @@
     }
   },
   "duration": 60,
+  "destroysStructure": false,
   "outputItem": "spirit:soul_steel_ingot"
 }

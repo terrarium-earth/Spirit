@@ -1,15 +1,21 @@
 package me.codexadrian.spirit.compat.jei.categories;
-/*
+
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3d;
+import com.mojang.math.Vector3f;
 import me.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.compat.jei.multiblock.SoulEngulfingRecipeWrapper;
 import me.codexadrian.spirit.recipe.PedestalRecipe;
 import me.codexadrian.spirit.recipe.SoulEngulfingRecipe;
+import me.codexadrian.spirit.registry.SpiritItems;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -17,11 +23,14 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.BlockPos;
@@ -42,277 +51,117 @@ import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipe> {
+public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapper> {
 
-    public static final ResourceLocation GUI_BACKGROUND = new ResourceLocation(Spirit.MODID, "textures/gui/soul_transmutation.png");
-    public static final ResourceLocation ID = new ResourceLocation(Spirit.MODID, "soul_transmutation");
-    public static final RecipeType<PedestalRecipe> RECIPE = new RecipeType<>(ID, PedestalRecipe.class);
-    protected SoulEngulfingCategory(IGuiHelper guiHelper, RecipeType<SoulEngulfingRecipe> recipeType, Component localizedName, IDrawable background, IDrawable icon) {
-        super(guiHelper, recipeType, localizedName, background, icon);
+    public static final ResourceLocation GUI_BACKGROUND = new ResourceLocation(Spirit.MODID, "textures/gui/soul_engulfing.png");
+    public static final ResourceLocation ID = new ResourceLocation(Spirit.MODID, "soul_engulfing");
+    public static final RecipeType<SoulEngulfingRecipeWrapper> RECIPE = new RecipeType<>(ID, SoulEngulfingRecipeWrapper.class);
+    private static final double OFFSET = Math.sqrt(512) * .5;
+    public long lastTime;
+    private final BlockRenderDispatcher dispatcher;
+    public SoulEngulfingCategory(IGuiHelper guiHelper) {
+        super(guiHelper,
+                RECIPE,
+                Component.translatable("spirit.jei.soul_engulfing.title"),
+                guiHelper.drawableBuilder(GUI_BACKGROUND, 0, 0, 150, 100).build(),
+                guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, SpiritItems.SOUL_CRYSTAL.get().getDefaultInstance()));
+
+        lastTime = System.currentTimeMillis();
+        dispatcher = Minecraft.getInstance().getBlockRenderer();
     }
 
     @Override
-    public void setRecipe(@NotNull IRecipeLayoutBuilder builder, SoulEngulfingRecipe recipe, @NotNull IFocusGroup focuses) {
-        if (recipe.input().multiblock().isPresent()) {
-            List<ItemStack> items = new ArrayList<>();
-            var blocks = recipe.input().multiblock().get().keys().values();
-            var holderSets = blocks.stream().flatMap(predicate -> {
-                if(predicate.blocks().isPresent()) return predicate.blocks().get().stream();
-                return Stream.of();
-            }).toList();
-            for (Holder<Block> holderSet : holderSets) {
-                items.add(holderSet.value().asItem().getDefaultInstance());
-            }
-            builder.addInvisibleIngredients(RecipeIngredientRole.CATALYST).addIngredients(Ingredient.of(items.stream()));
+    public void setRecipe(@NotNull IRecipeLayoutBuilder builder, SoulEngulfingRecipeWrapper wrapper, @NotNull IFocusGroup focuses) {
+        var recipe = wrapper.getRecipe();
+        List<ItemStack> items = new ArrayList<>();
+        var blocks = recipe.input().multiblock().keys().values();
+        var holderSets = blocks.stream().flatMap(predicate -> {
+            if(predicate.blocks().isPresent()) return predicate.blocks().get().stream();
+            return Stream.of();
+        }).toList();
+        for (Holder<Block> holderSet : holderSets) {
+            items.add(holderSet.value().asItem().getDefaultInstance());
         }
-    }
-
-    //region Rendering help
-    private void drawScaledTexture(
-            PoseStack matrixStack,
-            ResourceLocation texture,
-            ScreenArea area,
-            float u, float v,
-            int uWidth, int vHeight,
-            int textureWidth, int textureHeight) {
-
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, texture);
-
-        RenderSystem.enableDepthTest();
-        GuiComponent.blit(matrixStack, area.x, area.y, area.width, area.height, u, v, uWidth, vHeight, textureWidth, textureHeight);
+        builder.addInvisibleIngredients(RecipeIngredientRole.CATALYST).addIngredients(Ingredient.of(items.stream()));
+        builder.addSlot(RecipeIngredientRole.INPUT, 2, 2).addIngredients(recipe.input().item());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 133, 83).addIngredient(VanillaTypes.ITEM_STACK, recipe.getResultItem());
     }
 
     @Override
-    public void draw(SoulEngulfingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-        AABB dims = new AABB();
-
-        Window mainWindow = Minecraft.getInstance().getWindow();
-
-        drawScaledTexture(stack,
-                new ResourceLocation(Spirit.MODID, "textures/gui/jei-arrow-field.png"),
-                new ScreenArea(7, 20, 17, 22),
-                0, 0, 17, 22, 17, 22);
-
-        drawScaledTexture(stack,
-                new ResourceLocation(Spirit.MODID, "textures/gui/jei-arrow-outputs.png"),
-                new ScreenArea(100, 25, 24, 19),
-                0, 0, 24, 19, 24, 19);
-
-        int scissorX = 27;
-        int scissorY = 0;
-
-        double guiScaleFactor = mainWindow.getGuiScale();
-        ScreenArea scissorBounds = new ScreenArea(
-                scissorX, scissorY,
-                70,
-                70
-        );
-
-        renderPreviewControls(mx, dims);
-
-        if (previewLevel != null) renderRecipe(recipe, mx, dims, guiScaleFactor, scissorBounds);
+    public List<Component> getTooltipStrings(SoulEngulfingRecipeWrapper recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+        List<Component> components = new ArrayList<>();
+        var tempBlockMap = new ArrayList<>(recipe.blockMap);
+        Collections.reverse(tempBlockMap);
+        if(mouseX > 1 && mouseX < 105 && mouseY > 27 && mouseY < 99) {
+            for (int i = 0; i < tempBlockMap.size(); i++) {
+                components.add(Component.translatable("spirit.jei.soul_engulfing.layer", (i + 1)).withStyle(ChatFormatting.DARK_GRAY));
+                for (SoulEngulfingRecipeWrapper.BlockMap blockMap : tempBlockMap.get(i)) {
+                    components.add(Component.literal("  ").append(blockMap.blocks().getCurrent().getName()).withStyle(ChatFormatting.GRAY));
+                }
+            }
+            if(recipe.getRecipe().breaksBlocks()) components.add(Component.translatable("spirit.jei.soul_engulfing.consumes").withStyle(ChatFormatting.RED));
+        }
+        if(mouseX > 107 && mouseX < 129 && mouseY > 83 && mouseY < 98) {
+            components.add(Component.translatable("spirit.jei.soul_engulfing.duration", recipe.getRecipe().duration() * 0.05));
+        }
+        return components;
     }
 
-    private void renderRecipe(MiniaturizationRecipe recipe, PoseStack mx, AABB dims, double guiScaleFactor, ScreenArea scissorBounds) {
-        try {
-            GuiComponent.fill(
-                    mx,
-                    scissorBounds.x, scissorBounds.y,
-                    scissorBounds.x + scissorBounds.width,
-                    scissorBounds.height,
-                    0xFF404040
-            );
+    @Override
+    public void draw(SoulEngulfingRecipeWrapper recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
+        long l = System.currentTimeMillis();
 
-            MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
-
-            final double scale = Minecraft.getInstance().getWindow().getGuiScale();
-            final Matrix4f matrix = mx.last().pose();
-            final FloatBuffer buf = BufferUtils.createFloatBuffer(16);
-            matrix.store(buf);
-
-            // { x, y, z }
-            Vec3 translation = new Vec3(
-                    buf.get(12) * scale,
-                    buf.get(13) * scale,
-                    buf.get(14) * scale);
-
-            scissorBounds.x *= scale;
-            scissorBounds.y *= scale;
-            scissorBounds.width *= scale;
-            scissorBounds.height *= scale;
-            final int scissorX = Math.round(Math.round(translation.x + scissorBounds.x));
-            final int scissorY = Math.round(Math.round(Minecraft.getInstance().getWindow().getHeight() - scissorBounds.y - scissorBounds.height - translation.y));
-            final int scissorW = Math.round(scissorBounds.width);
-            final int scissorH = Math.round(scissorBounds.height);
-            RenderSystem.enableScissor(scissorX, scissorY, scissorW, scissorH);
-
-            mx.pushPose();
-
-            mx.translate(
-                    27 + (35),
-                    scissorBounds.y + (35),
-                    100);
-
-            // 13 = 1
-            // 11 = 3
-            // 09 = 5
-            // 07 = 7
-            // 05 = 9
-            // 03 = 11
-            // 01 = 13
-
-            Vec3 dimsVec = new Vec3(dims.getXsize(), dims.getYsize(), dims.getZsize());
-            float recipeAvgDim = (float) dimsVec.length();
-            float previewScale = (float) ((3 + Math.exp(3 - (recipeAvgDim / 5))) / explodeMulti);
-            mx.scale(previewScale, -previewScale, previewScale);
-
-            drawActualRecipe(recipe, mx, dims, buffers);
-
-            mx.popPose();
-
-            buffers.endBatch();
-
-            RenderSystem.disableScissor();
-        } catch (Exception ex) {
-            CompactCrafting.LOGGER.warn(ex);
+        if (lastTime + 1500 <= l && !Screen.hasShiftDown()) {
+            recipe.tick();
+            lastTime = l;
         }
-    }
-
-    private void drawActualRecipe(MiniaturizationRecipe recipe, PoseStack mx, AABB dims, MultiBufferSource.BufferSource buffers) {
-        double gameTime = Minecraft.getInstance().level.getGameTime();
-        double test = Math.toDegrees(gameTime) / 15;
-        mx.mulPose(new Quaternion(35f,
-                (float) -test,
-                0,
-                true));
-
-        double ySize = recipe.getDimensions().getYsize();
-
-        // Variable explode based on mouse position (clamped)
-        // double explodeMulti = MathHelper.clamp(mouseX, 0, this.background.getWidth())/this.background.getWidth()*2+1;
-
-
-        int[] renderLayers;
-        if (!singleLayer) {
-            renderLayers = IntStream.range(0, (int) ySize).toArray();
-        } else {
-            renderLayers = new int[]{singleLayerOffset};
-        }
-
-        mx.translate(
-                -(dims.getXsize() / 2) * explodeMulti - 0.5,
-                -(dims.getYsize() / 2) * explodeMulti - 0.5,
-                -(dims.getZsize() / 2) * explodeMulti - 0.5
-        );
-
-        for (int y : renderLayers) {
-            recipe.getLayer(y).ifPresent(l -> renderRecipeLayer(recipe, mx, buffers, l, y));
-        }
-    }
-
-    private void renderPreviewControls(PoseStack mx, AABB dims) {
-        mx.pushPose();
-        mx.translate(0, 0, 10);
-
-        ResourceLocation sprites = new ResourceLocation(CompactCrafting.MOD_ID, "textures/gui/jei-sprites.png");
-
-        if (exploded) {
-            drawScaledTexture(mx, sprites, explodeToggle, 20, 0, 20, 20, 120, 20);
-        } else {
-            drawScaledTexture(mx, sprites, explodeToggle, 0, 0, 20, 20, 120, 20);
-        }
-
-        // Layer change buttons
-        if (singleLayer) {
-            drawScaledTexture(mx, sprites, layerSwap, 60, 0, 20, 20, 120, 20);
-        } else {
-            drawScaledTexture(mx, sprites, layerSwap, 40, 0, 20, 20, 120, 20);
-        }
-
-        if (singleLayer) {
-            if (singleLayerOffset < dims.getYsize() - 1)
-                drawScaledTexture(mx, sprites, layerUp, 80, 0, 20, 20, 120, 20);
-
-            if (singleLayerOffset > 0) {
-                drawScaledTexture(mx, sprites, layerDown, 100, 0, 20, 20, 120, 20);
+        double guiScale = Minecraft.getInstance().getWindow().getGuiScale();
+        Matrix4f pose = stack.last().pose();
+        FloatBuffer floatBuffer = BufferUtils.createFloatBuffer(16);
+        pose.store(floatBuffer);
+        Vec3 translation = new Vec3(floatBuffer.get(12) * guiScale, floatBuffer.get(13) * guiScale, floatBuffer.get(14) * guiScale);
+        RenderSystem.enableScissor((int) (translation.x + 2 * guiScale), (int) (Minecraft.getInstance().getWindow().getHeight() - 27 * guiScale - translation.y - 73 * guiScale), (int) (103 * guiScale), (int) (73 * guiScale));
+        stack.pushPose();
+        Lighting.setupForFlatItems();
+        stack.translate(52 - recipe.getMultiblock().pattern().get(0).size() * OFFSET, recipe.blockMap.size() * 16 + (66 - recipe.blockMap.size() * OFFSET), 100);
+        stack.scale(16F, -16F, 1);
+        stack.mulPose(Vector3f.XP.rotationDegrees(45));
+        stack.mulPose(Vector3f.YP.rotationDegrees(45));
+        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+        for (int i = 0; i < Math.min(recipe.blockMap.size(), recipe.layer); i++) {
+            for (SoulEngulfingRecipeWrapper.BlockMap blockMap : recipe.blockMap.get(i)) {
+                stack.pushPose();
+                stack.translate(blockMap.pos().getX(), blockMap.pos().getY(), blockMap.pos().getZ());
+                dispatcher.renderSingleBlock(blockMap.blocks().getCurrent().defaultBlockState(), stack, bufferSource, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+                stack.popPose();
             }
         }
-
-        mx.popPose();
+        bufferSource.endBatch();
+        stack.popPose();
+        RenderSystem.disableScissor();
     }
 
-    private void renderRecipeLayer(MiniaturizationRecipe recipe, PoseStack mx, MultiBufferSource.BufferSource buffers, IRecipeLayer l, int layerY) {
-        // Begin layer
-        mx.pushPose();
-
-        AABB layerBounds = BlockSpaceUtil.getLayerBounds(recipe.getDimensions(), layerY);
-        BlockPos.betweenClosedStream(layerBounds).forEach(filledPos -> {
-            mx.pushPose();
-
-            mx.translate(
-                    ((filledPos.getX() + 0.5) * explodeMulti),
-                    ((layerY + 0.5) * explodeMulti),
-                    ((filledPos.getZ() + 0.5) * explodeMulti)
-            );
-
-            BlockPos zeroedPos = filledPos.below(layerY);
-            Optional<String> componentForPosition = l.getComponentForPosition(zeroedPos);
-            componentForPosition
-                    .flatMap(recipe.getComponents()::getBlock)
-                    .ifPresent(comp -> renderComponent(mx, buffers, comp, filledPos));
-
-            mx.popPose();
-        });
-
-        // Done with layer
-        mx.popPose();
-    }
-
-    private void renderComponent(PoseStack mx, MultiBufferSource.BufferSource buffers, IRecipeBlockComponent state, BlockPos filledPos) {
-        // TODO - Render switching at fixed interval
-        if (state.didErrorRendering())
-            return;
-
-        BlockState state1 = state.getRenderState();
-
-        IModelData data = EmptyModelData.INSTANCE;
-        if (previewLevel != null && state1.hasBlockEntity()) {
-            // create fake world instance
-            // get tile entity - extend EmptyBlockReader with impl
-            BlockEntity be = previewLevel.getBlockEntity(filledPos);
-            if (be != null)
-                data = be.getModelData();
+    @Override
+    public boolean handleInput(SoulEngulfingRecipeWrapper recipe, double mouseX, double mouseY, InputConstants.Key input) {
+        if(input.getValue() == InputConstants.KEY_UP) {
+            recipe.layer = Math.min(recipe.layer + 1, recipe.blockMap.size());
+            return true;
         }
-
-        try {
-//            final RenderBuffers buffs = Minecraft.getInstance().renderBuffers();
-//            final BufferBuilder builder = buffs.fixedBufferPack().builder(RenderType.solid());
-//            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.BLOCK);
-//            blocks.renderBatched(state1, BlockPos.ZERO, this.previewLevel, mx, builder, false, this.previewLevel.random, data);
-//            builder.end();
-
-            blocks.renderSingleBlock(state1,
-                    mx,
-                    buffers,
-                    LightTexture.FULL_SKY,
-                    OverlayTexture.NO_OVERLAY,
-                    data);
-        } catch (Exception e) {
-            state.markRenderingErrored();
-
-            CompactCrafting.LOGGER.warn("Error rendering block in preview: {}", state1.getBlock().getRegistryName());
-            CompactCrafting.LOGGER.error("Stack Trace", e);
+        if(input.getValue() == InputConstants.KEY_DOWN) {
+            recipe.layer = Math.max(recipe.layer - 1, 0);
+            return true;
         }
+        return false;
     }
 
-    public record ScreenArea(int x1, int y1, int x2, int y2) {
-
+    public static List<SoulEngulfingRecipeWrapper> getRecipes(Collection<SoulEngulfingRecipe> recipes) {
+        return recipes.stream().map(SoulEngulfingRecipeWrapper::new).toList();
     }
+
 }
- */

@@ -6,5 +6,6 @@
     }
   },
   "duration": 300,
+  "destroysStructure": false,
   "outputItem": "spirit:soul_steel_block"
 }

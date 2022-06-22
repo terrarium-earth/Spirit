@@ -47,7 +47,7 @@ public class EntityRenderer implements IIngredientRenderer<EntityIngredient> {
             var scaledSize = 20 / (Math.max(entity.getBbWidth(), entity.getBbHeight()));
             entity.tickCount = mc.player.tickCount;
             matrixStack.pushPose();
-            matrixStack.translate(10, 20 * renderScale, 0.5);
+            matrixStack.translate(14, 20 * renderScale + 4, 0.5);
             matrixStack.translate(x, y, 1);
             matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
             matrixStack.translate(0, 0, 100);

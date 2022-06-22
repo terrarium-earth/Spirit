@@ -4,6 +4,7 @@ import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.SpiritConfig;
 import me.codexadrian.spirit.compat.jei.categories.PedestalRecipeCategory;
 import me.codexadrian.spirit.compat.jei.categories.SoulCageCategory;
+import me.codexadrian.spirit.compat.jei.categories.SoulEngulfingCategory;
 import me.codexadrian.spirit.compat.jei.ingredients.EntityIngredient;
 import me.codexadrian.spirit.compat.jei.ingredients.EntityIngredientHelper;
 import me.codexadrian.spirit.compat.jei.ingredients.EntityRenderer;
@@ -15,13 +16,12 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredientType;
-import mezz.jei.api.registration.IModIngredientRegistration;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -41,6 +41,7 @@ public class SpiritPlugin implements IModPlugin {
         if(level != null) {
             registration.addRecipes(PedestalRecipeCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritMisc.SOUL_TRANSMUTATION_RECIPE.get()));
             registration.addRecipes(SoulCageCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritMisc.TIER_RECIPE.get()));
+            registration.addRecipes(SoulEngulfingCategory.RECIPE, SoulEngulfingCategory.getRecipes(level.getRecipeManager().getAllRecipesFor(SpiritMisc.SOUL_ENGULFING_RECIPE.get())));
         }
     }
 
@@ -54,6 +55,8 @@ public class SpiritPlugin implements IModPlugin {
         registration.addRecipeCatalyst(SpiritBlocks.SOUL_PEDESTAL.get().asItem().getDefaultInstance(), PedestalRecipeCategory.RECIPE);
         registration.addRecipeCatalyst(SpiritBlocks.PEDESTAL.get().asItem().getDefaultInstance(), PedestalRecipeCategory.RECIPE);
         registration.addRecipeCatalyst(SpiritBlocks.SOUL_CAGE.get().asItem().getDefaultInstance(), SoulCageCategory.RECIPE);
+        registration.addRecipeCatalyst(Blocks.SOUL_SAND.asItem().getDefaultInstance(), SoulEngulfingCategory.RECIPE);
+        registration.addRecipeCatalyst(Items.FLINT_AND_STEEL.getDefaultInstance(), SoulEngulfingCategory.RECIPE);
     }
 
     @Override
@@ -62,5 +65,6 @@ public class SpiritPlugin implements IModPlugin {
         IGuiHelper guiHelper = registration.getJeiHelpers().getGuiHelper();
         registration.addRecipeCategories(new PedestalRecipeCategory(guiHelper));
         registration.addRecipeCategories(new SoulCageCategory(guiHelper));
+        registration.addRecipeCategories(new SoulEngulfingCategory(guiHelper));
     }
 }

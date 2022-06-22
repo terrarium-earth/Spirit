@@ -76,12 +76,13 @@ public class SoulUtils {
 
     public static boolean canCrystalAcceptSoul(ItemStack crystal, @Nullable Level level, @Nullable EntityType<?> type) {
         if (crystal.is(SpiritItems.SOUL_CRYSTAL.get())) {
-            if (crystal.getTag() != null && type != null) {
-                if (type.equals(SpiritMisc.SOUL_ENTITY.get())) return false;
+            if(type == null) return false;
+            if (crystal.getTag() != null) {
                 boolean isCorrectType = Registry.ENTITY_TYPE.getKey(type).toString().equals(getSoulCrystalType(crystal));
                 boolean hasRoomForMore = getSoulsInCrystal(crystal) < getMaxSouls(crystal, level);
                 return isCorrectType && hasRoomForMore;
             }
+            if (type.equals(SpiritMisc.SOUL_ENTITY.get())) return false;
             //todo check to make sure it isnt of type plain soul
             return true;
         } else if (crystal.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get())) {

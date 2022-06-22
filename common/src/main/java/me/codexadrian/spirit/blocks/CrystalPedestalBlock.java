@@ -80,7 +80,7 @@ public class CrystalPedestalBlock extends BaseEntityBlock {
                         int soulsInCrystal = SoulUtils.getSoulsInCrystal(pedestalItem);
                         if ((SoulUtils.doCrystalTypesMatch(pedestalItem, itemStack) && soulsInCrystal < maxSouls) || !pedestalItem.hasTag()) {
                             int deviateSoulCount = Math.min(maxSouls - soulsInCrystal, SoulUtils.getSoulsInCrystal(itemStack));
-                            combineSoulCrystals(level, blockPos, itemStack, pedestalItem, deviateSoulCount, SoulUtils.getSoulCrystalType(pedestalItem));
+                            combineSoulCrystals(level, blockPos, itemStack, pedestalItem, deviateSoulCount, SoulUtils.getSoulCrystalType(itemStack));
                             crystalPedestal.setChanged();
                             level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
                             return InteractionResult.SUCCESS;

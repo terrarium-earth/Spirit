@@ -10,6 +10,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
@@ -40,8 +41,11 @@ public record SoulfireMultiblock(List<List<String>> pattern, Map<String, Strippe
 
     static {
         RESERVED_VALUES.put("@", new StrippedBlockPredicate(Optional.of(HolderSet.direct(Blocks.SOUL_FIRE.builtInRegistryHolder())), Optional.empty()));
+        RESERVED_VALUES.put("&", new StrippedBlockPredicate(Optional.of(Registry.BLOCK.getOrCreateTag(BlockTags.SOUL_FIRE_BASE_BLOCKS)), Optional.empty()));
         RESERVED_VALUES.put(" ", StrippedBlockPredicate.ANY);
     }
+
+    public static final SoulfireMultiblock DEFAULT_RECIPE = new SoulfireMultiblock(List.of(List.of("@"), List.of("&")), Map.of());
 
     public boolean validateMultiblock(BlockPos blockPos, ServerLevel level, boolean breakBlock) {
         BlockPos fireCoordinate = new BlockPos(0, 0, 0);

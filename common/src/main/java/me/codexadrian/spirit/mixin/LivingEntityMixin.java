@@ -3,10 +3,13 @@ package me.codexadrian.spirit.mixin;
 import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.SpiritConfig;
+import me.codexadrian.spirit.blocks.PedestalBlock;
+import me.codexadrian.spirit.blocks.blockentity.PedestalBlockEntity;
 import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
 import me.codexadrian.spirit.data.MobTraitData;
 import me.codexadrian.spirit.data.traits.DamageTrait;
 import me.codexadrian.spirit.data.traits.KnockbackTrait;
+import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.core.BlockPos;
@@ -81,8 +84,8 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
                         ItemStack crystal = ItemStack.EMPTY;
                         int radius = SpiritConfig.getSoulPedestalRadius();
                         AABB entityArea = victim.getBoundingBox().inflate(radius, 2, radius);
-                        Optional<BlockPos> pedestalPos = BlockPos.betweenClosedStream(entityArea).filter(pos -> level.getBlockEntity(pos) instanceof SoulPedestalBlockEntity).map(BlockPos::immutable).findFirst();
-                        if (pedestalPos.isPresent() && level.getBlockEntity(pedestalPos.get()) instanceof SoulPedestalBlockEntity pedestal && !pedestal.isEmpty()) {
+                        Optional<BlockPos> pedestalPos = BlockPos.betweenClosedStream(entityArea).filter(pos -> level.getBlockState(pos).is(SpiritBlocks.CRYSTAL_PEDESTAL.get())).map(BlockPos::immutable).findFirst();
+                        if (pedestalPos.isPresent() && level.getBlockEntity(pedestalPos.get()) instanceof PedestalBlockEntity pedestal && !pedestal.isEmpty()) {
                             crystal = pedestal.getItem(0);
                             pedestalHasCrystal = true;
                         }

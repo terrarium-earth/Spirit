@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.compat.jei.SpiritPlugin;
+import me.codexadrian.spirit.compat.jei.ingredients.BigEntityRenderer;
 import me.codexadrian.spirit.compat.jei.ingredients.EntityIngredient;
 import me.codexadrian.spirit.recipe.PedestalRecipe;
 import me.codexadrian.spirit.recipe.SoulEngulfingRecipe;
@@ -16,6 +17,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -63,8 +65,10 @@ public class PedestalRecipeCategory extends BaseCategory<PedestalRecipe> {
         var nbt = new CompoundTag();
         nbt.putBoolean("Corrupted", true);
         var entityTypes = recipe.entityInput().stream().filter(Holder::isBound).map(Holder::value).map(type -> new EntityIngredient(type, 45F, Optional.of(nbt))).toList();
-        builder.addSlot(RecipeIngredientRole.CATALYST, 93, 21).addIngredients(recipe.activationItem());
-        builder.addSlot(RecipeIngredientRole.INPUT, 32, 41).addIngredients(SpiritPlugin.ENTITY_INGREDIENT, entityTypes);
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 128, 41).addIngredient(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.entityOutput(), -45F, recipe.shouldSummon() ? Optional.empty() : Optional.of(nbt)));
+        builder.addSlot(RecipeIngredientRole.CATALYST, 93, 21).addIngredients(recipe.activationItem()).addTooltipCallback((recipeSlotView, tooltip) -> {
+            if(recipe.consumesActivator()) tooltip.add(Component.translatable("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));
+        });
+        builder.addSlot(RecipeIngredientRole.INPUT, 28, 37).addIngredients(SpiritPlugin.ENTITY_INGREDIENT, entityTypes).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 124, 37).addIngredient(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.entityOutput(), -45F, recipe.shouldSummon() ? Optional.empty() : Optional.of(nbt))).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
     }
 }

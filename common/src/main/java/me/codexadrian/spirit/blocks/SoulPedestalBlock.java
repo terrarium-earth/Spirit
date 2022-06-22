@@ -14,7 +14,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -49,10 +48,10 @@ public class SoulPedestalBlock extends BaseEntityBlock {
     public @NotNull InteractionResult use(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
         if (interactionHand != InteractionHand.OFF_HAND) {
             ItemStack stack = player.getItemInHand(interactionHand);
-            if(level.getBlockEntity(blockPos) instanceof SoulPedestalBlockEntity soulPedestal) {
+            if (level.getBlockEntity(blockPos) instanceof SoulPedestalBlockEntity soulPedestal) {
                 if ((stack.is(SpiritItems.SOUL_CRYSTAL.get()) || stack.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()))) {
-                    if(soulPedestal.type == null && SoulUtils.getSoulsInCrystal(stack) > 0) {
-                        if(stack.is(SpiritItems.SOUL_CRYSTAL.get())) {
+                    if (soulPedestal.type == null && SoulUtils.getSoulsInCrystal(stack) > 0) {
+                        if (stack.is(SpiritItems.SOUL_CRYSTAL.get())) {
                             soulPedestal.setType(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(SoulUtils.getSoulCrystalType(stack))));
                         } else {
                             soulPedestal.setType(SpiritMisc.SOUL_ENTITY.get());
@@ -60,19 +59,19 @@ public class SoulPedestalBlock extends BaseEntityBlock {
                         SoulUtils.deviateSoulCount(stack, -1, level, null);
                         level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
                         return InteractionResult.sidedSuccess(level.isClientSide());
-                    } else if(soulPedestal.type != null && SoulUtils.canCrystalAcceptSoul(stack, level, soulPedestal.type)) {
+                    } else if (soulPedestal.type != null && SoulUtils.canCrystalAcceptSoul(stack, level, soulPedestal.type)) {
                         SoulUtils.deviateSoulCount(stack, 1, level, Registry.ENTITY_TYPE.getKey(soulPedestal.type).toString());
                         level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
                         soulPedestal.setType(null);
                         return InteractionResult.sidedSuccess(level.isClientSide());
                     }
-                } else if(soulPedestal.type != null) {
+                } else if (soulPedestal.type != null) {
                     var recipes = PedestalRecipe.getRecipesForEntity(soulPedestal.type, stack, level.getRecipeManager());
-                    if(!recipes.isEmpty()) {
-                        for(var recipe : recipes) {
-                            if(RecipeUtils.validatePedestals(blockPos, level, new ArrayList<>(recipe.ingredients()), false)) {
+                    if (!recipes.isEmpty()) {
+                        for (var recipe : recipes) {
+                            if (RecipeUtils.validatePedestals(blockPos, level, new ArrayList<>(recipe.ingredients()), false)) {
                                 soulPedestal.setRecipe(recipe);
-                                if(recipe.consumesActivator()) stack.shrink(1);
+                                if (recipe.consumesActivator()) stack.shrink(1);
                                 return InteractionResult.sidedSuccess(level.isClientSide());
                             }
                         }

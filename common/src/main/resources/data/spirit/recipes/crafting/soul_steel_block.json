@@ -3,20 +3,14 @@
   "key": {
     "#": {
       "item": "spirit:soul_steel_ingot"
-    },
-    "@": {
-      "item": "spirit:pedestal"
-    },
-    "S": {
-      "item": "spirit:soul_slate"
     }
   },
   "pattern": [
     "###",
-    " @ ",
-    "SSS"
+    "###",
+    "###"
   ],
   "result": {
-    "item": "spirit:crystal_pedestal"
+    "item": "spirit:soul_steel_block"
   }
 }

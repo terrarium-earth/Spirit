@@ -61,16 +61,16 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
     }
 
     public boolean validateRecipe(BlockPos blockPos, ItemEntity itemE, ServerLevel level) {
-        Optional<SoulfireMultiblock> multiblock = input().multiblock();
+        SoulfireMultiblock multiblock = input().multiblock();
         if (itemE instanceof EngulfableItem engulfableItem) {
             if (!engulfableItem.isEngulfed() && this.duration() > 0) engulfableItem.setMaxEngulfTime(this.duration());
             else if (engulfableItem.isEngulfed() || this.duration() == 0) {
-                if (multiblock.isPresent() && !multiblock.get().validateMultiblock(blockPos, level, false)) {
+                if (!multiblock.validateMultiblock(blockPos, level, false)) {
                     engulfableItem.resetEngulfing();
                     itemE.setInvulnerable(false);
                     return false;
                 }
-                if (engulfableItem.isFullyEngulfed() && (multiblock.isEmpty() || multiblock.get().validateMultiblock(blockPos, level, breaksBlocks()))) {
+                if (engulfableItem.isFullyEngulfed() && multiblock.validateMultiblock(blockPos, level, breaksBlocks())) {
                     itemE.setInvulnerable(true);
                     ItemEntity output = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), this.getResultItem());
                     output.setInvulnerable(true);
@@ -89,10 +89,10 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
         return manager.getAllRecipesFor(SpiritMisc.SOUL_ENGULFING_RECIPE.get()).stream().filter(recipe -> recipe.input.item().test(stack)).toList();
     }
 
-    public record SoulEngulfingInput(Ingredient item, Optional<SoulfireMultiblock> multiblock) {
+    public record SoulEngulfingInput(Ingredient item, SoulfireMultiblock multiblock) {
         public static final Codec<SoulEngulfingInput> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 CodecUtils.INGREDIENT_CODEC.fieldOf("ingredient").forGetter(SoulEngulfingInput::item),
-                SoulfireMultiblock.CODEC.optionalFieldOf("multiblock").forGetter(SoulEngulfingInput::multiblock)
+                SoulfireMultiblock.CODEC.fieldOf("multiblock").orElse(SoulfireMultiblock.DEFAULT_RECIPE).forGetter(SoulEngulfingInput::multiblock)
         ).apply(instance, SoulEngulfingInput::new));
     }
 }
