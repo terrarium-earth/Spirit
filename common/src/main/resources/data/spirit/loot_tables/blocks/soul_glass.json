@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "spirit:soul_glass_3"
+          "name": "spirit:soul_glass"
         }
       ],
       "conditions": [
