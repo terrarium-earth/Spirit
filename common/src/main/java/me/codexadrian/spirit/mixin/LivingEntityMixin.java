@@ -122,20 +122,24 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
     @Inject(method = "getAttributeValue", at = @At("RETURN"), cancellable = true)
     public void getMobTraitDamage(Attribute attribute, CallbackInfoReturnable<Double> cir) {
         //noinspection ConstantConditions
-        if(attribute == Attributes.ATTACK_DAMAGE && (Object) this instanceof Player player && player.getMainHandItem().is(Spirit.SOUL_STEEL_MAINHAND)) {
-            ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
-            if(!soulCrystal.isEmpty()) {
-                String soulCrystalType = SoulUtils.getSoulCrystalType(soulCrystal);
-                if(soulCrystalType != null && SoulUtils.getSoulsInCrystal(soulCrystal) > 0) {
-                    var entityEffect = MobTraitData.getEffectForEntity(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(soulCrystalType)), player.getLevel().getRecipeManager());
-                    if(entityEffect.isPresent()) {
-                        int damage = 0;
-                        for(var trait : entityEffect.get().traits()) {
-                            if(trait instanceof DamageTrait damageTrait) {
-                                damage += damageTrait.additionalDamage();
+        if((Object) this instanceof Player player) {
+            if (player.getMainHandItem().is(SpiritItems.SOUL_STEEL_AXE.get()) || player.getMainHandItem().is(SpiritItems.SOUL_STEEL_BLADE.get())) {
+                if (player.getMainHandItem().getOrCreateTag().getBoolean("Charged")) {
+                    ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
+                    if (!soulCrystal.isEmpty()) {
+                        String soulCrystalType = SoulUtils.getSoulCrystalType(soulCrystal);
+                        if (soulCrystalType != null && SoulUtils.getSoulsInCrystal(soulCrystal) > 0) {
+                            var entityEffect = MobTraitData.getEffectForEntity(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(soulCrystalType)), player.getLevel().getRecipeManager());
+                            if (entityEffect.isPresent()) {
+                                int damage = 0;
+                                for (var trait : entityEffect.get().traits()) {
+                                    if (trait instanceof DamageTrait damageTrait) {
+                                        damage += damageTrait.additionalDamage();
+                                    }
+                                }
+                                cir.setReturnValue(cir.getReturnValueD() + damage);
                             }
                         }
-                        cir.setReturnValue(cir.getReturnValueD() + damage);
                     }
                 }
             }

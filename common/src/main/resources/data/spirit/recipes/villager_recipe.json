@@ -20,10 +20,5 @@
   ],
   "entityOutput": "minecraft:villager",
   "duration": 100,
-  "shouldSummonMob": true,
-  "outputNbt": {
-    "CustomName": {
-      "text": "Test"
-    }
-  }
+  "shouldSummonMob": true
 }

@@ -2,22 +2,16 @@ package me.codexadrian.spirit.compat.jei.categories;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3d;
 import com.mojang.math.Vector3f;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.compat.jei.multiblock.SoulEngulfingRecipeWrapper;
-import me.codexadrian.spirit.recipe.PedestalRecipe;
 import me.codexadrian.spirit.recipe.SoulEngulfingRecipe;
 import me.codexadrian.spirit.registry.SpiritItems;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.ITickTimer;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -25,26 +19,17 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.BufferUtils;
@@ -54,7 +39,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapper> {
@@ -65,6 +49,7 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
     private static final double OFFSET = Math.sqrt(512) * .5;
     public long lastTime;
     private final BlockRenderDispatcher dispatcher;
+
     public SoulEngulfingCategory(IGuiHelper guiHelper) {
         super(guiHelper,
                 RECIPE,
@@ -82,7 +67,7 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
         List<ItemStack> items = new ArrayList<>();
         var blocks = recipe.input().multiblock().keys().values();
         var holderSets = blocks.stream().flatMap(predicate -> {
-            if(predicate.blocks().isPresent()) return predicate.blocks().get().stream();
+            if (predicate.blocks().isPresent()) return predicate.blocks().get().stream();
             return Stream.of();
         }).toList();
         for (Holder<Block> holderSet : holderSets) {
@@ -98,16 +83,17 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
         List<Component> components = new ArrayList<>();
         var tempBlockMap = new ArrayList<>(recipe.blockMap);
         Collections.reverse(tempBlockMap);
-        if(mouseX > 1 && mouseX < 105 && mouseY > 27 && mouseY < 99) {
+        if (mouseX > 1 && mouseX < 105 && mouseY > 27 && mouseY < 99) {
             for (int i = 0; i < tempBlockMap.size(); i++) {
                 components.add(Component.translatable("spirit.jei.soul_engulfing.layer", (i + 1)).withStyle(ChatFormatting.DARK_GRAY));
                 for (SoulEngulfingRecipeWrapper.BlockMap blockMap : tempBlockMap.get(i)) {
                     components.add(Component.literal("  ").append(blockMap.blocks().getCurrent().getName()).withStyle(ChatFormatting.GRAY));
                 }
             }
-            if(recipe.getRecipe().breaksBlocks()) components.add(Component.translatable("spirit.jei.soul_engulfing.consumes").withStyle(ChatFormatting.RED));
+            if (recipe.getRecipe().breaksBlocks())
+                components.add(Component.translatable("spirit.jei.soul_engulfing.consumes").withStyle(ChatFormatting.RED));
         }
-        if(mouseX > 107 && mouseX < 129 && mouseY > 83 && mouseY < 98) {
+        if (mouseX > 107 && mouseX < 129 && mouseY > 83 && mouseY < 98) {
             components.add(Component.translatable("spirit.jei.soul_engulfing.duration", recipe.getRecipe().duration() * 0.05));
         }
         return components;
@@ -149,11 +135,11 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
 
     @Override
     public boolean handleInput(SoulEngulfingRecipeWrapper recipe, double mouseX, double mouseY, InputConstants.Key input) {
-        if(input.getValue() == InputConstants.KEY_UP) {
+        if (input.getValue() == InputConstants.KEY_UP) {
             recipe.layer = Math.min(recipe.layer + 1, recipe.blockMap.size());
             return true;
         }
-        if(input.getValue() == InputConstants.KEY_DOWN) {
+        if (input.getValue() == InputConstants.KEY_DOWN) {
             recipe.layer = Math.max(recipe.layer - 1, 0);
             return true;
         }

@@ -1,34 +1,22 @@
 package me.codexadrian.spirit.compat.jei.categories;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.compat.jei.SpiritPlugin;
 import me.codexadrian.spirit.compat.jei.ingredients.BigEntityRenderer;
 import me.codexadrian.spirit.compat.jei.ingredients.EntityIngredient;
 import me.codexadrian.spirit.recipe.PedestalRecipe;
-import me.codexadrian.spirit.recipe.SoulEngulfingRecipe;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

@@ -29,7 +29,7 @@ public record PedestalRecipe(ResourceLocation id, HolderSet<EntityType<?>> entit
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(id),
                 TagAndListSetCodec.of(Registry.ENTITY_TYPE).fieldOf("entityInput").forGetter(PedestalRecipe::entityInput),
-                CodecUtils.INGREDIENT_CODEC.fieldOf("activatorItem").orElse(Ingredient.of(SpiritItems.SOUL_STEEL_WAND.get())).forGetter(PedestalRecipe::activationItem),
+                CodecUtils.INGREDIENT_CODEC.fieldOf("activatorItem").orElse(Ingredient.of()).forGetter(PedestalRecipe::activationItem),
                 Codec.BOOL.fieldOf("consumesActivator").orElse(false).forGetter(PedestalRecipe::consumesActivator),
                 CodecUtils.INGREDIENT_CODEC.listOf().fieldOf("itemInputs").forGetter(PedestalRecipe::ingredients),
                 Registry.ENTITY_TYPE.byNameCodec().fieldOf("entityOutput").forGetter(PedestalRecipe::entityOutput),

@@ -9,7 +9,9 @@ import me.codexadrian.spirit.utils.RecipeUtils;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -66,6 +68,14 @@ public class SoulPedestalBlock extends BaseEntityBlock {
                         return InteractionResult.sidedSuccess(level.isClientSide());
                     }
                 } else if (soulPedestal.type != null) {
+                    if(stack.is(SpiritItems.SOUL_STEEL_WAND.get())) {
+                        soulPedestal.setType(SpiritMisc.SOUL_ENTITY.get());
+                        if(level instanceof ServerLevel serverLevel) {
+                            serverLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX() + 0.5, blockPos.getY() + 1.25, blockPos.getZ() + 0.5, 10, 0,0,0,0.05);
+                            serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, blockPos.getX() + 0.5, blockPos.getY() + 1.25, blockPos.getZ() + 0.5, 10, 0,0,0,0.05);
+                        }
+                        return InteractionResult.sidedSuccess(level.isClientSide());
+                    }
                     var recipes = PedestalRecipe.getRecipesForEntity(soulPedestal.type, stack, level.getRecipeManager());
                     if (!recipes.isEmpty()) {
                         for (var recipe : recipes) {
