@@ -1,7 +1,7 @@
 package me.codexadrian.spirit;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import me.codexadrian.spirit.client.*;
+import me.codexadrian.spirit.items.MobCrystalItem;
 import me.codexadrian.spirit.platform.ClientServices;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritItems;
@@ -35,5 +35,7 @@ public class SpiritClient {
             return (float)(itemStack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) / 20.0f;
         });
         ClientServices.CLIENT.registerItemProperty(SpiritItems.SOUL_BOW.get(), new ResourceLocation("pulling"), (itemStack, clientLevel, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0f : 0.0f);
+        ClientServices.CLIENT.registerItemProperty(SpiritItems.SOUL_CRYSTAL_SHARD.get(), new ResourceLocation(Spirit.MODID, "filled"), MobCrystalItem::mobCrystalType);
     }
+
 }

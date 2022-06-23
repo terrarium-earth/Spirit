@@ -27,7 +27,7 @@ public class EnchantmentHelperMixin {
         if(livingEntity instanceof Player player && player.getInventory() != null) {
             if(player.getMainHandItem().is(SpiritItems.SOUL_STEEL_AXE.get()) || player.getMainHandItem().is(SpiritItems.SOUL_STEEL_BLADE.get())) {
                 if(player.getMainHandItem().getOrCreateTag().getBoolean("Charged")) {
-                    ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
+                    ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true, false);
                     String type = SoulUtils.getSoulCrystalType(soulCrystal);
                     if(type != null && SoulUtils.getSoulsInCrystal(soulCrystal) > 0) {
                         var entityEffect = MobTraitData.getEffectForEntity(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(type)), livingEntity.getLevel().getRecipeManager());

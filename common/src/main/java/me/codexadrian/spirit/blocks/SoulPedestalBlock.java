@@ -51,9 +51,9 @@ public class SoulPedestalBlock extends BaseEntityBlock {
         if (interactionHand != InteractionHand.OFF_HAND) {
             ItemStack stack = player.getItemInHand(interactionHand);
             if (level.getBlockEntity(blockPos) instanceof SoulPedestalBlockEntity soulPedestal) {
-                if ((stack.is(SpiritItems.SOUL_CRYSTAL.get()) || stack.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()))) {
+                if ((stack.is(SpiritItems.SOUL_CRYSTAL.get()) || stack.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get())) || stack.is(SpiritItems.SOUL_CRYSTAL_SHARD.get())) {
                     if (soulPedestal.type == null && SoulUtils.getSoulsInCrystal(stack) > 0) {
-                        if (stack.is(SpiritItems.SOUL_CRYSTAL.get())) {
+                        if (stack.is(SpiritItems.SOUL_CRYSTAL.get()) || stack.is(SpiritItems.SOUL_CRYSTAL_SHARD.get())) {
                             soulPedestal.setType(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(SoulUtils.getSoulCrystalType(stack))));
                         } else {
                             soulPedestal.setType(SpiritMisc.SOUL_ENTITY.get());

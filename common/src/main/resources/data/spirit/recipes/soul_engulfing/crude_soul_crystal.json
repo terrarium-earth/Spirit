@@ -2,7 +2,7 @@
   "type": "spirit:soul_engulfing",
   "input": {
     "ingredient": {
-      "item": "minecraft:diamond"
+      "item": "spirit:soul_crystal_shard"
     },
     "multiblock": {
       "pattern": [

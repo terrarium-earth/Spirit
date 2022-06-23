@@ -2,7 +2,7 @@
   "type": "spirit:soul_engulfing",
   "input": {
     "ingredient": {
-      "item": "minecraft:iron_ingot"
+      "item": "spirit:soul_powder"
     },
     "multiblock": {
       "pattern": [
@@ -19,11 +19,11 @@
       ],
       "keys": {
         "S": {
-          "block": "spirit:soul_powder_block"
+          "block": "minecraft:quartz_block"
         }
       }
     }
   },
-  "duration": 60,
-  "outputItem": "spirit:soul_steel_ingot"
+  "duration": 40,
+  "outputItem": "spirit:soul_crystal_shard"
 }

@@ -2,10 +2,10 @@
   "type": "spirit:soul_engulfing",
   "input": {
     "ingredient": {
-      "item": "minecraft:iron_block"
+      "item": "minecraft:glowstone_dust"
     }
   },
-  "duration": 300,
+  "duration": 40,
   "destroysStructure": false,
-  "outputItem": "spirit:soul_steel_block"
+  "outputItem": "spirit:soul_powder"
 }

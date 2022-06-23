@@ -3,12 +3,9 @@ package me.codexadrian.spirit.mixin;
 import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.SpiritConfig;
-import me.codexadrian.spirit.blocks.PedestalBlock;
 import me.codexadrian.spirit.blocks.blockentity.PedestalBlockEntity;
-import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
 import me.codexadrian.spirit.data.MobTraitData;
 import me.codexadrian.spirit.data.traits.DamageTrait;
-import me.codexadrian.spirit.data.traits.KnockbackTrait;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.utils.SoulUtils;
@@ -31,6 +28,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,7 +36,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Mixin(LivingEntity.class)
@@ -85,18 +82,23 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
                         int radius = SpiritConfig.getSoulPedestalRadius();
                         AABB entityArea = victim.getBoundingBox().inflate(radius, 2, radius);
                         Optional<BlockPos> pedestalPos = BlockPos.betweenClosedStream(entityArea).filter(pos -> level.getBlockState(pos).is(SpiritBlocks.CRYSTAL_PEDESTAL.get())).map(BlockPos::immutable).findFirst();
-                        if (pedestalPos.isPresent() && level.getBlockEntity(pedestalPos.get()) instanceof PedestalBlockEntity pedestal && !pedestal.isEmpty()) {
+                        if (pedestalPos.isPresent() && level.getBlockEntity(pedestalPos.get()) instanceof PedestalBlockEntity pedestal && !pedestal.isEmpty() && SoulUtils.canCrystalAcceptSoul(pedestal.getItem(0), victim)) {
                             crystal = pedestal.getItem(0);
                             pedestalHasCrystal = true;
+                            pedestal.setChanged();
+                            level.sendBlockUpdated(pedestalPos.get(), pedestal.getBlockState(), pedestal.getBlockState(), Block.UPDATE_ALL);
                         }
                         if (crystal.isEmpty() && !SoulUtils.canCrystalAcceptSoul(crystal, victim)) {
-                            crystal = SoulUtils.findCrystal(player, victim, false);
+                            crystal = SoulUtils.findCrystal(player, victim, false, false, true);
                         }
                         if (!crystal.isEmpty()) {
                             if (crystal.is(SpiritItems.SOUL_CRYSTAL.get()))
                                 SoulUtils.handleSoulCrystal(crystal, player, victim);
                             else if (crystal.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()))
                                 SoulUtils.handleCrudeSoulCrystal(crystal, player, victim);
+                            else if (crystal.is(SpiritItems.SOUL_CRYSTAL_SHARD.get())) {
+                                SoulUtils.handleMobCrystal(crystal, player, victim);
+                            }
                             if (pedestalPos.isPresent() && pedestalHasCrystal) {
                                 ServerLevel sLevel = (ServerLevel) player.level;
                                 sLevel.sendParticles(ParticleTypes.SOUL, pedestalPos.get().getX() + 0.5, pedestalPos.get().getY() + 0.5, pedestalPos.get().getZ() + 0.5, 15, 0.5, 1, 0.5, 0);
@@ -125,7 +127,7 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
         if(attribute == Attributes.ATTACK_DAMAGE && (Object) this instanceof Player player && player.getInventory() != null) {
             if (player.getMainHandItem().is(SpiritItems.SOUL_STEEL_AXE.get()) || player.getMainHandItem().is(SpiritItems.SOUL_STEEL_BLADE.get())) {
                 if (player.getMainHandItem().getOrCreateTag().getBoolean("Charged")) {
-                    ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
+                    ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true, false);
                     if (!soulCrystal.isEmpty()) {
                         String soulCrystalType = SoulUtils.getSoulCrystalType(soulCrystal);
                         if (soulCrystalType != null && SoulUtils.getSoulsInCrystal(soulCrystal) > 0) {

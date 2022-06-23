@@ -2,7 +2,6 @@ package me.codexadrian.spirit.blocks;
 
 import me.codexadrian.spirit.SpiritConfig;
 import me.codexadrian.spirit.blocks.blockentity.PedestalBlockEntity;
-import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.utils.SoulUtils;
@@ -52,7 +51,7 @@ public class CrystalPedestalBlock extends BaseEntityBlock {
             if (level.getBlockEntity(blockPos) instanceof PedestalBlockEntity crystalPedestal) {
                 ItemStack pedestalItem = crystalPedestal.getItem(0);
                 if (crystalPedestal.isEmpty()) {
-                    if ((itemStack.is(SpiritItems.SOUL_CRYSTAL.get()) || itemStack.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()))) {
+                    if (itemStack.is(SpiritItems.SOUL_CRYSTAL.get()) || itemStack.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()) || itemStack.is(SpiritItems.SOUL_CRYSTAL_SHARD.get())) {
                         crystalPedestal.setItem(0, itemStack.copy());
                         if (!player.getAbilities().instabuild) {
                             itemStack.shrink(1);
@@ -66,7 +65,7 @@ public class CrystalPedestalBlock extends BaseEntityBlock {
                     player.getInventory().placeItemBackInInventory(soulCrystal);
                     return InteractionResult.SUCCESS;
                 } else if (SoulUtils.getSoulsInCrystal(itemStack) > 0) {
-                    if (pedestalItem.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()) && (itemStack.is(SpiritItems.SOUL_CRYSTAL.get()) || itemStack.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()))) {
+                    if (pedestalItem.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()) && (itemStack.is(SpiritItems.SOUL_CRYSTAL.get()) || itemStack.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()) || itemStack.is(SpiritItems.SOUL_CRYSTAL_SHARD.get()))) {
                         if (SoulUtils.canCrystalAcceptSoul(pedestalItem, null)) {
                             int deviateSoulCount = Math.min(SpiritConfig.getCrudeSoulCrystalCap() - SoulUtils.getSoulsInCrystal(pedestalItem), SoulUtils.getSoulsInCrystal(itemStack));
                             combineSoulCrystals(level, blockPos, itemStack, pedestalItem, deviateSoulCount, null);
@@ -74,13 +73,19 @@ public class CrystalPedestalBlock extends BaseEntityBlock {
                             level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
                             return InteractionResult.SUCCESS;
                         }
-                    }
-                    if (pedestalItem.is(SpiritItems.SOUL_CRYSTAL.get()) && itemStack.is(SpiritItems.SOUL_CRYSTAL.get())) {
+                    } else if (pedestalItem.is(SpiritItems.SOUL_CRYSTAL.get()) && itemStack.is(SpiritItems.SOUL_CRYSTAL.get())) {
                         int maxSouls = SoulUtils.getMaxSouls(pedestalItem, level);
                         int soulsInCrystal = SoulUtils.getSoulsInCrystal(pedestalItem);
                         if ((SoulUtils.doCrystalTypesMatch(pedestalItem, itemStack) && soulsInCrystal < maxSouls) || !pedestalItem.hasTag()) {
                             int deviateSoulCount = Math.min(maxSouls - soulsInCrystal, SoulUtils.getSoulsInCrystal(itemStack));
                             combineSoulCrystals(level, blockPos, itemStack, pedestalItem, deviateSoulCount, SoulUtils.getSoulCrystalType(itemStack));
+                            crystalPedestal.setChanged();
+                            level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
+                            return InteractionResult.SUCCESS;
+                        }
+                    } else if (pedestalItem.is(SpiritItems.SOUL_CRYSTAL_SHARD.get()) && itemStack.is(SpiritItems.SOUL_CRYSTAL.get())) {
+                        if((pedestalItem.getTag() == null || !pedestalItem.getTag().contains("EntityType"))) {
+                            combineSoulCrystals(level, blockPos, itemStack, pedestalItem, 1, SoulUtils.getSoulCrystalType(itemStack));
                             crystalPedestal.setChanged();
                             level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
                             return InteractionResult.SUCCESS;

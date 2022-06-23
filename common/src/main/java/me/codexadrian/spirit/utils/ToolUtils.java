@@ -40,7 +40,7 @@ public class ToolUtils {
 
     public static InteractionResult handleOnHitBlock(InteractionResult result, ToolType type, Player player, ItemStack tool, Level level, BlockPos pos) {
         if(result == InteractionResult.CONSUME) {
-            ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
+            ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true, false);
             if (soulCrystal.is(SpiritItems.SOUL_CRYSTAL.get()) && SoulUtils.getSoulsInCrystal(soulCrystal) > 0) {
                 if (tool.getOrCreateTag().getBoolean("Charged")) {
                     var entityEffect = MobTraitData.getEffectForEntity(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(Objects.requireNonNull(SoulUtils.getSoulCrystalType(soulCrystal)))), level.getRecipeManager());
@@ -58,7 +58,7 @@ public class ToolUtils {
     }
 
     public static void handleBreakBlock(Player player, ToolType type, ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos) {
-        ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
+        ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true, false);
         if (soulCrystal.is(SpiritItems.SOUL_CRYSTAL.get()) && SoulUtils.getSoulsInCrystal(soulCrystal) > 0) {
             if (itemStack.getOrCreateTag().getBoolean("Charged")) {
                 var entityEffect = MobTraitData.getEffectForEntity(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(Objects.requireNonNull(SoulUtils.getSoulCrystalType(soulCrystal)))), level.getRecipeManager());
@@ -74,7 +74,7 @@ public class ToolUtils {
     }
 
     public static void handleOnHitEntity(ItemStack itemStack, ToolType type, LivingEntity victim, Player player) {
-        ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);
+        ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true, false);
         if (!soulCrystal.isEmpty() && soulCrystal.is(SpiritItems.SOUL_CRYSTAL.get()) && SoulUtils.getSoulsInCrystal(soulCrystal) > 0) {
             if (itemStack.getOrCreateTag().getBoolean("Charged")) {
                 var entityEffect = MobTraitData.getEffectForEntity(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(Objects.requireNonNull(SoulUtils.getSoulCrystalType(soulCrystal)))), player.getLevel().getRecipeManager());

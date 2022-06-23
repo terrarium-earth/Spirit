@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "spirit:item/mob_crystal_unfilled"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "spirit:filled": 1
+      },
+      "model": "spirit:item/mob_crystal_filled"
+    }
+  ]
+}
