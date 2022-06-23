@@ -10,9 +10,11 @@
     "Dev: ExpensiveKoala",
     "Dev: ThatGravyBoat",
     "Dev: abused_master/moe/pain in my ass",
-    "Artist: Kekie6"
+    "Artist: Kekie6",
+    "Artist: Shrimp",
+    "Artist: Facu"
   ],
-  "license": "MIT",
+  "license": "ARR",
   "environment": "*",
   "accessWidener": "spirit.accesswidener",
   "entrypoints": {
