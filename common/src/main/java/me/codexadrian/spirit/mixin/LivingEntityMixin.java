@@ -122,7 +122,7 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
     @Inject(method = "getAttributeValue", at = @At("RETURN"), cancellable = true)
     public void getMobTraitDamage(Attribute attribute, CallbackInfoReturnable<Double> cir) {
         //noinspection ConstantConditions
-        if((Object) this instanceof Player player) {
+        if(attribute == Attributes.ATTACK_DAMAGE && (Object) this instanceof Player player && player.getInventory() != null) {
             if (player.getMainHandItem().is(SpiritItems.SOUL_STEEL_AXE.get()) || player.getMainHandItem().is(SpiritItems.SOUL_STEEL_BLADE.get())) {
                 if (player.getMainHandItem().getOrCreateTag().getBoolean("Charged")) {
                     ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);

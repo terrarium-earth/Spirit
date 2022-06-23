@@ -24,7 +24,7 @@ public class EnchantmentHelperMixin {
 
     @Inject(method = "getKnockbackBonus", at = @At("RETURN"), cancellable = true)
     private static void getTraitKnockbackBonus(LivingEntity livingEntity, CallbackInfoReturnable<Integer> cir) {
-        if(livingEntity instanceof Player player) {
+        if(livingEntity instanceof Player player && player.getInventory() != null) {
             if(player.getMainHandItem().is(SpiritItems.SOUL_STEEL_AXE.get()) || player.getMainHandItem().is(SpiritItems.SOUL_STEEL_BLADE.get())) {
                 if(player.getMainHandItem().getOrCreateTag().getBoolean("Charged")) {
                     ItemStack soulCrystal = SoulUtils.findCrystal(player, null, true, true);

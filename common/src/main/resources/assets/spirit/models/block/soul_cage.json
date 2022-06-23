@@ -4,7 +4,7 @@
 	"texture_size": [64, 64],
 	"textures": {
 		"0": "spirit:block/soul_cage",
-		"particle": "spirit:block/soul_cage"
+		"particle": "spirit:block/soul_cage_particle"
 	},
 	"elements": [
 		{

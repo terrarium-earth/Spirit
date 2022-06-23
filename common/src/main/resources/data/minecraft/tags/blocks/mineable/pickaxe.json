@@ -2,6 +2,11 @@
   "replace": false,
   "values": [
     "spirit:soul_cage",
-    "spirit:broken_spawner"
+    "spirit:broken_spawner",
+    "spirit:pedestal",
+    "spirit:crystal_pedestal",
+    "spirit:soul_pedestal",
+    "spirit:soul_steel_block",
+    "spirit:soul_slate"
   ]
 }
