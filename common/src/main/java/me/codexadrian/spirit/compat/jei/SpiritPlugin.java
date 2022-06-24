@@ -39,9 +39,9 @@ public class SpiritPlugin implements IModPlugin {
         IModPlugin.super.registerRecipes(registration);
         var level = Minecraft.getInstance().level;
         if(level != null) {
-            registration.addRecipes(PedestalRecipeCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritMisc.SOUL_TRANSMUTATION_RECIPE.get()));
-            registration.addRecipes(SoulCageCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritMisc.TIER_RECIPE.get()));
-            registration.addRecipes(SoulEngulfingCategory.RECIPE, SoulEngulfingCategory.getRecipes(level.getRecipeManager().getAllRecipesFor(SpiritMisc.SOUL_ENGULFING_RECIPE.get())));
+            registration.addRecipes(PedestalRecipeCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritMisc.SOUL_TRANSMUTATION_RECIPE));
+            registration.addRecipes(SoulCageCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritMisc.TIER_RECIPE));
+            registration.addRecipes(SoulEngulfingCategory.RECIPE, SoulEngulfingCategory.getRecipes(level.getRecipeManager().getAllRecipesFor(SpiritMisc.SOUL_ENGULFING_RECIPE)));
         }
     }
 

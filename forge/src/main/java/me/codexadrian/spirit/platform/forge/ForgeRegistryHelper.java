@@ -29,7 +29,6 @@ public class ForgeRegistryHelper implements IRegistryHelper {
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, Spirit.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Spirit.MODID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Spirit.MODID);
-    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registry.RECIPE_TYPE.key(), Spirit.MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Spirit.MODID);
 
     @Override
@@ -60,11 +59,6 @@ public class ForgeRegistryHelper implements IRegistryHelper {
     @Override
     public <T extends Entity> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> factory, MobCategory group, float width, float height) {
         return ENTITIES.register(name, () -> EntityType.Builder.of(factory, group).sized(width, height).build(name));
-    }
-
-    @Override
-    public <R extends Recipe<?>, T extends RecipeType<R>> Supplier<T> registerRecipeType(String name, Supplier<T> recipe) {
-        return RECIPE_TYPES.register(name, recipe);
     }
 
     @Override

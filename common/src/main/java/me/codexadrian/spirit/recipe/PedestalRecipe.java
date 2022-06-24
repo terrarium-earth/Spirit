@@ -51,11 +51,11 @@ public record PedestalRecipe(ResourceLocation id, HolderSet<EntityType<?>> entit
 
     @Override
     public RecipeType<?> getType() {
-        return SpiritMisc.SOUL_TRANSMUTATION_RECIPE.get();
+        return SpiritMisc.SOUL_TRANSMUTATION_RECIPE;
     }
 
     public static List<PedestalRecipe> getRecipesForEntity(EntityType<?> entity, ItemStack stack, RecipeManager manager) {
-        return manager.getAllRecipesFor(SpiritMisc.SOUL_TRANSMUTATION_RECIPE.get()).stream().filter(recipe -> recipe.entityInput().contains(entity.builtInRegistryHolder()) && recipe.activationItem().test(stack)).toList();
+        return manager.getAllRecipesFor(SpiritMisc.SOUL_TRANSMUTATION_RECIPE).stream().filter(recipe -> recipe.entityInput().contains(entity.builtInRegistryHolder()) && recipe.activationItem().test(stack)).toList();
     }
 
     public static Optional<PedestalRecipe> getEffect(String id, RecipeManager manager) {

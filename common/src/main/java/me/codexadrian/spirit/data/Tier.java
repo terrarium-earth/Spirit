@@ -44,7 +44,7 @@ public record Tier(ResourceLocation id, String displayName, int requiredSouls, i
 
     @Override
     public RecipeType<?> getType() {
-        return SpiritMisc.TIER_RECIPE.get();
+        return SpiritMisc.TIER_RECIPE;
     }
 
     @Nullable
@@ -83,7 +83,7 @@ public record Tier(ResourceLocation id, String displayName, int requiredSouls, i
     }
 
     public static List<Tier> getTiers(Level level) {
-        return level.getRecipeManager().getAllRecipesFor(SpiritMisc.TIER_RECIPE.get());
+        return level.getRecipeManager().getAllRecipesFor(SpiritMisc.TIER_RECIPE);
     }
 
 

@@ -35,11 +35,11 @@ public record MobTraitData(ResourceLocation id, EntityType<?> entity, List<MobTr
 
     @Override
     public RecipeType<?> getType() {
-        return SpiritMisc.MOB_TRAIT.get();
+        return SpiritMisc.MOB_TRAIT;
     }
 
     public static Optional<MobTraitData> getEffectForEntity(EntityType<?> entityType, RecipeManager manager) {
-        return manager.getAllRecipesFor(SpiritMisc.MOB_TRAIT.get()).stream().filter(recipe -> recipe.entity.equals(entityType)).findFirst();
+        return manager.getAllRecipesFor(SpiritMisc.MOB_TRAIT).stream().filter(recipe -> recipe.entity.equals(entityType)).findFirst();
     }
 
     @SuppressWarnings("ConstantConditions")

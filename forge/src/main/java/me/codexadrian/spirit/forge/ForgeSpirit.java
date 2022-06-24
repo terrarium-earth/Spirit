@@ -27,7 +27,6 @@ public class ForgeSpirit {
         ForgeRegistryHelper.BLOCK_ENTITIES.register(eventBus);
         ForgeRegistryHelper.ENCHANTMENTS.register(eventBus);
         ForgeRegistryHelper.ENTITIES.register(eventBus);
-        ForgeRegistryHelper.RECIPE_TYPES.register(eventBus);
         ForgeRegistryHelper.RECIPE_SERIALIZERS.register(eventBus);
         eventBus.addListener(this::entityAttributeStuff);
         eventBus.addListener(this::imcEvent);

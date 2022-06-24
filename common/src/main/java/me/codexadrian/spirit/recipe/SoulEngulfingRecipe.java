@@ -57,7 +57,7 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
 
     @Override
     public RecipeType<?> getType() {
-        return SpiritMisc.SOUL_ENGULFING_RECIPE.get();
+        return SpiritMisc.SOUL_ENGULFING_RECIPE;
     }
 
     public boolean validateRecipe(BlockPos blockPos, ItemEntity itemE, ServerLevel level) {
@@ -86,7 +86,7 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
     }
 
     public static List<SoulEngulfingRecipe> getRecipesForStack(ItemStack stack, RecipeManager manager) {
-        return manager.getAllRecipesFor(SpiritMisc.SOUL_ENGULFING_RECIPE.get()).stream().filter(recipe -> recipe.input.item().test(stack)).toList();
+        return manager.getAllRecipesFor(SpiritMisc.SOUL_ENGULFING_RECIPE).stream().filter(recipe -> recipe.input.item().test(stack)).toList();
     }
 
     public record SoulEngulfingInput(Ingredient item, SoulfireMultiblock multiblock) {
