@@ -5,6 +5,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -55,7 +57,7 @@ public class EntityIngredient {
     }
 
     public Component getDisplayName() {
-        return Component.translatable(entityType.getDescriptionId());
+        return new TranslatableComponent(entityType.getDescriptionId());
     }
 
     public List<Component> getTooltip() {
@@ -65,7 +67,7 @@ public class EntityIngredient {
             if (Minecraft.getInstance().options.advancedItemTooltips) {
                 ResourceLocation key = Registry.ENTITY_TYPE.getKey(entityType);
                 if (key != null) {
-                    tooltip.add(Component.literal(key.toString()).withStyle(ChatFormatting.DARK_GRAY));
+                    tooltip.add(new TextComponent(key.toString()).withStyle(ChatFormatting.DARK_GRAY));
                 }
             }
         }

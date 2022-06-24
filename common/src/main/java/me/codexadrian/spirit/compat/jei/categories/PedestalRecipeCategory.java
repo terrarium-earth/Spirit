@@ -16,6 +16,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,7 +41,7 @@ public class PedestalRecipeCategory extends BaseCategory<PedestalRecipe> {
     public PedestalRecipeCategory(IGuiHelper guiHelper) {
         super(guiHelper,
                 RECIPE,
-                Component.translatable("spirit.jei.soul_transmutation.title"),
+                new TranslatableComponent("spirit.jei.soul_transmutation.title"),
                 guiHelper.drawableBuilder(GUI_BACKGROUND, 0,0, 150, 100).build(),
                 guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, SpiritBlocks.SOUL_PEDESTAL.get().asItem().getDefaultInstance()));
     }
@@ -54,9 +55,19 @@ public class PedestalRecipeCategory extends BaseCategory<PedestalRecipe> {
         nbt.putBoolean("Corrupted", true);
         var entityTypes = recipe.entityInput().stream().filter(Holder::isBound).map(Holder::value).map(type -> new EntityIngredient(type, 45F, Optional.of(nbt))).toList();
         builder.addSlot(RecipeIngredientRole.CATALYST, 93, 21).addIngredients(recipe.activationItem()).addTooltipCallback((recipeSlotView, tooltip) -> {
-            if(recipe.consumesActivator()) tooltip.add(Component.translatable("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));
+            if(recipe.consumesActivator()) tooltip.add(new TranslatableComponent("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));
         });
         builder.addSlot(RecipeIngredientRole.INPUT, 28, 37).addIngredients(SpiritPlugin.ENTITY_INGREDIENT, entityTypes).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
         builder.addSlot(RecipeIngredientRole.OUTPUT, 124, 37).addIngredient(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.entityOutput(), -45F, recipe.shouldSummon() ? Optional.empty() : Optional.of(nbt))).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
+    }
+
+    @Override
+    public ResourceLocation getUid() {
+        return ID;
+    }
+
+    @Override
+    public Class<? extends PedestalRecipe> getRecipeClass() {
+        return PedestalRecipe.class;
     }
 }

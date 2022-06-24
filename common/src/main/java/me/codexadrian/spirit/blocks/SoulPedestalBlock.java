@@ -99,12 +99,6 @@ public class SoulPedestalBlock extends BaseEntityBlock {
         return createTickerHelper(blockEntityType, SpiritBlocks.SOUL_PEDESTAL_ENTITY.get(), SoulPedestalBlockEntity::tick);
     }
 
-
-    @Override
-    public boolean isOcclusionShapeFullBlock(@NotNull BlockState blockState, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos) {
-        return false;
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {

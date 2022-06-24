@@ -26,6 +26,8 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -53,7 +55,7 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
     public SoulEngulfingCategory(IGuiHelper guiHelper) {
         super(guiHelper,
                 RECIPE,
-                Component.translatable("spirit.jei.soul_engulfing.title"),
+                new TranslatableComponent("spirit.jei.soul_engulfing.title"),
                 guiHelper.drawableBuilder(GUI_BACKGROUND, 0, 0, 150, 100).build(),
                 guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, SpiritItems.SOUL_CRYSTAL.get().getDefaultInstance()));
 
@@ -85,16 +87,16 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
         Collections.reverse(tempBlockMap);
         if (mouseX > 1 && mouseX < 105 && mouseY > 27 && mouseY < 99) {
             for (int i = 0; i < tempBlockMap.size(); i++) {
-                components.add(Component.translatable("spirit.jei.soul_engulfing.layer", (i + 1)).withStyle(ChatFormatting.DARK_GRAY));
+                components.add(new TranslatableComponent("spirit.jei.soul_engulfing.layer", (i + 1)).withStyle(ChatFormatting.DARK_GRAY));
                 for (SoulEngulfingRecipeWrapper.BlockMap blockMap : tempBlockMap.get(i)) {
-                    components.add(Component.literal("  ").append(blockMap.blocks().getCurrent().getName()).withStyle(ChatFormatting.GRAY));
+                    components.add(new TextComponent("  ").append(blockMap.blocks().getCurrent().getName()).withStyle(ChatFormatting.GRAY));
                 }
             }
             if (recipe.getRecipe().breaksBlocks())
-                components.add(Component.translatable("spirit.jei.soul_engulfing.consumes").withStyle(ChatFormatting.RED));
+                components.add(new TranslatableComponent("spirit.jei.soul_engulfing.consumes").withStyle(ChatFormatting.RED));
         }
         if (mouseX > 107 && mouseX < 129 && mouseY > 83 && mouseY < 98) {
-            components.add(Component.translatable("spirit.jei.soul_engulfing.duration", recipe.getRecipe().duration() * 0.05));
+            components.add(new TranslatableComponent("spirit.jei.soul_engulfing.duration", recipe.getRecipe().duration() * 0.05));
         }
         return components;
     }
@@ -144,6 +146,16 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ResourceLocation getUid() {
+        return ID;
+    }
+
+    @Override
+    public Class<? extends SoulEngulfingRecipeWrapper> getRecipeClass() {
+        return SoulEngulfingRecipeWrapper.class;
     }
 
     public static List<SoulEngulfingRecipeWrapper> getRecipes(Collection<SoulEngulfingRecipe> recipes) {

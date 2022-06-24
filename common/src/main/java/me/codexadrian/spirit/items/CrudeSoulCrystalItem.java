@@ -9,6 +9,8 @@ import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -29,11 +31,11 @@ public class CrudeSoulCrystalItem extends Item {
         super.appendHoverText(itemStack, level, list, tooltipFlag);
         int souls = SoulUtils.getSoulsInCrystal(itemStack);
         if (souls != 0) {
-            MutableComponent tooltip = Component.translatable("spirit.item.crude_soul_crystal.tooltip");
-            tooltip.append(Component.literal(souls + "/" + SpiritConfig.getCrudeSoulCrystalCap()));
+            MutableComponent tooltip = new TranslatableComponent("spirit.item.crude_soul_crystal.tooltip");
+            tooltip.append(new TextComponent(souls + "/" + SpiritConfig.getCrudeSoulCrystalCap()));
             list.add(tooltip.withStyle(ChatFormatting.GRAY));
         } else {
-            list.add(Component.translatable("spirit.item.crude_soul_crystal.tooltip_empty").withStyle(ChatFormatting.DARK_GRAY));
+            list.add(new TranslatableComponent("spirit.item.crude_soul_crystal.tooltip_empty").withStyle(ChatFormatting.DARK_GRAY));
         }
     }
 

@@ -11,6 +11,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -231,7 +232,7 @@ public class SoulUtils {
             int incrementAmount = getSoulHarvestAmount(player);
 
             if (tier != null && storedEntity.getInt("Souls") + incrementAmount >= tier.requiredSouls()) {
-                player.displayClientMessage(Component.translatable("item.spirit.soul_crystal.upgrade_message").withStyle(ChatFormatting.AQUA), true);
+                player.displayClientMessage(new TranslatableComponent("item.spirit.soul_crystal.upgrade_message").withStyle(ChatFormatting.AQUA), true);
                 serverLevel.sendParticles(ParticleTypes.SOUL, player.getX(), player.getY(), player.getZ(), 40, 1, 2, 1, 0);
             }
 

@@ -83,7 +83,7 @@ public class SoulArrowEntity extends Arrow implements ItemSupplier {
         int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER_ARROWS, arg);
         int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH_ARROWS, arg);
         //Overridden to literally fix this one line. piss off mojang -_-.
-        this.setBaseDamage((f * this.getBaseDamage()) + this.random.triangle((double) this.level.getDifficulty().getId() * 0.11, 0.57425));
+        this.setBaseDamage((f * this.getBaseDamage()) + this.random.nextGaussian() * 0.25D + (double)((float)this.level.getDifficulty().getId() * 0.11F));
         if (i > 0) {
             this.setBaseDamage(this.getBaseDamage() + (double) i * 0.5 + 0.5);
         }
