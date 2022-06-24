@@ -4,6 +4,7 @@ import me.codexadrian.spirit.SpiritConfig;
 import me.codexadrian.spirit.platform.Services;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -22,7 +23,7 @@ public class ChippedBlockItem extends BlockItem {
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
         super.appendHoverText(itemStack, level, list, tooltipFlag);
         if(!Services.PLATFORM.isModLoaded("chipped") && SpiritConfig.showChippedError()) {
-            list.add(Component.translatable("spirit.tooltip.chipped_loaded").withStyle(ChatFormatting.RED));
+            list.add(new TranslatableComponent("spirit.tooltip.chipped_loaded").withStyle(ChatFormatting.RED));
         }
     }
 }

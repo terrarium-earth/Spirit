@@ -71,8 +71,7 @@ public record PotionTrait(List<MobEffectInstance> effects) implements MobTrait<P
                     Codec.INT.fieldOf("amplifier").orElse(0).forGetter(MobEffectInstance::getAmplifier),
                     Codec.BOOL.fieldOf("ambient").orElse(false).forGetter(MobEffectInstance::isAmbient),
                     Codec.BOOL.fieldOf("visible").orElse(true).forGetter(MobEffectInstance::isVisible),
-                    Codec.BOOL.fieldOf("showIcon").orElse(true).forGetter(MobEffectInstance::showIcon),
-                    MobEffectInstance.FactorData.CODEC.optionalFieldOf("factorData").forGetter(MobEffectInstance::getFactorData)
+                    Codec.BOOL.fieldOf("showIcon").orElse(true).forGetter(MobEffectInstance::showIcon)
             ).apply(instance, Serializer::mobEffectInstanceOf));
         }
 
@@ -91,8 +90,8 @@ public record PotionTrait(List<MobEffectInstance> effects) implements MobTrait<P
             return CODEC;
         }
 
-        public static MobEffectInstance mobEffectInstanceOf(MobEffect effect, int dur, int amp, boolean ambient, boolean visible, boolean icon, Optional<MobEffectInstance.FactorData> data) {
-            return new MobEffectInstance(effect, dur, amp, ambient, visible, icon, null, data);
+        public static MobEffectInstance mobEffectInstanceOf(MobEffect effect, int dur, int amp, boolean ambient, boolean visible, boolean icon) {
+            return new MobEffectInstance(effect, dur, amp, ambient, visible, icon, null);
         }
     }
 }

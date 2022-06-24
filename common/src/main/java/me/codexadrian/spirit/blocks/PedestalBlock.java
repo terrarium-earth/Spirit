@@ -77,11 +77,6 @@ public class PedestalBlock extends BaseEntityBlock {
     }
 
     @Override
-    public boolean isOcclusionShapeFullBlock(@NotNull BlockState blockState, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos) {
-        return false;
-    }
-
-    @Override
     public @NotNull List<ItemStack> getDrops(@NotNull BlockState blockState, LootContext.@NotNull Builder builder) {
         List<ItemStack> drops = super.getDrops(blockState, builder);
         BlockEntity blockE = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);

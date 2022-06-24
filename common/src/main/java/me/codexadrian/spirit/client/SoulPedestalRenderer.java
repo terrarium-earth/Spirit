@@ -15,10 +15,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class SoulPedestalRenderer implements BlockEntityRenderer<SoulPedestalBlockEntity> {
-    private final ItemRenderer itemRenderer;
 
     public SoulPedestalRenderer(BlockEntityRendererProvider.Context context) {
-        itemRenderer = context.getItemRenderer();
     }
 
     @Override

@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -91,9 +92,9 @@ public class ToolUtils {
 
     public static void appendEmpoweredText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
         if (itemStack.getOrCreateTag().getBoolean("Charged")) {
-            list.add(Component.translatable("spirit.item.soul_steel_tool.empowered"));
+            list.add(new TranslatableComponent("spirit.item.soul_steel_tool.empowered"));
         } else {
-            list.add(Component.translatable("spirit.item.soul_steel_tool.unpowered"));
+            list.add(new TranslatableComponent("spirit.item.soul_steel_tool.unpowered"));
         }
     }
 

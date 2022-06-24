@@ -55,6 +55,16 @@ public class EntityIngredientHelper implements IIngredientHelper<EntityIngredien
     }
 
     @Override
+    public String getModId(@NotNull EntityIngredient ingredient) {
+        return this.getResourceLocation(ingredient).getNamespace();
+    }
+
+    @Override
+    public String getResourceId(@NotNull EntityIngredient ingredient) {
+        return this.getResourceLocation(ingredient).getPath();
+    }
+
+    @Override
     public @NotNull ResourceLocation getResourceLocation(EntityIngredient ingredient) {
         ResourceLocation id = Registry.ENTITY_TYPE.getKey(ingredient.getEntityType());
         if (id == null) return new ResourceLocation("error");

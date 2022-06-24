@@ -13,6 +13,8 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -35,16 +37,16 @@ public class SoulCrystalItem extends Item {
         if (itemStack.getTag() != null && level != null) {
             final CompoundTag storedEntity = itemStack.getTag().getCompound("StoredEntity");
             if (storedEntity.contains("Type")) {
-                MutableComponent tooltip = Component.translatable(Util.makeDescriptionId("entity", ResourceLocation.tryParse(storedEntity.getString("Type"))));
-                tooltip.append(Component.literal(" ").append(Component.translatable(SoulUtils.getTierDisplay(itemStack, level)).append(" - ")));
+                MutableComponent tooltip = new TranslatableComponent(Util.makeDescriptionId("entity", ResourceLocation.tryParse(storedEntity.getString("Type"))));
+                tooltip.append(new TextComponent(" ").append(new TranslatableComponent(SoulUtils.getTierDisplay(itemStack, level)).append(" - ")));
                 Tier nextTier = SoulUtils.getNextTier(itemStack, level);
                 int maxSouls = SoulUtils.getMaxSouls(itemStack, level);
-                tooltip.append(Component.literal("(" + Math.min(storedEntity.getInt("Souls"), maxSouls) + "/" + Math.min(nextTier == null ? maxSouls : nextTier.requiredSouls(), maxSouls) + ") "));
+                tooltip.append(new TextComponent("(" + Math.min(storedEntity.getInt("Souls"), maxSouls) + "/" + Math.min(nextTier == null ? maxSouls : nextTier.requiredSouls(), maxSouls) + ") "));
 
                 list.add(tooltip.withStyle(ChatFormatting.GRAY));
             }
         } else {
-            MutableComponent unboundTooltip = Component.translatable("tooltip.spirit.soul_crystal.unbound");
+            MutableComponent unboundTooltip = new TranslatableComponent("tooltip.spirit.soul_crystal.unbound");
             list.add(unboundTooltip.withStyle(ChatFormatting.DARK_GRAY));
         }
     }

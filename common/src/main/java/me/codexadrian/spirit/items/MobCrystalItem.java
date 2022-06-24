@@ -8,6 +8,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -29,14 +30,14 @@ public class MobCrystalItem extends Item {
         super.appendHoverText(itemStack, level, list, tooltipFlag);
         if (itemStack.getTag() != null && level != null) {
             if (itemStack.getTag().contains("EntityType")) {
-                MutableComponent tooltip = Component.translatable("spirit.item.soul_crystal_shard.tooltip", Component.translatable(Util.makeDescriptionId("entity", ResourceLocation.tryParse(itemStack.getTag().getString("EntityType")))));
+                MutableComponent tooltip = new TranslatableComponent("spirit.item.soul_crystal_shard.tooltip", new TranslatableComponent(Util.makeDescriptionId("entity", ResourceLocation.tryParse(itemStack.getTag().getString("EntityType")))));
                 list.add(tooltip.withStyle(ChatFormatting.GRAY));
             } else {
-                MutableComponent unboundTooltip = Component.translatable("spirit.item.crude_soul_crystal.tooltip_empty");
+                MutableComponent unboundTooltip = new TranslatableComponent("spirit.item.crude_soul_crystal.tooltip_empty");
                 list.add(unboundTooltip.withStyle(ChatFormatting.DARK_GRAY));
             }
         } else {
-            MutableComponent unboundTooltip = Component.translatable("spirit.item.crude_soul_crystal.tooltip_empty");
+            MutableComponent unboundTooltip = new TranslatableComponent("spirit.item.crude_soul_crystal.tooltip_empty");
             list.add(unboundTooltip.withStyle(ChatFormatting.DARK_GRAY));
         }
     }
