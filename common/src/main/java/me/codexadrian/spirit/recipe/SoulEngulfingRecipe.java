@@ -1,10 +1,6 @@
 package me.codexadrian.spirit.recipe;
 
-import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.Dynamic;
-import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.codexadrian.spirit.EngulfableItem;
 import me.codexadrian.spirit.data.SyncedData;
@@ -24,7 +20,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
 import java.util.List;
-import java.util.Optional;
 
 public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input, int duration, boolean breaksBlocks,
                                   Item output, int outputAmount) implements SyncedData {
@@ -67,7 +62,7 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
             else if (engulfableItem.isEngulfed() || this.duration() == 0) {
                 if (!multiblock.validateMultiblock(blockPos, level, false)) {
                     engulfableItem.resetEngulfing();
-                    if(!engulfableItem.isRecipeOutput()) itemE.setInvulnerable(false);
+                    if (!engulfableItem.isRecipeOutput()) itemE.setInvulnerable(false);
                     return false;
                 }
                 if (engulfableItem.isFullyEngulfed() && multiblock.validateMultiblock(blockPos, level, breaksBlocks())) {
@@ -75,7 +70,7 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
                     ItemEntity output = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), this.getResultItem());
                     output.setInvulnerable(true);
                     itemE.level.addFreshEntity(output);
-                    if(output instanceof EngulfableItem outputEngulf) outputEngulf.setRecipeOutput();
+                    if (output instanceof EngulfableItem outputEngulf) outputEngulf.setRecipeOutput();
                     itemE.getItem().shrink(1);
                     engulfableItem.resetEngulfing();
                     level.sendParticles(ParticleTypes.SOUL, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 40, 1, 2, 1, 0);
