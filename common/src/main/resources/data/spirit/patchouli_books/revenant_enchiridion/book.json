@@ -1,8 +1,0 @@
-{
-  "name": "item.spirit.glossary",
-  "landing_text": "A comprehensive guide to using Spirit $(br2)By CodexAdrian",
-  "book_texture": "patchouli:textures/gui/book_blue.png",
-  "creative_tab": "spirit.itemgroup",
-  "model": "spirit:glossary",
-  "version": 1
-}
