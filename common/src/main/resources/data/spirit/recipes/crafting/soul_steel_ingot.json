@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spirit:soul_steel_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "spirit:soul_steel_ingot"
+  }
+}

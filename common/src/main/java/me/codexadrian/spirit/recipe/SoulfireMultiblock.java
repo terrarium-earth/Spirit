@@ -84,7 +84,7 @@ public record SoulfireMultiblock(List<List<String>> pattern, Map<String, Strippe
                 StrippedBlockPredicate blockPredicate = keys.get(key);
                 if (blockPredicate == null) blockPredicate = RESERVED_VALUES.get(key);
                 if (blockPredicate != null) {
-                    if (blockPredicate.matches(level, block.getKey())) {
+                    if (blockPredicate.matches(level, block.getKey()) && blockPredicate != StrippedBlockPredicate.ANY) {
                         level.destroyBlock(block.getKey(), false);
                     }
                 }
