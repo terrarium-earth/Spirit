@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ItemEntityMixin implements EngulfableItem {
     int engulfTime = 0;
     int maxEngulfTime = 0;
-    boolean isRecipeOutput = false;
 
     private static final EntityDataAccessor<Boolean> RECIPE_OUTPUT = SynchedEntityData.defineId(ItemEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> ENGULF_TIME = SynchedEntityData.defineId(ItemEntity.class, EntityDataSerializers.INT);
