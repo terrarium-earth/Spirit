@@ -36,11 +36,15 @@ public class TOPCompat implements Function<ITheOneProbe, Void> {
                     if (blockEntity.isEmpty()) {
                         probeInfo.horizontal().text("block.spirit.soul_cage.empty_hover_text");
                     } else if (blockEntity.type != null) {
-                        Entity entity = blockEntity.type.create(level);
-                        probeInfo.horizontal().padding(2, 1).entity(entity).padding(2, 1).vertical().padding(5, 8).horizontal().text(blockEntity.type.getDescription()).text("spirit.the_one_probe.soul_cage.tier_suffix").text(SoulUtils.getTierDisplay(blockEntity.getItem(0), level));
+                        probeInfo.horizontal().padding(2, 1).entity(blockEntity.getOrCreateEntity()).padding(2, 1).vertical().padding(5, 8).horizontal().text(blockEntity.type.getDescription()).text("spirit.the_one_probe.soul_cage.tier_suffix").text(SoulUtils.getTierDisplay(blockEntity.getItem(0), level));
                     }
-                }
-                if (blockState.is(SpiritBlocks.SOUL_PEDESTAL.get()) && level.getBlockEntity(probeHitData.getPos()) instanceof SoulPedestalBlockEntity blockEntity) {
+                } else if(blockState.is(SpiritBlocks.SOUL_PEDESTAL.get()) && level.getBlockEntity(probeHitData.getPos()) instanceof SoulPedestalBlockEntity blockEntity) {
+                    if (blockEntity.type == null) {
+                        probeInfo.horizontal().text("block.spirit.soul_cage.empty_hover_text");
+                    } else {
+                        probeInfo.horizontal().padding(2, 1).entity(blockEntity.getOrCreateEntity()).padding(2, 1).vertical().padding(5, 8).horizontal().text(blockEntity.type.getDescription());
+                    }
+                } else if (blockState.is(SpiritBlocks.CRYSTAL_PEDESTAL.get()) && level.getBlockEntity(probeHitData.getPos()) instanceof PedestalBlockEntity blockEntity) {
                     if (!blockEntity.isEmpty()) {
                         ItemStack item = blockEntity.getItem(0);
                         if (item.is(SpiritItems.SOUL_CRYSTAL.get())) {
@@ -61,8 +65,7 @@ public class TOPCompat implements Function<ITheOneProbe, Void> {
                             probeInfo.progress(SoulUtils.getSoulsInCrystal(item), SpiritConfig.getCrudeSoulCrystalCap(), soulStyle);
                         }
                     }
-                }
-                if (blockState.is(SpiritBlocks.PEDESTAL.get()) && level.getBlockEntity(probeHitData.getPos()) instanceof PedestalBlockEntity blockEntity) {
+                } else if (blockState.is(SpiritBlocks.PEDESTAL.get()) && level.getBlockEntity(probeHitData.getPos()) instanceof PedestalBlockEntity blockEntity) {
                     if (!blockEntity.isEmpty()) {
                         ItemStack item = blockEntity.getItem(0);
                         probeInfo.horizontal().item(item).vertical().padding(5, 4).itemLabel(item);
