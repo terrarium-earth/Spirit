@@ -1,5 +1,7 @@
 package me.codexadrian.spirit.platform;
 
+import com.mojang.serialization.Codec;
+import me.codexadrian.spirit.fabric.CodecRecipeSerializer;
 import me.codexadrian.spirit.platform.services.IRegistryHelper;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -15,11 +17,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static me.codexadrian.spirit.Spirit.MODID;
@@ -62,9 +66,9 @@ public class FabricRegistryHelper implements IRegistryHelper {
     }
 
     @Override
-    public <R extends Recipe<?>, T extends RecipeSerializer<R>> Supplier<T> registerRecipeSerializer(String name, Supplier<T> recipe) {
-        var register = Registry.register(Registry.RECIPE_SERIALIZER, new ResourceLocation(MODID, name), recipe.get());
-        return () -> register;
+    public <R extends Recipe<?>, T extends RecipeSerializer<R>> Supplier<T> registerRecipeSerializer(String name, RecipeType<R> recipeType, Function<ResourceLocation, Codec<R>> codecInitializer) {
+        var register = Registry.register(Registry.RECIPE_SERIALIZER, new ResourceLocation(MODID, name), new CodecRecipeSerializer<>(recipeType, codecInitializer));
+        return () -> (T) register;
     }
 
     @Override

@@ -45,7 +45,7 @@ public record FireTrait(int burnTime) implements MobTrait<FireTrait> {
 
     private static class Serializer implements MobTraitSerializer<FireTrait> {
         public static final Codec<FireTrait> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Codec.INT.fieldOf("burnTime").orElse(120).forGetter(FireTrait::burnTime)
+                Codec.INT.fieldOf("burnTime").orElse(7).forGetter(FireTrait::burnTime)
         ).apply(instance, FireTrait::new));
 
         @Override

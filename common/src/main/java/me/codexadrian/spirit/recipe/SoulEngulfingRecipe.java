@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.codexadrian.spirit.EngulfableItem;
 import me.codexadrian.spirit.data.SyncedData;
 import me.codexadrian.spirit.registry.SpiritMisc;
+import me.codexadrian.spirit.registry.SpiritRecipes;
 import me.codexadrian.spirit.utils.CodecUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -52,7 +53,7 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
 
     @Override
     public RecipeType<?> getType() {
-        return SpiritMisc.SOUL_ENGULFING_RECIPE;
+        return SpiritRecipes.getSoulEngulfingRecipe().get();
     }
 
     public boolean validateRecipe(BlockPos blockPos, ItemEntity itemE, ServerLevel level) {
@@ -82,7 +83,7 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
     }
 
     public static List<SoulEngulfingRecipe> getRecipesForStack(ItemStack stack, RecipeManager manager) {
-        return manager.getAllRecipesFor(SpiritMisc.SOUL_ENGULFING_RECIPE).stream().filter(recipe -> recipe.input.item().test(stack)).toList();
+        return manager.getAllRecipesFor(SpiritRecipes.getSoulEngulfingRecipe().get()).stream().filter(recipe -> recipe.input.item().test(stack)).toList();
     }
 
     public record SoulEngulfingInput(Ingredient item, SoulfireMultiblock multiblock) {

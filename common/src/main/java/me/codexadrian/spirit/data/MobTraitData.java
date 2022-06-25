@@ -3,6 +3,7 @@ package me.codexadrian.spirit.data;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.codexadrian.spirit.registry.SpiritMisc;
+import me.codexadrian.spirit.registry.SpiritRecipes;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -35,11 +36,11 @@ public record MobTraitData(ResourceLocation id, EntityType<?> entity, List<MobTr
 
     @Override
     public RecipeType<?> getType() {
-        return SpiritMisc.MOB_TRAIT;
+        return SpiritRecipes.getMobTraitRecipe().get();
     }
 
     public static Optional<MobTraitData> getEffectForEntity(EntityType<?> entityType, RecipeManager manager) {
-        return manager.getAllRecipesFor(SpiritMisc.MOB_TRAIT).stream().filter(recipe -> recipe.entity.equals(entityType)).findFirst();
+        return manager.getAllRecipesFor(SpiritRecipes.getMobTraitRecipe().get()).stream().filter(recipe -> recipe.entity.equals(entityType)).findFirst();
     }
 
     @SuppressWarnings("ConstantConditions")

@@ -1,6 +1,8 @@
 package me.codexadrian.spirit.platform.forge;
 
+import com.mojang.serialization.Codec;
 import me.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.forge.CodecRecipeSerializer;
 import me.codexadrian.spirit.platform.services.IRegistryHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +23,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ForgeRegistryHelper implements IRegistryHelper {
@@ -29,6 +32,7 @@ public class ForgeRegistryHelper implements IRegistryHelper {
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, Spirit.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Spirit.MODID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Spirit.MODID);
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, Spirit.MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Spirit.MODID);
 
     @Override
@@ -62,8 +66,8 @@ public class ForgeRegistryHelper implements IRegistryHelper {
     }
 
     @Override
-    public <R extends Recipe<?>, T extends RecipeSerializer<R>> Supplier<T> registerRecipeSerializer(String name, Supplier<T> recipe) {
-        return RECIPE_SERIALIZERS.register(name, recipe);
+    public <R extends Recipe<?>, T extends RecipeSerializer<R>> Supplier<T> registerRecipeSerializer(String name, RecipeType<R> recipeType, Function<ResourceLocation, Codec<R>> codecInitializer) {
+        return RECIPE_SERIALIZERS.register(name, () -> (T) new CodecRecipeSerializer<>(recipeType, codecInitializer));
     }
 
     @Override

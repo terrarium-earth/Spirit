@@ -11,6 +11,7 @@ import me.codexadrian.spirit.compat.jei.ingredients.EntityRenderer;
 import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritMisc;
+import me.codexadrian.spirit.registry.SpiritRecipes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -39,9 +40,9 @@ public class SpiritPlugin implements IModPlugin {
         IModPlugin.super.registerRecipes(registration);
         var level = Minecraft.getInstance().level;
         if(level != null) {
-            registration.addRecipes(PedestalRecipeCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritMisc.SOUL_TRANSMUTATION_RECIPE));
-            registration.addRecipes(SoulCageCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritMisc.TIER_RECIPE));
-            registration.addRecipes(SoulEngulfingCategory.RECIPE, SoulEngulfingCategory.getRecipes(level.getRecipeManager().getAllRecipesFor(SpiritMisc.SOUL_ENGULFING_RECIPE)));
+            registration.addRecipes(PedestalRecipeCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritRecipes.getSoulTransmutationRecipe().get()));
+            registration.addRecipes(SoulCageCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritRecipes.getTierRecipe().get()));
+            registration.addRecipes(SoulEngulfingCategory.RECIPE, SoulEngulfingCategory.getRecipes(level.getRecipeManager().getAllRecipesFor(SpiritRecipes.getSoulEngulfingRecipe().get())));
         }
     }
 

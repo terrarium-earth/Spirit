@@ -3,6 +3,7 @@ package me.codexadrian.spirit.data;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.codexadrian.spirit.registry.SpiritMisc;
+import me.codexadrian.spirit.registry.SpiritRecipes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -44,7 +45,7 @@ public record Tier(ResourceLocation id, String displayName, int requiredSouls, i
 
     @Override
     public RecipeType<?> getType() {
-        return SpiritMisc.TIER_RECIPE;
+        return SpiritRecipes.getTierRecipe().get();
     }
 
     @Nullable
@@ -83,7 +84,7 @@ public record Tier(ResourceLocation id, String displayName, int requiredSouls, i
     }
 
     public static List<Tier> getTiers(Level level) {
-        return level.getRecipeManager().getAllRecipesFor(SpiritMisc.TIER_RECIPE);
+        return level.getRecipeManager().getAllRecipesFor(SpiritRecipes.getTierRecipe().get());
     }
 
 

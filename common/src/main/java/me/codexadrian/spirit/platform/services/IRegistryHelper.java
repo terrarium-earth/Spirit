@@ -1,5 +1,6 @@
 package me.codexadrian.spirit.platform.services;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public interface IRegistryHelper {
@@ -34,7 +36,7 @@ public interface IRegistryHelper {
 
     <T extends Entity> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> factory, MobCategory group, float width, float height);
 
-    <R extends Recipe<?>, T extends RecipeSerializer<R>> Supplier<T> registerRecipeSerializer(String name, Supplier<T> recipe);
+    <R extends Recipe<?>, T extends RecipeSerializer<R>> Supplier<T> registerRecipeSerializer(String name, RecipeType<R> recipeType, Function<ResourceLocation, Codec<R>> codecInitializer);
 
     @FunctionalInterface
     interface BlockEntityFactory<T extends BlockEntity> {

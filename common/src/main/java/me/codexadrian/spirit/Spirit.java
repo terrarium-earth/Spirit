@@ -5,6 +5,7 @@ import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.registry.SpiritMisc;
+import me.codexadrian.spirit.registry.SpiritRecipes;
 import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;

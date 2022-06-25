@@ -7,6 +7,7 @@ import me.codexadrian.spirit.data.SyncedData;
 import me.codexadrian.spirit.data.TagAndListSetCodec;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.registry.SpiritMisc;
+import me.codexadrian.spirit.registry.SpiritRecipes;
 import me.codexadrian.spirit.utils.CodecUtils;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
@@ -51,11 +52,11 @@ public record PedestalRecipe(ResourceLocation id, HolderSet<EntityType<?>> entit
 
     @Override
     public RecipeType<?> getType() {
-        return SpiritMisc.SOUL_TRANSMUTATION_RECIPE;
+        return SpiritRecipes.getSoulTransmutationRecipe().get();
     }
 
     public static List<PedestalRecipe> getRecipesForEntity(EntityType<?> entity, ItemStack stack, RecipeManager manager) {
-        return manager.getAllRecipesFor(SpiritMisc.SOUL_TRANSMUTATION_RECIPE).stream().filter(recipe -> recipe.entityInput().contains(entity.builtInRegistryHolder()) && recipe.activationItem().test(stack)).toList();
+        return manager.getAllRecipesFor(SpiritRecipes.getSoulTransmutationRecipe().get()).stream().filter(recipe -> recipe.entityInput().contains(entity.builtInRegistryHolder()) && recipe.activationItem().test(stack)).toList();
     }
 
     public static Optional<PedestalRecipe> getEffect(String id, RecipeManager manager) {

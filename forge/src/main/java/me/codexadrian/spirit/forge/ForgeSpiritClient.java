@@ -9,18 +9,30 @@ import me.codexadrian.spirit.network.messages.ToggleEmpoweredPacket;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
 
+@OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = "spirit", bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ForgeSpiritClient {
+
+    public ForgeSpiritClient() {
+        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        eventBus.addListener(this::keybindAction);
+    }
 
     private static final KeyMapping EMPOWER_KEYBIND = new KeyMapping(
             "key.spirit.toggle", // The translation key of the keybinding's name
@@ -32,6 +44,7 @@ public class ForgeSpiritClient {
     @SubscribeEvent
     public static void onInitializeClient(FMLClientSetupEvent event) {
         SpiritClient.initClient();
+        ClientRegistry.registerKeyBinding(EMPOWER_KEYBIND);
     }
 
     @SubscribeEvent
@@ -48,9 +61,8 @@ public class ForgeSpiritClient {
         event.registerLayerDefinition(CrudeSoulEntityModel.LAYER_LOCATION, CrudeSoulEntityModel::createBodyLayer);
     }
 
-    @SubscribeEvent
-    public static void keybindAction(TickEvent.ClientTickEvent event) {
-        while (EMPOWER_KEYBIND.consumeClick()) {
+    public void keybindAction(InputEvent.KeyInputEvent event) {
+        while (event.getKey() == EMPOWER_KEYBIND.getKey().getValue()) {
             NetworkHandler.sendToServer(new ToggleEmpoweredPacket());
         }
     }
