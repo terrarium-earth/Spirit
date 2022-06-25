@@ -71,7 +71,7 @@
   "spirit.jei.soul_cage_info.spawn_count": "Spawns %s mobs per cycle",
   "spirit.jei.soul_cage_info.spawn_range": "Spawns up to %s blocks away",
   "spirit.jei.soul_cage_info.player_nearby": "Requires player be %s blocks away",
-  "spirit.jei.soul_cage_info.player_nearby_not_required": "Requires player be %s blocks away",
+  "spirit.jei.soul_cage_info.player_nearby_not_required": "Nearby player not required",
   "spirit.jei.soul_cage_info.redstone_controlled_true": "Controllable with redstone",
   "spirit.jei.soul_cage_info.redstone_controlled_false": "Not controlled with redstone",
   "spirit.jei.soul_cage_info.ignored_spawn_conditions_true": "Follows spawn conditions",
