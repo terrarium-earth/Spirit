@@ -1,6 +1,6 @@
 {
   "type": "spirit:mob_trait",
-  "entity": "minecraft:glow_squid",
+  "entity": "minecraft:rabbit",
   "traits": [
     {
       "type": "spirit:potion_effect",

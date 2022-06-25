@@ -7,6 +7,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -44,12 +45,13 @@ public class PedestalBlockEntity extends BlockEntity implements Container {
     @Override
     public ItemStack removeItem(int i, int j) {
         var item = removeItemNoUpdate(i);
-        update(j);
+        update(Block.UPDATE_ALL);
         return item;
     }
 
     public void update(int j) {
-        getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), j);
+        if(getLevel() != null) getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), j);
+        setChanged();
     }
 
     @Override
@@ -66,7 +68,7 @@ public class PedestalBlockEntity extends BlockEntity implements Container {
     public void setItem(int i, @NotNull ItemStack itemStack) {
         if (i == 0) {
             item = itemStack;
-            this.setChanged();
+            update(Block.UPDATE_ALL);
         }
     }
 

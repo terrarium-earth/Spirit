@@ -1,6 +1,6 @@
 {
   "type": "spirit:mob_trait",
-  "entity": "minecraft:iron_golem",
+  "entity": "minecraft:ravager",
   "traits": [
     {
       "type": "spirit:knockback",

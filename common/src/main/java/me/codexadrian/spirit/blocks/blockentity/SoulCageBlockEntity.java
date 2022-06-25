@@ -14,6 +14,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -67,8 +68,7 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
     @Override
     public ItemStack removeItem(int i, int j) {
         var itemStack = removeItemNoUpdate(i);
-        this.setChanged();
-        getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), j);
+        update(Block.UPDATE_ALL);
         return itemStack;
     }
 
@@ -86,8 +86,10 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
 
     @Override
     public void setItem(int i, @NotNull ItemStack itemStack) {
-        if (i == 0)
+        if (i == 0) {
             soulCrystal = itemStack;
+            update(Block.UPDATE_ALL);
+        }
     }
 
     @Override
@@ -137,6 +139,11 @@ public class SoulCageBlockEntity extends BlockEntity implements Container {
         } else {
             type = null;
         }
+    }
+
+    public void update(int j) {
+        if(getLevel() != null) getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), j);
+        setChanged();
     }
 
     public Entity getOrCreateEntity() {

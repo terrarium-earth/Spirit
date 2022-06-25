@@ -4,7 +4,7 @@
   "traits": [
     {
       "type": "spirit:fire",
-      "duration": 200
+      "duration": 12
     },
     {
       "type": "spirit:damage",
