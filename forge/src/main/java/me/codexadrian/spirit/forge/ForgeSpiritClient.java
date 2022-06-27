@@ -26,7 +26,7 @@ import org.lwjgl.glfw.GLFW;
 import java.io.IOException;
 
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = "spirit", bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = "spirit", bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ForgeSpiritClient {
 
     public ForgeSpiritClient() {
