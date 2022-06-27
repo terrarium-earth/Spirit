@@ -9,6 +9,7 @@ import me.codexadrian.spirit.network.messages.ToggleEmpoweredPacket;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.event.TickEvent;
@@ -19,7 +20,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
 
-@Mod.EventBusSubscriber(modid = "spirit", bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = "spirit", bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ForgeSpiritClient {
 
     private static final KeyMapping EMPOWER_KEYBIND = new KeyMapping(
