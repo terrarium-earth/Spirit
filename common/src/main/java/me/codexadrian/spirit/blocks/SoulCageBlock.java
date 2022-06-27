@@ -62,23 +62,18 @@ public class SoulCageBlock extends BaseEntityBlock {
 
                         soulSpawner.setType();
 
-                        soulSpawner.setChanged();
-                        level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
+                        soulSpawner.update(Block.UPDATE_ALL);
                         return InteractionResult.SUCCESS;
                     }
                 } else if (player.isShiftKeyDown()) {
                     soulSpawner.entity = null;
                     soulSpawner.type = null;
 
-                    ItemStack DivineCrystal = soulSpawner.removeItemNoUpdate(0);
-                    if (itemStack.isEmpty()) {
-                        player.setItemInHand(interactionHand, DivineCrystal);
-                    } else if (!player.addItem(DivineCrystal)) {
-                        player.drop(DivineCrystal, false);
-                    }
+                    ItemStack divineCrystal = soulSpawner.removeItemNoUpdate(0);
 
-                    soulSpawner.setChanged();
-                    level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
+                    player.getInventory().placeItemBackInInventory(divineCrystal);
+
+                    soulSpawner.update(Block.UPDATE_ALL);
                     return InteractionResult.SUCCESS;
                 }
             }

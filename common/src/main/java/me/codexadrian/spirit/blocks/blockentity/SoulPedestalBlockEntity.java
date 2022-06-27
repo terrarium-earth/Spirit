@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class SoulPedestalBlockEntity extends BlockEntity implements Container {
+public class SoulPedestalBlockEntity extends BlockEntity {
 
     public EntityType<?> type;
     private ItemStack item = ItemStack.EMPTY;
@@ -96,57 +96,6 @@ public class SoulPedestalBlockEntity extends BlockEntity implements Container {
     }
 
     @Override
-    public int getContainerSize() {
-        return 1;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return item.isEmpty();
-    }
-
-    @Override
-    public ItemStack getItem(int i) {
-        return i == 0 ? item : ItemStack.EMPTY;
-    }
-
-    @Override
-    public ItemStack removeItem(int i, int j) {
-        var itemStack = removeItemNoUpdate(i);
-        this.setChanged();
-        getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), j);
-        return itemStack;
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int i) {
-        if (i == 0) {
-            ItemStack crystal = item;
-            item = ItemStack.EMPTY;
-
-            return crystal;
-        }
-
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public void setItem(int i, @NotNull ItemStack itemStack) {
-        if (i == 0)
-            item = itemStack;
-    }
-
-    @Override
-    public void clearContent() {
-        item = ItemStack.EMPTY;
-    }
-
-    @Override
-    public int getMaxStackSize() {
-        return 1;
-    }
-
-    @Override
     public void load(@NotNull CompoundTag compoundTag) {
         super.load(compoundTag);
         if (compoundTag.contains("Soul")) {
@@ -190,11 +139,6 @@ public class SoulPedestalBlockEntity extends BlockEntity implements Container {
         this.type = type;
         this.entity = null;
         this.setChanged();
-    }
-
-    @Override
-    public boolean stillValid(Player player) {
-        return worldPosition.distSqr(player.blockPosition()) <= 16;
     }
 
     public void setRecipe(@Nullable PedestalRecipe recipe) {
