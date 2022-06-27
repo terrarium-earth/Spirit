@@ -53,8 +53,8 @@
   "spirit.item.soul_crystal_shard.tooltip": "Contains: %s",
   "spirit.item.crude_soul_crystal.tooltip": "Souls: ",
   "spirit.item.crude_soul_crystal.tooltip_empty": "Empty",
-  "spirit.item.soul_steel_tool.empowered": "§7Press §8[§cV§8]§7 to Depower§r",
-  "spirit.item.soul_steel_tool.unpowered": "§7Press §8[§bV§8]§7 to Empower§r",
+  "spirit.item.soul_steel_tool.empowered": "§7Press §8[%s§8]§7 to Depower§r",
+  "spirit.item.soul_steel_tool.unpowered": "§7Press §8[%s§8]§7 to Empower§r",
   "spirit.the_one_probe.soul_cage.tier_suffix": "- Tier",
   "spirit.the_one_probe.soul_cage.bar_suffix": " Souls",
   "spirit.tooltip.chipped_loaded": "Install Chipped to use this properly",
@@ -75,5 +75,7 @@
   "spirit.jei.soul_cage_info.redstone_controlled_true": "Controllable with redstone",
   "spirit.jei.soul_cage_info.redstone_controlled_false": "Not controlled with redstone",
   "spirit.jei.soul_cage_info.ignored_spawn_conditions_true": "Follows spawn conditions",
-  "spirit.jei.soul_cage_info.ignored_spawn_conditions_false": "Ignores spawn conditions"
+  "spirit.jei.soul_cage_info.ignored_spawn_conditions_false": "Ignores spawn conditions",
+  "category.spirit.soul_steel_tools": "Spirit",
+  "key.spirit.toggle": "Toggle Empowered"
 }

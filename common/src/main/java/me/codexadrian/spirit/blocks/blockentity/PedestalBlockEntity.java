@@ -2,8 +2,10 @@ package me.codexadrian.spirit.blocks.blockentity;
 
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -11,8 +13,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class PedestalBlockEntity extends BlockEntity implements Container {
+public class PedestalBlockEntity extends BlockEntity implements WorldlyContainer {
 
     ItemStack item = ItemStack.EMPTY;
     public int age;
@@ -110,4 +113,18 @@ public class PedestalBlockEntity extends BlockEntity implements Container {
         return worldPosition.distSqr(player.blockPosition()) <= 16;
     }
 
+    @Override
+    public int[] getSlotsForFace(Direction direction) {
+        return new int[0];
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int i, ItemStack itemStack, @Nullable Direction direction) {
+        return false;
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int i, ItemStack itemStack, Direction direction) {
+        return false;
+    }
 }
