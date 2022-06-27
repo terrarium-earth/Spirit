@@ -23,7 +23,7 @@ public class FabricSpiritClient implements ClientModInitializer {
                 "key.spirit.toggle", // The translation key of the keybinding's name
                 InputConstants.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
                 GLFW.GLFW_KEY_V, // The keycode of the key
-                "category.spirit.soul_steel_tools" // The translation key of the keybinding's category.
+                "category.spirit.keybinds" // The translation key of the keybinding's category.
         ));
 
         EntityModelLayerRegistry.registerModelLayer(CrudeSoulEntityModel.LAYER_LOCATION, CrudeSoulEntityModel::createBodyLayer);

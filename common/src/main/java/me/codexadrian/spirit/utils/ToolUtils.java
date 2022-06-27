@@ -4,6 +4,7 @@ import me.codexadrian.spirit.data.MobTrait;
 import me.codexadrian.spirit.data.MobTraitData;
 import me.codexadrian.spirit.data.ToolType;
 import me.codexadrian.spirit.registry.SpiritItems;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
@@ -91,9 +92,9 @@ public class ToolUtils {
 
     public static void appendEmpoweredText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
         if (itemStack.getOrCreateTag().getBoolean("Charged")) {
-            list.add(Component.translatable("spirit.item.soul_steel_tool.empowered"));
+            list.add(Component.translatable("spirit.item.soul_steel_tool.empowered", Component.keybind("key.spirit.toggle").withStyle(ChatFormatting.RED)));
         } else {
-            list.add(Component.translatable("spirit.item.soul_steel_tool.unpowered"));
+            list.add(Component.translatable("spirit.item.soul_steel_tool.unpowered", Component.keybind("key.spirit.toggle").withStyle(ChatFormatting.AQUA)));
         }
     }
 
