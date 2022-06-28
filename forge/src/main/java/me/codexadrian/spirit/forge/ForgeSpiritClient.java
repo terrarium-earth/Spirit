@@ -20,8 +20,14 @@ import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
 
+@OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = "spirit", bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ForgeSpiritClient {
+
+    public ForgeSpiritClient() {
+        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        eventBus.addListener(this::keybindAction);
+    }
 
     private static final KeyMapping EMPOWER_KEYBIND = new KeyMapping(
             "key.spirit.toggle", // The translation key of the keybinding's name
@@ -33,6 +39,7 @@ public class ForgeSpiritClient {
     @SubscribeEvent
     public static void onInitializeClient(FMLClientSetupEvent event) {
         SpiritClient.initClient();
+        ClientRegistry.registerKeyBinding(EMPOWER_KEYBIND);
     }
 
     @SubscribeEvent
@@ -49,9 +56,8 @@ public class ForgeSpiritClient {
         event.registerLayerDefinition(CrudeSoulEntityModel.LAYER_LOCATION, CrudeSoulEntityModel::createBodyLayer);
     }
 
-    @SubscribeEvent
-    public static void keybindAction(TickEvent.ClientTickEvent event) {
-        while (EMPOWER_KEYBIND.consumeClick()) {
+    public void keybindAction(InputEvent.KeyInputEvent event) {
+        while (event.getKey() == EMPOWER_KEYBIND.getKey().getValue()) {
             NetworkHandler.sendToServer(new ToggleEmpoweredPacket());
         }
     }
