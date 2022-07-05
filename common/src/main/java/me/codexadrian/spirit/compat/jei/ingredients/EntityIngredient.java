@@ -23,6 +23,7 @@ public class EntityIngredient {
     @Nullable
     private final Entity entity;
     private final EntityType<?> entityType;
+    private final Optional<CompoundTag> nbt;
     private final float rotation;
 
     public EntityIngredient(EntityType<?> entityType, float rotation){
@@ -32,6 +33,7 @@ public class EntityIngredient {
     public EntityIngredient(EntityType<?> entityType, float rotation, Optional<CompoundTag> nbt) {
         this.rotation = rotation;
         this.entityType = entityType;
+        this.nbt = nbt;
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.level != null) {
@@ -52,6 +54,10 @@ public class EntityIngredient {
 
     public EntityType<?> getEntityType() {
         return entityType;
+    }
+
+    public Optional<CompoundTag> getNbt() {
+        return nbt;
     }
 
     public Component getDisplayName() {
