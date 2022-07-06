@@ -4,7 +4,6 @@ import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.data.Tier;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.utils.SoulUtils;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -160,8 +159,8 @@ public class SoulCageSpawner {
     }
 
     public boolean onEventTriggered(int i) {
-        if (i == 1 && this.getLevel() instanceof ClientLevel level) {
-            Tier tier = SoulUtils.getTier(soulCageBlockEntity.getItem(0), level);
+        if (i == 1 && this.getLevel().isClientSide()) {
+            Tier tier = SoulUtils.getTier(soulCageBlockEntity.getItem(0), this.getLevel());
             if (tier == null) {
                 return false;
             }

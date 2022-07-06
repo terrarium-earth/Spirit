@@ -21,6 +21,7 @@ import java.util.Optional;
 
 public record SoulfireMultiblock(List<List<String>> pattern, Map<String, StrippedBlockPredicate> keys) {
     //'@' for soul fire
+    //'&' for soul sand/soil
     //' ' for any
 
     public static final Codec<List<List<String>>> PATTERN_CODEC = Codec.STRING.listOf().listOf()
