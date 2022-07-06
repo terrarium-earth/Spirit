@@ -26,6 +26,9 @@
     ],
     "jei_mod_plugin": [
       "me.codexadrian.spirit.compat.jei.SpiritPlugin"
+    ],
+    "rei_client": [
+      "me.codexadrian.spirit.compat.rei.SpiritPlugin"
     ]
   },
   "mixins": [
