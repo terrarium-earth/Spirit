@@ -160,8 +160,8 @@ public class SoulCageSpawner {
     }
 
     public boolean onEventTriggered(int i) {
-        if (i == 1 && this.getLevel() instanceof ClientLevel level) {
-            Tier tier = SoulUtils.getTier(soulCageBlockEntity.getItem(0), level);
+        if (i == 1 && this.getLevel().isClientSide()) {
+            Tier tier = SoulUtils.getTier(soulCageBlockEntity.getItem(0), this.getLevel());
             if (tier == null) {
                 return false;
             }
