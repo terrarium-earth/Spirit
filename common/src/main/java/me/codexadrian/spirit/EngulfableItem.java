@@ -6,5 +6,7 @@ public interface EngulfableItem {
     void setMaxEngulfTime(int duration);
     boolean isEngulfed();
     boolean isFullyEngulfed();
+    boolean isRecipeOutput();
+    void setRecipeOutput();
 
 }

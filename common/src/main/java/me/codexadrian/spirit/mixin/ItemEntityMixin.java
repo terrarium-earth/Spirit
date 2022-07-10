@@ -18,26 +18,32 @@ public abstract class ItemEntityMixin implements EngulfableItem {
     int engulfTime = 0;
     int maxEngulfTime = 0;
 
+    private static final EntityDataAccessor<Boolean> RECIPE_OUTPUT = SynchedEntityData.defineId(ItemEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> ENGULF_TIME = SynchedEntityData.defineId(ItemEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> MAX_ENGULF_TIME = SynchedEntityData.defineId(ItemEntity.class, EntityDataSerializers.INT);
 
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
     private void defineCorrupted(CallbackInfo ci) {
         var entityData = ((ItemEntity) (Object) this).getEntityData();
+        entityData.define(RECIPE_OUTPUT, false);
         entityData.define(ENGULF_TIME, 0);
         entityData.define(MAX_ENGULF_TIME, 0);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readCorrupted(CompoundTag compoundTag, CallbackInfo ci) {
-        this.engulfTime = compoundTag.getInt("engulfTime");
-        this.engulfTime = compoundTag.getInt("maxEngulfTime");
+        var entityData = ((ItemEntity) (Object) this).getEntityData();
+        entityData.set(RECIPE_OUTPUT, compoundTag.getBoolean("isRecipeOutput"));
+        this.engulfTime = compoundTag.getInt("EngulfTime");
+        this.engulfTime = compoundTag.getInt("MaxEngulfTime");
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void saveCorrupted(CompoundTag compoundTag, CallbackInfo ci) {
-        compoundTag.putInt("engulfTime", engulfTime);
-        compoundTag.putInt("maxEngulfTime", maxEngulfTime);
+        var entityData = ((ItemEntity) (Object) this).getEntityData();
+        compoundTag.putBoolean("IsRecipeOutput", entityData.get(RECIPE_OUTPUT));
+        compoundTag.putInt("EngulfTime", engulfTime);
+        compoundTag.putInt("MaxEngulfTime", maxEngulfTime);
     }
 
     @Override
@@ -59,6 +65,18 @@ public abstract class ItemEntityMixin implements EngulfableItem {
     @Override
     public boolean isFullyEngulfed() {
         return engulfTime >= maxEngulfTime;
+    }
+
+    @Override
+    public boolean isRecipeOutput() {
+        var entityData = ((ItemEntity) (Object) this).getEntityData();
+        return entityData.get(RECIPE_OUTPUT);
+    }
+
+    @Override
+    public void setRecipeOutput() {
+        var entityData = ((ItemEntity) (Object) this).getEntityData();
+        entityData.set(RECIPE_OUTPUT, true);
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
