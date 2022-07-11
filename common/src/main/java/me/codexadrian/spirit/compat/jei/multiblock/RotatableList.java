@@ -17,7 +17,7 @@ public class RotatableList<T> extends ArrayList<T> {
     }
 
     public void next() {
-        this.index = (this.index + 1) % this.size();
+        this.index = this.size() == 0 ? this.index : (this.index + 1) % this.size();
     }
 
 }
