@@ -26,6 +26,7 @@ public class EntityIngredient {
     private final Entity entity;
     private final EntityType<?> entityType;
     private final float rotation;
+    private final Optional<CompoundTag> nbt;
 
     public EntityIngredient(EntityType<?> entityType, float rotation){
         this(entityType, rotation, Optional.empty());
@@ -34,6 +35,7 @@ public class EntityIngredient {
     public EntityIngredient(EntityType<?> entityType, float rotation, Optional<CompoundTag> nbt) {
         this.rotation = rotation;
         this.entityType = entityType;
+        this.nbt = nbt;
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.level != null) {
@@ -58,6 +60,10 @@ public class EntityIngredient {
 
     public Component getDisplayName() {
         return new TranslatableComponent(entityType.getDescriptionId());
+    }
+
+    public Optional<CompoundTag> getNbt() {
+        return nbt;
     }
 
     public List<Component> getTooltip() {

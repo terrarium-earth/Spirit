@@ -29,6 +29,8 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
     modCompileOnly ("mcjty.theoneprobe:theoneprobe:${top_version}:api") { transitive = false }
     modRuntimeOnly ("mcjty.theoneprobe:theoneprobe:${top_version}") { transitive = false }
+    // modImplementation "slimeknights.tconstruct:TConstruct:1.18.2-${tcon_version}"
+    // modImplementation "slimeknights.mantle:Mantle:1.18.2-${mantle_version}"
 }
 
 processResources {
