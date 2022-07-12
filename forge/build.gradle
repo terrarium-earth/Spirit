@@ -10,6 +10,14 @@ architectury {
 loom {
     forge {
         mixinConfig "spirit.mixins.json"
+        dataGen {
+            mod "spirit"
+        }
+    }
+    launches {
+        data {
+            arg "--existing", file("src/main/resources").absolutePath
+        }
     }
 }
 
@@ -23,14 +31,14 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
-    modRuntimeOnly "mezz.jei:jei-${minecraft_version}-forge:${jei_version}"
-    modCompileOnly "mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"
+    //modRuntimeOnly "mezz.jei:jei-${minecraft_version}-forge:${jei_version}"
+    //modCompileOnly "mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
     modCompileOnly ("mcjty.theoneprobe:theoneprobe:${top_version}:api") { transitive = false }
     modRuntimeOnly ("mcjty.theoneprobe:theoneprobe:${top_version}") { transitive = false }
-    // modImplementation "slimeknights.tconstruct:TConstruct:1.18.2-${tcon_version}"
-    // modImplementation "slimeknights.mantle:Mantle:1.18.2-${mantle_version}"
+    modImplementation "slimeknights.tconstruct:TConstruct:1.18.2-${tcon_version}"
+    modImplementation "slimeknights.mantle:Mantle:1.18.2-${mantle_version}"
 }
 
 processResources {
