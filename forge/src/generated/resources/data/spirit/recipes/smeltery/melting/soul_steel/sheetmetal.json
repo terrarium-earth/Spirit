@@ -1,0 +1,21 @@
+{
+  "type": "tconstruct:melting",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:sheetmetals/soul_steel",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:sheetmetals/soul_steel"
+  },
+  "result": {
+    "fluid": "spirit:molten_soul_steel",
+    "amount": 90
+  },
+  "temperature": 700,
+  "time": 57
+}

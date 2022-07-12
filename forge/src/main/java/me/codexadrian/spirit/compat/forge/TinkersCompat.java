@@ -18,10 +18,13 @@ public class TinkersCompat {
             generator.addProvider(new SpiritModifiers(generator));
             SpiritMaterials arg = new SpiritMaterials(generator);
             generator.addProvider(arg);
-            SpiritMaterialSprites spiritMaterialSprites = new SpiritMaterialSprites();
             generator.addProvider(new SpiritMaterialTraits(generator, arg));
             generator.addProvider(new SpiritMaterialStats(generator, arg));
-            generator.addProvider(new MaterialPartTextureGenerator(generator, event.getExistingFileHelper(), new TinkerPartSpriteProvider(), spiritMaterialSprites));
+            generator.addProvider(new SpiritRecipes(generator));
+            //SpiritMaterialSprites spiritMaterialSprites = new SpiritMaterialSprites();
+            //generator.addProvider(new SpiritRenderInfo(generator, spiritMaterialSprites));
+            //generator.addProvider(new MaterialPartTextureGenerator(generator, event.getExistingFileHelper(), new TinkerPartSpriteProvider(), spiritMaterialSprites));
+            //generator.addProvider(new MaterialPartTextureGenerator(generator, event.getExistingFileHelper(), new TinkerPartSpriteProvider(), spiritMaterialSprites));
         }
     }
 
