@@ -282,16 +282,8 @@ public class SoulUtils {
 
     public static int getSoulHarvestAmount(Player player) {
         int returnAmount = 1;
-        if (player.getMainHandItem().is(Spirit.SOUL_STEEL_MAINHAND) || player.getOffhandItem().is(Spirit.SOUL_STEEL_OFFHAND)) {
+        if (player.getMainHandItem().is(Spirit.SOUL_STEEL_MAINHAND) || player.getOffhandItem().is(Spirit.SOUL_STEEL_OFFHAND))
             returnAmount++;
-        } else {
-            returnAmount += tinkersAmount(player);
-        }
         return returnAmount + EnchantmentHelper.getEnchantmentLevel(SpiritMisc.SOUL_REAPER_ENCHANTMENT.get(), player);
-    }
-
-    @ExpectPlatform
-    public static int tinkersAmount(Player player) {
-        return 0;
     }
 }

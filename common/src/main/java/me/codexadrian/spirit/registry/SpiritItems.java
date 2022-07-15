@@ -23,9 +23,6 @@ public class SpiritItems {
     public static final Supplier<Item> SOUL_STEEL = REGISTRY.registerItem("soul_steel_ingot", () ->
             new Item(new Item.Properties().tab(SPIRIT)));
 
-    public static final Supplier<Item> SOUL_STEEL_NUGGET = REGISTRY.registerItem("soul_steel_nugget", () ->
-            new Item(new Item.Properties().tab(SPIRIT)));
-
     public static final Supplier<Item> SOUL_POWDER = REGISTRY.registerItem("soul_powder", () ->
             new Item(new Item.Properties().tab(SPIRIT)));
 

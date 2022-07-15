@@ -8,12 +8,12 @@ public class SoulMetalMaterial implements Tier {
 
     @Override
     public int getUses() {
-        return 500;
+        return 200;
     }
 
     @Override
     public float getSpeed() {
-        return 10.5F;
+        return 9;
     }
 
     @Override

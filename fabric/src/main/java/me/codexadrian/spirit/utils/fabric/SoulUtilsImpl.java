@@ -9,8 +9,4 @@ public class SoulUtilsImpl {
     public static ItemStack searchTrinkets(Player player, @Nullable LivingEntity victim) {
         return ItemStack.EMPTY;
     }
-
-    public static int tinkersAmount(Player player) {
-        return 0;
-    }
 }
