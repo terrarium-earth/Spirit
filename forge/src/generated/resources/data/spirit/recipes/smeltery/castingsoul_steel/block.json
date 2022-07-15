@@ -1,9 +1,0 @@
-{
-  "type": "tconstruct:casting_basin",
-  "fluid": {
-    "tag": "spirit:soul_steel",
-    "amount": 810
-  },
-  "result": "spirit:soul_steel_block",
-  "cooling_time": 171
-}

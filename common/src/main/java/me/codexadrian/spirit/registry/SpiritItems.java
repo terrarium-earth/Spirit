@@ -20,7 +20,7 @@ public class SpiritItems {
     public static final Supplier<Item> SOUL_CRYSTAL = REGISTRY.registerItem("soul_crystal", () ->
             new SoulCrystalItem(new Item.Properties().tab(SPIRIT).stacksTo(1).rarity(Rarity.RARE)));
 
-    public static final Supplier<Item> SOUL_STEEL_INGOT = REGISTRY.registerItem("soul_steel_ingot", () ->
+    public static final Supplier<Item> SOUL_STEEL = REGISTRY.registerItem("soul_steel_ingot", () ->
             new Item(new Item.Properties().tab(SPIRIT)));
 
     public static final Supplier<Item> SOUL_STEEL_NUGGET = REGISTRY.registerItem("soul_steel_nugget", () ->

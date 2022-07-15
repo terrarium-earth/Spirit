@@ -33,8 +33,6 @@ dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     //modRuntimeOnly "mezz.jei:jei-${minecraft_version}-forge:${jei_version}"
     //modCompileOnly "mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"
-
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:${rei_version}"
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
     modCompileOnly ("mcjty.theoneprobe:theoneprobe:${top_version}:api") { transitive = false }
