@@ -1,13 +1,17 @@
 package me.codexadrian.spirit.compat.rei.categories;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.compat.jei.ingredients.EntityIngredient;
+import me.codexadrian.spirit.compat.jei.multiblock.SoulEngulfingRecipeWrapper;
 import me.codexadrian.spirit.compat.rei.SpiritPlugin;
 import me.codexadrian.spirit.compat.rei.displays.PedestalDisplay;
+import me.codexadrian.spirit.recipe.PedestalRecipe;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
+import me.shedaniel.rei.api.client.gui.widgets.Tooltip;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
@@ -15,12 +19,15 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +44,7 @@ public class PedestalRecipeCategory implements DisplayCategory<PedestalDisplay> 
             new int[]{55, 64},
             new int[]{32, 71},
             new int[]{9, 64},
-            new int[]{2, 49},
+            new int[]{2, 41},
             new int[]{9, 18}
     );
 
@@ -82,13 +89,16 @@ public class PedestalRecipeCategory implements DisplayCategory<PedestalDisplay> 
         var nbt = new CompoundTag();
         nbt.putBoolean("Corrupted", true);
         var entityTypes = recipe.entityInput().stream().filter(Holder::isBound).map(Holder::value).map(type -> new EntityIngredient(type, 45F, Optional.of(nbt))).toList();
-        widgets.add(Widgets.createSlot(new Point(startX + 93, startY + 21)).entries(EntryIngredients.ofIngredient(recipe.activationItem()).map(stack -> {
-            if (recipe.consumesActivator()) {
-                stack.tooltip(new TranslatableComponent("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));
-            }
-
-            return stack;
-        })));
+        if(recipe.activationItem().isPresent()) {
+            widgets.add(Widgets.createSlot(new Point(startX + 93, startY + 21)).entries(EntryIngredients.ofIngredient(recipe.activationItem().get()).map(stack -> {
+                if (recipe.consumesActivator()) {
+                    stack.tooltip(new TranslatableComponent("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));
+                }
+                return stack;
+            })));
+        } else {
+            widgets.add(Widgets.createTooltip(new Rectangle(startX + 93, startY + 21, 18, 18), new TranslatableComponent("spirit.jei.soul_transmutation.empty_hand")));
+        }
         widgets.add(Widgets.createSlot(new Rectangle(startX + 28 - 1, startY + 37 - 1, 26, 26)).markInput().disableBackground().entries(EntryIngredients.of(SpiritPlugin.ENTITY_INGREDIENT, entityTypes)));
         widgets.add(Widgets.createSlot(new Rectangle(startX + 124 - 1, startY + 37 - 1, 26, 26)).markOutput().disableBackground().entry(EntryStack.of(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.entityOutput(), -45F, recipe.shouldSummon() ? Optional.empty() : Optional.of(nbt)))));
 
