@@ -44,7 +44,7 @@ public record PedestalRecipe(ResourceLocation id, HolderSet<EntityType<?>> entit
 
     @Override
     public ResourceLocation getId() {
-        return new ResourceLocation(Spirit.MODID, "soul_transmutation");
+        return id();
     }
 
     @Override
