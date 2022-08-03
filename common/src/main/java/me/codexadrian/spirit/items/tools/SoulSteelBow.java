@@ -80,7 +80,7 @@ public class SoulSteelBow extends BowItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand interactionHand) {
+    public InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand interactionHand) {
         return ToolUtils.handleToolDrawing(player, interactionHand);
     }
 

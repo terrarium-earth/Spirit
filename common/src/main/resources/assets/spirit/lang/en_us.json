@@ -60,6 +60,7 @@
   "spirit.tooltip.chipped_loaded": "Install Chipped to use this properly",
   "spirit.jei.soul_transmutation.title": "Soul Transmutation",
   "spirit.jei.soul_transmutation.consumes": "Consumes Item",
+  "spirit.jei.soul_transmutation.empty_hand": "Right Click With Empty Hand",
   "spirit.jei.soul_engulfing.title": "Soul Engulfing",
   "spirit.jei.soul_engulfing.consumes": "Consumes Blocks",
   "spirit.jei.soul_engulfing.layer": "Layer %s",

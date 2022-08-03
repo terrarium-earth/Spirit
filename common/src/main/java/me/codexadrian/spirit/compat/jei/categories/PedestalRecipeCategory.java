@@ -8,6 +8,7 @@ import me.codexadrian.spirit.recipe.PedestalRecipe;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
@@ -19,6 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +35,7 @@ public class PedestalRecipeCategory extends BaseCategory<PedestalRecipe> {
             new int[]{55, 64},
             new int[]{32, 71},
             new int[]{9, 64},
-            new int[]{2, 49},
+            new int[]{2, 41},
             new int[]{9, 18}
     );
 
@@ -53,10 +55,21 @@ public class PedestalRecipeCategory extends BaseCategory<PedestalRecipe> {
         var nbt = new CompoundTag();
         nbt.putBoolean("Corrupted", true);
         var entityTypes = recipe.entityInput().stream().filter(Holder::isBound).map(Holder::value).map(type -> new EntityIngredient(type, 45F, Optional.of(nbt))).toList();
-        builder.addSlot(RecipeIngredientRole.CATALYST, 93, 21).addIngredients(recipe.activationItem()).addTooltipCallback((recipeSlotView, tooltip) -> {
-            if(recipe.consumesActivator()) tooltip.add(Component.translatable("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));
-        });
+        if(recipe.activationItem().isPresent()) {
+            builder.addSlot(RecipeIngredientRole.CATALYST, 93, 21).addIngredients(recipe.activationItem().get()).addTooltipCallback((recipeSlotView, tooltip) -> {
+                if(recipe.consumesActivator()) tooltip.add(Component.translatable("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));
+            });
+        }
         builder.addSlot(RecipeIngredientRole.INPUT, 28, 37).addIngredients(SpiritPlugin.ENTITY_INGREDIENT, entityTypes).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
         builder.addSlot(RecipeIngredientRole.OUTPUT, 124, 37).addIngredient(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.entityOutput(), -45F, recipe.shouldSummon() ? Optional.empty() : Optional.of(nbt))).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
+    }
+
+    @Override
+    public List<Component> getTooltipStrings(PedestalRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+        List<Component> components = new ArrayList<>();
+        if(recipe.activationItem().isEmpty() && mouseX > 91 && mouseX < 111 && mouseY > 19 && mouseY < 39) {
+            components.add(Component.translatable("spirit.jei.soul_transmutation.empty_hand"));
+        }
+        return components;
     }
 }
