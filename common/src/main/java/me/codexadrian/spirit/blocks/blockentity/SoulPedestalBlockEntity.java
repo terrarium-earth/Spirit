@@ -75,8 +75,8 @@ public class SoulPedestalBlockEntity extends BlockEntity {
                     if (soulPedestal.containedRecipe.shouldSummon()) {
                         Entity entity = soulPedestal.containedRecipe.entityOutput().create(level1);
                         if (entity != null) {
+                            if(soulPedestal.containedRecipe.outputNbt().isPresent()) entity.load(soulPedestal.containedRecipe.outputNbt().get());
                             entity.setPos(blockPos.getX() + 0.5, blockPos.getY() + 0.75, blockPos.getZ() + 0.5);
-                            if(soulPedestal.containedRecipe.outputNbt().isPresent()) entity.saveWithoutId(soulPedestal.containedRecipe.outputNbt().get());
                             level1.addFreshEntity(entity);
                             for (int i = 0; i < 10; i++) {
                                 level1.addParticle(ParticleTypes.SOUL, entity.getX(), entity.getY(), entity.getZ(), 0, 0, 0);

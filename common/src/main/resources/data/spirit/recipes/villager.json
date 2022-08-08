@@ -29,6 +29,9 @@
     }
   ],
   "entityOutput": "minecraft:villager",
+  "outputNbt": {
+    "CustomName": "\"Dorothy\""
+  },
   "duration": 30,
   "shouldSummonMob": true
 }

@@ -59,7 +59,7 @@ public class EntityIngredient {
     }
 
     public Component getDisplayName() {
-        return new TranslatableComponent(entityType.getDescriptionId());
+        return entity == null ? entityType.getDescription() : entity.getDisplayName();
     }
 
     public Optional<CompoundTag> getNbt() {
