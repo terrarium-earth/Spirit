@@ -61,7 +61,7 @@ public class EntityIngredient {
     }
 
     public Component getDisplayName() {
-        return Component.translatable(entityType.getDescriptionId());
+        return entity == null ? entityType.getDescription() : entity.getDisplayName();
     }
 
     public List<Component> getTooltip() {
