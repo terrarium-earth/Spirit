@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class SoulPedestalBlockEntity extends BlockEntity {
 
     public EntityType<?> type;
+    private ItemStack item = ItemStack.EMPTY;
 
     @Nullable
     public Entity entity;
@@ -34,7 +35,6 @@ public class SoulPedestalBlockEntity extends BlockEntity {
     public PedestalRecipe containedRecipe;
     public int burnTime = 0;
     public int age;
-    private int soulCount;
 
     public SoulPedestalBlockEntity(BlockPos $$1, BlockState $$2) {
         super(SpiritBlocks.SOUL_PEDESTAL_ENTITY.get(), $$1, $$2);
@@ -76,16 +76,16 @@ public class SoulPedestalBlockEntity extends BlockEntity {
                     if (soulPedestal.containedRecipe.shouldSummon()) {
                         Entity entity = soulPedestal.containedRecipe.entityOutput().create(level1);
                         if (entity != null) {
-                            if(soulPedestal.containedRecipe.outputNbt().isPresent()) entity.load(soulPedestal.containedRecipe.outputNbt().get());
                             entity.setPos(blockPos.getX() + 0.5, blockPos.getY() + 0.75, blockPos.getZ() + 0.5);
+                            if(soulPedestal.containedRecipe.outputNbt().isPresent()) entity.load(soulPedestal.containedRecipe.outputNbt().get());
                             level1.addFreshEntity(entity);
                             for (int i = 0; i < 10; i++) {
                                 level1.addParticle(ParticleTypes.SOUL, entity.getX(), entity.getY(), entity.getZ(), 0, 0, 0);
                             }
-                            soulPedestal.clear();
+                            soulPedestal.setType(null);
                         }
                     } else {
-                        soulPedestal.setType(soulPedestal.containedRecipe.entityOutput(), 1);
+                        soulPedestal.setType(soulPedestal.containedRecipe.entityOutput());
                     }
                     level1.sendBlockUpdated(blockPos, blockState1, blockState1, Block.UPDATE_ALL);
                     soulPedestal.setRecipe(null);
@@ -99,7 +99,7 @@ public class SoulPedestalBlockEntity extends BlockEntity {
     public void load(@NotNull CompoundTag compoundTag) {
         super.load(compoundTag);
         if (compoundTag.contains("Soul")) {
-            setType(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(compoundTag.getString("Soul"))), compoundTag.getInt("SoulCount"));
+            setType(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(compoundTag.getString("Soul"))));
         }
         if (compoundTag.contains("PedestalRecipe") && hasLevel()) {
             var recipe = PedestalRecipe.getEffect(compoundTag.getString("PedestalRecipe"), getLevel().getRecipeManager());
@@ -118,7 +118,6 @@ public class SoulPedestalBlockEntity extends BlockEntity {
             compoundTag.putString("PedestalRecipe", containedRecipe.id().toString());
         }
         compoundTag.putInt("BurnTime", burnTime);
-        compoundTag.putInt("SoulCount", soulCount);
     }
 
     @Override
@@ -136,21 +135,9 @@ public class SoulPedestalBlockEntity extends BlockEntity {
         return entity;
     }
 
-    public void setType(EntityType<?> type, int soulCount) {
+    public void setType(EntityType<?> type) {
         this.type = type;
         this.entity = null;
-        this.soulCount = soulCount;
-        this.setChanged();
-    }
-
-    public int getSoulCount() {
-        return soulCount;
-    }
-
-    public void clear() {
-        this.type = null;
-        this.entity = null;
-        this.soulCount = 0;
         this.setChanged();
     }
 

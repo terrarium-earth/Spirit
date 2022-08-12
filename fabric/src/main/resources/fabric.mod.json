@@ -19,10 +19,10 @@
   "accessWidener": "spirit.accesswidener",
   "entrypoints": {
     "main": [
-      "me.codexadrian.spirit.fabric.FabricSpirit"
+      "me.codexadrian.spirit.FabricSpirit"
     ],
     "client": [
-      "me.codexadrian.spirit.fabric.FabricSpiritClient"
+      "me.codexadrian.spirit.FabricSpiritClient"
     ],
     "jei_mod_plugin": [
       "me.codexadrian.spirit.compat.jei.SpiritPlugin"

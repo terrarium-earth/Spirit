@@ -22,14 +22,13 @@ import net.minecraft.world.item.crafting.RecipeType;
 import java.util.List;
 import java.util.Optional;
 
-public record PedestalRecipe(ResourceLocation id, HolderSet<EntityType<?>> entityInput, int inputCount, Optional<Ingredient> activationItem, boolean consumesActivator, List<Ingredient> ingredients,
+public record PedestalRecipe(ResourceLocation id, HolderSet<EntityType<?>> entityInput, Optional<Ingredient> activationItem, boolean consumesActivator, List<Ingredient> ingredients,
                              EntityType<?> entityOutput, int duration, boolean shouldSummon,
                              Optional<CompoundTag> outputNbt) implements SyncedData {
     public static Codec<PedestalRecipe> codec(ResourceLocation id) {
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(id),
                 TagAndListSetCodec.of(Registry.ENTITY_TYPE).fieldOf("entityInput").forGetter(PedestalRecipe::entityInput),
-                Codec.INT.fieldOf("souls").forGetter(PedestalRecipe::inputCount),
                 CodecUtils.INGREDIENT_CODEC.optionalFieldOf("activatorItem").forGetter(PedestalRecipe::activationItem),
                 Codec.BOOL.fieldOf("consumesActivator").orElse(false).forGetter(PedestalRecipe::consumesActivator),
                 CodecUtils.INGREDIENT_CODEC.listOf().fieldOf("itemInputs").forGetter(PedestalRecipe::ingredients),
@@ -55,7 +54,7 @@ public record PedestalRecipe(ResourceLocation id, HolderSet<EntityType<?>> entit
         return SpiritMisc.SOUL_TRANSMUTATION_RECIPE.get();
     }
 
-    public static List<PedestalRecipe> getRecipesForEntity(EntityType<?> entity, int soulCount, ItemStack stack, RecipeManager manager) {
+    public static List<PedestalRecipe> getRecipesForEntity(EntityType<?> entity, ItemStack stack, RecipeManager manager) {
         return manager.getAllRecipesFor(SpiritMisc.SOUL_TRANSMUTATION_RECIPE.get()).stream().filter(recipe -> {
             boolean stackMatches;
             if(recipe.activationItem().isPresent()) {
@@ -63,7 +62,7 @@ public record PedestalRecipe(ResourceLocation id, HolderSet<EntityType<?>> entit
             } else {
                 stackMatches = stack.isEmpty();
             }
-            return recipe.entityInput().contains(entity.builtInRegistryHolder()) && stackMatches && recipe.inputCount() == soulCount;
+            return recipe.entityInput().contains(entity.builtInRegistryHolder()) && stackMatches;
         }).toList();
     }
 

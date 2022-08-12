@@ -18,6 +18,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
+import static me.codexadrian.spirit.Spirit.MODID;
+
 public class Spirit {
 
     public static final String MODID = "spirit";

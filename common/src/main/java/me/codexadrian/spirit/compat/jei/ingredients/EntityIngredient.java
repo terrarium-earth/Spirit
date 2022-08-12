@@ -26,21 +26,14 @@ public class EntityIngredient {
     private final Optional<CompoundTag> nbt;
     private final float rotation;
 
-    private final int soulCount;
-
     public EntityIngredient(EntityType<?> entityType, float rotation){
         this(entityType, rotation, Optional.empty());
     }
 
     public EntityIngredient(EntityType<?> entityType, float rotation, Optional<CompoundTag> nbt) {
-        this(entityType, nbt, rotation, 1);
-    }
-
-    public EntityIngredient(EntityType<?> entityType, Optional<CompoundTag> nbt, float rotation, int soulCount) {
         this.rotation = rotation;
         this.entityType = entityType;
         this.nbt = nbt;
-        this.soulCount = soulCount;
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.level != null) {
@@ -67,12 +60,8 @@ public class EntityIngredient {
         return nbt;
     }
 
-    public int getSoulCount() {
-        return soulCount;
-    }
-
     public Component getDisplayName() {
-        return Component.literal(this.soulCount > 1 ? this.soulCount + " * " : "").append(entity == null ? entityType.getDescription() : entity.getDisplayName());
+        return entity == null ? entityType.getDescription() : entity.getDisplayName();
     }
 
     public List<Component> getTooltip() {
