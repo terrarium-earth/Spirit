@@ -11,10 +11,7 @@ import me.codexadrian.spirit.registry.SpiritItems;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
-import me.shedaniel.rei.api.client.gui.widgets.CloseableScissors;
-import me.shedaniel.rei.api.client.gui.widgets.Tooltip;
-import me.shedaniel.rei.api.client.gui.widgets.Widget;
-import me.shedaniel.rei.api.client.gui.widgets.Widgets;
+import me.shedaniel.rei.api.client.gui.widgets.*;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
@@ -81,7 +78,7 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
         widgets.add(Widgets.createTexturedWidget(GUI_BACKGROUND, startX, startY, 150, 100));
         widgets.add(Widgets.createSlot(new Point(startX + 2, startY + 2)).markInput().entries(display.getInput()));
         widgets.add(Widgets.createSlot(new Point(startX + 133, startY + 83)).markOutput().entries(display.getOutput()));
-        widgets.add(new Widget() {
+        widgets.add(new DelegateWidget(Widgets.noOp()) {
             @Override
             public void render(PoseStack stack, int mouseX, int mouseY, float delta) {
                 stack.pushPose();
@@ -94,9 +91,8 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
                 }
             }
 
-            @Override
-            public List<? extends GuiEventListener> children() {
-                return List.of();
+            public Rectangle getBounds() {
+                return new Rectangle(2, 26, 103, 74);
             }
 
             @Override
