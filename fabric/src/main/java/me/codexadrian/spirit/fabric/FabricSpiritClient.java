@@ -1,6 +1,7 @@
-package me.codexadrian.spirit;
+package me.codexadrian.spirit.fabric;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import me.codexadrian.spirit.SpiritClient;
 import me.codexadrian.spirit.client.CrudeSoulEntityModel;
 import me.codexadrian.spirit.network.NetworkHandler;
 import me.codexadrian.spirit.network.messages.ToggleEmpoweredPacket;

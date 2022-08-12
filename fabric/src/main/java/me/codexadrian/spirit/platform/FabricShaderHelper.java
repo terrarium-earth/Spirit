@@ -1,14 +1,11 @@
 package me.codexadrian.spirit.platform;
 
-import me.codexadrian.spirit.FabricSoulShader;
+import me.codexadrian.spirit.fabric.FabricSoulShader;
 import me.codexadrian.spirit.platform.services.IShaderHelper;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 
 public class FabricShaderHelper implements IShaderHelper {
 

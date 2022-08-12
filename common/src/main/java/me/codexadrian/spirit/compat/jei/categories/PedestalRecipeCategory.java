@@ -1,5 +1,6 @@
 package me.codexadrian.spirit.compat.jei.categories;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.compat.jei.SpiritPlugin;
 import me.codexadrian.spirit.compat.jei.ingredients.BigEntityRenderer;
@@ -18,6 +19,9 @@ import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -54,7 +58,13 @@ public class PedestalRecipeCategory extends BaseCategory<PedestalRecipe> {
         }
         var nbt = new CompoundTag();
         nbt.putBoolean("Corrupted", true);
-        var entityTypes = recipe.entityInput().stream().filter(Holder::isBound).map(Holder::value).map(type -> new EntityIngredient(type, 45F, Optional.of(nbt))).toList();
+        var entityTypes = recipe.entityInput().stream().filter(Holder::isBound).map(Holder::value).map(type -> {
+            ItemStack spawnEggItem = getSpawnEggStack(type);
+            if(!spawnEggItem.isEmpty()) {
+                builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addItemStack(spawnEggItem);
+            }
+            return new EntityIngredient(type, Optional.of(nbt), 45f, recipe.inputCount());
+        }).toList();
         if(recipe.activationItem().isPresent()) {
             builder.addSlot(RecipeIngredientRole.CATALYST, 93, 21).addIngredients(recipe.activationItem().get()).addTooltipCallback((recipeSlotView, tooltip) -> {
                 if(recipe.consumesActivator()) tooltip.add(Component.translatable("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));
@@ -62,6 +72,15 @@ public class PedestalRecipeCategory extends BaseCategory<PedestalRecipe> {
         }
         builder.addSlot(RecipeIngredientRole.INPUT, 28, 37).addIngredients(SpiritPlugin.ENTITY_INGREDIENT, entityTypes).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
         builder.addSlot(RecipeIngredientRole.OUTPUT, 124, 37).addIngredient(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.entityOutput(), -45F, recipe.shouldSummon() ? recipe.outputNbt() : recipe.outputNbt().isPresent() ? Optional.of(nbt.merge(recipe.outputNbt().get())) : Optional.of(nbt))).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
+        ItemStack outputEgg = getSpawnEggStack(recipe.entityOutput());
+        if(!outputEgg.isEmpty()) {
+            builder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT).addItemStack(outputEgg);
+        }
+    }
+
+    @ExpectPlatform
+    public static ItemStack getSpawnEggStack(EntityType<?> entityType) {
+        throw new AssertionError();
     }
 
     @Override

@@ -80,7 +80,7 @@ public class PedestalRecipeCategory implements DisplayCategory<PedestalDisplay> 
 
         var nbt = new CompoundTag();
         nbt.putBoolean("Corrupted", true);
-        var entityTypes = recipe.entityInput().stream().filter(Holder::isBound).map(Holder::value).map(type -> new EntityIngredient(type, 45F, Optional.of(nbt))).toList();
+        var entityTypes = recipe.entityInput().stream().filter(Holder::isBound).map(Holder::value).map(type -> new EntityIngredient(type, Optional.of(nbt), 45f, recipe.inputCount())).toList();
         if(recipe.activationItem().isPresent()) {
             widgets.add(Widgets.createSlot(new Point(startX + 93, startY + 21)).entries(EntryIngredients.ofIngredient(recipe.activationItem().get()).map(stack -> {
                 if (recipe.consumesActivator()) {

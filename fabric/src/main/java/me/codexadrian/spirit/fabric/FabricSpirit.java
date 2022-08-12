@@ -1,5 +1,6 @@
-package me.codexadrian.spirit;
+package me.codexadrian.spirit.fabric;
 
+import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.entity.CrudeSoulEntity;
 import me.codexadrian.spirit.fabric.SpiritConfigImpl;
 import me.codexadrian.spirit.platform.Services;

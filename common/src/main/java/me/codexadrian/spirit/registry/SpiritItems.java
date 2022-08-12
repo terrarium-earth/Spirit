@@ -44,7 +44,7 @@ public class SpiritItems {
     public static final Supplier<Item> SOUL_STEEL_BLADE = REGISTRY.registerItem("soul_steel_sword", () ->
             new SoulSteelSword(new Item.Properties().tab(SPIRIT).rarity(Rarity.RARE)));
 
-    public static final Supplier<Item> SOUL_STEEL_WAND = REGISTRY.registerItem("soul_steel_wand", () -> new Item(new Item.Properties().tab(SPIRIT).rarity(Rarity.RARE).stacksTo(1)));
+    public static final Supplier<Item> SOUL_STEEL_WAND = REGISTRY.registerItem("soul_steel_wand", () -> new SoulSteelWand(new Item.Properties().tab(SPIRIT).rarity(Rarity.RARE).stacksTo(1)));
 
     public static void registerAll() {
     }

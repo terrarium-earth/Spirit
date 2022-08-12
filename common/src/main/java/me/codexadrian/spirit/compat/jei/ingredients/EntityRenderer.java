@@ -1,9 +1,11 @@
 package me.codexadrian.spirit.compat.jei.ingredients;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.math.Vector3f;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
@@ -26,7 +28,7 @@ public class EntityRenderer implements IIngredientRenderer<EntityIngredient> {
         Minecraft mc = Minecraft.getInstance();
         if (mc.level != null && ingredient.getEntity() != null) {
             int y = 0;
-            renderEntity(stack, ingredient.getEntity(), mc.level, -2, y, ingredient.getRotation(), 1);
+            renderEntity(stack, ingredient.getEntity(), ingredient.getSoulCount(), mc.level, -2, y, ingredient.getRotation(), 1);
         }
     }
 
@@ -39,7 +41,7 @@ public class EntityRenderer implements IIngredientRenderer<EntityIngredient> {
         return tooltip;
     }
 
-    public static void renderEntity(PoseStack matrixStack, Entity entity, Level world, float x, float y, float rotation, float renderScale) {
+    public static void renderEntity(PoseStack matrixStack, Entity entity, int count, Level world, float x, float y, float rotation, float renderScale) {
         if (world == null) return;
         Minecraft mc = Minecraft.getInstance();
 
@@ -58,6 +60,15 @@ public class EntityRenderer implements IIngredientRenderer<EntityIngredient> {
             entityrenderermanager.render(entity, 0, 0, 0.0D, mc.getFrameTime(), 1, matrixStack, renderTypeBuffer, 15728880);
             renderTypeBuffer.endBatch();
             matrixStack.popPose();
+
+            if (count != 1) {
+                Font font = Minecraft.getInstance().font;
+                String string2 = String.valueOf(count);
+                matrixStack.translate(7.0, 7.0, 200.0F);
+                MultiBufferSource.BufferSource bufferSource = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
+                font.drawInBatch(string2, x + 17 - font.width(string2), y + 9, 16777215, true, matrixStack.last().pose(), bufferSource, false, 0, 15728880);
+                bufferSource.endBatch();
+            }
         }
     }
 

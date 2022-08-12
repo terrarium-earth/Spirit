@@ -1,9 +1,11 @@
 package me.codexadrian.spirit.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.math.Vector3f;
 import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -38,11 +40,25 @@ public class SoulPedestalRenderer implements BlockEntityRenderer<SoulPedestalBlo
             matrixStack.translate(0.5D, .75D, 0.5D);
             var degrees = blockEntity.age;
             var oldTick = Math.max(blockEntity.age - 1, 0);
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(Mth.lerp(partialTicks, oldTick, degrees) % 360));
+            var finalDegree = Mth.lerp(partialTicks, oldTick, degrees) % 360;
+            matrixStack.mulPose(Vector3f.YP.rotationDegrees(finalDegree));
             matrixStack.scale(g, g, g);
             matrixStack.translate(0, Math.sin(blockEntity.age * .1) * 0.05 + 0.05,0);
             Minecraft.getInstance().getEntityRenderDispatcher().render(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, matrixStack, multiBufferSource, i);
             matrixStack.popPose();
+
+            if (blockEntity.getSoulCount() > 1) {
+                matrixStack.pushPose();
+                Font font = Minecraft.getInstance().font;
+                String string2 = String.valueOf(blockEntity.getSoulCount());
+                matrixStack.translate(0.5, 0.7, 0.5);
+                //matrixStack.translate(-Math.sin(Math.toRadians(finalDegree)), 0.7, -Math.cos(Math.toRadians(finalDegree)));
+                matrixStack.mulPose(Vector3f.YP.rotationDegrees(finalDegree));
+                matrixStack.mulPose(Vector3f.XP.rotationDegrees(90));
+                matrixStack.scale(0.045F, 0.045F, 0.045F);
+                font.drawInBatch(string2, 17 - font.width(string2), 9, 16777215, true, matrixStack.last().pose(), multiBufferSource, false, 0, 15728880);
+                matrixStack.popPose();
+            }
         }
     }
 }

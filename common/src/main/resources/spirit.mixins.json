@@ -17,6 +17,5 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "refmap": "spirit-common-refmap.json"
+  }
 }
