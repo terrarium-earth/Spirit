@@ -47,7 +47,7 @@ public class PedestalBlock extends BaseEntityBlock {
                 if (soulPedestal.isEmpty()) {
                     soulPedestal.setItem(0, itemStack.copy());
                     if (!player.getAbilities().instabuild) {
-                        itemStack.shrink(1);
+                        itemStack.shrink(itemStack.getCount());
                     }
                     soulPedestal.setChanged();
                     level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);
