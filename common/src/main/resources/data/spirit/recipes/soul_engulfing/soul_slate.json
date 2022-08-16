@@ -5,7 +5,7 @@
       "item": "minecraft:deepslate"
     }
   },
-  "duration": 10,
+  "duration": 5,
   "destroysStructure": false,
   "outputItem": "spirit:soul_slate"
 }

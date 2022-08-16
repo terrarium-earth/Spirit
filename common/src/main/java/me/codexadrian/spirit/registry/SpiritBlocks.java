@@ -53,6 +53,10 @@ public class SpiritBlocks {
 
     public static final Supplier<Block> SOUL_POWDER_BLOCK = registerBlockWithItem("soul_powder_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.SOUL_SAND)), new Item.Properties().tab(SPIRIT));
 
+    public static final Supplier<Block> COMPRESSED_SOUL_POWDER_BLOCK = registerBlockWithItem("compressed_soul_powder_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.SOUL_SAND)), new Item.Properties().tab(SPIRIT));
+
+    public static final Supplier<Block> COMPRESSED_SOUL_SAND = registerBlockWithItem("compressed_soul_sand", () -> new Block(BlockBehaviour.Properties.copy(Blocks.SOUL_SAND)), new Item.Properties().tab(SPIRIT));
+
     public static final Supplier<Block> BROKEN_SPAWNER = registerBlockWithItem("broken_spawner", () -> new Block(BlockBehaviour.Properties.copy(Blocks.SPAWNER).requiresCorrectToolForDrops()));
 
     private static Supplier<Block> registerBlockWithItem(String name, Supplier<Block> block, Item.Properties properties) {

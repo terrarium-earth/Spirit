@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "spirit:soul_powder_block",
+    "spirit:compressed_soul_powder_block",
+    "spirit:compressed_soul_sand"
+  ]
+}

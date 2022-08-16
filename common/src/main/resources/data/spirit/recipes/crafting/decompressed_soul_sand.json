@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spirit:compressed_soul_sand"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "minecraft:soul_sand"
+  }
+}

@@ -38,6 +38,8 @@
   "block.spirit.soul_cage.empty_hover_text": "Empty",
   "block.spirit.broken_spawner": "Broken Spawner",
   "block.spirit.soul_powder_block": "Soul Powder Block",
+  "block.spirit.compressed_soul_powder_block": "Compressed Soul Powder Block",
+  "block.spirit.compressed_soul_sand": "Compressed Soul Sand",
   "entity.spirit.soul": "Crude Soul",
   "spirit.soul_cage.tier_0": "Null",
   "spirit.soul_cage.tier_1": "Eins",

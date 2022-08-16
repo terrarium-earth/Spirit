@@ -35,6 +35,7 @@ public class FabricSoulShader extends RenderType {
                         .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                         .setLayeringState(VIEW_OFFSET_Z_LAYERING)
                         .setLightmapState(LIGHTMAP)
+                        .setOverlayState(OVERLAY)
                         .createCompositeState(true)
         );
     }
