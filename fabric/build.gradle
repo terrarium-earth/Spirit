@@ -2,6 +2,8 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
+def ENV = System.getenv()
+
 architectury {
     platformSetupLoomIde()
     fabric()
@@ -84,13 +86,36 @@ repositories {
 publishing {
     publications {
         mavenFabric(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + project.name
-            from components.java
+            artifact remapJar
+            artifactId = rootProject.archives_base_name + "-" + project.name + "-" + project.minecraft_version
+            pom {
+                name = 'Spirit'
+                description = 'A magic mod revolving around souls originally inspired by Soul Shards'
+                url = 'https://github.com/terrarium-earth/Spirit'
+
+                scm {
+                    connection = 'git:https://github.com/terrarium-earth/Spirit.git'
+                    developerConnection = 'git:https://github.com/terrarium-earth/Spirit.git'
+                    url = 'https://github.com/terrarium-earth/Spirit'
+                }
+
+                licenses {
+                    license {
+                        name = 'ARR'
+                    }
+                }
+            }
         }
     }
 
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-        // Add repositories to publish to here.
+        maven {
+            url = "https://maven.resourcefulbees.com/repository/codexadrian/"
+            credentials {
+                username ENV.MAVEN_USER
+                password ENV.MAVEN_PASS
+            }
+        }
     }
 }

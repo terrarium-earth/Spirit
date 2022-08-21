@@ -1,5 +1,5 @@
 package me.codexadrian.spirit.compat.forge;
-/*
+
 import mcjty.theoneprobe.api.*;
 import me.codexadrian.spirit.Corrupted;
 import me.codexadrian.spirit.Spirit;
@@ -19,9 +19,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.Function;
- */
 
-public class TOPCompat {} /* implements Function<ITheOneProbe, Void> {
+public class TOPCompat implements Function<ITheOneProbe, Void> {
     @Override
     public Void apply(ITheOneProbe theOneProbe) {
         theOneProbe.registerProvider(new IProbeInfoProvider() {
@@ -90,4 +89,3 @@ public class TOPCompat {} /* implements Function<ITheOneProbe, Void> {
         return null;
     }
 }
-*/

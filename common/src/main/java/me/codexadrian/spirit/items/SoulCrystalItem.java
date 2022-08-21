@@ -1,19 +1,21 @@
 package me.codexadrian.spirit.items;
 
 import me.codexadrian.spirit.Spirit;
+import me.codexadrian.spirit.SpiritConfig;
 import me.codexadrian.spirit.data.Tier;
+import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.utils.ClientUtils;
 import me.codexadrian.spirit.utils.SoulUtils;
+import me.codexadrian.spirit.utils.ToolUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -21,7 +23,9 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SoulCrystalItem extends Item {
 
@@ -31,23 +35,45 @@ public class SoulCrystalItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
-        super.appendHoverText(itemStack, level, list, tooltipFlag);
-        if (itemStack.getTag() != null && level != null) {
-            final CompoundTag storedEntity = itemStack.getTag().getCompound("StoredEntity");
-            if (storedEntity.contains("Type")) {
-                MutableComponent tooltip = Component.translatable(Util.makeDescriptionId("entity", ResourceLocation.tryParse(storedEntity.getString("Type"))));
-                tooltip.append(Component.literal(" ").append(Component.translatable(SoulUtils.getTierDisplay(itemStack, level)).append(" - ")));
-                Tier nextTier = SoulUtils.getNextTier(itemStack, level);
-                int maxSouls = SoulUtils.getMaxSouls(itemStack, level);
-                tooltip.append(Component.literal("(" + Math.min(storedEntity.getInt("Souls"), maxSouls) + "/" + Math.min(nextTier == null ? maxSouls : nextTier.requiredSouls(), maxSouls) + ") "));
-
-                list.add(tooltip.withStyle(ChatFormatting.GRAY));
-            }
+        Component entityOrNone = Optional.ofNullable(SoulUtils.getSoulCrystalType(itemStack))
+                .flatMap(EntityType::byString)
+                .map(entityType -> Component.translatable("item.spirit.soul_crystal.entity_component", SoulUtils.getSoulsInCrystal(itemStack), entityType.getDescription()))
+                .orElse(Component.translatable("item.spirit.soul_crystal.none"));
+        list.add(Component.translatable("item.spirit.soul_crystal.tooltip", entityOrNone).withStyle(ChatFormatting.GRAY));
+        if(SoulUtils.getSoulsInCrystal(itemStack) > 0) {
+            ClientUtils.shiftTooltip(list, shiftToolTipComponents(itemStack, level), List.of());
         } else {
-            MutableComponent unboundTooltip = Component.translatable("tooltip.spirit.soul_crystal.unbound");
-            list.add(unboundTooltip.withStyle(ChatFormatting.DARK_GRAY));
+            list.add(Component.translatable("item.spirit.soul_crystal.info_empty").withStyle(ChatFormatting.GRAY));
         }
     }
+
+    private static List<Component> shiftToolTipComponents(@NotNull ItemStack itemStack, @Nullable Level level) {
+        List<Component> list = new ArrayList<>();
+        Tier tier = SoulUtils.getTier(itemStack, level);
+        Component display = Component.translatable(tier == null ? SpiritConfig.getInitialTierName() : tier.displayName()).withStyle(ChatFormatting.GRAY);
+        list.add(Component.translatable("misc.spirit.tier", display).withStyle(ChatFormatting.GRAY));
+        if(tier == null && (SoulUtils.canCrystalBeUsedInCage(itemStack) || (Services.PLATFORM.isModLoaded("vitalize") && SoulUtils.isAllowed(itemStack, Spirit.REVITALIZER_TAG)))) {
+            list.add(Component.translatable(Services.PLATFORM.isModLoaded("vitalize") ? "misc.spirit.not_viable_vitalize" : "misc.spirit.not_viable").withStyle(ChatFormatting.RED));
+        }
+        Tier nextTier = SoulUtils.getNextTier(itemStack, level);
+        if(nextTier != null) {
+            list.add(Component.translatable("misc.spirit.next_tier", nextTier.requiredSouls() - SoulUtils.getSoulsInCrystal(itemStack), Component.translatable(nextTier.displayName())).withStyle(ChatFormatting.GRAY));
+        }
+        if(SoulUtils.canCrystalBeUsedInCage(itemStack)) {
+            list.add(Component.translatable("misc.spirit.soul_cage_compatible").withStyle(ChatFormatting.GREEN));
+        } else {
+            list.add(Component.translatable("misc.spirit.soul_cage_incompatible").withStyle(ChatFormatting.RED));
+        }
+        if(Services.PLATFORM.isModLoaded("vitalize")) {
+            if(SoulUtils.isAllowed(itemStack, Spirit.REVITALIZER_TAG)) {
+                list.add(Component.translatable("misc.vitalize.machine_compatible").withStyle(ChatFormatting.GREEN));
+            } else {
+                list.add(Component.translatable("misc.vitalize.machine_incompatible").withStyle(ChatFormatting.RED));
+            }
+        }
+        return list;
+    }
+
 
     public static double getPercentage(ItemStack itemStack, Level level) {
         Tier tier = SoulUtils.getNextTier(itemStack, level);

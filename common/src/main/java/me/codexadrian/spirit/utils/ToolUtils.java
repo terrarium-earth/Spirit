@@ -5,10 +5,12 @@ import me.codexadrian.spirit.data.MobTraitData;
 import me.codexadrian.spirit.data.ToolType;
 import me.codexadrian.spirit.registry.SpiritItems;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -90,12 +92,15 @@ public class ToolUtils {
         }
     }
 
-    public static void appendEmpoweredText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
+    public static void appendEmpoweredText(@NotNull ItemStack itemStack, @NotNull List<Component> list) {
         if (itemStack.getOrCreateTag().getBoolean("Charged")) {
             list.add(Component.translatable("spirit.item.soul_steel_tool.empowered", Component.keybind("key.spirit.toggle").withStyle(ChatFormatting.RED)));
         } else {
             list.add(Component.translatable("spirit.item.soul_steel_tool.unpowered", Component.keybind("key.spirit.toggle").withStyle(ChatFormatting.AQUA)));
         }
+        Component description = Component.translatable("item.spirit.soul_steel_tools.description").withStyle(ChatFormatting.GRAY);
+        Component soulSteelRepairable = Component.translatable("item.spirit.soul_steel_tools.soul_fire_repairable").withStyle(ChatFormatting.GRAY);
+        ClientUtils.shiftTooltip(list, List.of(description, soulSteelRepairable), List.of());
     }
 
     public static void spawnParticles(Player player) {

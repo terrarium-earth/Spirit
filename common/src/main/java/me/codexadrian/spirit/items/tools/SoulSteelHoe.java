@@ -8,7 +8,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -34,7 +33,7 @@ public class SoulSteelHoe extends HoeItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
-        ToolUtils.appendEmpoweredText(itemStack, level, list, tooltipFlag);
+        ToolUtils.appendEmpoweredText(itemStack, list);
         super.appendHoverText(itemStack, level, list, tooltipFlag);
     }
 }

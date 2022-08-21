@@ -54,7 +54,7 @@ public class CrystalPedestalBlock extends BaseEntityBlock {
                     if (itemStack.is(SpiritItems.SOUL_CRYSTAL.get()) || itemStack.is(SpiritItems.CRUDE_SOUL_CRYSTAL.get()) || itemStack.is(SpiritItems.SOUL_CRYSTAL_SHARD.get())) {
                         crystalPedestal.setItem(0, itemStack.copy());
                         if (!player.getAbilities().instabuild) {
-                            itemStack.shrink(1);
+                            itemStack.setCount(0);
                         }
                         crystalPedestal.setChanged();
                         level.sendBlockUpdated(blockPos, blockState, blockState, Block.UPDATE_ALL);

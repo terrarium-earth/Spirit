@@ -5,9 +5,13 @@ import me.codexadrian.spirit.data.MobTraitData;
 import me.codexadrian.spirit.entity.SoulArrowEntity;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.registry.SpiritMisc;
+import me.codexadrian.spirit.utils.ClientUtils;
 import me.codexadrian.spirit.utils.SoulUtils;
 import me.codexadrian.spirit.utils.ToolUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -19,11 +23,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 
 public class SoulSteelBow extends BowItem {
@@ -87,5 +94,13 @@ public class SoulSteelBow extends BowItem {
     @Override
     public int getBarColor(@NotNull ItemStack itemStack) {
         return Spirit.SOUL_COLOR;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
+        Component bowDescription = Component.translatable("item.spirit.soul_steel_bow.description").withStyle(ChatFormatting.GRAY);
+        Component description = Component.translatable("item.spirit.soul_steel_tools.description").withStyle(ChatFormatting.GRAY);
+        Component soulSteelRepairable = Component.translatable("item.spirit.soul_steel_tools.soul_fire_repairable").withStyle(ChatFormatting.GRAY);
+        ClientUtils.shiftTooltip(list, List.of(bowDescription, description, soulSteelRepairable));
     }
 }

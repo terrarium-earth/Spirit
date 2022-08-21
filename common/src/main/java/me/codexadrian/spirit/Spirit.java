@@ -29,6 +29,8 @@ public class Spirit {
             new ResourceLocation(MODID, "itemgroup"), () -> new ItemStack(SpiritItems.SOUL_CRYSTAL.get()));
 
     public static final TagKey<EntityType<?>> BLACKLISTED_TAG = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(MODID, "soul_cage_blacklisted"));
+    public static final TagKey<EntityType<?>> REVITALIZER_TAG = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation("vitalize", "revitalizer_blacklist"));
+    public static final TagKey<EntityType<?>> COLLECT_BLACKLISTED_TAG = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(MODID, "collect_blacklisted"));
     public static final TagKey<Item> SOUL_STEEL_MAINHAND = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(MODID, "soul_steel_mainhand"));
     public static final TagKey<Item> SOUL_FIRE_IMMUNE = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(MODID, "soul_fire_immune"));
     public static final TagKey<Item> SOUL_STEEL_OFFHAND = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(MODID, "soul_steel_offhand"));

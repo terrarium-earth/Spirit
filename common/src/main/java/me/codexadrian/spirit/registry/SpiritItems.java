@@ -2,9 +2,18 @@ package me.codexadrian.spirit.registry;
 
 import me.codexadrian.spirit.items.*;
 import me.codexadrian.spirit.items.tools.*;
+import me.codexadrian.spirit.utils.ToolUtils;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import static me.codexadrian.spirit.Spirit.SPIRIT;
@@ -44,7 +53,7 @@ public class SpiritItems {
     public static final Supplier<Item> SOUL_STEEL_BLADE = REGISTRY.registerItem("soul_steel_sword", () ->
             new SoulSteelSword(new Item.Properties().tab(SPIRIT).rarity(Rarity.RARE)));
 
-    public static final Supplier<Item> SOUL_STEEL_WAND = REGISTRY.registerItem("soul_steel_wand", () -> new Item(new Item.Properties().tab(SPIRIT).rarity(Rarity.RARE).stacksTo(1)));
+    public static final Supplier<Item> SOUL_STEEL_WAND = REGISTRY.registerItem("soul_steel_wand", () -> new SoulSteelWand(new Item.Properties().tab(SPIRIT).rarity(Rarity.RARE).stacksTo(1)));
 
     public static void registerAll() {
     }

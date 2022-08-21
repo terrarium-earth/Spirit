@@ -46,7 +46,7 @@ public class SoulSteelShovel extends ShovelItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
-        ToolUtils.appendEmpoweredText(itemStack, level, list, tooltipFlag);
+        ToolUtils.appendEmpoweredText(itemStack, list);
         super.appendHoverText(itemStack, level, list, tooltipFlag);
     }
 }

@@ -12,6 +12,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -284,5 +285,17 @@ public class SoulUtils {
         if (player.getMainHandItem().is(Spirit.SOUL_STEEL_MAINHAND) || player.getOffhandItem().is(Spirit.SOUL_STEEL_OFFHAND))
             returnAmount++;
         return returnAmount + EnchantmentHelper.getEnchantmentLevel(SpiritMisc.SOUL_REAPER_ENCHANTMENT.get(), player);
+    }
+
+    public static boolean isAllowed(ItemStack crystal, TagKey<EntityType<?>> blacklistTag) {
+        String entityTypeName = getSoulCrystalType(crystal);
+        if(crystal.is(SpiritItems.SOUL_CRYSTAL.get()) && entityTypeName != null) {
+            return EntityType.byString(entityTypeName).map(entityType -> !entityType.is(blacklistTag)).orElse(false);
+        }
+        return false;
+    }
+
+    public static boolean canCrystalBeUsedInCage(ItemStack crystal) {
+        return isAllowed(crystal, Spirit.BLACKLISTED_TAG);
     }
 }

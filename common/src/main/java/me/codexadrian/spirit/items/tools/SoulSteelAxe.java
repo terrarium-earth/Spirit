@@ -12,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -44,7 +43,7 @@ public class SoulSteelAxe extends AxeItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
-        ToolUtils.appendEmpoweredText(itemStack, level, list, tooltipFlag);
+        ToolUtils.appendEmpoweredText(itemStack, list);
         super.appendHoverText(itemStack, level, list, tooltipFlag);
     }
 
