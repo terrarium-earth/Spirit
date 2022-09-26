@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.platform.services;
+package me.codexadrian.spirit.platform.fabric.services;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

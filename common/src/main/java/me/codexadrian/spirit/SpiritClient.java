@@ -2,7 +2,7 @@ package me.codexadrian.spirit;
 
 import me.codexadrian.spirit.client.*;
 import me.codexadrian.spirit.items.MobCrystalItem;
-import me.codexadrian.spirit.platform.ClientServices;
+import me.codexadrian.spirit.platform.fabric.ClientServices;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.registry.SpiritMisc;

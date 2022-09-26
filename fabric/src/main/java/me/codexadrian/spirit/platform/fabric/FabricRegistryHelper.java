@@ -1,6 +1,6 @@
-package me.codexadrian.spirit.platform;
+package me.codexadrian.spirit.platform.fabric;
 
-import me.codexadrian.spirit.platform.services.IRegistryHelper;
+import me.codexadrian.spirit.platform.fabric.services.IRegistryHelper;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;

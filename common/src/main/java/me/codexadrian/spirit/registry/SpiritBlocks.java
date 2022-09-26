@@ -5,7 +5,7 @@ import me.codexadrian.spirit.blocks.blockentity.PedestalBlockEntity;
 import me.codexadrian.spirit.blocks.blockentity.SoulCageBlockEntity;
 import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
 import me.codexadrian.spirit.items.ChippedBlockItem;
-import me.codexadrian.spirit.platform.Services;
+import me.codexadrian.spirit.platform.fabric.Services;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import static me.codexadrian.spirit.Spirit.SPIRIT;
-import static me.codexadrian.spirit.platform.Services.REGISTRY;
+import static me.codexadrian.spirit.platform.fabric.Services.REGISTRY;
 
 public class SpiritBlocks {
     public static final ArrayList<Supplier<Block>> SOUL_GLASS_BLOCKS = new ArrayList<>();

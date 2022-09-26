@@ -1,8 +1,7 @@
 package me.codexadrian.spirit.platform.forge;
 
-import me.codexadrian.spirit.Constants;
 import me.codexadrian.spirit.Spirit;
-import me.codexadrian.spirit.platform.services.IRegistryHelper;
+import me.codexadrian.spirit.platform.fabric.services.IRegistryHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

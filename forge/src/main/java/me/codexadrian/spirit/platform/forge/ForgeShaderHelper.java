@@ -1,10 +1,9 @@
 package me.codexadrian.spirit.platform.forge;
 
 import me.codexadrian.spirit.forge.ForgeSoulShader;
-import me.codexadrian.spirit.platform.services.IShaderHelper;
+import me.codexadrian.spirit.platform.fabric.services.IShaderHelper;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 

@@ -1,11 +1,10 @@
 package me.codexadrian.spirit;
 
 import me.codexadrian.spirit.network.NetworkHandler;
-import me.codexadrian.spirit.platform.Services;
+import me.codexadrian.spirit.platform.fabric.Services;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritItems;
 import me.codexadrian.spirit.registry.SpiritMisc;
-import me.codexadrian.spirit.utils.SoulUtils;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -15,10 +14,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.IOException;
-
-import static me.codexadrian.spirit.Spirit.MODID;
 
 public class Spirit {
 

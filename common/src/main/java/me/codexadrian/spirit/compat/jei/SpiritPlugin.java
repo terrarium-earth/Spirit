@@ -1,25 +1,21 @@
 package me.codexadrian.spirit.compat.jei;
 
 import me.codexadrian.spirit.Spirit;
-import me.codexadrian.spirit.SpiritConfig;
 import me.codexadrian.spirit.compat.jei.categories.PedestalRecipeCategory;
 import me.codexadrian.spirit.compat.jei.categories.SoulCageCategory;
 import me.codexadrian.spirit.compat.jei.categories.SoulEngulfingCategory;
 import me.codexadrian.spirit.compat.jei.ingredients.EntityIngredient;
 import me.codexadrian.spirit.compat.jei.ingredients.EntityIngredientHelper;
 import me.codexadrian.spirit.compat.jei.ingredients.EntityRenderer;
-import me.codexadrian.spirit.platform.Services;
 import me.codexadrian.spirit.registry.SpiritBlocks;
 import me.codexadrian.spirit.registry.SpiritMisc;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;

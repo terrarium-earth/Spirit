@@ -2,7 +2,7 @@ package me.codexadrian.spirit.client;
 
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.entity.CrudeSoulEntity;
-import me.codexadrian.spirit.platform.ClientServices;
+import me.codexadrian.spirit.platform.fabric.ClientServices;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;

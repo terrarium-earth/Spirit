@@ -1,8 +1,8 @@
-package me.codexadrian.spirit.mixin;
+package me.codexadrian.spirit.fabric.mixin;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.datafixers.util.Pair;
-import me.codexadrian.spirit.platform.ClientServices;
+import me.codexadrian.spirit.platform.fabric.ClientServices;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.server.packs.resources.ResourceManager;

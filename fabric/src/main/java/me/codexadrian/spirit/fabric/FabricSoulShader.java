@@ -1,4 +1,4 @@
-package me.codexadrian.spirit;
+package me.codexadrian.spirit.fabric;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;

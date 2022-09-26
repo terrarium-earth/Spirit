@@ -131,7 +131,7 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
             lastTime = l;
         }
         double guiScale = Minecraft.getInstance().getWindow().getGuiScale();
-        try (CloseableScissors scissors = Widget.scissor(stack, new Rectangle(2, 26, 103, 74))) {
+        try (CloseableScissors ignored = Widget.scissor(stack, new Rectangle(2, 26, 103, 74))) {
             stack.pushPose();
             Lighting.setupForFlatItems();
             stack.translate(52 - recipe.getMultiblock().pattern().get(0).size() * OFFSET, recipe.blockMap.size() * 16 + (66 - recipe.blockMap.size() * OFFSET), 100);

@@ -1,9 +1,8 @@
-package me.codexadrian.spirit.platform;
+package me.codexadrian.spirit.platform.fabric;
 
-import me.codexadrian.spirit.Constants;
 import me.codexadrian.spirit.Spirit;
-import me.codexadrian.spirit.platform.services.IPlatformHelper;
-import me.codexadrian.spirit.platform.services.IRegistryHelper;
+import me.codexadrian.spirit.platform.fabric.services.IPlatformHelper;
+import me.codexadrian.spirit.platform.fabric.services.IRegistryHelper;
 
 import java.util.ServiceLoader;
 

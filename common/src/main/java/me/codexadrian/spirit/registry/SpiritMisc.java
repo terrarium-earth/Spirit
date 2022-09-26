@@ -16,7 +16,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.function.Supplier;
 
-import static me.codexadrian.spirit.platform.Services.REGISTRY;
+import static me.codexadrian.spirit.platform.fabric.Services.REGISTRY;
 
 public class SpiritMisc {
     public static final Supplier<EntityType<SoulArrowEntity>> SOUL_ARROW_ENTITY = REGISTRY.registerEntity("soul_arrow", SoulArrowEntity::new, MobCategory.MISC, 0.5F, 0.5F);

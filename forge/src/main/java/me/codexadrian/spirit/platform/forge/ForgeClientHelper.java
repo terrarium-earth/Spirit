@@ -1,6 +1,6 @@
 package me.codexadrian.spirit.platform.forge;
 
-import me.codexadrian.spirit.platform.services.IClientHelper;
+import me.codexadrian.spirit.platform.fabric.services.IClientHelper;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;

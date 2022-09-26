@@ -5,20 +5,14 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
-import me.codexadrian.spirit.Constants;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.entity.SoulArrowEntity;
-import me.codexadrian.spirit.platform.ClientServices;
+import me.codexadrian.spirit.platform.fabric.ClientServices;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.client.renderer.entity.TippableArrowRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import org.jetbrains.annotations.NotNull;
 
 public class SoulArrowEntityRenderer extends ArrowRenderer<SoulArrowEntity> {

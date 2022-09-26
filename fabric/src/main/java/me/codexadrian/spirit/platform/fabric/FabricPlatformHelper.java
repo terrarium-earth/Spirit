@@ -1,6 +1,6 @@
-package me.codexadrian.spirit.platform;
+package me.codexadrian.spirit.platform.fabric;
 
-import me.codexadrian.spirit.platform.services.IPlatformHelper;
+import me.codexadrian.spirit.platform.fabric.services.IPlatformHelper;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.nio.file.Path;

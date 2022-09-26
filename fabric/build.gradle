@@ -24,12 +24,16 @@ configurations {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
-    modImplementation "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
-    
-    //modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
-    //modImplementation "me.codexadrian:ctm-refabricated:1.0.0+1.19"
+    include modApi("com.teamresourceful.resourcefullib:resourcefullib-fabric-$rootProject.resourcefullib_version")
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+
+    //modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric:$jei_version") {exclude group: "mezz.jei"}
+    //modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:$rei_version"
+    //modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:$rei_version"
+    //modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:$rei_version")
+    //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:$rei_version")
+    //modRuntimeOnly("mezz.jei:jei-${project.jei_minecraft_release}-fabric:${project.jei_version}")
 }
 
 processResources {

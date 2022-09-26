@@ -1,7 +1,7 @@
-package me.codexadrian.spirit.platform;
+package me.codexadrian.spirit.platform.fabric;
 
-import me.codexadrian.spirit.platform.services.IClientHelper;
-import me.codexadrian.spirit.platform.services.IShaderHelper;
+import me.codexadrian.spirit.platform.fabric.services.IClientHelper;
+import me.codexadrian.spirit.platform.fabric.services.IShaderHelper;
 
 public class ClientServices {
 

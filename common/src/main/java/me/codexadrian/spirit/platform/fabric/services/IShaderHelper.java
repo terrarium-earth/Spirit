@@ -1,4 +1,4 @@
-package me.codexadrian.spirit.platform.services;
+package me.codexadrian.spirit.platform.fabric.services;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;

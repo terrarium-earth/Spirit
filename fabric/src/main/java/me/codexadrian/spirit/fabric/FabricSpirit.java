@@ -1,8 +1,8 @@
-package me.codexadrian.spirit;
+package me.codexadrian.spirit.fabric;
 
+import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.entity.CrudeSoulEntity;
-import me.codexadrian.spirit.fabric.SpiritConfigImpl;
-import me.codexadrian.spirit.platform.Services;
+import me.codexadrian.spirit.platform.fabric.Services;
 import me.codexadrian.spirit.registry.SpiritMisc;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;

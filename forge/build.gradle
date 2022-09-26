@@ -11,7 +11,7 @@ architectury {
 
 loom {
     forge {
-        mixinConfig "spirit.mixins.json"
+        mixinConfig "spirit.common.mixins.json"
     }
 }
 
@@ -25,12 +25,15 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
-    //modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-forge:${rootProject.rei_version}"
-    //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge: ${rootProject.rei_version}"
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+    include modApi("com.teamresourceful.resourcefullib:resourcefullib-forge-$rootProject.resourcefullib_version")
     modCompileOnly ("mcjty.theoneprobe:theoneprobe:1.19-+:api") { transitive = false }
     modRuntimeOnly ("mcjty.theoneprobe:theoneprobe:1.19-+") { transitive = false }
+
+    //modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-forge:${rootProject.rei_version}"
+    //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge: ${rootProject.rei_version}"
+
 }
 
 processResources {

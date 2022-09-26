@@ -1,6 +1,6 @@
 package me.codexadrian.spirit.platform.forge;
 
-import me.codexadrian.spirit.platform.services.IPlatformHelper;
+import me.codexadrian.spirit.platform.fabric.services.IPlatformHelper;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;

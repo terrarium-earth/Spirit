@@ -1,7 +1,7 @@
 package me.codexadrian.spirit.items;
 
 import me.codexadrian.spirit.SpiritConfig;
-import me.codexadrian.spirit.platform.Services;
+import me.codexadrian.spirit.platform.fabric.Services;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;

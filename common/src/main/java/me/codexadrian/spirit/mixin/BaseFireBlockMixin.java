@@ -1,7 +1,7 @@
 package me.codexadrian.spirit.mixin;
 
 import me.codexadrian.spirit.Spirit;
-import me.codexadrian.spirit.platform.Services;
+import me.codexadrian.spirit.platform.fabric.Services;
 import me.codexadrian.spirit.recipe.SoulEngulfingRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
