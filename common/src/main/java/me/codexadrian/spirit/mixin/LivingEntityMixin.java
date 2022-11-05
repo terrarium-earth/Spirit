@@ -75,7 +75,7 @@ public abstract class LivingEntityMixin extends Entity implements Corrupted {
             Entity entity = source.getEntity();
             if (entity instanceof Projectile projectile) entity = projectile.getOwner();
             if (entity instanceof Player player) {
-                if (!victim.getType().is(Spirit.BLACKLISTED_TAG)) {
+                if (!victim.getType().is(Spirit.COLLECT_BLACKLISTED_TAG)) {
                     if (victim.canChangeDimensions() && (SpiritConfig.isCollectFromCorrupt() || !corrupt.isCorrupted())) {
                         boolean pedestalHasCrystal = false;
                         ItemStack crystal = ItemStack.EMPTY;

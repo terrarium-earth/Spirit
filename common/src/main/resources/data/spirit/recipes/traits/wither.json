@@ -1,0 +1,19 @@
+{
+  "type": "spirit:mob_trait",
+  "entity": "minecraft:wither_skeleton",
+  "traits": [
+    {
+      "type": "spirit:potion_effect",
+      "effects": [
+        {
+          "effect": "minecraft:wither",
+          "duration": 120
+        }
+      ]
+    },
+    {
+      "type": "spirit:explosion",
+      "power": 0.25
+    }
+  ]
+}

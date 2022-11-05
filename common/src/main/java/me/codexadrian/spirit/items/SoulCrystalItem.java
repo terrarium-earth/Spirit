@@ -3,6 +3,7 @@ package me.codexadrian.spirit.items;
 import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.SpiritConfig;
 import me.codexadrian.spirit.data.Tier;
+import me.codexadrian.spirit.entity.EntityRarity;
 import me.codexadrian.spirit.platform.fabric.Services;
 import me.codexadrian.spirit.utils.ClientUtils;
 import me.codexadrian.spirit.utils.SoulUtils;
@@ -34,7 +35,7 @@ public class SoulCrystalItem extends Item {
     public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
         Component entityOrNone = Optional.ofNullable(SoulUtils.getSoulCrystalType(itemStack))
                 .flatMap(EntityType::byString)
-                .map(entityType -> Component.translatable("item.spirit.soul_crystal.entity_component", SoulUtils.getSoulsInCrystal(itemStack), entityType.getDescription()))
+                .map(entityType -> Component.translatable("item.spirit.soul_crystal.entity_component", SoulUtils.getSoulsInCrystal(itemStack), entityType.getDescription()).withStyle(EntityRarity.getRarity(entityType).color))
                 .orElse(Component.translatable("item.spirit.soul_crystal.none"));
         list.add(Component.translatable("item.spirit.soul_crystal.tooltip", entityOrNone).withStyle(ChatFormatting.GRAY));
         if(SoulUtils.getSoulsInCrystal(itemStack) > 0) {

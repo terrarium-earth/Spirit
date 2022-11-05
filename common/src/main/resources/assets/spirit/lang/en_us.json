@@ -98,5 +98,11 @@
   "item.spirit.soul_steel_bow.description": "§b\uD83C\uDFF9§r Requires any Soul Crystal to shoot",
   "item.spirit.soul_steel_tools.description": "§b\uD83D\uDDE1§r Grants extra \uD83D\uDD25 on kill",
   "item.spirit.soul_steel_tools.soul_fire_repairable": "§b\uD83D\uDD25§r Repairs tool when in Soul Fire",
-  "item.spirit.soul_steel_wand.desc": "§b\uD83D\uDD25§r Converts soul on Soul Pedestal to Crude Soul"
+  "item.spirit.soul_steel_wand.desc": "§b\uD83D\uDD25§r Converts soul on Soul Pedestal to Crude Soul",
+
+  "rarity.spirit.common": "Common",
+  "rarity.spirit.uncommon": "Uncommon",
+  "rarity.spirit.rare": "Rare",
+  "rarity.spirit.epic": "Epic",
+  "rarity.spirit.legendary": "Legendary"
 }

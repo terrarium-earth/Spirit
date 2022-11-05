@@ -8,7 +8,7 @@
     },
     {
       "type": "spirit:explosion",
-      "power": 2
+      "power": 0.75
     }
   ]
 }

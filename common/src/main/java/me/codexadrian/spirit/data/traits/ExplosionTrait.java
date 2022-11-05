@@ -6,23 +6,19 @@ import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.data.MobTrait;
 import me.codexadrian.spirit.data.MobTraitSerializer;
 import me.codexadrian.spirit.data.ToolType;
-import me.codexadrian.spirit.entity.SoulArrowEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 
 public record ExplosionTrait(float power, Explosion.BlockInteraction blockInteraction) implements MobTrait<ExplosionTrait> {
     public static final Serializer SERIALIZER = new Serializer();
 
     @Override
     public void onHitEntity(ToolType type, Entity attacker, Entity victim) {
-        attacker.level.explode(victim, victim.getX(), victim.getY(), victim.getZ(), power(), blockInteraction());
+        victim.level.explode(null, victim.getX(), victim.getY(), victim.getZ(), power(), blockInteraction());
     }
 
     @Override
