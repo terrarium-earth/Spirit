@@ -28,11 +28,13 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
+    modApi("com.terraformersmc:modmenu:${modmenu_version}")
+    modLocalRuntime "dev.architectury:architectury-fabric:6.2.43"
+    modLocalRuntime modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}") {
+        exclude group: "net.fabricmc.fabric-api"
+    }
+
     //modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric:$jei_version") {exclude group: "mezz.jei"}
-    //modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:$rei_version"
-    //modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:$rei_version"
-    //modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:$rei_version")
-    //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:$rei_version")
     //modRuntimeOnly("mezz.jei:jei-${project.jei_minecraft_release}-fabric:${project.jei_version}")
 }
 
