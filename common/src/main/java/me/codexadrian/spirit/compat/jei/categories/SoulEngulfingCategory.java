@@ -47,6 +47,7 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
     public static final ResourceLocation ID = new ResourceLocation(Spirit.MODID, "soul_engulfing");
     public static final RecipeType<SoulEngulfingRecipeWrapper> RECIPE = new RecipeType<>(ID, SoulEngulfingRecipeWrapper.class);
     private static final double OFFSET = Math.sqrt(512) * .5;
+    private int scale = 10;
     public long lastTime;
     private final BlockRenderDispatcher dispatcher;
 
@@ -59,10 +60,12 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
 
         lastTime = System.currentTimeMillis();
         dispatcher = Minecraft.getInstance().getBlockRenderer();
+
     }
 
     @Override
     public void setRecipe(@NotNull IRecipeLayoutBuilder builder, SoulEngulfingRecipeWrapper wrapper, @NotNull IFocusGroup focuses) {
+
         var recipe = wrapper.getRecipe();
         List<ItemStack> items = new ArrayList<>();
         var blocks = recipe.input().multiblock().keys().values();
@@ -115,8 +118,11 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
         RenderSystem.enableScissor((int) (translation.x + 2 * guiScale), (int) (Minecraft.getInstance().getWindow().getHeight() - 27 * guiScale - translation.y - 73 * guiScale), (int) (103 * guiScale), (int) (73 * guiScale));
         stack.pushPose();
         Lighting.setupForFlatItems();
-        stack.translate(52 - recipe.getMultiblock().pattern().get(0).size() * OFFSET, recipe.blockMap.size() * 16 + (66 - recipe.blockMap.size() * OFFSET), 100);
-        stack.scale(16F, -16F, 1);
+        float scaled = 1.6F * scale;
+        double width = recipe.getMultiblock().pattern().get(0).size() * OFFSET * (scaled/16f);
+        double height = recipe.blockMap.size() * 16 + (66 - recipe.blockMap.size() * OFFSET);
+        stack.translate(52 - width, height, 100);
+        stack.scale(scaled, -scaled, 1);
         stack.mulPose(Vector3f.XP.rotationDegrees(45));
         stack.mulPose(Vector3f.YP.rotationDegrees(45));
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
@@ -143,8 +149,18 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
             recipe.layer = Math.max(recipe.layer - 1, 0);
             return true;
         }
+        if(input.getValue() == InputConstants.KEY_MINUS) {
+            scale = Math.max(scale - 1, 1);
+            return true;
+        }
+        if(input.getValue() == InputConstants.KEY_EQUALS) {
+            scale = Math.min(scale + 1, 20);
+            return true;
+        }
         return false;
     }
+
+
 
     public static List<SoulEngulfingRecipeWrapper> getRecipes(Collection<SoulEngulfingRecipe> recipes) {
         return recipes.stream().map(SoulEngulfingRecipeWrapper::new).toList();

@@ -8,6 +8,8 @@ import me.codexadrian.spirit.Spirit;
 import me.codexadrian.spirit.compat.jei.multiblock.SoulEngulfingRecipeWrapper;
 import me.codexadrian.spirit.compat.rei.displays.SoulEngulfingDisplay;
 import me.codexadrian.spirit.registry.SpiritItems;
+import me.shedaniel.clothconfig2.gui.entries.IntegerSliderEntry;
+import me.shedaniel.clothconfig2.impl.builders.IntSliderBuilder;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -17,6 +19,7 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.LightTexture;
@@ -25,6 +28,7 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,8 +40,11 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
     public static final ResourceLocation ID = new ResourceLocation(Spirit.MODID, "soul_engulfing");
     public static final CategoryIdentifier<SoulEngulfingDisplay> RECIPE = CategoryIdentifier.of(ID);
     private static final double OFFSET = Math.sqrt(512) * .5;
+    private int scale = 10;
     public long lastTime;
     private final BlockRenderDispatcher dispatcher;
+    private int xOffset = 0;
+    private int yOffset = 0;
 
     public SoulEngulfingCategory() {
         lastTime = System.currentTimeMillis();
@@ -90,7 +97,6 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
                     Tooltip.create(new Point(mouseX, mouseY), strings).queue();
                 }
             }
-
             public Rectangle getBounds() {
                 return new Rectangle(2, 26, 103, 74);
             }
@@ -99,7 +105,21 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
             public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
                 return handleInput(display.getWrapper(), keyCode, scanCode);
             }
+
+            @Override
+            public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+                if(button == 1) {
+                    xOffset += deltaX * .5;
+                    yOffset += deltaY * .5;
+                }
+                return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+            }
         });
+        widgets.add(Widgets.wrapVanillaWidget(new PlainTextButton(startX + 140, startY + 2, 20, 20, Component.literal("♺"), button -> {
+            xOffset = 0;
+            yOffset = 0;
+            scale = 10;
+        }, Minecraft.getInstance().font)));
         return widgets;
     }
 
@@ -130,12 +150,14 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
             recipe.tick();
             lastTime = l;
         }
-        double guiScale = Minecraft.getInstance().getWindow().getGuiScale();
         try (CloseableScissors ignored = Widget.scissor(stack, new Rectangle(2, 26, 103, 74))) {
             stack.pushPose();
             Lighting.setupForFlatItems();
-            stack.translate(52 - recipe.getMultiblock().pattern().get(0).size() * OFFSET, recipe.blockMap.size() * 16 + (66 - recipe.blockMap.size() * OFFSET), 100);
-            stack.scale(16F, -16F, 1);
+            float scaled = 1.6F * scale - ((3 - recipe.getMultiblock().pattern().size()) * 2);
+            double width = recipe.getMultiblock().pattern().get(0).size() * OFFSET * (scaled/16f);
+            double height = recipe.blockMap.size() * 16 + (66 - recipe.blockMap.size() * OFFSET  * (scaled/16f));
+            stack.translate(52 - width + xOffset, height + yOffset, 100);
+            stack.scale(scaled, -scaled, 1);
             stack.mulPose(Vector3f.XP.rotationDegrees(45));
             stack.mulPose(Vector3f.YP.rotationDegrees(45));
             MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
@@ -160,6 +182,14 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
         }
         if (keyCode == InputConstants.KEY_DOWN) {
             recipe.layer = Math.max(recipe.layer - 1, 0);
+            return true;
+        }
+        if(keyCode == InputConstants.KEY_MINUS) {
+            scale = Math.max(scale - 1, 1);
+            return true;
+        }
+        if(keyCode == InputConstants.KEY_EQUALS) {
+            scale = Math.min(scale + 1, 20);
             return true;
         }
         return false;
