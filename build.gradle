@@ -91,34 +91,38 @@ subprojects {
         var changelogFile = rootProject.file("changelog.txt")
         var changelogText = changelogFile.exists() ? changelogFile.text : ""
 
-        modrinth {
-            projectId = env.MODRINTH_PROJECT
-            uploadFile = tasks.remapJar
-            gameVersions = [minecraft_version]
-            loaders = [modLoader]
-            changelog = changelogText
+        if (env.MODRINTH_TOKEN) {
+            modrinth {
+                projectId = env.MODRINTH_PROJECT
+                uploadFile = tasks.remapJar
+                gameVersions = [minecraft_version]
+                loaders = [modLoader]
+                changelog = changelogText
 
-            if (modLoader == "fabric") {
-                dependencies {
-                    required.project "fabric-api"
+                if (modLoader == "fabric") {
+                    dependencies {
+                        required.project "fabric-api"
+                    }
                 }
             }
         }
 
-        curseforge {
-            apiKey = env.CURSE_TOKEN
-            project {
-                id = env.CURSE_PROJECT
-                changelog = changelogText
-                releaseType = 'release'
-                addGameVersion minecraft_version
-                addGameVersion modLoader
+        if (env.CURSE_TOKEN) {
+            curseforge {
+                apiKey = env.CURSE_TOKEN
+                project {
+                    id = env.CURSE_PROJECT
+                    changelog = changelogText
+                    releaseType = 'release'
+                    addGameVersion minecraft_version
+                    addGameVersion modLoader
 
-                mainArtifact(tasks.remapJar)
+                    mainArtifact(tasks.remapJar)
 
-                if (modLoader == "fabric") {
-                    relations {
-                        requiredDependency "fabric-api"
+                    if (modLoader == "fabric") {
+                        relations {
+                            requiredDependency "fabric-api"
+                        }
                     }
                 }
             }
