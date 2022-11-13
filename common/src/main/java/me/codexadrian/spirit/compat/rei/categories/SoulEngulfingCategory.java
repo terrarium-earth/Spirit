@@ -78,6 +78,7 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
 
     @Override
     public List<Widget> setupDisplay(SoulEngulfingDisplay display, Rectangle bounds) {
+        scale = 10 - (display.getWrapper().getMultiblock().pattern().get(0).size() * 2 - 6);
         var widgets = new ArrayList<Widget>();
         widgets.add(Widgets.createRecipeBase(bounds));
         var startX = bounds.getCenterX() - 150 / 2;
@@ -118,7 +119,7 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
         widgets.add(Widgets.wrapVanillaWidget(new PlainTextButton(startX + 140, startY + 2, 20, 20, Component.literal("♺"), button -> {
             xOffset = 0;
             yOffset = 0;
-            scale = 10;
+            scale = 10 - (display.getWrapper().getMultiblock().pattern().get(0).size() * 2 - 6);
         }, Minecraft.getInstance().font)));
         return widgets;
     }
@@ -153,10 +154,10 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
         try (CloseableScissors ignored = Widget.scissor(stack, new Rectangle(2, 26, 103, 74))) {
             stack.pushPose();
             Lighting.setupForFlatItems();
-            float scaled = 1.6F * scale - ((3 - recipe.getMultiblock().pattern().size()) * 2);
+            float scaled = 1.6F * scale;
             double width = recipe.getMultiblock().pattern().get(0).size() * OFFSET * (scaled/16f);
             double height = recipe.blockMap.size() * 16 + (66 - recipe.blockMap.size() * OFFSET  * (scaled/16f));
-            stack.translate(52 - width + xOffset, height + yOffset, 100);
+            stack.translate(52 - width + xOffset, height + yOffset - ((16 - scaled)/16 * 48), 100);
             stack.scale(scaled, -scaled, 1);
             stack.mulPose(Vector3f.XP.rotationDegrees(45));
             stack.mulPose(Vector3f.YP.rotationDegrees(45));
