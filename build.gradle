@@ -84,7 +84,7 @@ subprojects {
         mappings loom.officialMojangMappings()
     }
 
-    if (name in platforms) {
+    if (name in platforms.split(",")) {
         var env = System.getenv()
         var modLoader = name
 
