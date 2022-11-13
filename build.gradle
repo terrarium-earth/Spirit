@@ -63,7 +63,7 @@ tasks.register("generateDiscordEmbed") {
                 avatar_url: env.WEBHOOK_AVATAR
         ])
 
-        file(projectDir, "embed.json").write(json)
+        new File(projectDir, "embed.json").write(json)
     }
 }
 

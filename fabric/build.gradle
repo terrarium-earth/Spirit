@@ -10,7 +10,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath.set(project(":fabric").file("src/main/resources/${archives_base_name}.accesswidener"))
+    accessWidenerPath.set(project(":fabric").file("src/main/resources/${mod_id}.accesswidener"))
 }
 
 configurations {
