@@ -94,7 +94,7 @@ subprojects {
         modrinth {
             projectId = env.MODRINTH_PROJECT
             uploadFile = tasks.remapJar
-            gameVersions = [minecraftVersion]
+            gameVersions = [minecraft_version]
             loaders = [modLoader]
             changelog = changelogText
 
