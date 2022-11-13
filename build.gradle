@@ -1,6 +1,8 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.0-SNAPSHOT" apply false
+
+    id "me.shedaniel.unified-publishing" version "0.1.+"
 }
 
 architectury {
@@ -9,6 +11,7 @@ architectury {
 
 subprojects {
     apply plugin: "dev.architectury.loom"
+    apply plugin: "me.shedaniel.unified-publishing"
 
     loom {
         silentMojangMappingsLicense()
@@ -17,6 +20,42 @@ subprojects {
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
         mappings loom.officialMojangMappings()
+    }
+
+    if (name != "common") {
+        var modLoader = name
+
+        unifiedPublishing {
+            project {
+                var env = System.getenv()
+                var curseToken = env.CURSE_TOKEN
+                var modrinthToken = env.MODRINTH_TOKEN
+                var changelogFile = rootProject.file("changelog.txt")
+
+                gameVersions = [minecraft_version]
+                gameLoaders = [modLoader]
+
+                mainPublication(tasks.remapJar)
+
+                if (changelogFile.exists()) {
+                    changelog = changelogFile.text
+                }
+
+                if (curseToken != null) {
+                    curseforge {
+                        token = curseToken
+                        id = env.CURSE_PROJECT
+                    }
+                }
+
+                if (modrinthToken != null) {
+                    modrinth {
+                        token = modrinthToken
+                        id = env.MODRINTH_PROJECT
+                    }
+                }
+            }
+        }
     }
 }
 

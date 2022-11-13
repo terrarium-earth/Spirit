@@ -1,0 +1,21 @@
+name: Release
+on: [
+  workflow_dispatch
+]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+      - run: chmod +x ./gradlew
+      - run: ./gradlew publishUnified
+        env:
+          CURSE_TOKEN: ${{ secrets.CURSE_TOKEN }}
+          CURSE_PROJECT: ${{ secrets.CURSE_PROJECT }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          MODRINTH_PROJECT: ${{ secrets.MODRINTH_PROJECT }}
