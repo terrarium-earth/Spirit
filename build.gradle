@@ -10,7 +10,8 @@ plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.0-SNAPSHOT" apply false
 
-    id "me.shedaniel.unified-publishing" version "0.1.+"
+    id "com.modrinth.minotaur" version "2.+"
+    id "com.matthewprenger.cursegradle" version "1.4.0" // literally never gonna update
 }
 
 architectury {
@@ -53,14 +54,16 @@ tasks.register("generateDiscordEmbed") {
         ])
 
         var json = JsonOutput.toJson([
-                embeds: [
-                        title    : archives_base_name,
-                        color    : Integer.parseInt(env.EMBED_COLOR, 16),
-                        fields   : fields,
-                        thumbnail: [url: env.WEBHOOK_THUMBNAIL]
-                ],
-                username: env.WEBHOOK_USERNAME,
-                avatar_url: env.WEBHOOK_AVATAR
+            content: null,
+            embeds: [
+                title: archives_base_name,
+                color: Integer.parseInt(env.EMBED_COLOR, 16),
+                fields: fields,
+                thumbnail: [url: env.WEBHOOK_THUMBNAIL]
+            ],
+            username: env.WEBHOOK_USERNAME,
+            avatar_url: env.WEBHOOK_AVATAR,
+            attatchments: []
         ])
 
         new File(projectDir, "embed.json").write(json)
@@ -69,7 +72,8 @@ tasks.register("generateDiscordEmbed") {
 
 subprojects {
     apply plugin: "dev.architectury.loom"
-    apply plugin: "me.shedaniel.unified-publishing"
+    apply plugin: "com.modrinth.minotaur"
+    apply plugin: "com.matthewprenger.cursegradle"
 
     loom {
         silentMojangMappingsLicense()
@@ -81,35 +85,38 @@ subprojects {
     }
 
     if (name in platforms) {
+        var env = System.getenv()
         var modLoader = name
 
-        unifiedPublishing {
+        var changelogFile = rootProject.file("changelog.txt")
+        var changelogText = changelogFile.exists() ? changelogFile.text : ""
+
+        modrinth {
+            projectId = env.MODRINTH_PROJECT
+            uploadFile = tasks.remapJar
+            gameVersions = [minecraftVersion]
+            loaders = [modLoader]
+            changelog = changelogText
+
+            if (modLoader == "fabric") {
+                dependencies {
+                    required.project "fabric-api"
+                }
+            }
+        }
+
+        curseforge {
+            apiKey = env.CURSE_TOKEN
             project {
-                var env = System.getenv()
-                var curseToken = env.CURSE_TOKEN
-                var modrinthToken = env.MODRINTH_TOKEN
-                var changelogFile = rootProject.file("changelog.txt")
+                id = env.CURSE_PROJECT
+                changelog = changelogText
+                addGameVersion minecraft_version
 
-                gameVersions = [minecraft_version]
-                gameLoaders = [modLoader]
+                mainArtifact(tasks.remapJar)
 
-                mainPublication(tasks.remapJar)
-
-                if (changelogFile.exists()) {
-                    changelog = changelogFile.text
-                }
-
-                if (curseToken != null) {
-                    curseforge {
-                        token = curseToken
-                        id = env.CURSE_PROJECT
-                    }
-                }
-
-                if (modrinthToken != null) {
-                    modrinth {
-                        token = modrinthToken
-                        id = env.MODRINTH_PROJECT
+                if (modLoader == "fabric") {
+                    relations {
+                        requiredDependency "fabric-api"
                     }
                 }
             }
