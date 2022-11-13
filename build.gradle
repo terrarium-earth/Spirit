@@ -1,3 +1,11 @@
+import groovy.json.JsonOutput
+
+buildscript {
+    dependencies {
+        classpath "org.apache.groovy:groovy-json:4.0.6"
+    }
+}
+
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.0-SNAPSHOT" apply false
@@ -7,6 +15,56 @@ plugins {
 
 architectury {
     minecraft = rootProject.minecraft_version
+}
+
+tasks.register("generateDiscordEmbed") {
+    doFirst {
+        var env = System.getenv()
+        var changelogFile = rootProject.file("changelog.txt")
+
+        var fields = []
+
+        if (changelogFile.exists()) {
+            fields.add([
+                    name : "Changelog",
+                    value: changelogFile.text
+            ])
+        }
+
+        fields.addAll([
+                [
+                        name  : "Minecraft Version",
+                        value : minecraft_version,
+                        inline: true
+                ],
+                [
+                        name  : "Mod Version",
+                        value : mod_version,
+                        inline: true
+                ],
+                [
+                        name  : "Download",
+                        value : "<:modrinth:978684543034871878> [Modrinth](" +
+                                env.MODRINTH_PROJECT_URL +
+                                ")\n<:curseforge:978684543026462790> [Curseforge](" +
+                                env.CURSE_PROJECT_URL + ")",
+                        inline: true
+                ]
+        ])
+
+        var json = JsonOutput.toJson([
+                embeds: [
+                        title    : archives_base_name,
+                        color    : 0x58B9FF,
+                        fields   : fields,
+                        thumbnail: [url: env.WEBHOOK_THUMBNAIL]
+                ],
+                username: env.WEBHOOK_USERNAME,
+                avatar_url: env.WEBHOOK_AVATAR
+        ])
+
+        file(projectDir, "embed.json").write(json)
+    }
 }
 
 subprojects {
@@ -22,7 +80,7 @@ subprojects {
         mappings loom.officialMojangMappings()
     }
 
-    if (name != "common") {
+    if (name in platforms) {
         var modLoader = name
 
         unifiedPublishing {
@@ -75,7 +133,7 @@ allprojects {
         // See https://docs.gradle.org/current/userguide/declaring_repositories.html
         // for more information about repositories.
 
-        maven { url = "https://nexus.resourcefulbees.com/repository/maven-public/"}
+        maven { url = "https://nexus.resourcefulbees.com/repository/maven-public/" }
         maven { url "https://maven.terraformersmc.com" }
     }
 
