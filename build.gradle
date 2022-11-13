@@ -110,6 +110,7 @@ subprojects {
             project {
                 id = env.CURSE_PROJECT
                 changelog = changelogText
+                releaseType = 'release'
                 addGameVersion minecraft_version
                 addGameVersion modLoader
 
