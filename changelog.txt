@@ -1,0 +1,2 @@
+# Spirit 2.2.2
+Added zooming pinch and drag to REI/JEI
