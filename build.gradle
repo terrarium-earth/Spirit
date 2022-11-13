@@ -55,7 +55,7 @@ tasks.register("generateDiscordEmbed") {
         var json = JsonOutput.toJson([
                 embeds: [
                         title    : archives_base_name,
-                        color    : 0x58B9FF,
+                        color    : Integer.parseInt(env.EMBED_COLOR, 16),
                         fields   : fields,
                         thumbnail: [url: env.WEBHOOK_THUMBNAIL]
                 ],
