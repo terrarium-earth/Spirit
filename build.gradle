@@ -84,7 +84,7 @@ subprojects {
         mappings loom.officialMojangMappings()
     }
 
-    if (name in platforms) {
+    if (name in platforms.split(",")) {
         var env = System.getenv()
         var modLoader = name
 
@@ -110,6 +110,7 @@ subprojects {
             project {
                 id = env.CURSE_PROJECT
                 changelog = changelogText
+                releaseType = 'release'
                 addGameVersion minecraft_version
                 addGameVersion modLoader.capitalize()
 
