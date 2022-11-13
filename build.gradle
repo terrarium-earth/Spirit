@@ -111,6 +111,7 @@ subprojects {
                 id = env.CURSE_PROJECT
                 changelog = changelogText
                 addGameVersion minecraft_version
+                addGameVersion modLoader
 
                 mainArtifact(tasks.remapJar)
 
