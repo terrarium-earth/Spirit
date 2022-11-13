@@ -31,6 +31,7 @@ jobs:
         env:
           MODRINTH_PROJECT_URL: ${{ secrets.MODRINTH_PROJECT_URL }}
           CURSE_PROJECT_URL: ${{ secrets.CURSE_PROJECT_URL }}
+          EMBED_COLOR: ${{ secrets.EMBED_COLOR }}
           WEBHOOK_THUMBNAIL: ${{ secrets.WEBHOOK_THUMBNAIL }}
           WEBHOOK_USERNAME: ${{ secrets.WEBHOOK_USERNAME }}
           WEBHOOK_AVATAR: ${{ secrets.WEBHOOK_AVATAR }}
