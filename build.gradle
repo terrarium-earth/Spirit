@@ -115,7 +115,7 @@ subprojects {
                     changelog = changelogText
                     releaseType = 'release'
                     addGameVersion minecraft_version
-                    addGameVersion modLoader
+                    addGameVersion modLoader.capitalize()
 
                     mainArtifact(tasks.remapJar)
 
