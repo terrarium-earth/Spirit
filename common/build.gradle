@@ -22,7 +22,7 @@ publishing {
     publications {
         mavenFabric(MavenPublication) {
             artifact remapJar
-            artifactId = rootProject.archives_base_name + "-" + project.name + "-" + project.minecraft_version
+            artifactId = rootProject.mod_id + "-" + project.name + "-" + project.minecraft_version
             pom {
                 name = 'Spirit'
                 description = 'A magic mod revolving around souls originally inspired by Soul Shards'
