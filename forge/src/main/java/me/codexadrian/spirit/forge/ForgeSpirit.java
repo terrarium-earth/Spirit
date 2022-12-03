@@ -5,8 +5,11 @@ import me.codexadrian.spirit.compat.forge.TOPCompat;
 import me.codexadrian.spirit.entity.CrudeSoulEntity;
 import me.codexadrian.spirit.platform.forge.ForgeRegistryHelper;
 import me.codexadrian.spirit.registry.SpiritMisc;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -31,6 +34,8 @@ public class ForgeSpirit {
         ForgeRegistryHelper.RECIPE_SERIALIZERS.register(eventBus);
         eventBus.addListener(this::entityAttributeStuff);
         eventBus.addListener(this::imcEvent);
+
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> eventBus.addListener(KeybindHandler::registerKeyBinding));
     }
 
     private void imcEvent(InterModEnqueueEvent event) {

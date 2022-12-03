@@ -16,7 +16,7 @@ import java.util.function.BiConsumer;
 
 public record ToggleEmpoweredPacket() implements IPacket<ToggleEmpoweredPacket> {
     public static Handler HANDLER = new Handler();
-    public static final ResourceLocation ID = new ResourceLocation(Spirit.MODID, "timedoor");
+    public static final ResourceLocation ID = new ResourceLocation(Spirit.MODID, "empower");
 
     @Override
     public ResourceLocation getID() {
