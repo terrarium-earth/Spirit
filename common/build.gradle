@@ -2,55 +2,22 @@ dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modCompileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
-    modRuntimeOnly "mezz.jei:jei-${minecraft_version}-common:${jei_version}"
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rei_version}"
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin:$rei_version"
-    modImplementation "com.teamresourceful.resourcefullib:resourcefullib-common-$rootProject.resourcefullib_version"
 }
 
 architectury {
     common(rootProject.platforms.split(","))
 }
 
-loom {
-}
-
-def ENV = System.getenv()
-
 publishing {
     publications {
-        mavenFabric(MavenPublication) {
-            artifact remapJar
-            artifactId = rootProject.mod_id + "-" + project.name + "-" + project.minecraft_version
-            pom {
-                name = 'Spirit'
-                description = 'A magic mod revolving around souls originally inspired by Soul Shards'
-                url = 'https://github.com/terrarium-earth/Spirit'
-
-                scm {
-                    connection = 'git:https://github.com/terrarium-earth/Spirit.git'
-                    developerConnection = 'git:https://github.com/terrarium-earth/Spirit.git'
-                    url = 'https://github.com/terrarium-earth/Spirit'
-                }
-
-                licenses {
-                    license {
-                        name = 'ARR'
-                    }
-                }
-            }
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archives_base_name
+            from components.java
         }
     }
 
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-        maven {
-            url = "https://maven.resourcefulbees.com/repository/codexadrian/"
-            credentials {
-                username ENV.MAVEN_USERNAME
-                password ENV.MAVEN_PASSWORD
-            }
-        }
+        // Add repositories to publish to here.
     }
 }

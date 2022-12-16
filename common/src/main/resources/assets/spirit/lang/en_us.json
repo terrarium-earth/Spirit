@@ -1,7 +1,9 @@
 {
+  "creative_tab.spirit": "Spirit",
   "item.spirit.soul_crystal": "Soul Crystal",
   "item.spirit.crude_soul_crystal": "Crude Soul Crystal",
   "item.spirit.soul_crystal_shard": "Soul Crystal Shard",
+  "item.spirit.mob_crystal": "Mob Crystal",
   "item.spirit.soul_steel_axe": "Soul Steel Axe",
   "item.spirit.soul_steel_bow": "Soul Steel Bow",
   "item.spirit.soul_steel_hoe": "Soul Steel Hoe",
@@ -51,8 +53,8 @@
   "config.spirit.toggletooltip": "Disable/Enable Entity Visual Effect",
   "tooltip.spirit.soul_crystal.unbound": "Unbound",
   "spirit.item.soul_crystal_shard.tooltip": "Contains: %s",
-  "spirit.item.crude_soul_crystal.tooltip": "Souls: ",
-  "spirit.item.crude_soul_crystal.tooltip_empty": "Empty",
+  "spirit.item.crude_soul_crystal.tooltip": "☠ ",
+  "spirit.item.crystal.tooltip_empty": "Empty",
   "spirit.item.soul_steel_tool.empowered": "§7Press §8[%s§8]§7 to Depower§r",
   "spirit.item.soul_steel_tool.unpowered": "§7Press §8[%s§8]§7 to Empower§r",
   "spirit.the_one_probe.soul_cage.tier_suffix": "- Tier",
@@ -104,5 +106,9 @@
   "rarity.spirit.uncommon": "Uncommon",
   "rarity.spirit.rare": "Rare",
   "rarity.spirit.epic": "Epic",
-  "rarity.spirit.legendary": "Legendary"
+  "rarity.spirit.legendary": "Legendary",
+
+  "spirit.item.mob_container.soulful": "❣ %s",
+  "spirit.item.mob_container.soulless": "☠ %s",
+  "spirit.item.mob_container.empty": "❣ %s"
 }

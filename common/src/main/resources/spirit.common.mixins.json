@@ -1,20 +1,12 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "me.codexadrian.spirit.mixin",
+  "package": "earth.terrarium.spirit.common.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "BaseFireBlockMixin",
-    "EnchantmentHelperMixin",
-    "ItemEntityMixin",
     "LivingEntityMixin"
   ],
   "client": [
     "EntityRendererMixin"
-  ],
-  "server": [
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+  ]
 }

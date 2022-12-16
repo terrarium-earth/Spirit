@@ -1,83 +1,14 @@
-import groovy.json.JsonOutput
-
-buildscript {
-    dependencies {
-        classpath "org.apache.groovy:groovy-json:4.0.6"
-    }
-}
-
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.0-SNAPSHOT" apply false
-
-    id "com.modrinth.minotaur" version "2.+"
-    id "com.matthewprenger.cursegradle" version "1.4.0" // literally never gonna update
 }
 
 architectury {
     minecraft = rootProject.minecraft_version
 }
 
-tasks.register("generateDiscordEmbed") {
-    doFirst {
-        var env = System.getenv()
-        var changelogFile = rootProject.file("changelog.txt")
-
-        var fields = []
-
-        if (changelogFile.exists()) {
-            fields.add([
-                    name : "Changelog",
-                    value: changelogFile.text
-            ])
-        }
-
-        fields.addAll([
-                [
-                        name  : "Minecraft Version",
-                        value : minecraft_version,
-                        inline: true
-                ],
-                [
-                        name  : "Mod Version",
-                        value : mod_version,
-                        inline: true
-                ],
-                [
-                        name  : "Download",
-                        value : "<:modrinth:978684543034871878> [Modrinth](" +
-                                env.MODRINTH_PROJECT_URL +
-                                ")\n<:curseforge:978684543026462790> [Curseforge](" +
-                                env.CURSE_PROJECT_URL + ")",
-                        inline: true
-                ]
-        ])
-
-        var json = JsonOutput.toJson([
-            content: null,
-            embeds: [[
-                title: archives_base_name,
-                color: Integer.parseInt(env.EMBED_COLOR, 16),
-                fields: fields,
-                thumbnail: [url: env.WEBHOOK_THUMBNAIL],
-                footer: [
-                        text: "Want to support us? Check out our Ko-fi! http://kofi.terrarium.earth",
-                        icon_url: "https://cdn.discordapp.com/attachments/881367981463072809/1044025688719626250/61e1116779fc0a9bd5bdbcc7_Frame_6.png"
-                ]
-            ]],
-            username: env.WEBHOOK_USERNAME,
-            avatar_url: env.WEBHOOK_AVATAR,
-            attatchments: []
-        ])
-
-        new File(projectDir, "embed.json").write(json)
-    }
-}
-
 subprojects {
     apply plugin: "dev.architectury.loom"
-    apply plugin: "com.modrinth.minotaur"
-    apply plugin: "com.matthewprenger.cursegradle"
 
     loom {
         silentMojangMappingsLicense()
@@ -86,51 +17,6 @@ subprojects {
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
         mappings loom.officialMojangMappings()
-    }
-
-    if (name in platforms.split(",")) {
-        var env = System.getenv()
-        var modLoader = name
-
-        var changelogFile = rootProject.file("changelog.txt")
-        var changelogText = changelogFile.exists() ? changelogFile.text : ""
-
-        if (env.MODRINTH_TOKEN) {
-            modrinth {
-                projectId = env.MODRINTH_PROJECT
-                uploadFile = tasks.remapJar
-                gameVersions = [minecraft_version]
-                loaders = [modLoader]
-                changelog = changelogText
-
-                if (modLoader == "fabric") {
-                    dependencies {
-                        required.project "fabric-api"
-                    }
-                }
-            }
-        }
-
-        if (env.CURSE_TOKEN) {
-            curseforge {
-                apiKey = env.CURSE_TOKEN
-                project {
-                    id = env.CURSE_PROJECT
-                    changelog = changelogText
-                    releaseType = 'release'
-                    addGameVersion minecraft_version
-                    addGameVersion modLoader.capitalize()
-
-                    mainArtifact(tasks.remapJar)
-
-                    if (modLoader == "fabric") {
-                        relations {
-                            requiredDependency "fabric-api"
-                        }
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -149,9 +35,6 @@ allprojects {
         // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
         // See https://docs.gradle.org/current/userguide/declaring_repositories.html
         // for more information about repositories.
-
-        maven { url = "https://nexus.resourcefulbees.com/repository/maven-public/" }
-        maven { url "https://maven.terraformersmc.com" }
     }
 
     tasks.withType(JavaCompile) {
