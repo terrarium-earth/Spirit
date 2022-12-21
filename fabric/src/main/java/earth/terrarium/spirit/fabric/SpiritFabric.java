@@ -24,11 +24,7 @@ public class SpiritFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         Spirit.init();
-        ItemGroupEvents.modifyEntriesEvent(CREATIVE_TAB).register((entries) -> {
-            entries.accept(SpiritItems.SOUL_CRYSTAL.get().getDefaultInstance());
-            entries.accept(SpiritItems.MOB_CRYSTAL.get().getDefaultInstance());
-            entries.accept(SpiritItems.CRUDE_SOUL_CRYSTAL.get().getDefaultInstance());
-        });
+        ItemGroupEvents.modifyEntriesEvent(CREATIVE_TAB).register((entries) -> SpiritItems.ITEMS.getEntries().forEach((item) -> entries.accept(item.get())));
         ServerLivingEntityEvents.AFTER_DEATH.register(SoulAbsorptionHandler::onEntityDeath);
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> MobCrystalHandler.mobInteraction(entity, player, hand));
     }

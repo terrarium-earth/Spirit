@@ -1,4 +1,4 @@
-package earth.terrarium.spirit.common.util.fabric;
+package earth.terrarium.spirit.common.util.forge;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;

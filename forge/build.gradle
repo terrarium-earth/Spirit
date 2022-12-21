@@ -19,6 +19,7 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+    include modImplementation("com.teamresourceful.resourcefullib:resourcefullib-forge-$rootProject.resourcefullib_version")
 }
 
 processResources {

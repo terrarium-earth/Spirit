@@ -1,5 +1,7 @@
 package earth.terrarium.spirit;
 
+import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
+import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import earth.terrarium.spirit.common.registry.SpiritItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -18,9 +20,13 @@ public class Spirit {
     public static final TagKey<EntityType<?>> EPIC = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(Spirit.MODID, "rarity/epic"));
     public static final TagKey<EntityType<?>> LEGENDARY = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(Spirit.MODID, "rarity/legendary"));
 
+    public static final TagKey<EntityType<?>> SOUL_CAGE_CONDITIONS_IGNORED = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(Spirit.MODID, "soul_cage_conditions_ignored"));
+
     public static final int SOUL_COLOR = 0xFF00fffb;
 
     public static void init() {
-        SpiritItems.init();
+        SpiritItems.ITEMS.init();
+        SpiritBlocks.BLOCKS.init();
+        SpiritBlockEntities.BLOCK_ENTITIES.init();
     }
 }

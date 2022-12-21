@@ -5,18 +5,21 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 public class SoulStack {
     private static final String ENTITY_KEY = "Entity";
     private static final String AMOUNT_KEY = "Amount";
-    private EntityType<?> entity;
+    private final EntityType<?> entity;
     private int amount;
 
     public static final Codec<SoulStack> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf(ENTITY_KEY).forGetter(SoulStack::getEntity),
-            Codec.INT.fieldOf(AMOUNT_KEY).forGetter(SoulStack::getAmount)
+            Codec.intRange(0, Integer.MAX_VALUE).fieldOf(AMOUNT_KEY).forGetter(SoulStack::getAmount)
     ).apply(instance, SoulStack::new));
 
     public SoulStack(@Nullable EntityType<?> entity, int amount) {
@@ -29,16 +32,12 @@ public class SoulStack {
         return entity;
     }
 
-    public void setEntity(EntityType<?> entity) {
-        this.entity = entity;
-    }
-
     public int getAmount() {
         return amount;
     }
 
     public void setAmount(int amount) {
-        this.amount = amount;
+        this.amount = Mth.clamp(amount, 0, Integer.MAX_VALUE);
     }
 
     public boolean isEmpty() {
@@ -63,5 +62,12 @@ public class SoulStack {
             tag.putInt(AMOUNT_KEY, amount);
         }
         return tag;
+    }
+
+    //toEntity method
+    @Nullable
+    public LivingEntity toEntity(Level level) {
+        if (getEntity() == null) return null;
+        return (LivingEntity) this.getEntity().create(level);
     }
 }

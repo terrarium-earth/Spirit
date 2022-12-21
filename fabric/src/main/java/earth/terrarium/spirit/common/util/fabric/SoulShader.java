@@ -8,11 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
 
-public class FabricSoulShader extends RenderType {
+public class SoulShader extends RenderType {
 
     public static ShaderInstance rendertypeTranslucentShader;
 
-    public FabricSoulShader(String string, VertexFormat vertexFormat, VertexFormat.Mode mode, int i, boolean bl, boolean bl2, Runnable runnable, Runnable runnable2) {
+    public SoulShader(String string, VertexFormat vertexFormat, VertexFormat.Mode mode, int i, boolean bl, boolean bl2, Runnable runnable, Runnable runnable2) {
         super(string, vertexFormat, mode, i, bl, bl2, runnable, runnable2);
     }
 
