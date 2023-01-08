@@ -30,6 +30,7 @@ public class SoulCageRenderer implements BlockEntityRenderer<SoulCageBlockEntity
         }
 
         matrixStack.translate(0.0D, 0.4000000059604645D, 0.0D);
+        matrixStack.mulPose(Axis.YP.rotationDegrees((float) blockEntity.getSpin()));
         matrixStack.translate(0.0D, -0.20000000298023224D, 0.0D);
         matrixStack.mulPose(Axis.XP.rotationDegrees(-30.0F));
         matrixStack.scale(g, g, g);

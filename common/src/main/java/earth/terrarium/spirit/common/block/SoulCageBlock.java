@@ -32,11 +32,11 @@ public class SoulCageBlock extends BaseEntityBlock {
                 if (cage.canInsertCrystal(stack)) {
                     cage.setItem(0, stack);
                     player.setItemInHand(interactionHand, ItemStack.EMPTY);
-                    cage.update();
+                    cage.reset();
                     return InteractionResult.SUCCESS;
                 } else if (stack.isEmpty()) {
                     player.setItemInHand(interactionHand, cage.removeItemNoUpdate(0));
-                    cage.update();
+                    cage.reset();
                     return InteractionResult.SUCCESS;
                 }
             }

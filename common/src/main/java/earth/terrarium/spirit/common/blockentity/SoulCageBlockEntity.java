@@ -19,10 +19,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -30,6 +27,7 @@ import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,16 +35,34 @@ import java.util.function.Supplier;
 
 public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer {
     private int work = 0;
+    private double spin = 0;
     private ItemStack crystalStorage;
     private Pair<String, Entity> entityStorage;
     private Pair<String, Tier> tier;
+    private AABB boundingBox;
 
     public SoulCageBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(SpiritBlockEntities.SOUL_CAGE.get(), blockPos, blockState);
     }
 
     public void tick() {
-        if (!(level instanceof ServerLevel serverLevel)) return;
+        if (!(level instanceof ServerLevel serverLevel)) {
+            if(this.isNearPlayer()) {
+                double spinAmount = 20D;
+                Tier tier = getTier();
+                if (tier != null && tier.redstoneControlled() && level.hasNeighborSignal(this.getBlockPos())) {
+                    spinAmount /= 30;
+                } else {
+                    double d = (double) getBlockPos().getX() + level.random.nextDouble();
+                    double e = (double) getBlockPos().getY() + level.random.nextDouble();
+                    double f = (double) getBlockPos().getZ() + level.random.nextDouble();
+                    level.addParticle(ParticleTypes.SCULK_SOUL, d, e, f, 0.0D, 0.0D, 0.0D);
+                    level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, d, e, f, 0.0D, 0.0D, 0.0D);
+                }
+                this.spin = (this.spin + spinAmount) % 360D;
+            }
+            return;
+        }
         if (crystalStorage != null && !crystalStorage.isEmpty()) {
             Tier tier = getTier();
             if (tier != null && isNearPlayer()) {
@@ -125,6 +141,8 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
         super.saveAdditional(compoundTag);
         if (crystalStorage != null && !crystalStorage.isEmpty()) {
             compoundTag.put("Crystal", crystalStorage.save(new CompoundTag()));
+        } else {
+            compoundTag.put("Crystal", new CompoundTag());
         }
     }
 
@@ -159,6 +177,10 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
         BlockPos blockPos = this.getBlockPos();
         BlockState blockState = getLevel().getBlockState(getBlockPos());
         if (blockState.is(SpiritBlocks.SOUL_CAGE.get())) {
+            int size = level.getEntitiesOfClass(LivingEntity.class, getAABB()).size();
+            if (size > 20) {
+                return false;
+            }
             Tier tier = getTier();
             if (tier == null) {
                 return false;
@@ -169,9 +191,7 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
                 return true;
             }
         }
-
         return false;
-
     }
 
 
@@ -244,6 +264,15 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
         if (level != null) level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_ALL);
     }
 
+    public void reset() {
+        work = 0;
+        update();
+    }
+
+    public double getSpin() {
+        return spin;
+    }
+
     @Override
     public CompoundTag getUpdateTag() {
         return saveWithoutMetadata();
@@ -257,7 +286,7 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
 
     public Tier getTier() {
         if (level != null && crystalStorage != null && !crystalStorage.isEmpty() && crystalStorage.getTag() != null) {
-            if (entityStorage == null || !entityStorage.first.equals(crystalStorage.getTag().toString())) {
+            if (tier == null || !tier.first.equals(crystalStorage.getTag().toString())) {
                 if (crystalStorage.getItem() instanceof Tierable item) {
                     Tier container = item.getTier(crystalStorage);
                     if (container != null) {
@@ -266,7 +295,13 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
                     }
                 }
             }
+        } else {
+            tier = null;
         }
-        return null;
+        return tier == null ? null : tier.second;
+    }
+
+    public AABB getAABB() {
+        return boundingBox == null ? boundingBox = new AABB(getBlockPos()).inflate(10) : boundingBox;
     }
 }
