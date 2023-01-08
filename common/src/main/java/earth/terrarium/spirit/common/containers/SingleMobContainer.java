@@ -20,7 +20,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
     public EntityType<?> entityType;
     @Nullable
     public CompoundTag entityData;
-    public boolean hasSoul;
+    public boolean soulless;
 
     public static final String MOB_KEY = "Mob";
     public static final String ID_KEY = "EntityType";
@@ -37,10 +37,10 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
             return 0;
         } else {
             if(entityType == soulStack.getEntity()) {
-                if(hasSoul) {
+                if(!soulless) {
                     return 0;
                 } else {
-                    if (mode == InteractionMode.NO_TAKE_BACKSIES) hasSoul = true;
+                    if (mode == InteractionMode.NO_TAKE_BACKSIES) soulless = false;
                     return 1;
                 }
             }
@@ -54,8 +54,8 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
             return SoulStack.empty();
         } else {
             if(entityType == soulStack.getEntity()) {
-                if(hasSoul) {
-                    if(mode == InteractionMode.NO_TAKE_BACKSIES) hasSoul = false;
+                if(!soulless) {
+                    if(mode == InteractionMode.NO_TAKE_BACKSIES) soulless = true;
                     return new SoulStack(entityType, 1);
                 } else {
                     return SoulStack.empty();
@@ -70,7 +70,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
         if(entityType == null) {
             entityType = mob.getType();
             entityData = mob.saveWithoutId(new CompoundTag());
-            hasSoul = ((SoulContainingCreature) mob).hasSoul();
+            soulless = ((SoulContainingCreature) mob).isSoulless();
             return true;
         }
         return false;
@@ -86,8 +86,8 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
                 mob.load(entityData);
                 entityType = null;
                 entityData = null;
-                ((SoulContainingCreature) mob).setState(hasSoul);
-                hasSoul = false;
+                ((SoulContainingCreature) mob).setState(soulless);
+                soulless = true;
                 return mob;
             }
         }
@@ -100,7 +100,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
         if (entityType != null) {
             entity.put(DATA_KEY, entityData);
             entity.putString(ID_KEY, EntityType.getKey(entityType).toString());
-            entity.putBoolean(SoulUtils.SOULFUL_TAG, hasSoul);
+            entity.putBoolean(SoulUtils.SOULFUL_TAG, soulless);
         }
         tag.put(MOB_KEY, entity);
         return tag;
@@ -112,7 +112,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
             CompoundTag entity = tag.getCompound(MOB_KEY);
             entityData = entity.getCompound(DATA_KEY);
             entityType = EntityType.byString(entity.getString(ID_KEY)).orElse(null);
-            hasSoul = entity.getBoolean(SoulUtils.SOULFUL_TAG);
+            soulless = entity.getBoolean(SoulUtils.SOULFUL_TAG);
         }
     }
 
@@ -124,7 +124,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
     public MutableComponent toComponent() {
         if (entityType != null) {
             MutableComponent component = Component.translatable(entityType.getDescriptionId()).withStyle(ChatFormatting.GRAY);
-            if(hasSoul) {
+            if(!soulless) {
                 return Component.translatable("spirit.item.mob_container.soulful", component).withStyle(ChatFormatting.RED);
             } else {
                 return Component.translatable("spirit.item.mob_container.soulless", component).withStyle(ChatFormatting.AQUA);

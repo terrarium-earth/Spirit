@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LivingEntityMixin extends Entity implements SoulContainingCreature {
 
     @SuppressWarnings("WrongEntityDataParameterClass")
-    private static final EntityDataAccessor<Boolean> SOULFUl = SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> SOULLESS = SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.BOOLEAN);
 
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -27,7 +27,7 @@ public abstract class LivingEntityMixin extends Entity implements SoulContaining
 
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
     private void defineCorrupted(CallbackInfo ci) {
-        entityData.define(SOULFUl, true);
+        entityData.define(SOULLESS, false);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
@@ -37,17 +37,17 @@ public abstract class LivingEntityMixin extends Entity implements SoulContaining
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void saveCorrupted(CompoundTag compoundTag, CallbackInfo ci) {
-        compoundTag.putBoolean(SoulUtils.SOULFUL_TAG, hasSoul());
+        compoundTag.putBoolean(SoulUtils.SOULFUL_TAG, isSoulless());
     }
 
     @Override
-    public boolean hasSoul() {
-        return entityData.get(SOULFUl);
+    public boolean isSoulless() {
+        return entityData.get(SOULLESS);
     }
 
     @Override
     public void setState(boolean state) {
-        entityData.set(SOULFUl, state);
+        entityData.set(SOULLESS, state);
     }
 
     /*

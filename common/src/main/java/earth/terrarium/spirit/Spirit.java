@@ -7,6 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 
 public class Spirit {
     public static final String MODID = "spirit";
@@ -21,6 +22,9 @@ public class Spirit {
     public static final TagKey<EntityType<?>> LEGENDARY = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(Spirit.MODID, "rarity/legendary"));
 
     public static final TagKey<EntityType<?>> SOUL_CAGE_CONDITIONS_IGNORED = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(Spirit.MODID, "soul_cage_conditions_ignored"));
+
+    public static final TagKey<Item> SOUL_FIRE_IMMUNE = TagKey.create(Registries.ITEM, new ResourceLocation(MODID, "soul_fire_immune"));
+    public static final TagKey<Item> SOUL_FIRE_REPAIRABLE = TagKey.create(Registries.ITEM, new ResourceLocation(MODID, "soul_fire_repairable"));
 
     public static final int SOUL_COLOR = 0xFF00fffb;
 

@@ -30,7 +30,7 @@ public class SoulAbsorptionHandler {
             if (entity instanceof Projectile projectile) entity = projectile.getOwner();
             if (entity instanceof Player player) {
                 if (!victim.getType().is(Spirit.COLLECT_BLACKLISTED_TAG)) {
-                    if (victim.canChangeDimensions() && (SpiritConfig.collectFromSoulless || creature.hasSoul())) {
+                    if (victim.canChangeDimensions() && (SpiritConfig.collectFromSoulless || !creature.isSoulless())) {
                         /*
                         boolean pedestalHasCrystal = false;
                         int radius = SoulConcentratorConfig.range;

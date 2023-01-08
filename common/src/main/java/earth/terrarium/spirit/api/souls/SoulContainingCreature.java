@@ -2,6 +2,6 @@ package earth.terrarium.spirit.api.souls;
 
 public interface SoulContainingCreature {
 
-    boolean hasSoul();
+    boolean isSoulless();
     void setState(boolean state);
 }

@@ -9,7 +9,9 @@ import earth.terrarium.spirit.api.storage.SoulContainer;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.storage.Tierable;
 import earth.terrarium.spirit.api.utils.SoulStack;
+import earth.terrarium.spirit.api.utils.SoulUtils;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
+import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -37,6 +39,7 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
     private int work = 0;
     private ItemStack crystalStorage;
     private Pair<String, Entity> entityStorage;
+    private Pair<String, Tier> tier;
 
     public SoulCageBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(SpiritBlockEntities.SOUL_CAGE.get(), blockPos, blockState);
@@ -45,41 +48,43 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
     public void tick() {
         if (!(level instanceof ServerLevel serverLevel)) return;
         if (crystalStorage != null && !crystalStorage.isEmpty()) {
-            if (crystalStorage.getItem() instanceof Tierable tierable) {
-                Tier tier = tierable.getTier(crystalStorage);
-                if (tier != null) {
-                    if (work < tier.workTime()) {
+            Tier tier = getTier();
+            if (tier != null && isNearPlayer()) {
+                if (work < tier.workTime()) {
+                    if(work % 2 == 0) {
                         double fraction = (double) work / tier.workTime();
-                        for (double i = 0; i < 2 * Math.PI; i += .2) {
-                            double size = tier.spawnRange() * fraction;
+                        double radius = tier.spawnRange() * fraction;
+                        double increment = 3f / (2 * Math.PI * radius);
+                        for (double i = 0; i < 2 * Math.PI; i += increment) {
                             double x = this.getBlockPos().getX() + 0.5;
                             double z = this.getBlockPos().getZ() + 0.5;
-                            serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, x + size * Math.cos(i), this.getBlockPos().getY() + 0.5, z + size * Math.sin(i), 1, 0, 0, 0, 0);
+                            serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT, x + radius * Math.cos(i), this.getBlockPos().getY() + 0.5, z + radius * Math.sin(i), 1, 0, 0, 0, 0);
+                            if (work % 10 == 0) serverLevel.sendParticles(ParticleTypes.SCULK_SOUL, x + radius * Math.cos(i), this.getBlockPos().getY() + 0.5, z + radius * Math.sin(i), 1, 0, 0, 0, 0);
                         }
-                        work++;
-                    } else {
-                        work = 0;
-                        if (crystalStorage.getItem() instanceof SoulContainingObject.Item item) {
-                            SoulContainer container = item.getContainer(crystalStorage);
-                            if (container != null) {
-                                if (container.slotCount() > 0) {
-                                    WeightedCollection<EntityType<?>> collection = new WeightedCollection<>();
-                                    for (int i = 0; i < container.slotCount(); i++) {
-                                        SoulStack soulStack = container.getSoulStack(i);
-                                        if (soulStack != null && soulStack.getEntity() != null && !soulStack.getEntity().is(Spirit.BLACKLISTED_TAG)) {
-                                            collection.add(soulStack.getAmount(), soulStack.getEntity());
-                                        }
+                    }
+                    work++;
+                } else {
+                    work = 0;
+                    if (crystalStorage.getItem() instanceof SoulContainingObject.Item item) {
+                        SoulContainer container = item.getContainer(crystalStorage);
+                        if (container != null) {
+                            if (container.slotCount() > 0) {
+                                WeightedCollection<EntityType<?>> collection = new WeightedCollection<>();
+                                for (int i = 0; i < container.slotCount(); i++) {
+                                    SoulStack soulStack = container.getSoulStack(i);
+                                    if (soulStack != null && soulStack.getEntity() != null && !soulStack.getEntity().is(Spirit.BLACKLISTED_TAG)) {
+                                        collection.add(soulStack.getAmount(), soulStack.getEntity());
                                     }
-                                    if (!collection.isEmpty()) {
-                                        for (double i = 0; i < 2 * Math.PI; i += Math.PI / tier.spawnCount()) {
-                                            spawnMob(serverLevel, tier, i, collection::next);
-                                        }
-                                    }
-                                } else {
-                                    SoulStack stack = container.getSoulStack(0);
+                                }
+                                if (!collection.isEmpty()) {
                                     for (double i = 0; i < 2 * Math.PI; i += Math.PI / tier.spawnCount()) {
-                                        spawnMob(serverLevel, tier, i, stack::getEntity);
+                                        spawnMob(serverLevel, tier, i, collection::next);
                                     }
+                                }
+                            } else {
+                                SoulStack stack = container.getSoulStack(0);
+                                for (double i = 0; i < 2 * Math.PI; i += Math.PI / tier.spawnCount()) {
+                                    spawnMob(serverLevel, tier, i, stack::getEntity);
                                 }
                             }
                         }
@@ -94,14 +99,14 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
         double x = this.getBlockPos().getX() + 0.5 + size * Math.cos(i);
         double z = this.getBlockPos().getZ() + 0.5 + size * Math.sin(i);
         BlockPos pos = new BlockPos(x, this.getBlockPos().getY(), z);
-        serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, x, this.getBlockPos().getY() + 0.5, z, 10, 0.1, 0.1, 0.1, 0.1);
-        serverLevel.sendParticles(ParticleTypes.SOUL, x, this.getBlockPos().getY() + 0.5, z, 10, 0.1, 0.1, 0.1, 0.1);
         EntityType<?> type = typeGetter.get();
         if (type != null) {
-            boolean normalConditions = SpawnPlacements.checkSpawnRules(type, serverLevel, MobSpawnType.REINFORCEMENT, pos, this.level.random);
+            boolean normalConditions = SpawnPlacements.checkSpawnRules(type, serverLevel, MobSpawnType.SPAWNER, pos, this.level.random);
             boolean specialConditions = type.is(Spirit.SOUL_CAGE_CONDITIONS_IGNORED) || tier.ignoreSpawnConditions();
             if (normalConditions || specialConditions) {
-                type.spawn(serverLevel, null, entity -> ((SoulContainingCreature) entity).setState(false), pos, MobSpawnType.REINFORCEMENT, true, false);
+                serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, x, this.getBlockPos().getY() + 0.5, z, 10, 0.1, 0.1, 0.1, 0.1);
+                serverLevel.sendParticles(ParticleTypes.SOUL, x, this.getBlockPos().getY() + 0.5, z, 10, 0.1, 0.1, 0.1, 0.1);
+                type.spawn(serverLevel, null, entity -> ((SoulContainingCreature) entity).setState(true), pos, MobSpawnType.SPAWNER, true, false);
             }
         }
     }
@@ -129,7 +134,7 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
                 if (crystalStorage.getItem() instanceof SoulContainingObject.Item item) {
                     SoulContainer container = item.getContainer(crystalStorage);
                     if (container != null) {
-                        if (container.slotCount() > 0) {
+                        if (container.slotCount() > 1) {
                             entityStorage = Pair.of(crystalStorage.getTag().toString(), new ItemEntity(level, 0, 0, 0, crystalStorage));
                         } else {
                             SoulStack stack = container.getSoulStack(0);
@@ -148,6 +153,25 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
             }
         }
         return null;
+    }
+
+    private boolean isNearPlayer() {
+        BlockPos blockPos = this.getBlockPos();
+        BlockState blockState = getLevel().getBlockState(getBlockPos());
+        if (blockState.is(SpiritBlocks.SOUL_CAGE.get())) {
+            Tier tier = getTier();
+            if (tier == null) {
+                return false;
+            } else if (tier.nearbyRange() > 0) {
+                return this.getLevel().hasNearbyAlivePlayer((double) blockPos.getX() + 0.5D,
+                        (double) blockPos.getY() + 0.5D, (double) blockPos.getZ() + 0.5D, tier.nearbyRange());
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+
     }
 
 
@@ -218,7 +242,6 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
     public void update() {
         setChanged();
         if (level != null) level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_ALL);
-
     }
 
     @Override
@@ -230,5 +253,20 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    public Tier getTier() {
+        if (level != null && crystalStorage != null && !crystalStorage.isEmpty() && crystalStorage.getTag() != null) {
+            if (entityStorage == null || !entityStorage.first.equals(crystalStorage.getTag().toString())) {
+                if (crystalStorage.getItem() instanceof Tierable item) {
+                    Tier container = item.getTier(crystalStorage);
+                    if (container != null) {
+                        tier = Pair.of(crystalStorage.getTag().toString(), container);
+                        return container;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

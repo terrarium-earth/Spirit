@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 public class SoulUtils {
-    public static final String SOULFUL_TAG = "HasSoul";
+    public static final String SOULFUL_TAG = "Soulless";
 
     public static boolean isAllowed(ItemStack stack, TagKey<EntityType<?>> blacklistTag) {
         if(stack.getItem() instanceof SoulContainingObject.Item crystal) {
