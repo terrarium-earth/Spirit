@@ -1,10 +1,8 @@
 package earth.terrarium.spirit.common.block;
 
-import earth.terrarium.spirit.api.storage.Tierable;
 import earth.terrarium.spirit.common.blockentity.SoulCageBlockEntity;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -26,7 +24,7 @@ public class SoulCageBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide && interactionHand == InteractionHand.MAIN_HAND) {
             //insert item
             ItemStack stack = player.getItemInHand(interactionHand);
             BlockEntity blockEntity = level.getBlockEntity(blockPos);

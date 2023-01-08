@@ -19,7 +19,7 @@ public class SpiritBlockEntities {
 
     public static final ResourcefulRegistry<BlockEntityType<?>> BLOCK_ENTITIES = ResourcefulRegistries.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, Spirit.MODID);
 
-    public static final Supplier<BlockEntityType<?>> SOUL_CAGE = BLOCK_ENTITIES.register("soul_cage", () -> create(SoulCageBlockEntity::new, SpiritBlocks.SOUL_CAGE.get()).build(null));
+    public static final Supplier<BlockEntityType<SoulCageBlockEntity>> SOUL_CAGE = BLOCK_ENTITIES.register("soul_cage", () -> create(SoulCageBlockEntity::new, SpiritBlocks.SOUL_CAGE.get()).build(null));
 
     @ExpectPlatform
     public static <T extends BlockEntity>BlockEntityType.Builder<T> create(BlockEntitySupplier<T> supplier, Block... blocks) {

@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.List;
 
-public record BlockEntityContainer(BlockEntity entity, SoulContainer container) implements SoulContainer {
+public record BlockEntitySoulContainer(BlockEntity entity, SoulContainer container) implements SoulContainer {
     @Override
     public List<SoulStack> getSouls() {
         return container.getSouls();

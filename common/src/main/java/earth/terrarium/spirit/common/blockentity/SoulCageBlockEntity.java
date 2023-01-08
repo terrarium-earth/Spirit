@@ -1,5 +1,6 @@
 package earth.terrarium.spirit.common.blockentity;
 
+import com.ibm.icu.impl.Pair;
 import com.teamresourceful.resourcefullib.common.collections.WeightedCollection;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.souls.SoulContainingCreature;
@@ -8,7 +9,6 @@ import earth.terrarium.spirit.api.storage.SoulContainer;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.storage.Tierable;
 import earth.terrarium.spirit.api.utils.SoulStack;
-import earth.terrarium.spirit.common.item.SoulCrystalItem;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,15 +17,16 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,6 +36,7 @@ import java.util.function.Supplier;
 public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer {
     private int work = 0;
     private ItemStack crystalStorage;
+    private Pair<String, Entity> entityStorage;
 
     public SoulCageBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(SpiritBlockEntities.SOUL_CAGE.get(), blockPos, blockState);
@@ -52,7 +54,7 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
                             double size = tier.spawnRange() * fraction;
                             double x = this.getBlockPos().getX() + 0.5;
                             double z = this.getBlockPos().getZ() + 0.5;
-                            serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, x + size * Math.cos(i), this.getBlockPos().getY() + 0.5, z + size * Math.sin(i), 1, 0.1, 0.1, 0.1, 0.1);
+                            serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, x + size * Math.cos(i), this.getBlockPos().getY() + 0.5, z + size * Math.sin(i), 1, 0, 0, 0, 0);
                         }
                         work++;
                     } else {
@@ -96,7 +98,7 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
         serverLevel.sendParticles(ParticleTypes.SOUL, x, this.getBlockPos().getY() + 0.5, z, 10, 0.1, 0.1, 0.1, 0.1);
         EntityType<?> type = typeGetter.get();
         if (type != null) {
-            boolean normalConditions = NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, serverLevel, this.getBlockPos(), type) && SpawnPlacements.checkSpawnRules(type, serverLevel, MobSpawnType.REINFORCEMENT, pos, this.level.random);
+            boolean normalConditions = SpawnPlacements.checkSpawnRules(type, serverLevel, MobSpawnType.REINFORCEMENT, pos, this.level.random);
             boolean specialConditions = type.is(Spirit.SOUL_CAGE_CONDITIONS_IGNORED) || tier.ignoreSpawnConditions();
             if (normalConditions || specialConditions) {
                 type.spawn(serverLevel, null, entity -> ((SoulContainingCreature) entity).setState(false), pos, MobSpawnType.REINFORCEMENT, true, false);
@@ -121,10 +123,33 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
         }
     }
 
-    @Override
-    public void setChanged() {
-        super.setChanged();
+    public @Nullable Entity getOrCreateEntity() {
+        if (level != null && crystalStorage != null && !crystalStorage.isEmpty() && crystalStorage.getTag() != null) {
+            if (entityStorage == null || !entityStorage.first.equals(crystalStorage.getTag().toString())) {
+                if (crystalStorage.getItem() instanceof SoulContainingObject.Item item) {
+                    SoulContainer container = item.getContainer(crystalStorage);
+                    if (container != null) {
+                        if (container.slotCount() > 0) {
+                            entityStorage = Pair.of(crystalStorage.getTag().toString(), new ItemEntity(level, 0, 0, 0, crystalStorage));
+                        } else {
+                            SoulStack stack = container.getSoulStack(0);
+                            if(stack.getEntity() != null) {
+                                Entity o = stack.getEntity().create(level);
+                                if (o != null) {
+                                    entityStorage = Pair.of(crystalStorage.getTag().toString(), o);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (entityStorage != null) {
+                return entityStorage.second;
+            }
+        }
+        return null;
     }
+
 
     public boolean canInsertCrystal(ItemStack stack) {
         return this.isEmpty() && stack.getItem() instanceof Tierable tierable && tierable.getTier(stack) != null;
