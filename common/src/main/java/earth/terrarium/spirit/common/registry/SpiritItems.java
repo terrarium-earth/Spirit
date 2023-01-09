@@ -23,4 +23,5 @@ public class SpiritItems {
     public static final Supplier<Item> MOB_CRYSTAL = ITEMS.register("mob_crystal", () -> new MobCrystalItem(new Item.Properties()));
     public static final Supplier<Item> SOUL_CAGE = ITEMS.register("soul_cage", () -> new BlockItem(SpiritBlocks.SOUL_CAGE.get(), new Item.Properties()));
     public static final Supplier<Item> PEDESTAL = ITEMS.register("pedestal", () -> new BlockItem(SpiritBlocks.PEDESTAL.get(), new Item.Properties()));
+    public static final Supplier<Item> SUMMONING_PEDESTAL = ITEMS.register("summoning_pedestal", () -> new BlockItem(SpiritBlocks.SUMMONING_PEDESTAL.get(), new Item.Properties()));
 }

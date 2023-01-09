@@ -2,10 +2,13 @@ package earth.terrarium.spirit.common.blockentity;
 
 import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.storage.BlockEntitySoulContainer;
+import earth.terrarium.spirit.api.storage.InteractionMode;
 import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
+import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.containers.SingleTypeContainer;
 import earth.terrarium.spirit.common.recipes.SummoningRecipe;
+import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.util.RecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -29,8 +32,8 @@ public class SummoningPedestalBlockEntity extends BlockEntity implements SoulCon
     public int burnTime = 0;
     public int age;
 
-    public SummoningPedestalBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
-        super(blockEntityType, blockPos, blockState);
+    public SummoningPedestalBlockEntity(BlockPos blockPos, BlockState blockState) {
+        super(SpiritBlockEntities.SUMMONING_PEDESTAL.get(), blockPos, blockState);
     }
 
     public void tick() {
@@ -66,21 +69,17 @@ public class SummoningPedestalBlockEntity extends BlockEntity implements SoulCon
                     }
                 }
             } else if (RecipeUtils.validatePedestals(blockPos, level, new ArrayList<>(this.containedRecipe.ingredients()), true)) {
-                if (this.containedRecipe.shouldSummon()) {
-                    Entity entity = this.containedRecipe.entityOutput().create(level);
-                    if (entity != null) {
-                        entity.setPos(blockPos.getX() + 0.5, blockPos.getY() + 0.75, blockPos.getZ() + 0.5);
-                        if(this.containedRecipe.outputNbt().isPresent()) entity.load(this.containedRecipe.outputNbt().get());
-                        level.addFreshEntity(entity);
-                        for (int i = 0; i < 10; i++) {
-                            level.addParticle(ParticleTypes.SOUL, entity.getX(), entity.getY(), entity.getZ(), 0, 0, 0);
-                        }
-                        this.setType(null);
+                Entity entity = this.containedRecipe.entityOutput().create(level);
+                if (entity != null) {
+                    entity.setPos(blockPos.getX() + 0.5, blockPos.getY() + 0.75, blockPos.getZ() + 0.5);
+                    if(this.containedRecipe.outputNbt().isPresent()) entity.load(this.containedRecipe.outputNbt().get());
+                    level.addFreshEntity(entity);
+                    for (int i = 0; i < 10; i++) {
+                        level.addParticle(ParticleTypes.SOUL, entity.getX(), entity.getY(), entity.getZ(), 0, 0, 0);
                     }
-                } else {
-                    this.setType(this.containedRecipe.entityOutput());
+                    this.getContainer().extract(new SoulStack(this.getContainer().getSoulStack(0).getEntity(), containedRecipe.inputAmount()), InteractionMode.NO_TAKE_BACKSIES);
                 }
-                level1.sendBlockUpdated(blockPos, blockState1, blockState1, net.minecraft.world.level.block.Block.UPDATE_ALL);
+                level.sendBlockUpdated(blockPos, getBlockState(), getBlockState(), net.minecraft.world.level.block.Block.UPDATE_ALL);
                 this.setRecipe(null);
             }
             this.burnTime++;

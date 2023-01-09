@@ -25,19 +25,19 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.Optional;
 
-public record SummoningRecipe(ResourceLocation id, SoulIngredient entityInput, Optional<Ingredient> activationItem, boolean consumesActivator, List<Ingredient> ingredients,
-                              EntityType<?> entityOutput, int duration, boolean shouldSummon,
+public record SummoningRecipe(ResourceLocation id, SoulIngredient entityInput, int inputAmount, Optional<Ingredient> activationItem, boolean consumesActivator, List<Ingredient> ingredients,
+                              EntityType<?> entityOutput, int duration,
                               Optional<CompoundTag> outputNbt) implements CodecRecipe<Container> {
     public static Codec<SummoningRecipe> codec(ResourceLocation id) {
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(id),
                 SoulIngredient.CODEC.fieldOf("entityInput").forGetter(SummoningRecipe::entityInput),
+                Codec.INT.fieldOf("inputAmount").forGetter(SummoningRecipe::inputAmount),
                 IngredientCodec.CODEC.optionalFieldOf("activatorItem").forGetter(SummoningRecipe::activationItem),
                 Codec.BOOL.fieldOf("consumesActivator").orElse(false).forGetter(SummoningRecipe::consumesActivator),
                 IngredientCodec.CODEC.listOf().fieldOf("itemInputs").forGetter(SummoningRecipe::ingredients),
                 BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("entityOutput").forGetter(SummoningRecipe::entityOutput),
                 Codec.INT.fieldOf("duration").orElse(60).forGetter(SummoningRecipe::duration),
-                Codec.BOOL.fieldOf("shouldSummonMob").orElse(false).forGetter(SummoningRecipe::shouldSummon),
                 CompoundTag.CODEC.optionalFieldOf("outputNbt").forGetter(SummoningRecipe::outputNbt)
         ).apply(instance, SummoningRecipe::new));
     }

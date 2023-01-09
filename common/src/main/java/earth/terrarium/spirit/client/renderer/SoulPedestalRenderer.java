@@ -1,9 +1,8 @@
 package earth.terrarium.spirit.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import earth.terrarium.spirit.common.blockentity.SummoningPedestalBlockEntity;
-import me.codexadrian.spirit.blocks.blockentity.SoulPedestalBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -36,7 +35,7 @@ public class SoulPedestalRenderer implements BlockEntityRenderer<SummoningPedest
             matrixStack.translate(0.5D, .75D, 0.5D);
             var degrees = blockEntity.age;
             var oldTick = Math.max(blockEntity.age - 1, 0);
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(Mth.lerp(partialTicks, oldTick, degrees) % 360));
+            matrixStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, oldTick, degrees) % 360));
             matrixStack.scale(g, g, g);
             matrixStack.translate(0, Math.sin(blockEntity.age * .1) * 0.05 + 0.05,0);
             Minecraft.getInstance().getEntityRenderDispatcher().render(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, matrixStack, multiBufferSource, i);
