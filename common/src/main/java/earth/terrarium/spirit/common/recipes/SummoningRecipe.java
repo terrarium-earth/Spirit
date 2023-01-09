@@ -65,7 +65,7 @@ public record SummoningRecipe(ResourceLocation id, SoulIngredient entityInput, i
             } else {
                 stackMatches = stack.isEmpty();
             }
-            return recipe.entityInput.test(entity) && stackMatches;
+            return recipe.entityInput.test(entity) && stackMatches && recipe.inputAmount <= entity.getAmount();
         }).toList();
     }
 

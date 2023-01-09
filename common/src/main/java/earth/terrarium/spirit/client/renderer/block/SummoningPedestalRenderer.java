@@ -1,4 +1,4 @@
-package earth.terrarium.spirit.client.renderer;
+package earth.terrarium.spirit.client.renderer.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -11,10 +11,10 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-public class SoulPedestalRenderer implements BlockEntityRenderer<SummoningPedestalBlockEntity> {
+public class SummoningPedestalRenderer implements BlockEntityRenderer<SummoningPedestalBlockEntity> {
     private final ItemRenderer itemRenderer;
 
-    public SoulPedestalRenderer(BlockEntityRendererProvider.Context context) {
+    public SummoningPedestalRenderer(BlockEntityRendererProvider.Context context) {
         itemRenderer = context.getItemRenderer();
     }
 
