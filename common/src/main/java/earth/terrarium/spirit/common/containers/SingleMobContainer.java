@@ -1,6 +1,6 @@
 package earth.terrarium.spirit.common.containers;
 
-import earth.terrarium.spirit.api.souls.SoulContainingCreature;
+import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.storage.InteractionMode;
 import earth.terrarium.spirit.api.storage.MobContainer;
 import earth.terrarium.spirit.api.storage.SingleSoulStackContainer;
@@ -70,7 +70,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
         if(entityType == null) {
             entityType = mob.getType();
             entityData = mob.saveWithoutId(new CompoundTag());
-            soulless = ((SoulContainingCreature) mob).isSoulless();
+            soulless = ((SoulfulCreature) mob).isSoulless();
             return true;
         }
         return false;
@@ -86,7 +86,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
                 mob.load(entityData);
                 entityType = null;
                 entityData = null;
-                ((SoulContainingCreature) mob).setState(soulless);
+                ((SoulfulCreature) mob).setIfSoulless(soulless);
                 soulless = true;
                 return mob;
             }

@@ -3,13 +3,12 @@ package earth.terrarium.spirit.common.blockentity;
 import com.ibm.icu.impl.Pair;
 import com.teamresourceful.resourcefullib.common.collections.WeightedCollection;
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.api.souls.SoulContainingCreature;
+import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.souls.Tier;
 import earth.terrarium.spirit.api.storage.SoulContainer;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.storage.Tierable;
 import earth.terrarium.spirit.api.utils.SoulStack;
-import earth.terrarium.spirit.api.utils.SoulUtils;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import net.minecraft.core.BlockPos;
@@ -23,7 +22,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -122,7 +120,7 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
             if (normalConditions || specialConditions) {
                 serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, x, this.getBlockPos().getY() + 0.5, z, 10, 0.1, 0.1, 0.1, 0.1);
                 serverLevel.sendParticles(ParticleTypes.SOUL, x, this.getBlockPos().getY() + 0.5, z, 10, 0.1, 0.1, 0.1, 0.1);
-                type.spawn(serverLevel, null, entity -> ((SoulContainingCreature) entity).setState(true), pos, MobSpawnType.SPAWNER, true, false);
+                type.spawn(serverLevel, null, entity -> ((SoulfulCreature) entity).setIfSoulless(true), pos, MobSpawnType.SPAWNER, true, false);
             }
         }
     }

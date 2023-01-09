@@ -1,7 +1,7 @@
 package earth.terrarium.spirit.common.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import earth.terrarium.spirit.api.souls.SoulContainingCreature;
+import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.common.util.ClientUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -21,7 +21,7 @@ public class EntityRendererMixin {
     @Inject(method = "render", at = @At("HEAD"))
     private void preRender(LivingEntity livingEntity, float f, float g, PoseStack poseStack,
                            MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-        if (((SoulContainingCreature) livingEntity).isSoulless()) {
+        if (((SoulfulCreature) livingEntity).isSoulless()) {
             currentlyRendered = livingEntity;
         }
     }
@@ -37,7 +37,7 @@ public class EntityRendererMixin {
     @Inject(method = "getRenderType", at = @At("RETURN"), cancellable = true)
     private void getRenderType(LivingEntity livingEntity, boolean bl, boolean bl2, boolean bl3,
                                CallbackInfoReturnable<RenderType> cir) {
-        if (((SoulContainingCreature) livingEntity).isSoulless()) {
+        if (((SoulfulCreature) livingEntity).isSoulless()) {
             cir.setReturnValue(ClientUtils.getSoulShader(livingEntity, ((LivingEntityRenderer) (Object) this).getTextureLocation(livingEntity)));
         }
     }

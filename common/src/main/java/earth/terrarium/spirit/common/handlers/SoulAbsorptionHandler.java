@@ -1,7 +1,7 @@
 package earth.terrarium.spirit.common.handlers;
 
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.api.souls.SoulContainingCreature;
+import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.storage.AutoAbsorbing;
 import earth.terrarium.spirit.api.storage.InteractionMode;
 import earth.terrarium.spirit.api.storage.SoulContainer;
@@ -24,7 +24,7 @@ import java.util.List;
 public class SoulAbsorptionHandler {
 
     public static void onEntityDeath(LivingEntity victim, DamageSource source) {
-        SoulContainingCreature creature = (SoulContainingCreature) victim;
+        SoulfulCreature creature = (SoulfulCreature) victim;
         if (victim.level instanceof ServerLevel level) {
             Entity entity = source.getEntity();
             if (entity instanceof Projectile projectile) entity = projectile.getOwner();

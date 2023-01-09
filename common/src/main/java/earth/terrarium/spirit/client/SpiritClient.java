@@ -2,6 +2,7 @@ package earth.terrarium.spirit.client;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import earth.terrarium.spirit.Spirit;
+import earth.terrarium.spirit.client.renderer.block.PedestalRenderer;
 import earth.terrarium.spirit.client.renderer.block.SoulCageRenderer;
 import earth.terrarium.spirit.common.handlers.MobCrystalHandler;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
@@ -21,6 +22,7 @@ public class SpiritClient {
     public static void init() {
         registerItemProperties(SpiritItems.MOB_CRYSTAL.get(), new ResourceLocation(Spirit.MODID, "mob"), (itemStack, clientLevel, livingEntity, i) -> MobCrystalHandler.mobCrystalProperty(itemStack));
         registerBlockEntityRenderers(SpiritBlockEntities.SOUL_CAGE.get(), SoulCageRenderer::new);
+        registerBlockEntityRenderers(SpiritBlockEntities.PEDESTAL.get(), PedestalRenderer::new);
         registerRenderLayer(SpiritBlocks.SOUL_CAGE.get(), RenderType.cutout());
     }
 

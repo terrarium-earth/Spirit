@@ -1,6 +1,6 @@
 package earth.terrarium.spirit.common.mixin;
 
-import earth.terrarium.spirit.api.souls.SoulContainingCreature;
+import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.utils.SoulUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements SoulContainingCreature {
+public abstract class LivingEntityMixin extends Entity implements SoulfulCreature {
 
     @SuppressWarnings("WrongEntityDataParameterClass")
     private static final EntityDataAccessor<Boolean> SOULLESS = SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.BOOLEAN);
@@ -32,7 +32,7 @@ public abstract class LivingEntityMixin extends Entity implements SoulContaining
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readCorrupted(CompoundTag compoundTag, CallbackInfo ci) {
-        setState(compoundTag.getBoolean(SoulUtils.SOULFUL_TAG));
+        setIfSoulless(compoundTag.getBoolean(SoulUtils.SOULFUL_TAG));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
@@ -46,7 +46,7 @@ public abstract class LivingEntityMixin extends Entity implements SoulContaining
     }
 
     @Override
-    public void setState(boolean state) {
+    public void setIfSoulless(boolean state) {
         entityData.set(SOULLESS, state);
     }
 

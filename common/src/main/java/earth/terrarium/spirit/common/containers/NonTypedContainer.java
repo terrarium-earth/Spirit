@@ -8,7 +8,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 
 public class NonTypedContainer extends SingleSoulStackContainer {
-    private final SoulStack crudeSoul = new SoulStack(EntityType.ALLAY, 0);
+    private final SoulStack crudeSoul = new SoulStack(null, 0);
     private final String KEY = "Souls";
     private final int maxAmount;
 

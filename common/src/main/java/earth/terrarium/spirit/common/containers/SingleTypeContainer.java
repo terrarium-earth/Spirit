@@ -24,7 +24,7 @@ public class SingleTypeContainer extends SingleSoulStackContainer {
 
     @Override
     public int insertIntoSlot(SoulStack soulStack, int slot, InteractionMode mode) {
-        if(soulStack.getEntity() != EntityType.ALLAY) {
+        if(soulStack.getEntity() != null) {
             if(stack.isEmpty()) {
                 soulStack.setAmount(Math.min(soulStack.getAmount(), maxCapacity()));
                 stack = soulStack.copy();
