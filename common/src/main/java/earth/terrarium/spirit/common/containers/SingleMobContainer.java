@@ -2,8 +2,8 @@ package earth.terrarium.spirit.common.containers;
 
 import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.storage.InteractionMode;
-import earth.terrarium.spirit.api.storage.MobContainer;
-import earth.terrarium.spirit.api.storage.SingleSoulStackContainer;
+import earth.terrarium.spirit.api.storage.container.MobContainer;
+import earth.terrarium.spirit.api.storage.container.SingleSoulStackContainer;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.api.utils.SoulUtils;
 import net.minecraft.ChatFormatting;

@@ -1,5 +1,6 @@
-package earth.terrarium.spirit.api.storage;
+package earth.terrarium.spirit.api.storage.container;
 
+import earth.terrarium.spirit.api.storage.InteractionMode;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import net.minecraft.nbt.CompoundTag;
 

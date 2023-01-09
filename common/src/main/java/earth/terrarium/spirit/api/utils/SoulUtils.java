@@ -1,7 +1,7 @@
 package earth.terrarium.spirit.api.utils;
 
 import earth.terrarium.spirit.api.souls.Tier;
-import earth.terrarium.spirit.api.storage.SoulContainer;
+import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.storage.Tierable;
 import earth.terrarium.spirit.common.config.items.CrystalConfig;
@@ -9,8 +9,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
 
 public class SoulUtils {
     public static final String SOULFUL_TAG = "Soulless";

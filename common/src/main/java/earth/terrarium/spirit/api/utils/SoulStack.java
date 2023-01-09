@@ -27,6 +27,10 @@ public class SoulStack {
         this.amount = amount;
     }
 
+    public static SoulStack of(EntityType<?> entity) {
+        return new SoulStack(entity, 1);
+    }
+
     @Nullable
     public EntityType<?> getEntity() {
         return entity;

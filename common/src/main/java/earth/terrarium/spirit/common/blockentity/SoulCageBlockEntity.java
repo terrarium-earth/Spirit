@@ -5,7 +5,7 @@ import com.teamresourceful.resourcefullib.common.collections.WeightedCollection;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.souls.Tier;
-import earth.terrarium.spirit.api.storage.SoulContainer;
+import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.storage.Tierable;
 import earth.terrarium.spirit.api.utils.SoulStack;

@@ -3,7 +3,7 @@ package earth.terrarium.spirit.common.item;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.storage.AutoAbsorbing;
 import earth.terrarium.spirit.api.storage.ItemStackContainer;
-import earth.terrarium.spirit.api.storage.SoulContainer;
+import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.config.items.CrystalConfig;

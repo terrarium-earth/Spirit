@@ -1,4 +1,4 @@
-package earth.terrarium.spirit.api.storage;
+package earth.terrarium.spirit.api.storage.container;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;

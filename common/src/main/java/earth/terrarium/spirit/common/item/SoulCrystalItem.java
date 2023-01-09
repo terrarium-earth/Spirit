@@ -3,6 +3,7 @@ package earth.terrarium.spirit.common.item;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.souls.Tier;
 import earth.terrarium.spirit.api.storage.*;
+import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.utils.EntityRarity;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.api.utils.SoulUtils;

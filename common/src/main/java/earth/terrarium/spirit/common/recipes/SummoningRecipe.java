@@ -5,7 +5,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teamresourceful.resourcefullib.common.codecs.recipes.IngredientCodec;
 import com.teamresourceful.resourcefullib.common.codecs.tags.HolderSetCodec;
 import com.teamresourceful.resourcefullib.common.recipe.CodecRecipe;
+import earth.terrarium.spirit.api.storage.util.SoulIngredient;
+import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
+import earth.terrarium.spirit.compat.common.EntityIngredient;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -22,13 +25,13 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.Optional;
 
-public record SummoningRecipe(ResourceLocation id, HolderSet<EntityType<?>> entityInput, Optional<Ingredient> activationItem, boolean consumesActivator, List<Ingredient> ingredients,
+public record SummoningRecipe(ResourceLocation id, SoulIngredient entityInput, Optional<Ingredient> activationItem, boolean consumesActivator, List<Ingredient> ingredients,
                               EntityType<?> entityOutput, int duration, boolean shouldSummon,
                               Optional<CompoundTag> outputNbt) implements CodecRecipe<Container> {
     public static Codec<SummoningRecipe> codec(ResourceLocation id) {
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(id),
-                HolderSetCodec.of(BuiltInRegistries.ENTITY_TYPE).fieldOf("entityInput").forGetter(SummoningRecipe::entityInput),
+                SoulIngredient.CODEC.fieldOf("entityInput").forGetter(SummoningRecipe::entityInput),
                 IngredientCodec.CODEC.optionalFieldOf("activatorItem").forGetter(SummoningRecipe::activationItem),
                 Codec.BOOL.fieldOf("consumesActivator").orElse(false).forGetter(SummoningRecipe::consumesActivator),
                 IngredientCodec.CODEC.listOf().fieldOf("itemInputs").forGetter(SummoningRecipe::ingredients),
@@ -54,7 +57,7 @@ public record SummoningRecipe(ResourceLocation id, HolderSet<EntityType<?>> enti
         return SpiritRecipes.SUMMONING.get();
     }
 
-    public static List<SummoningRecipe> getRecipesForEntity(EntityType<?> entity, ItemStack stack, RecipeManager manager) {
+    public static List<SummoningRecipe> getRecipesForEntity(SoulStack entity, ItemStack stack, RecipeManager manager) {
         return manager.getAllRecipesFor(SpiritRecipes.SUMMONING.get()).stream().filter(recipe -> {
             boolean stackMatches;
             if(recipe.activationItem().isPresent()) {
@@ -62,7 +65,7 @@ public record SummoningRecipe(ResourceLocation id, HolderSet<EntityType<?>> enti
             } else {
                 stackMatches = stack.isEmpty();
             }
-            return recipe.entityInput().contains(entity.builtInRegistryHolder()) && stackMatches;
+            return recipe.entityInput.test(entity) && stackMatches;
         }).toList();
     }
 

@@ -1,11 +1,10 @@
 package earth.terrarium.spirit.common.containers;
 
 import earth.terrarium.spirit.api.storage.InteractionMode;
-import earth.terrarium.spirit.api.storage.SingleSoulStackContainer;
+import earth.terrarium.spirit.api.storage.container.SingleSoulStackContainer;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EntityType;
 
 public class NonTypedContainer extends SingleSoulStackContainer {
     private final SoulStack crudeSoul = new SoulStack(null, 0);
