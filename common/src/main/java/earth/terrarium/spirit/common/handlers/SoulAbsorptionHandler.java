@@ -1,6 +1,7 @@
 package earth.terrarium.spirit.common.handlers;
 
 import earth.terrarium.spirit.Spirit;
+import earth.terrarium.spirit.api.event.EventHandler;
 import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.storage.AutoAbsorbing;
 import earth.terrarium.spirit.api.storage.InteractionMode;
@@ -10,6 +11,7 @@ import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.api.utils.SoulUtils;
 import earth.terrarium.spirit.common.config.SpiritConfig;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -31,31 +33,12 @@ public class SoulAbsorptionHandler {
             if (entity instanceof Player player) {
                 if (!victim.getType().is(Spirit.COLLECT_BLACKLISTED_TAG)) {
                     if (victim.canChangeDimensions() && (SpiritConfig.collectFromSoulless || !creature.isSoulless())) {
-                        /*
-                        boolean pedestalHasCrystal = false;
-                        int radius = SoulConcentratorConfig.range;
-                        AABB entityArea = victim.getBoundingBox().inflate(radius, 2, radius);
-                        Optional<BlockPos> pedestalPos = BlockPos.betweenClosedStream(entityArea).filter(pos -> level.getBlockState(pos).is(SpiritBlocks.CRYSTAL_PEDESTAL.get())).map(BlockPos::immutable).findFirst();
-                        if (pedestalPos.isPresent() && level.getBlockEntity(pedestalPos.get()) instanceof PedestalBlockEntity pedestal && !pedestal.isEmpty() && SoulUtils.canCrystalAcceptSoul(pedestal.getItem(0), victim)) {
-                            crystal = pedestal.getItem(0);
-                            pedestalHasCrystal = true;
-                            pedestal.setChanged();
-                            level.sendBlockUpdated(pedestalPos.get(), pedestal.getBlockState(), pedestal.getBlockState(), Block.UPDATE_ALL);
-                        }
-                         */
                         ItemStack crystal = getSoulCrystal(player, victim);
                         if (!crystal.isEmpty()) {
                             SoulContainer container = SoulUtils.getContainer(crystal);
                             if(container != null) {
-                                container.insert(new SoulStack(victim.getType(), 1), InteractionMode.NO_TAKE_BACKSIES);
+                                container.insert(new SoulStack(victim.getType(), EventHandler.gatherSoulCount(victim, player)), InteractionMode.NO_TAKE_BACKSIES);
                                 level.sendParticles(ParticleTypes.SOUL, victim.getX() + 0.5, victim.getY() + victim.getBbHeight() / 2, victim.getZ() + 0.5, 10, 0.5, 0.5, 0.5, 0.1);
-                                /*
-                                if (pedestalPos.isPresent() && pedestalHasCrystal) {
-                                    ServerLevel sLevel = (ServerLevel) player.level;
-                                    sLevel.sendParticles(ParticleTypes.SOUL, pedestalPos.get().getX() + 0.5, pedestalPos.get().getY() + 0.5, pedestalPos.get().getZ() + 0.5, 15, 0.5, 1, 0.5, 0);
-                                    sLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, pedestalPos.get().getX() + 0.5, pedestalPos.get().getY() + 0.5, pedestalPos.get().getZ() + 0.5, 15, 0.5, 1, 0.5, 0);
-                                }
-                                 */
                             }
                         }
                     }

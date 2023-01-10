@@ -25,13 +25,13 @@ public class SingleTypeContainer extends SingleSoulStackContainer {
     public int insertIntoSlot(SoulStack soulStack, int slot, InteractionMode mode) {
         if(soulStack.getEntity() != null) {
             if(stack.isEmpty()) {
-                soulStack.setAmount(Math.min(soulStack.getAmount(), maxCapacity()));
-                stack = soulStack.copy();
+                soulStack.copy().setAmount(Math.min(soulStack.getAmount(), maxCapacity()));
+                if(mode == InteractionMode.NO_TAKE_BACKSIES) stack = soulStack;
                 return soulStack.getAmount();
             } else {
                 if(soulStack.getEntity() == stack.getEntity()) {
                     int insert = Math.min(soulStack.getAmount(), maxCapacity() - stack.getAmount());
-                    stack.setAmount(stack.getAmount() + insert);
+                    if(mode == InteractionMode.NO_TAKE_BACKSIES) stack.setAmount(stack.getAmount() + insert);
                     return insert;
                 }
             }
@@ -44,7 +44,7 @@ public class SingleTypeContainer extends SingleSoulStackContainer {
         if(!stack.isEmpty()) {
             if(soulStack.getEntity() == stack.getEntity()) {
                 int extract = Math.min(soulStack.getAmount(), stack.getAmount());
-                stack.setAmount(stack.getAmount() - extract);
+                if(mode == InteractionMode.NO_TAKE_BACKSIES) stack.setAmount(stack.getAmount() - extract);
                 return new SoulStack(stack.getEntity(), extract);
             }
         }

@@ -3,11 +3,15 @@ package earth.terrarium.spirit;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import earth.terrarium.spirit.common.registry.SpiritItems;
+import earth.terrarium.spirit.common.registry.SpiritRecipes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class Spirit {
     public static final String MODID = "spirit";
@@ -26,11 +30,15 @@ public class Spirit {
     public static final TagKey<Item> SOUL_FIRE_IMMUNE = TagKey.create(Registries.ITEM, new ResourceLocation(MODID, "soul_fire_immune"));
     public static final TagKey<Item> SOUL_FIRE_REPAIRABLE = TagKey.create(Registries.ITEM, new ResourceLocation(MODID, "soul_fire_repairable"));
 
+    public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
+
     public static final int SOUL_COLOR = 0xFF00fffb;
 
     public static void init() {
         SpiritItems.ITEMS.init();
         SpiritBlocks.BLOCKS.init();
         SpiritBlockEntities.BLOCK_ENTITIES.init();
+        SpiritRecipes.RECIPE_TYPES.init();
+        SpiritRecipes.RECIPE_SERIALIZERS.init();
     }
 }
