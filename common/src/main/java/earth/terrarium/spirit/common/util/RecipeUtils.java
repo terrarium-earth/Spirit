@@ -1,11 +1,15 @@
 package earth.terrarium.spirit.common.util;
 
+import earth.terrarium.spirit.api.storage.SoulContainingObject;
+import earth.terrarium.spirit.api.storage.util.SoulIngredient;
+import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.blockentity.PedestalBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +29,7 @@ public class RecipeUtils {
     };
 
 
-    public static boolean validatePedestals(BlockPos blockPos, Level level, List<Ingredient> recipeIngredients, boolean consumeItems) {
+    public static boolean validatePedestals(BlockPos blockPos, Level level, SoulIngredient soulIngredient, int soulIngredientAmount, List<Ingredient> recipeIngredients, boolean consumeItems) {
         Map<BlockPos, ItemStack> ingredients = new HashMap<>();
         Map<BlockPos, ItemStack> markedIngredients = new HashMap<>();
         for (BlockPos cardinalPos : CARDINAL_BLOCK_POSITIONS) {
@@ -35,6 +39,12 @@ public class RecipeUtils {
                     ingredients.put(offset, pedestal.getItem(0));
                 }
             }
+        }
+
+        BlockEntity centerPedestal = level.getBlockEntity(blockPos);
+        if (centerPedestal instanceof SoulContainingObject.Block block) {
+            SoulStack soulStack = block.getContainer(centerPedestal).getSoulStack(0);
+            if (!soulIngredient.test(soulStack) && soulStack.getAmount() <= soulIngredientAmount) return false;
         }
 
         ingredients.forEach((pos, stack) -> {

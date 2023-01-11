@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Spirit {
     public static final String MODID = "spirit";
+    public static final String MOD_NAME = "Spirit";
 
     public static final TagKey<EntityType<?>> BLACKLISTED_TAG = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(MODID, "soul_cage_blacklisted"));
     public static final TagKey<EntityType<?>> REVITALIZER_TAG = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation("vitalize", "revitalizer_blacklist"));

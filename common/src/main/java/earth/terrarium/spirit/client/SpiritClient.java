@@ -5,6 +5,7 @@ import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.client.renderer.block.PedestalRenderer;
 import earth.terrarium.spirit.client.renderer.block.SoulCageRenderer;
 import earth.terrarium.spirit.client.renderer.block.SummoningPedestalRenderer;
+import earth.terrarium.spirit.client.renderer.block.TransmutationBasinRenderer;
 import earth.terrarium.spirit.common.handlers.MobCrystalHandler;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
@@ -25,6 +26,7 @@ public class SpiritClient {
         registerBlockEntityRenderers(SpiritBlockEntities.SOUL_CAGE.get(), SoulCageRenderer::new);
         registerBlockEntityRenderers(SpiritBlockEntities.PEDESTAL.get(), PedestalRenderer::new);
         registerBlockEntityRenderers(SpiritBlockEntities.SUMMONING_PEDESTAL.get(), SummoningPedestalRenderer::new);
+        registerBlockEntityRenderers(SpiritBlockEntities.TRANSMUTATION_BASIN.get(), TransmutationBasinRenderer::new);
         registerRenderLayer(SpiritBlocks.SOUL_CAGE.get(), RenderType.cutout());
     }
 

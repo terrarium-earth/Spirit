@@ -6,6 +6,7 @@ import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.common.block.PedestalBlock;
 import earth.terrarium.spirit.common.block.SoulCageBlock;
 import earth.terrarium.spirit.common.block.SummoningPedestalBlock;
+import earth.terrarium.spirit.common.block.TransmutationBasinBlock;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -20,4 +21,5 @@ public class SpiritBlocks {
 
     public static final Supplier<Block> PEDESTAL = BLOCKS.register("pedestal", () -> new PedestalBlock(Block.Properties.of(Material.STONE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
     public static final Supplier<Block> SUMMONING_PEDESTAL = BLOCKS.register("summoning_pedestal", () -> new SummoningPedestalBlock(Block.Properties.of(Material.STONE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
+    public static final Supplier<Block> TRANSMUTATION_BASIN = BLOCKS.register("transmutation_basin", () -> new TransmutationBasinBlock(Block.Properties.of(Material.STONE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
 }

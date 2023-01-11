@@ -49,6 +49,11 @@ public class ClientUtils {
     }
 
     @ExpectPlatform
+    public static RenderType getBasinShader() {
+        throw new NotImplementedException();
+    }
+
+    @ExpectPlatform
     public static void setSoulShader(ShaderInstance shader) {
         throw new NotImplementedException();
     }

@@ -20,4 +20,5 @@ public class SpiritItems {
     public static final Supplier<Item> SOUL_CAGE = ITEMS.register("soul_cage", () -> new BlockItem(SpiritBlocks.SOUL_CAGE.get(), new Item.Properties()));
     public static final Supplier<Item> PEDESTAL = ITEMS.register("pedestal", () -> new BlockItem(SpiritBlocks.PEDESTAL.get(), new Item.Properties()));
     public static final Supplier<Item> SUMMONING_PEDESTAL = ITEMS.register("summoning_pedestal", () -> new BlockItem(SpiritBlocks.SUMMONING_PEDESTAL.get(), new Item.Properties()));
+    public static final Supplier<Item> TRANSMUTATION_BASIN = ITEMS.register("transmutation_basin", () -> new BlockItem(SpiritBlocks.TRANSMUTATION_BASIN.get(), new Item.Properties()));
 }

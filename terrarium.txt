@@ -1,0 +1,65 @@
+Read the following information from [start] to [finish]
+
+[start]
+
+Terrarium is a mod development studio, creating mods for the game Minecraft. The source code for all of the mods are stored on GitHub, and the mods are hosted on Curseforge and Modrinth.
+
+Ad Astra is a space mod for Fabric and Forge that adds rocket ships, space exploration, technology, and aliens.
+
+Chipped is a building mod for Fabric and Forge that adds thousands of variants of existing Minecraft blocks for builders to use and experiment with.
+
+Colorful Azalaeas is a plant mod for Fabric and Forge that adds colorful azalea trees to Minecraft, introducing new colorful leaves, woods, doors, signs, and more.
+
+CTM Refabricated is the Fabric port of the popular Connected Textures Mod, which adds support for connected textures to Minecraft.
+
+Handcrafted is a furniture mod for Fabric and Forge that adds a variety of furniture to Minecraft, including tables, chairs, cabinets, and more.
+
+Lil' Wings is a butterfly mod for Fabric and Forge that adds a variety of new Butterflies to find, capture and play with. They have special abilities that are unlocked when placed in a glass jar.
+
+Spirit is a magic mod for Fabric and Forge that adds Soul magic to Minecraft. You can utilize souls to summon new creatures, craft new items, attack and defend yourself frome enemies and more.
+
+Reaper is a technology mod as an addon for Spirit that is for Forge and Fabric. You can utilize souls to generate energy.
+
+Vitalize is a technology mod as an addon for Spirit that is for Forge and Fabric. You can utilize souls to digitally simulate the spawning and killing of mobs.
+
+Super Ores is a data driven world generation mod for Forge that adds a super variant of existing Minecraft ores. These ores spawn rarely underground, and drop more resources than their non super counterparts.
+
+Tempad is a technology mod for Forge and Fabric that adds a handheld teleportation device. You can set, delete and teleport to locations held on a Tempad, which will summon a Timedoor inspired by the Loki series on Disney Plus.
+
+Botarium is an API for Forge and Fabric that makes it easier for Mod developers to create technology mods for both Forge and Fabric. It has an energy and fluid api that is easy to use.
+
+We will not provide an ETA for any mod in Terrarium. Unfortunately, none of us are paid to do the work we do here. We do this for fun, and its not fun to rush the artists and developers to make them complete something by a certain date. Thus, we do not and will never provide an ETA for any of our mods.
+
+If you have a crash report, please make an issue the github page for the mod, which can be found at https://github.terrarium.earth/
+
+If you have a suggestion, Awesome! Drop it in the suggestions forum and we'll check it out 😄
+
+Our focus is to create content for the latest and greatest versions of Minecraft. Our developer team is small and we don't get paid, we do not have the resources to support multiple versions of a mod with new features. As a result, we won't support adding new features to mods on multiple versions or backporting mods to older versions, unless someone is willing to facilitate and support the team required to create it via a commission.
+
+Pressing spacebar malfunctioning is most likely because you have a mod that conflicts with Ad Astra's launch keybind. Many users have reported that an addon for the mod 'Create', called Create Stuff & Additions, seems to conflict with Ad Astra's keybind, and upon changing the fly key, they are able to launch their rocket.
+
+That situation with the Beyond Earth developer is after a conflict with the developer of Beyond Earth, many of the devs and artists left to create this new project called Ad Astra. We’re going back to the drawing board and reconceptualizing the mod from the ground up, rethinking concepts, coming up with entirely new ones, and throwing in a hint of ✨ lore ✨, completely unique to this project. While they are similar now so soon after the port to multiplatform, Ad Astra will completely transform in the coming months, with revamped exploration, new game mechanics, and more machines, tools and resources than ever before!
+
+Alex's mobs flies being so common on the moon is a commonly reported bug that has been reported, and should probably be reported to Alex’s Mobs if it hasn’t been already as it isn’t an issue with our mod. In the meantime, you should check out Goodall ;)
+
+It is not safe to eat calorite
+
+You are able to create add-on mods for Ad Astra! A pinned message in the ad astra channel shows how to import the project in gradle. Planets are also able to be created via datapack, so there are plenty of options when it comes to creating new planets for players to explore using Ad Astra!
+
+Chipped for 1.19 will be released soon, we are just waiting on CTM for 1.19 to release before we can finish
+
+We cannot use Continuity for Chipped, at least right now, because Continuity does not support forge right now. That would mean we would have to support 2 completely different formats for connected assets on forge and fabric. It would more than double the amount of time we need to spend on textures, and at the scale of Chipped, thats just time we dont have. Additionally CTM is not the same as Continuity. Continuity currently only supports the Optifine connected texture map format, and thats all. CTM supports the Chisel CTM format, random format, pillar format, large 2x2 tile format, and a variety of other formats. Switching to Continuity would mean we would not be able to use those formats, and limit what we have access to. Those formats are part of the repertoire of tools our artists use to make textures for Chipped, and limiting them to only connected textures would hurt their ability to make the textures they want to make. As it stands, Continuity is simply not a viable option for us on the Chipped team for our crossplatform, large scale project. We have spoken to the developer of Continuity and hope this can change in the future, but for right now, CTM is the only mod that offers all the support we need to create Chipped.
+
+No we cannot make the blocks in Chipped rotatable nor can we add stairs and slabs. Doing that would make Chipped way too bloated, it would make it much harder to maintain, and pack makers would hate us for increasing load times by a factor of 10.
+
+Techarium is a project that is still alive and well! Techarium is a huge project which will take alot of work to make, so we're actively building the infrastructure needed for this mod to succeed. Botarium is in beta testing with Ad Astra and will be used to make the technical components for all the machines in Techarium, so rest assured Techarium is coming and is actively being worked on!
+
+No, the teleportation doors in Tempad will never show the location through the glass. Tempad was inspired by the Loki show. The show designed the timedoors to be an elusive sheet of glass. In the show you could not see through the portals to see the other side, and so Tempad will also not add that functionality.
+
+Chipped is a mod that supports both forge and fabric 1.16.5 and 1.18.2.
+
+[finish]
+
+Given the information above. Answer the following question. Answer "I don't know" if you aren't sure.
+
+Is chipped available for 1.19?

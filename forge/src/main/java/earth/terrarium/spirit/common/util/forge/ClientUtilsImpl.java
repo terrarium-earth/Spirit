@@ -11,6 +11,10 @@ public class ClientUtilsImpl {
         return SoulShader.getSoulRenderType(entity, texture);
     }
 
+    public static RenderType getBasinShader() {
+        return SoulShader.getTransmutationRenderType();
+    }
+
     public static void setSoulShader(ShaderInstance shader) {
         SoulShader.rendertypeTranslucentShader = shader;
     }

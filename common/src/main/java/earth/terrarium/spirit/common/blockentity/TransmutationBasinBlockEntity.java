@@ -3,44 +3,45 @@ package earth.terrarium.spirit.common.blockentity;
 import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.storage.BlockEntitySoulContainer;
 import earth.terrarium.spirit.api.storage.InteractionMode;
-import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
+import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.containers.SingleTypeContainer;
 import earth.terrarium.spirit.common.recipes.SummoningRecipe;
+import earth.terrarium.spirit.common.recipes.TransmutationRecipe;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.util.RecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class SummoningPedestalBlockEntity extends BlockEntity implements SoulContainingObject.Block {
+public class TransmutationBasinBlockEntity extends BlockEntity implements SoulContainingObject.Block {
     @Nullable public Entity entity;
     private BlockEntitySoulContainer soulContainer;
 
     @Nullable
-    public SummoningRecipe containedRecipe;
+    public TransmutationRecipe containedRecipe;
     public int burnTime = 0;
     public int age;
 
-    public SummoningPedestalBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(SpiritBlockEntities.SUMMONING_PEDESTAL.get(), blockPos, blockState);
+    public TransmutationBasinBlockEntity(BlockPos blockPos, BlockState blockState) {
+        super(SpiritBlockEntities.TRANSMUTATION_BASIN.get(), blockPos, blockState);
     }
 
     public void tick() {
         this.age = (this.age + 1) % Integer.MAX_VALUE;
-        if (this.containedRecipe != null) {
+        if (this.containedRecipe != null && this.level instanceof ServerLevel level) {
             BlockPos blockPos = getBlockPos();
-            if (!RecipeUtils.validatePedestals(blockPos, level, containedRecipe.entityInput(), containedRecipe.inputAmount(), new ArrayList<>(this.containedRecipe.ingredients()), false)) {
+            if (!RecipeUtils.validatePedestals(blockPos, level, this.containedRecipe.entityInput(), this.containedRecipe.inputAmount(), new ArrayList<>(this.containedRecipe.ingredients()), false)) {
                 this.setRecipe(null);
                 return;
             }
@@ -68,17 +69,11 @@ public class SummoningPedestalBlockEntity extends BlockEntity implements SoulCon
                         );
                     }
                 }
-            } else if (RecipeUtils.validatePedestals(blockPos, level, containedRecipe.entityInput(), containedRecipe.inputAmount(), new ArrayList<>(this.containedRecipe.ingredients()), true)) {
-                Entity entity = this.containedRecipe.entityOutput().create(level);
-                if (entity != null) {
-                    entity.setPos(blockPos.getX() + 0.5, blockPos.getY() + 0.75, blockPos.getZ() + 0.5);
-                    if(this.containedRecipe.outputNbt().isPresent()) entity.load(this.containedRecipe.outputNbt().get());
-                    level.addFreshEntity(entity);
-                    for (int i = 0; i < 10; i++) {
-                        level.addParticle(ParticleTypes.SOUL, entity.getX(), entity.getY(), entity.getZ(), 0, 0, 0);
-                    }
-                    this.getContainer().extract(new SoulStack(this.getContainer().getSoulStack(0).getEntity(), containedRecipe.inputAmount()), InteractionMode.NO_TAKE_BACKSIES);
-                }
+            } else if (RecipeUtils.validatePedestals(blockPos, level, this.containedRecipe.entityInput(), this.containedRecipe.inputAmount(), new ArrayList<>(this.containedRecipe.ingredients()), true)) {
+                Entity entity = this.containedRecipe.createEntity(level, blockPos.getX() + 0.5, blockPos.getY() + 0.75, blockPos.getZ() + 0.5);
+                level.addFreshEntity(entity);
+                level.sendParticles(ParticleTypes.SOUL, entity.getX(), entity.getY(), entity.getZ(), 10, 0, 0, 0, 0);
+                this.getContainer().extract(new SoulStack(this.getContainer().getSoulStack(0).getEntity(), containedRecipe.inputAmount()), InteractionMode.NO_TAKE_BACKSIES);
                 level.sendBlockUpdated(blockPos, getBlockState(), getBlockState(), net.minecraft.world.level.block.Block.UPDATE_ALL);
                 this.setRecipe(null);
             }
@@ -126,7 +121,7 @@ public class SummoningPedestalBlockEntity extends BlockEntity implements SoulCon
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    public void setRecipe(@Nullable SummoningRecipe recipe) {
+    public void setRecipe(@Nullable TransmutationRecipe recipe) {
         this.containedRecipe = recipe;
         if (recipe == null) burnTime = 0;
         this.setChanged();

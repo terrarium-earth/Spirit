@@ -3,17 +3,11 @@ package earth.terrarium.spirit.common.block;
 import earth.terrarium.spirit.api.storage.InteractionMode;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.utils.SoulStack;
-import earth.terrarium.spirit.api.utils.SoulUtils;
-import earth.terrarium.spirit.common.blockentity.SummoningPedestalBlockEntity;
-import earth.terrarium.spirit.common.recipes.SummoningRecipe;
+import earth.terrarium.spirit.common.blockentity.TransmutationBasinBlockEntity;
+import earth.terrarium.spirit.common.recipes.TransmutationRecipe;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
-import earth.terrarium.spirit.common.registry.SpiritItems;
 import earth.terrarium.spirit.common.util.RecipeUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -36,29 +30,29 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class SummoningPedestalBlock extends BaseEntityBlock {
+public class TransmutationBasinBlock extends BaseEntityBlock {
     public static final VoxelShape SHAPE = Shapes.or(
-            Block.box(0, 5, 0, 16, 10, 16),
-            Block.box(3, 10, 3, 13, 11, 13),
-            Block.box(4, 3, 4, 12, 5, 12),
-            Block.box(2, 0, 2, 14, 3, 14)
+            Block.box(2, 9, 2, 14, 15, 14),
+            Block.box(4, 7, 4, 12, 8, 12),
+            Block.box(5, 3, 5, 11, 9, 11),
+            Block.box(3, 0, 3, 13, 3, 13)
     );
 
-    public SummoningPedestalBlock(Properties properties) {
+    public TransmutationBasinBlock(Properties properties) {
         super(properties);
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new SummoningPedestalBlockEntity(blockPos, blockState);
+        return new TransmutationBasinBlockEntity(blockPos, blockState);
     }
 
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
         if (interactionHand != InteractionHand.OFF_HAND) {
             ItemStack stack = player.getItemInHand(interactionHand);
-            if (level.getBlockEntity(blockPos) instanceof SummoningPedestalBlockEntity soulPedestal) {
+            if (level.getBlockEntity(blockPos) instanceof TransmutationBasinBlockEntity soulPedestal) {
                 if (stack.getItem() instanceof SoulContainingObject.Item soulContainingObject) {
                     var soulContainer = soulContainingObject.getContainer(stack);
                     if (soulContainer == null) return InteractionResult.FAIL;
@@ -73,7 +67,7 @@ public class SummoningPedestalBlock extends BaseEntityBlock {
                         soulPedestal.getContainer().extract(new SoulStack(soulStack.getEntity(), inserted), InteractionMode.NO_TAKE_BACKSIES);
                         return InteractionResult.sidedSuccess(level.isClientSide());
                     }
-                    var recipes = SummoningRecipe.getRecipesForEntity(soulPedestal.getContainer().getSoulStack(0), stack, level.getRecipeManager());
+                    var recipes = TransmutationRecipe.getRecipesForEntity(soulPedestal.getContainer().getSoulStack(0), stack, level.getRecipeManager());
                     if (!recipes.isEmpty()) {
                         for (var recipe : recipes) {
                             if (RecipeUtils.validatePedestals(blockPos, level, recipe.entityInput(), recipe.inputAmount(), new ArrayList<>(recipe.ingredients()), false)) {
@@ -93,7 +87,7 @@ public class SummoningPedestalBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, SpiritBlockEntities.SUMMONING_PEDESTAL.get(), (level1, blockPos, blockState1, blockEntity) -> blockEntity.tick());
+        return createTickerHelper(blockEntityType, SpiritBlockEntities.TRANSMUTATION_BASIN.get(), (level1, blockPos, blockState1, blockEntity) -> blockEntity.tick());
     }
 
     @Override
