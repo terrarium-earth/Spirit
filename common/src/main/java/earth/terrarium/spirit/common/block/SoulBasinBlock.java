@@ -3,7 +3,7 @@ package earth.terrarium.spirit.common.block;
 import earth.terrarium.spirit.api.storage.InteractionMode;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.utils.SoulStack;
-import earth.terrarium.spirit.common.blockentity.TransmutationBasinBlockEntity;
+import earth.terrarium.spirit.common.blockentity.SoulBasinBlockEntity;
 import earth.terrarium.spirit.common.recipes.TransmutationRecipe;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.util.RecipeUtils;
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class TransmutationBasinBlock extends BaseEntityBlock {
+public class SoulBasinBlock extends BaseEntityBlock {
     public static final VoxelShape SHAPE = Shapes.or(
             Block.box(2, 9, 2, 14, 15, 14),
             Block.box(4, 7, 4, 12, 8, 12),
@@ -38,21 +38,21 @@ public class TransmutationBasinBlock extends BaseEntityBlock {
             Block.box(3, 0, 3, 13, 3, 13)
     );
 
-    public TransmutationBasinBlock(Properties properties) {
+    public SoulBasinBlock(Properties properties) {
         super(properties);
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new TransmutationBasinBlockEntity(blockPos, blockState);
+        return new SoulBasinBlockEntity(blockPos, blockState);
     }
 
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
         if (interactionHand != InteractionHand.OFF_HAND) {
             ItemStack stack = player.getItemInHand(interactionHand);
-            if (level.getBlockEntity(blockPos) instanceof TransmutationBasinBlockEntity soulPedestal) {
+            if (level.getBlockEntity(blockPos) instanceof SoulBasinBlockEntity soulPedestal) {
                 if (stack.getItem() instanceof SoulContainingObject.Item soulContainingObject) {
                     var soulContainer = soulContainingObject.getContainer(stack);
                     if (soulContainer == null) return InteractionResult.FAIL;
@@ -87,7 +87,7 @@ public class TransmutationBasinBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, SpiritBlockEntities.TRANSMUTATION_BASIN.get(), (level1, blockPos, blockState1, blockEntity) -> blockEntity.tick());
+        return createTickerHelper(blockEntityType, SpiritBlockEntities.SOUL_BASIN.get(), (level1, blockPos, blockState1, blockEntity) -> blockEntity.tick());
     }
 
     @Override

@@ -3,12 +3,15 @@ package earth.terrarium.spirit.common.blockentity;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class PedestalBlockEntity extends BlockEntity implements WorldlyContainer {
 
-    ItemStack item = ItemStack.EMPTY;
+    NonNullList<ItemStack> inventory = NonNullList.withSize(1, ItemStack.EMPTY);
     public int age;
 
     public PedestalBlockEntity(BlockPos $$1, BlockState $$2) {
@@ -36,47 +39,42 @@ public class PedestalBlockEntity extends BlockEntity implements WorldlyContainer
 
     @Override
     public boolean isEmpty() {
-        return item.isEmpty();
+        return inventory.get(0).isEmpty();
     }
 
     @Override
     public ItemStack getItem(int i) {
-        return i == 0 ? item : ItemStack.EMPTY;
+        return inventory.get(i);
+    }
+
+    public void update() {
+        this.setChanged();
+        if(getLevel() != null) getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_ALL);
     }
 
     @Override
     public ItemStack removeItem(int i, int j) {
-        var item = removeItemNoUpdate(i);
-        update(j);
-        return item;
-    }
-
-    public void update(int j) {
-        this.setChanged();
-        if(getLevel() != null) getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), j);
+        ItemStack stack = ContainerHelper.removeItem(inventory, i, j);
+        update();
+        return stack;
     }
 
     @Override
     public ItemStack removeItemNoUpdate(int i) {
-        if (i == 0) {
-            ItemStack crystal = item;
-            item = ItemStack.EMPTY;
-            return crystal;
-        }
-        return ItemStack.EMPTY;
+        ItemStack stack = ContainerHelper.takeItem(inventory, i);
+        update();
+        return stack;
     }
 
     @Override
     public void setItem(int i, @NotNull ItemStack itemStack) {
-        if (i == 0) {
-            item = itemStack;
-            this.setChanged();
-        }
+        inventory.set(i, itemStack);
+        update();
     }
 
     @Override
     public void clearContent() {
-        item = ItemStack.EMPTY;
+        inventory.clear();
     }
 
     @Override
@@ -87,24 +85,18 @@ public class PedestalBlockEntity extends BlockEntity implements WorldlyContainer
     @Override
     public void load(@NotNull CompoundTag compoundTag) {
         super.load(compoundTag);
-        if (compoundTag.contains("item")) {
-            item = ItemStack.of(compoundTag.getCompound("item"));
-        }
+        ContainerHelper.loadAllItems(compoundTag, inventory);
     }
 
     @Override
     protected void saveAdditional(@NotNull CompoundTag compoundTag) {
         super.saveAdditional(compoundTag);
-        if (!item.isEmpty()) {
-            compoundTag.put("item", item.save(new CompoundTag()));
-        }
+        ContainerHelper.saveAllItems(compoundTag, inventory);
     }
 
     @Override
     public CompoundTag getUpdateTag() {
-        CompoundTag tag = new CompoundTag();
-        saveAdditional(tag);
-        return tag;
+        return saveWithoutMetadata();
     }
 
     @Override
@@ -114,17 +106,17 @@ public class PedestalBlockEntity extends BlockEntity implements WorldlyContainer
 
     @Override
     public int[] getSlotsForFace(@NotNull Direction direction) {
-        return new int[0];
+        return new int[]{0};
     }
 
     @Override
     public boolean canPlaceItemThroughFace(int i, @NotNull ItemStack itemStack, @Nullable Direction direction) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean canTakeItemThroughFace(int i, @NotNull ItemStack itemStack, @NotNull Direction direction) {
-        return false;
+        return true;
     }
 
     @Nullable

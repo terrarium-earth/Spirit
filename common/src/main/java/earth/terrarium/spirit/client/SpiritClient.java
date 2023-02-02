@@ -3,9 +3,9 @@ package earth.terrarium.spirit.client;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.client.renderer.block.PedestalRenderer;
+import earth.terrarium.spirit.client.renderer.block.SoulBasinRenderer;
 import earth.terrarium.spirit.client.renderer.block.SoulCageRenderer;
 import earth.terrarium.spirit.client.renderer.block.SummoningPedestalRenderer;
-import earth.terrarium.spirit.client.renderer.block.TransmutationBasinRenderer;
 import earth.terrarium.spirit.common.handlers.MobCrystalHandler;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
@@ -13,7 +13,6 @@ import earth.terrarium.spirit.common.registry.SpiritItems;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -26,8 +25,12 @@ public class SpiritClient {
         registerBlockEntityRenderers(SpiritBlockEntities.SOUL_CAGE.get(), SoulCageRenderer::new);
         registerBlockEntityRenderers(SpiritBlockEntities.PEDESTAL.get(), PedestalRenderer::new);
         registerBlockEntityRenderers(SpiritBlockEntities.SUMMONING_PEDESTAL.get(), SummoningPedestalRenderer::new);
-        registerBlockEntityRenderers(SpiritBlockEntities.TRANSMUTATION_BASIN.get(), TransmutationBasinRenderer::new);
+        registerBlockEntityRenderers(SpiritBlockEntities.SOUL_BASIN.get(), SoulBasinRenderer::new);
         registerRenderLayer(SpiritBlocks.SOUL_CAGE.get(), RenderType.cutout());
+        registerRenderLayer(SpiritBlocks.EARTH_FIRE.get(), RenderType.cutout());
+        registerRenderLayer(SpiritBlocks.EMBER_FIRE.get(), RenderType.cutout());
+        registerRenderLayer(SpiritBlocks.ENDER_FIRE.get(), RenderType.cutout());
+        registerRenderLayer(SpiritBlocks.WATER_FIRE.get(), RenderType.cutout());
     }
 
     @ExpectPlatform

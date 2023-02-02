@@ -61,7 +61,7 @@ public class RecipeUtils {
             markedIngredients.forEach((pos, stack) -> {
                 if(level.getBlockEntity(pos) instanceof PedestalBlockEntity pedestal) {
                     pedestal.getItem(0).shrink(1);
-                    pedestal.update(Block.UPDATE_ALL);
+                    pedestal.update();
                 }
             });
         }

@@ -7,7 +7,6 @@ import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.containers.SingleTypeContainer;
-import earth.terrarium.spirit.common.recipes.SummoningRecipe;
 import earth.terrarium.spirit.common.recipes.TransmutationRecipe;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.util.RecipeUtils;
@@ -24,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class TransmutationBasinBlockEntity extends BlockEntity implements SoulContainingObject.Block {
+public class SoulBasinBlockEntity extends BlockEntity implements SoulContainingObject.Block {
     @Nullable public Entity entity;
     private BlockEntitySoulContainer soulContainer;
 
@@ -33,8 +32,8 @@ public class TransmutationBasinBlockEntity extends BlockEntity implements SoulCo
     public int burnTime = 0;
     public int age;
 
-    public TransmutationBasinBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(SpiritBlockEntities.TRANSMUTATION_BASIN.get(), blockPos, blockState);
+    public SoulBasinBlockEntity(BlockPos blockPos, BlockState blockState) {
+        super(SpiritBlockEntities.SOUL_BASIN.get(), blockPos, blockState);
     }
 
     public void tick() {

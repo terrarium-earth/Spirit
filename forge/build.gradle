@@ -20,6 +20,8 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
     include modImplementation("com.teamresourceful.resourcefullib:resourcefullib-forge-$rootProject.resourcefullib_version")
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-forge:$jei_version") {exclude group: "mezz.jei"}
+    modRuntimeOnly("mezz.jei:jei-${project.minecraft_version}-forge:${project.jei_version}")
 }
 
 processResources {

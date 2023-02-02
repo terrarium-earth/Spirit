@@ -46,12 +46,12 @@ public class PedestalBlock extends BaseEntityBlock {
                 if (soulPedestal.isEmpty()) {
                     soulPedestal.setItem(0, itemStack.copy());
                     if (!player.getAbilities().instabuild) itemStack.setCount(0);
-                    soulPedestal.update(Block.UPDATE_ALL);
+                    soulPedestal.update();
                     return InteractionResult.SUCCESS;
                 } else if (itemStack.isEmpty()) {
                     ItemStack soulCrystal = soulPedestal.removeItemNoUpdate(0);
                     player.getInventory().placeItemBackInInventory(soulCrystal);
-                    soulPedestal.update(Block.UPDATE_ALL);
+                    soulPedestal.update();
                     return InteractionResult.SUCCESS;
                 }
             }

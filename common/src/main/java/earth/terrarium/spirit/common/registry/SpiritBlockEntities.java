@@ -7,7 +7,7 @@ import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.common.blockentity.PedestalBlockEntity;
 import earth.terrarium.spirit.common.blockentity.SoulCageBlockEntity;
 import earth.terrarium.spirit.common.blockentity.SummoningPedestalBlockEntity;
-import earth.terrarium.spirit.common.blockentity.TransmutationBasinBlockEntity;
+import earth.terrarium.spirit.common.blockentity.SoulBasinBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +26,7 @@ public class SpiritBlockEntities {
 
     public static final Supplier<BlockEntityType<PedestalBlockEntity>> PEDESTAL = BLOCK_ENTITIES.register("pedestal", () -> create(PedestalBlockEntity::new, SpiritBlocks.PEDESTAL.get()).build(null));
     public static final Supplier<BlockEntityType<SummoningPedestalBlockEntity>> SUMMONING_PEDESTAL = BLOCK_ENTITIES.register("summoning_pedestal", () -> create(SummoningPedestalBlockEntity::new, SpiritBlocks.SUMMONING_PEDESTAL.get()).build(null));
-    public static final Supplier<BlockEntityType<TransmutationBasinBlockEntity>> TRANSMUTATION_BASIN = BLOCK_ENTITIES.register("transmutation_basin", () -> create(TransmutationBasinBlockEntity::new, SpiritBlocks.TRANSMUTATION_BASIN.get()).build(null));
+    public static final Supplier<BlockEntityType<SoulBasinBlockEntity>> SOUL_BASIN = BLOCK_ENTITIES.register("soul_basin", () -> create(SoulBasinBlockEntity::new, SpiritBlocks.SOUL_BASIN.get()).build(null));
 
     @ExpectPlatform
     public static <T extends BlockEntity>BlockEntityType.Builder<T> create(BlockEntitySupplier<T> supplier, Block... blocks) {

@@ -4,7 +4,6 @@
   "package": "earth.terrarium.spirit.common.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "BaseFireBlockMixin",
     "ItemEntityMixin",
     "LivingEntityMixin"
   ],
