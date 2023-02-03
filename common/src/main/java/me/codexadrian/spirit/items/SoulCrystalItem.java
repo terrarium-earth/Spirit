@@ -47,6 +47,7 @@ public class SoulCrystalItem extends Item {
 
     private static List<Component> shiftToolTipComponents(@NotNull ItemStack itemStack, @Nullable Level level) {
         List<Component> list = new ArrayList<>();
+        if(level == null) return list;
         Tier tier = SoulUtils.getTier(itemStack, level);
         Component display = Component.translatable(tier == null ? SpiritConfig.getInitialTierName() : tier.displayName()).withStyle(ChatFormatting.GRAY);
         list.add(Component.translatable("misc.spirit.tier", display).withStyle(ChatFormatting.GRAY));
