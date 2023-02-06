@@ -10,6 +10,7 @@ import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.api.utils.SoulUtils;
 import earth.terrarium.spirit.common.config.SpiritConfig;
+import earth.terrarium.spirit.common.item.ElementalCrystalItem;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -76,6 +77,40 @@ public class SoulAbsorptionHandler {
                 }
             }
         }
+        return savedStack;
+    }
+
+    public static ItemStack getElementalCrystal(Player player, @Nullable LivingEntity victim) {
+        ItemStack savedStack = ItemStack.EMPTY;
+        /*
+        int savedSouls = 0;
+        for (var currentInventory : List.of(player.getHandSlots(), player.getInventory().items, player.getArmorSlots())) {
+            for(var currentItem : currentInventory) {
+                if (!(currentItem.getItem() instanceof ElementalCrystalItem crystal)) {
+                    continue;
+                }
+                SoulContainer container = crystal.getContainer(currentItem);
+                if (container == null) {
+                    continue;
+                }
+                if (container.insert(new SoulStack(victim == null ? null : victim.getType(), 1), InteractionMode.SIMULATE) == 1) {
+                    if (savedStack.isEmpty()) {
+                        savedStack = currentItem;
+                    } else {
+                        if (currentItem.getTag() != null) {
+                            //if the current savedStack either is empty or has some amount of souls in it. therefore any new crystal that's empty
+                            //is either equal to or worse than the saved stack, so the current item, if it is empty, should be skipped.
+                            int souls = container.getSoulStack(0).getAmount();
+                            if (souls > savedSouls || autoAbsorbing.getPriority() > ((AutoAbsorbing) savedStack.getItem()).getPriority()) {
+                                savedStack = currentItem;
+                                savedSouls = souls;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+         */
         return savedStack;
     }
 }

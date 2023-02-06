@@ -5,6 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teamresourceful.resourcefullib.common.codecs.recipes.IngredientCodec;
 import com.teamresourceful.resourcefullib.common.codecs.recipes.ItemStackCodec;
 import com.teamresourceful.resourcefullib.common.recipe.CodecRecipe;
+import earth.terrarium.botarium.common.fluid.base.FluidHolder;
+import earth.terrarium.botarium.common.fluid.utils.FluidIngredient;
 import earth.terrarium.spirit.api.storage.util.SoulIngredient;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
@@ -24,16 +26,16 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.Optional;
 
-public record TransmutationRecipe(ResourceLocation id, SoulIngredient entityInput, int inputAmount, Optional<Ingredient> activationItem, boolean consumesActivator, List<Ingredient> ingredients,
-                                  ItemStack output, int duration) implements CodecRecipe<Container> {
+public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> activationItem, boolean consumesActivator, List<SoulIngredient> entityInputs, List<Ingredient> itemInputs,
+                                  List<FluidIngredient> essenceInputs, ItemStack output, int duration) implements CodecRecipe<Container>, PedestalRecipe<ItemStack> {
     public static Codec<TransmutationRecipe> codec(ResourceLocation id) {
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(id),
-                SoulIngredient.CODEC.fieldOf("entityInput").forGetter(TransmutationRecipe::entityInput),
-                Codec.INT.fieldOf("inputAmount").forGetter(TransmutationRecipe::inputAmount),
                 IngredientCodec.CODEC.optionalFieldOf("activatorItem").forGetter(TransmutationRecipe::activationItem),
                 Codec.BOOL.fieldOf("consumesActivator").orElse(false).forGetter(TransmutationRecipe::consumesActivator),
-                IngredientCodec.CODEC.listOf().fieldOf("itemInputs").forGetter(TransmutationRecipe::ingredients),
+                SoulIngredient.CODEC.listOf().fieldOf("entityInput").forGetter(TransmutationRecipe::entityInputs),
+                IngredientCodec.CODEC.listOf().fieldOf("itemInputs").forGetter(TransmutationRecipe::itemInputs),
+                FluidIngredient.CODEC.listOf().fieldOf("essenceInputs").forGetter(TransmutationRecipe::essenceInputs),
                 ItemStackCodec.CODEC.fieldOf("itemOutput").forGetter(TransmutationRecipe::output),
                 Codec.INT.fieldOf("duration").orElse(60).forGetter(TransmutationRecipe::duration)
         ).apply(instance, TransmutationRecipe::new));
@@ -62,7 +64,7 @@ public record TransmutationRecipe(ResourceLocation id, SoulIngredient entityInpu
             } else {
                 stackMatches = stack.isEmpty();
             }
-            return recipe.entityInput.test(entity) && stackMatches && recipe.inputAmount <= entity.getAmount();
+            return recipe.entityInputs.test(entity) && stackMatches;
         }).toList();
     }
 

@@ -38,46 +38,6 @@ public class SoulBasinBlockEntity extends BlockEntity implements SoulContainingO
 
     public void tick() {
         this.age = (this.age + 1) % Integer.MAX_VALUE;
-        if (this.containedRecipe != null && this.level instanceof ServerLevel level) {
-            BlockPos blockPos = getBlockPos();
-            if (!RecipeUtils.validatePedestals(blockPos, level, this.containedRecipe.entityInput(), this.containedRecipe.inputAmount(), new ArrayList<>(this.containedRecipe.ingredients()), false)) {
-                this.setRecipe(null);
-                return;
-            }
-            if (this.burnTime < this.containedRecipe.duration()) {
-                for (int i = 0; i < 5; i++) {
-                    if(this.burnTime < this.containedRecipe.duration() * .5) {
-                        double percentage = 2 * this.burnTime / (double) this.containedRecipe.duration();
-                        level.addParticle(ParticleTypes.SOUL,
-                                blockPos.getX() + (3 * Math.sin(percentage * 2 * Math.PI)) + 0.5,
-                                blockPos.getY() + 0.75,
-                                blockPos.getZ() + (3 * Math.cos(percentage * 2 * Math.PI)) + 0.5,
-                                0,
-                                0,
-                                0
-                        );
-                    } else {
-                        double percentage = 2 * ((this.burnTime - this.containedRecipe.duration() * .5) / (double) this.containedRecipe.duration());
-                        level.addParticle(ParticleTypes.SOUL,
-                                blockPos.getX() + (3.0 * (1 - percentage) * Math.sin(percentage * 2 * Math.PI)) + 0.5,
-                                blockPos.getY() + 0.75,
-                                blockPos.getZ() + (3.0 * (1 - percentage) * Math.cos(percentage * 2 * Math.PI)) + 0.5,
-                                0,
-                                0,
-                                0
-                        );
-                    }
-                }
-            } else if (RecipeUtils.validatePedestals(blockPos, level, this.containedRecipe.entityInput(), this.containedRecipe.inputAmount(), new ArrayList<>(this.containedRecipe.ingredients()), true)) {
-                Entity entity = this.containedRecipe.createEntity(level, blockPos.getX() + 0.5, blockPos.getY() + 0.75, blockPos.getZ() + 0.5);
-                level.addFreshEntity(entity);
-                level.sendParticles(ParticleTypes.SOUL, entity.getX(), entity.getY(), entity.getZ(), 10, 0, 0, 0, 0);
-                this.getContainer().extract(new SoulStack(this.getContainer().getSoulStack(0).getEntity(), containedRecipe.inputAmount()), InteractionMode.NO_TAKE_BACKSIES);
-                level.sendBlockUpdated(blockPos, getBlockState(), getBlockState(), net.minecraft.world.level.block.Block.UPDATE_ALL);
-                this.setRecipe(null);
-            }
-            this.burnTime++;
-        }
     }
 
     @Override

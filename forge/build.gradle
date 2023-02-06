@@ -22,6 +22,8 @@ dependencies {
     include modImplementation("com.teamresourceful.resourcefullib:resourcefullib-forge-$rootProject.resourcefullib_version")
     modCompileOnly("mezz.jei:jei-${minecraft_version}-forge:$jei_version") {exclude group: "mezz.jei"}
     modRuntimeOnly("mezz.jei:jei-${project.minecraft_version}-forge:${project.jei_version}")
+
+    modApi "earth.terrarium:botarium-forge-$rootProject.minecraft_version:$rootProject.botarium_version"
 }
 
 processResources {

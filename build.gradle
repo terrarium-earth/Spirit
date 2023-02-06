@@ -30,6 +30,12 @@ allprojects {
     group = rootProject.maven_group
 
     repositories {
+        maven {
+            url "https://cursemaven.com"
+            content {
+                includeGroup "curse.maven"
+            }
+        }
         maven { url "https://nexus.resourcefulbees.com/repository/maven-public/" }
     }
 
