@@ -25,18 +25,17 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.Optional;
 
-public record SummoningRecipe(ResourceLocation id, SoulIngredient entityInput, int inputAmount, Optional<Ingredient> activationItem, boolean consumesActivator, List<Ingredient> ingredients,
-                              EntityType<?> entityOutput, int duration,
-                              Optional<CompoundTag> outputNbt) implements CodecRecipe<Container> {
+public record SummoningRecipe(ResourceLocation id, List<SoulIngredient> entityInputs, Optional<Ingredient> activationItem, boolean consumesActivator, List<Ingredient> itemInputs,
+                              EntityType<?> output, int duration,
+                              Optional<CompoundTag> outputNbt) implements CodecRecipe<Container>, PedestalRecipe<EntityType<?>> {
     public static Codec<SummoningRecipe> codec(ResourceLocation id) {
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(id),
-                SoulIngredient.CODEC.fieldOf("entityInput").forGetter(SummoningRecipe::entityInput),
-                Codec.INT.fieldOf("inputAmount").forGetter(SummoningRecipe::inputAmount),
+                SoulIngredient.CODEC.listOf().fieldOf("entityInput").forGetter(SummoningRecipe::entityInputs),
                 IngredientCodec.CODEC.optionalFieldOf("activatorItem").forGetter(SummoningRecipe::activationItem),
                 Codec.BOOL.fieldOf("consumesActivator").orElse(false).forGetter(SummoningRecipe::consumesActivator),
-                IngredientCodec.CODEC.listOf().fieldOf("itemInputs").forGetter(SummoningRecipe::ingredients),
-                BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("entityOutput").forGetter(SummoningRecipe::entityOutput),
+                IngredientCodec.CODEC.listOf().fieldOf("itemInputs").forGetter(SummoningRecipe::itemInputs),
+                BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("entityOutput").forGetter(SummoningRecipe::output),
                 Codec.INT.fieldOf("duration").orElse(60).forGetter(SummoningRecipe::duration),
                 CompoundTag.CODEC.optionalFieldOf("outputNbt").forGetter(SummoningRecipe::outputNbt)
         ).apply(instance, SummoningRecipe::new));
@@ -65,7 +64,7 @@ public record SummoningRecipe(ResourceLocation id, SoulIngredient entityInput, i
             } else {
                 stackMatches = stack.isEmpty();
             }
-            return recipe.entityInput.test(entity) && stackMatches && recipe.inputAmount <= entity.getAmount();
+            return stackMatches;
         }).toList();
     }
 

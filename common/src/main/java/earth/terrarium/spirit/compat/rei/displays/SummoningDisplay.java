@@ -18,7 +18,7 @@ public class SummoningDisplay extends BasicDisplay {
     private final SummoningRecipe recipe;
     
     public SummoningDisplay(SummoningRecipe recipe) {
-        super(EntryIngredients.ofIngredients(recipe.ingredients()),
+        super(EntryIngredients.ofIngredients(recipe.getIngredients()),
                 List.of(createEntityOutput(recipe)), Optional.ofNullable(recipe.getId()));
         this.recipe = recipe;
     }
@@ -31,7 +31,7 @@ public class SummoningDisplay extends BasicDisplay {
         var nbt = new CompoundTag();
         nbt.putBoolean("Corrupted", true);
         return EntryIngredient.of(EntryStack.of(SpiritPlugin.ENTITY_INGREDIENT,
-                new EntityIngredient(recipe.entityOutput(), -45F, Optional.of(nbt))));
+                new EntityIngredient(recipe.output(), -45F, Optional.of(nbt))));
     }
     
     @Override

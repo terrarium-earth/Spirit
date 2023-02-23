@@ -51,19 +51,19 @@ public class PedestalRecipeCategory extends BaseCategory<SummoningRecipe> {
 
     @Override
     public void setRecipe(@NotNull IRecipeLayoutBuilder builder, SummoningRecipe recipe, @NotNull IFocusGroup focuses) {
-        for (int i = 0; i < Math.min(recipe.ingredients().size(), 8); i++) {
-            builder.addSlot(RecipeIngredientRole.INPUT, slots.get(i)[0], slots.get(i)[1]).addIngredients(recipe.ingredients().get(i));
+        for (int i = 0; i < Math.min(recipe.getIngredients().size(), 8); i++) {
+            builder.addSlot(RecipeIngredientRole.INPUT, slots.get(i)[0], slots.get(i)[1]).addIngredients(recipe.getIngredients().get(i));
         }
         var nbt = new CompoundTag();
         nbt.putBoolean("Corrupted", true);
-        var entityTypes = recipe.entityInput().getRawValues().stream().map(value -> value.left().<SoulIngredient.Value>map(entityValue -> entityValue).orElseGet(value.right()::get)).flatMap(value -> value.getSouls().stream()).map(type -> new EntityIngredient(type.getEntity(), 45F, Optional.of(nbt))).toList();
+        var entityTypes = recipe.entityInputs().stream().flatMap(soulIngredient -> soulIngredient.getRawValues().stream().flatMap(either -> either.left().isPresent() ? either.left().get().getSouls().stream() : either.right().get().getSouls().stream())).map(entityType -> new EntityIngredient(entityType.getEntity(), -45F, Optional.of(nbt))).toList();
         if(recipe.activationItem().isPresent()) {
             builder.addSlot(RecipeIngredientRole.CATALYST, 93, 21).addIngredients(recipe.activationItem().get()).addTooltipCallback((recipeSlotView, tooltip) -> {
                 if(recipe.consumesActivator()) tooltip.add(Component.translatable("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));
             });
         }
         builder.addSlot(RecipeIngredientRole.INPUT, 28, 37).addIngredients(SpiritPlugin.ENTITY_INGREDIENT, entityTypes).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 124, 37).addIngredient(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.entityOutput(), -45F, recipe.outputNbt())).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 124, 37).addIngredient(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.output(), -45F, recipe.outputNbt())).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
     }
 
     @Override

@@ -1,9 +1,5 @@
 package earth.terrarium.spirit.common.item;
 
-import earth.terrarium.botarium.common.fluid.base.FluidAttachment;
-import earth.terrarium.botarium.common.fluid.impl.SimpleFluidContainer;
-import earth.terrarium.botarium.common.fluid.impl.WrappedItemFluidContainer;
-import earth.terrarium.botarium.common.fluid.utils.FluidHooks;
 import earth.terrarium.spirit.api.elements.SoulElement;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -21,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 
-public class ElementalCrystalItem extends Item implements FluidAttachment.Item {
+public class ElementalCrystalItem extends Item {
     private final SoulElement element;
     public ElementalCrystalItem(SoulElement element, Properties properties) {
         super(properties);
@@ -55,10 +51,5 @@ public class ElementalCrystalItem extends Item implements FluidAttachment.Item {
             level.gameEvent(player, GameEvent.BLOCK_CHANGE, blockPos);
             return InteractionResult.sidedSuccess(level.isClientSide());
         }
-    }
-
-    @Override
-    public WrappedItemFluidContainer getFluidContainer(ItemStack holder) {
-        return new WrappedItemFluidContainer(holder, new SimpleFluidContainer(FluidHooks.buckets(1), 1, (integer, fluidHolder) -> fluidHolder.getFluid().is(element.getFluid())));
     }
 }

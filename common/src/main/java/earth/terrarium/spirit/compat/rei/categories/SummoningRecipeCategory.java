@@ -75,13 +75,13 @@ public class SummoningRecipeCategory implements DisplayCategory<SummoningDisplay
         widgets.add(Widgets.createTexturedWidget(GUI_BACKGROUND, startX, startY, 150, 100));
         var recipe = display.recipe();
 
-        for (int i = 0; i < Math.min(recipe.ingredients().size(), 8); i++) {
-            widgets.add(Widgets.createSlot(new Point(startX + slots.get(i)[0], startY + slots.get(i)[1])).markInput().entries(EntryIngredients.ofIngredient(recipe.ingredients().get(i))));
+        for (int i = 0; i < Math.min(recipe.getIngredients().size(), 8); i++) {
+            widgets.add(Widgets.createSlot(new Point(startX + slots.get(i)[0], startY + slots.get(i)[1])).markInput().entries(EntryIngredients.ofIngredient(recipe.getIngredients().get(i))));
         }
 
         var nbt = new CompoundTag();
         nbt.putBoolean("Corrupted", true);
-        var entityTypes = recipe.entityInput().getRawValues().stream().map(value -> value.left().<SoulIngredient.Value>map(entityValue -> entityValue).orElseGet(value.right()::get)).flatMap(value -> value.getSouls().stream()).map(type -> new EntityIngredient(type.getEntity(), 45F, Optional.of(nbt))).toList();
+        var entityTypes = recipe.entityInputs().stream().flatMap(soulIngredient -> soulIngredient.getRawValues().stream().flatMap(either -> either.left().isPresent() ? either.left().get().getSouls().stream() : either.right().get().getSouls().stream())).map(entityType -> new EntityIngredient(entityType.getEntity(), -45F, Optional.of(nbt))).toList();
         if(recipe.activationItem().isPresent()) {
             widgets.add(Widgets.createSlot(new Point(startX + 93, startY + 21)).entries(EntryIngredients.ofIngredient(recipe.activationItem().get()).map(stack -> {
                 if (recipe.consumesActivator()) {
@@ -94,7 +94,7 @@ public class SummoningRecipeCategory implements DisplayCategory<SummoningDisplay
             widgets.add(Widgets.createTooltip(new Rectangle(startX + 93, startY + 21, 18, 18), Component.translatable("spirit.jei.soul_transmutation.empty_hand")));
         }
         widgets.add(Widgets.createSlot(new Rectangle(startX + 28 - 1, startY + 37 - 1, 26, 26)).markInput().disableBackground().entries(EntryIngredients.of(SpiritPlugin.ENTITY_INGREDIENT, entityTypes)));
-        widgets.add(Widgets.createSlot(new Rectangle(startX + 124 - 1, startY + 37 - 1, 26, 26)).markOutput().disableBackground().entry(EntryStack.of(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.entityOutput(), -45F, Optional.empty()))));
+        widgets.add(Widgets.createSlot(new Rectangle(startX + 124 - 1, startY + 37 - 1, 26, 26)).markOutput().disableBackground().entry(EntryStack.of(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.output(), -45F, Optional.empty()))));
 
         return widgets;
     }

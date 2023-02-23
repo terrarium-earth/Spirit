@@ -70,7 +70,7 @@ public class SoulBasinBlock extends BaseEntityBlock {
                     var recipes = TransmutationRecipe.getRecipesForEntity(soulPedestal.getContainer().getSoulStack(0), stack, level.getRecipeManager());
                     if (!recipes.isEmpty()) {
                         for (var recipe : recipes) {
-                            if (RecipeUtils.validatePedestals(blockPos, level, recipe.entityInput(), recipe.inputAmount(), new ArrayList<>(recipe.ingredients()), false)) {
+                            if (RecipeUtils.validatePedestals(blockPos, level, recipe, false)) {
                                 soulPedestal.setRecipe(recipe);
                                 if (recipe.consumesActivator()) stack.shrink(1);
                                 return InteractionResult.sidedSuccess(level.isClientSide());

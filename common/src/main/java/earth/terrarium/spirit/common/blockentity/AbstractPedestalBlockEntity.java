@@ -8,6 +8,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -67,17 +69,6 @@ public abstract class AbstractPedestalBlockEntity<T extends Recipe<?> & Pedestal
                 }
             } else if (RecipeUtils.validatePedestals(blockPos, level, containedRecipe, true)) {
                 finishRecipe();
-                /*
-                Entity entity = this.containedRecipe.entityOutput().create(level);
-                if (entity != null) {
-                    entity.setPos(blockPos.getX() + 0.5, blockPos.getY() + 0.75, blockPos.getZ() + 0.5);
-                    if(this.containedRecipe.outputNbt().isPresent()) entity.load(this.containedRecipe.outputNbt().get());
-                    level.addFreshEntity(entity);
-                    for (int i = 0; i < 10; i++) {
-                        level.addParticle(ParticleTypes.SOUL, entity.getX(), entity.getY(), entity.getZ(), 0, 0, 0);
-                    }
-                    this.getContainer().extract(new SoulStack(this.getContainer().getSoulStack(0).getEntity(), containedRecipe.inputAmount()), InteractionMode.NO_TAKE_BACKSIES);
-                } */
                 level.sendBlockUpdated(blockPos, getBlockState(), getBlockState(), net.minecraft.world.level.block.Block.UPDATE_ALL);
                 this.setRecipe(null);
             }
@@ -90,12 +81,17 @@ public abstract class AbstractPedestalBlockEntity<T extends Recipe<?> & Pedestal
     @Override
     protected void saveAdditional(CompoundTag compoundTag) {
         super.saveAdditional(compoundTag);
-        containedRecipe = getLevel().getRecipeManager().getAllRecipesFor(recipeType).orElse(null);
+        if (containedRecipe != null) {
+            compoundTag.putString("Recipe", containedRecipe.getId().toString());
+        }
     }
 
     @Override
     public void load(CompoundTag compoundTag) {
         super.load(compoundTag);
+        if (compoundTag.contains("Recipe")) {
+            containedRecipe = (T) getLevel().getRecipeManager().byKey(new ResourceLocation(compoundTag.getString("Recipe"))).orElse(null);
+        }
     }
 
     @Override
