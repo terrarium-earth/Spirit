@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public abstract class AbstractPedestalBlockEntity<T extends Recipe<?> & PedestalRecipe<?>> extends BlockEntity {
+public abstract class AbstractPedestalBlockEntity<T extends PedestalRecipe<?>> extends BlockEntity {
     @Nullable public Entity entity;
     private BlockEntitySoulContainer soulContainer;
 

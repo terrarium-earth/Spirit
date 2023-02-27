@@ -18,10 +18,9 @@ import java.util.Map;
 
 public class RecipeUtils {
 
-
-    public static boolean validatePedestals(BlockPos blockPos, Level level, PedestalRecipe<?> recipe, boolean consumeItems) {
+    //get items and souls in the pedestals nearby
+    public static Map<BlockPos, ItemStack> getPedestalItems(BlockPos blockPos, Level level) {
         Map<BlockPos, ItemStack> ingredients = new HashMap<>();
-        Map<BlockPos, ItemStack> markedIngredients = new HashMap<>();
         AABB box = new AABB(blockPos).inflate(3,0,3);
         BlockPos.betweenClosedStream(box).forEach(pos -> {
             if(level.getBlockEntity(pos) instanceof PedestalBlockEntity pedestal) {
@@ -30,16 +29,25 @@ public class RecipeUtils {
                 }
             }
         });
+        return ingredients;
+    }
 
-        Map<BlockPos, SoulStack> soulIngredients = new HashMap<>();
-        Map<BlockPos, SoulStack> markedSoulIngredients = new HashMap<>();
+    public static Map<BlockPos, SoulStack> getPedestalSouls(BlockPos blockPos, Level level) {
+        Map<BlockPos, SoulStack> ingredients = new HashMap<>();
+        AABB box = new AABB(blockPos).inflate(3,0,3);
         BlockPos.betweenClosedStream(box).forEach(pos -> {
             if(level.getBlockEntity(pos) instanceof SoulBasinBlockEntity basinBlock) {
                 if(!basinBlock.getContainer().isEmpty()) {
-                    soulIngredients.put(pos, basinBlock.getContainer().getSoulStack(0));
+                    ingredients.put(pos, basinBlock.getContainer().getSoulStack(0));
                 }
             }
         });
+        return ingredients;
+    }
+
+    public static boolean validatePedestals(Level level, PedestalRecipe<?> recipe, Map<BlockPos, ItemStack> ingredients, Map<BlockPos, SoulStack> soulIngredients, boolean consumeItems) {
+        Map<BlockPos, ItemStack> markedIngredients = new HashMap<>();
+        Map<BlockPos, SoulStack> markedSoulIngredients = new HashMap<>();
 
         List<Ingredient> recipeIngredients = recipe.itemInputs();
         ingredients.forEach((pos, stack) -> {
@@ -80,5 +88,9 @@ public class RecipeUtils {
         }
 
         return true;
+    }
+
+    public static boolean validatePedestals(BlockPos pos, Level level, PedestalRecipe<?> recipe, boolean consumeItems) {
+        return validatePedestals(level, recipe, getPedestalItems(pos, level), getPedestalSouls(pos, level), consumeItems);
     }
 }

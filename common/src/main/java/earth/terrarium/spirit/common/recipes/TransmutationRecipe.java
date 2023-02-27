@@ -8,6 +8,7 @@ import com.teamresourceful.resourcefullib.common.recipe.CodecRecipe;
 import earth.terrarium.spirit.api.storage.util.SoulIngredient;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -22,15 +23,15 @@ import java.util.List;
 import java.util.Optional;
 
 public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> activationItem, boolean consumesActivator, List<SoulIngredient> entityInputs, List<Ingredient> itemInputs,
-                                  ItemStack output, int duration) implements CodecRecipe<Container>, PedestalRecipe<ItemStack> {
+                                  ItemStack result, int duration) implements CodecRecipe<Container>, PedestalRecipe<ItemStack> {
     public static Codec<TransmutationRecipe> codec(ResourceLocation id) {
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(id),
                 IngredientCodec.CODEC.optionalFieldOf("activatorItem").forGetter(TransmutationRecipe::activationItem),
                 Codec.BOOL.fieldOf("consumesActivator").orElse(false).forGetter(TransmutationRecipe::consumesActivator),
-                SoulIngredient.CODEC.listOf().fieldOf("entityInput").forGetter(TransmutationRecipe::entityInputs),
+                SoulIngredient.CODEC.listOf().fieldOf("entityInputs").forGetter(TransmutationRecipe::entityInputs),
                 IngredientCodec.CODEC.listOf().fieldOf("itemInputs").forGetter(TransmutationRecipe::itemInputs),
-                ItemStackCodec.CODEC.fieldOf("itemOutput").forGetter(TransmutationRecipe::output),
+                ItemStackCodec.CODEC.fieldOf("result").forGetter(TransmutationRecipe::result),
                 Codec.INT.fieldOf("duration").orElse(60).forGetter(TransmutationRecipe::duration)
         ).apply(instance, TransmutationRecipe::new));
     }
@@ -58,6 +59,7 @@ public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> acti
             } else {
                 stackMatches = stack.isEmpty();
             }
+
             return stackMatches;
         }).toList();
     }
@@ -67,6 +69,6 @@ public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> acti
     }
 
     public ItemEntity createEntity(Level level, double x, double y, double z) {
-        return new ItemEntity(level, x, y, z, output.copy());
+        return new ItemEntity(level, x, y, z, result.copy());
     }
 }

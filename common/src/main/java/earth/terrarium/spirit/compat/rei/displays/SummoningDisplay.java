@@ -31,7 +31,7 @@ public class SummoningDisplay extends BasicDisplay {
         var nbt = new CompoundTag();
         nbt.putBoolean("Corrupted", true);
         return EntryIngredient.of(EntryStack.of(SpiritPlugin.ENTITY_INGREDIENT,
-                new EntityIngredient(recipe.output(), -45F, Optional.of(nbt))));
+                new EntityIngredient(recipe.result(), -45F, Optional.of(nbt))));
     }
     
     @Override

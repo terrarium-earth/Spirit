@@ -1,7 +1,6 @@
 package earth.terrarium.spirit.compat.rei.categories;
 
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.api.storage.util.SoulIngredient;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import earth.terrarium.spirit.compat.common.EntityIngredient;
 import earth.terrarium.spirit.compat.rei.SpiritPlugin;
@@ -17,7 +16,6 @@ import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -94,7 +92,7 @@ public class SummoningRecipeCategory implements DisplayCategory<SummoningDisplay
             widgets.add(Widgets.createTooltip(new Rectangle(startX + 93, startY + 21, 18, 18), Component.translatable("spirit.jei.soul_transmutation.empty_hand")));
         }
         widgets.add(Widgets.createSlot(new Rectangle(startX + 28 - 1, startY + 37 - 1, 26, 26)).markInput().disableBackground().entries(EntryIngredients.of(SpiritPlugin.ENTITY_INGREDIENT, entityTypes)));
-        widgets.add(Widgets.createSlot(new Rectangle(startX + 124 - 1, startY + 37 - 1, 26, 26)).markOutput().disableBackground().entry(EntryStack.of(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.output(), -45F, Optional.empty()))));
+        widgets.add(Widgets.createSlot(new Rectangle(startX + 124 - 1, startY + 37 - 1, 26, 26)).markOutput().disableBackground().entry(EntryStack.of(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.result(), -45F, Optional.empty()))));
 
         return widgets;
     }

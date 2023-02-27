@@ -1,9 +1,7 @@
 package earth.terrarium.spirit.compat.jei.categories;
 
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.api.storage.util.SoulIngredient;
 import earth.terrarium.spirit.common.recipes.SummoningRecipe;
-import earth.terrarium.spirit.common.recipes.TransmutationRecipe;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import earth.terrarium.spirit.compat.common.EntityIngredient;
 import earth.terrarium.spirit.compat.jei.SpiritPlugin;
@@ -16,7 +14,6 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -63,7 +60,7 @@ public class PedestalRecipeCategory extends BaseCategory<SummoningRecipe> {
             });
         }
         builder.addSlot(RecipeIngredientRole.INPUT, 28, 37).addIngredients(SpiritPlugin.ENTITY_INGREDIENT, entityTypes).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 124, 37).addIngredient(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.output(), -45F, recipe.outputNbt())).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 124, 37).addIngredient(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.result(), -45F, recipe.outputNbt())).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
     }
 
     @Override
