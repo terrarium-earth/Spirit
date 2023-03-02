@@ -32,12 +32,12 @@ public abstract class LivingEntityMixin extends Entity implements SoulfulCreatur
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readCorrupted(CompoundTag compoundTag, CallbackInfo ci) {
-        setIfSoulless(compoundTag.getBoolean(SoulUtils.SOULFUL_TAG));
+        setIfSoulless(compoundTag.getBoolean(SoulUtils.SOULLESS_TAG));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void saveCorrupted(CompoundTag compoundTag, CallbackInfo ci) {
-        compoundTag.putBoolean(SoulUtils.SOULFUL_TAG, isSoulless());
+        compoundTag.putBoolean(SoulUtils.SOULLESS_TAG, isSoulless());
     }
 
     @Override

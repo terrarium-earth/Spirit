@@ -48,10 +48,10 @@ public class EntityIngredientRenderer implements EntryRenderer<EntityIngredient>
         Minecraft mc = Minecraft.getInstance();
 
         if (mc.player != null) {
-            var scaledSize = 20 / (Math.max(entity.getBbWidth(), entity.getBbHeight()));
+            var scaledSize = 12 / (Math.max(entity.getBbWidth(), entity.getBbHeight()));
             entity.tickCount = mc.player.tickCount;
             matrixStack.pushPose();
-            matrixStack.translate(14, 20 * renderScale + 4, 0.5);
+            matrixStack.translate(10, 20 * renderScale - 6, 0.5);
             matrixStack.translate(x, y, 1);
             matrixStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
             matrixStack.translate(0, 0, 100);

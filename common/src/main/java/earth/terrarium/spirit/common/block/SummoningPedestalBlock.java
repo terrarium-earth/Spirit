@@ -2,11 +2,15 @@ package earth.terrarium.spirit.common.block;
 
 import earth.terrarium.spirit.common.blockentity.SummoningPedestalBlockEntity;
 import earth.terrarium.spirit.common.recipes.SummoningRecipe;
+import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -24,6 +28,12 @@ public class SummoningPedestalBlock extends BasePedestalBlock<SummoningRecipe> {
 
     public SummoningPedestalBlock(Properties properties) {
         super(SpiritRecipes.SUMMONING.get(), properties);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+        return createTickerHelper(blockEntityType, SpiritBlockEntities.SUMMONING_PEDESTAL.get(), (level1, blockPos, blockState1, blockEntity) -> blockEntity.tick());
     }
 
     @Nullable

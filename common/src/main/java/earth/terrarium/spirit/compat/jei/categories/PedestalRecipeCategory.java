@@ -1,6 +1,7 @@
 package earth.terrarium.spirit.compat.jei.categories;
 
 import earth.terrarium.spirit.Spirit;
+import earth.terrarium.spirit.api.storage.util.SoulIngredient;
 import earth.terrarium.spirit.common.recipes.SummoningRecipe;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import earth.terrarium.spirit.compat.common.EntityIngredient;
@@ -53,7 +54,7 @@ public class PedestalRecipeCategory extends BaseCategory<SummoningRecipe> {
         }
         var nbt = new CompoundTag();
         nbt.putBoolean("Corrupted", true);
-        var entityTypes = recipe.entityInputs().stream().flatMap(soulIngredient -> soulIngredient.getRawValues().stream().flatMap(either -> either.left().isPresent() ? either.left().get().getSouls().stream() : either.right().get().getSouls().stream())).map(entityType -> new EntityIngredient(entityType.getEntity(), -45F, Optional.of(nbt))).toList();
+        var entityTypes = recipe.entityInputs().stream().flatMap(SoulIngredient::getEntities).map(entityType -> new EntityIngredient(entityType, -45F, Optional.of(nbt))).toList();
         if(recipe.activationItem().isPresent()) {
             builder.addSlot(RecipeIngredientRole.CATALYST, 93, 21).addIngredients(recipe.activationItem().get()).addTooltipCallback((recipeSlotView, tooltip) -> {
                 if(recipe.consumesActivator()) tooltip.add(Component.translatable("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));

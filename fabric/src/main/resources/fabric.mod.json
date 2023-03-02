@@ -20,6 +20,12 @@
     ],
     "client": [
       "earth.terrarium.spirit.client.fabric.SpiritClientFabric"
+    ],
+    "jei_mod_plugin": [
+      "earth.terrarium.spirit.compat.jei.SpiritPlugin"
+    ],
+    "rei_client": [
+      "earth.terrarium.spirit.compat.rei.SpiritPlugin"
     ]
   },
   "accessWidener": "spirit.accesswidener",

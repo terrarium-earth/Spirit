@@ -1,12 +1,12 @@
 package earth.terrarium.spirit.compat.rei.categories;
 
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.api.storage.util.SoulIngredient;
 import earth.terrarium.spirit.api.utils.SoulUtils;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import earth.terrarium.spirit.compat.common.EntityIngredient;
 import earth.terrarium.spirit.compat.rei.SpiritPlugin;
 import earth.terrarium.spirit.compat.rei.displays.SummoningDisplay;
+import earth.terrarium.spirit.compat.rei.displays.TransmutationDisplay;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -26,14 +26,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SummoningRecipeCategory implements DisplayCategory<SummoningDisplay> {
+public class TransmutationRecipeCategory implements DisplayCategory<TransmutationDisplay> {
     public static final ResourceLocation GUI_BACKGROUND = new ResourceLocation(Spirit.MODID, "textures/gui/soul_transmutation.png");
-    public static final ResourceLocation ID = new ResourceLocation(Spirit.MODID, "summoning");
-    public static final CategoryIdentifier<SummoningDisplay> RECIPE = CategoryIdentifier.of(ID);
+    public static final ResourceLocation ID = new ResourceLocation(Spirit.MODID, "transmutation");
+    public static final CategoryIdentifier<TransmutationDisplay> RECIPE = CategoryIdentifier.of(ID);
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(SpiritBlocks.SUMMONING_PEDESTAL.get().asItem().getDefaultInstance());
+        return EntryStacks.of(SpiritBlocks.TRANSMUTATION_PEDESTAL.get().asItem().getDefaultInstance());
     }
 
     @Override
@@ -42,12 +42,12 @@ public class SummoningRecipeCategory implements DisplayCategory<SummoningDisplay
     }
 
     @Override
-    public CategoryIdentifier<? extends SummoningDisplay> getCategoryIdentifier() {
+    public CategoryIdentifier<? extends TransmutationDisplay> getCategoryIdentifier() {
         return RECIPE;
     }
 
     @Override
-    public int getDisplayWidth(SummoningDisplay display) {
+    public int getDisplayWidth(TransmutationDisplay display) {
         return 150 + 8;
     }
 
@@ -57,7 +57,7 @@ public class SummoningRecipeCategory implements DisplayCategory<SummoningDisplay
     }
 
     @Override
-    public List<Widget> setupDisplay(SummoningDisplay display, Rectangle bounds) {
+    public List<Widget> setupDisplay(TransmutationDisplay display, Rectangle bounds) {
         var widgets = new ArrayList<Widget>();
         widgets.add(Widgets.createRecipeBase(bounds));
         var startX = bounds.getCenterX() - 150 / 2;
@@ -99,7 +99,7 @@ public class SummoningRecipeCategory implements DisplayCategory<SummoningDisplay
         } else {
             widgets.add(Widgets.createTooltip(new Rectangle(startX + 32, startY + 40, 18, 18), Component.translatable("spirit.jei.soul_transmutation.empty_hand")));
         }
-        widgets.add(Widgets.createSlot(new Rectangle(startX + 124 - 1, startY + 40 - 1, 18, 18)).markOutput().disableBackground().entry(EntryStack.of(SpiritPlugin.ENTITY_INGREDIENT, new EntityIngredient(recipe.result(), -45F, Optional.empty()))));
+        widgets.add(Widgets.createSlot(new Point(startX + 124, startY + 40)).markOutput().disableBackground().entry(EntryStacks.of(recipe.result())));
         return widgets;
     }
 }

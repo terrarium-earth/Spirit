@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class SoulUtils {
-    public static final String SOULFUL_TAG = "Soulless";
+    public static final String SOULLESS_TAG = "Soulless";
 
     public static boolean isAllowed(ItemStack stack, TagKey<EntityType<?>> blacklistTag) {
         if(stack.getItem() instanceof SoulContainingObject.Item crystal) {

@@ -1,6 +1,7 @@
 package earth.terrarium.spirit.common.blockentity;
 
 import earth.terrarium.spirit.common.recipes.TransmutationRecipe;
+import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -10,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class TransmutationPedestalBlockEntity extends AbstractPedestalBlockEntity<TransmutationRecipe> {
     public TransmutationPedestalBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(SpiritRecipes.TRANSMUTATION.get(), blockPos, blockState);
+        super(SpiritBlockEntities.TRANSMUTATION_PEDESTAL.get(), blockPos, blockState, SpiritRecipes.TRANSMUTATION.get());
     }
 
     @Override

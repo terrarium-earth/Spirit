@@ -14,6 +14,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +22,6 @@ import java.util.ArrayList;
 
 public abstract class AbstractPedestalBlockEntity<T extends PedestalRecipe<?>> extends BlockEntity {
     @Nullable public Entity entity;
-    private BlockEntitySoulContainer soulContainer;
 
     @Nullable
     public T containedRecipe;
@@ -30,8 +30,8 @@ public abstract class AbstractPedestalBlockEntity<T extends PedestalRecipe<?>> e
     public int burnTime = 0;
     public int age;
 
-    public AbstractPedestalBlockEntity(RecipeType<T> recipeType, BlockPos blockPos, BlockState blockState) {
-        super(SpiritBlockEntities.SUMMONING_PEDESTAL.get(), blockPos, blockState);
+    public AbstractPedestalBlockEntity(BlockEntityType<?> entity, BlockPos blockPos, BlockState blockState, RecipeType<T> recipeType) {
+        super(entity, blockPos, blockState);
         this.recipeType = recipeType;
     }
 
@@ -44,28 +44,16 @@ public abstract class AbstractPedestalBlockEntity<T extends PedestalRecipe<?>> e
                 return;
             }
             if (this.burnTime < this.containedRecipe.duration()) {
-                for (int i = 0; i < 5; i++) {
-                    if(this.burnTime < this.containedRecipe.duration() * .5) {
-                        double percentage = 2 * this.burnTime / (double) this.containedRecipe.duration();
-                        level.addParticle(ParticleTypes.SOUL,
-                                blockPos.getX() + (3 * Math.sin(percentage * 2 * Math.PI)) + 0.5,
-                                blockPos.getY() + 0.75,
-                                blockPos.getZ() + (3 * Math.cos(percentage * 2 * Math.PI)) + 0.5,
-                                0,
-                                0,
-                                0
-                        );
-                    } else {
-                        double percentage = 2 * ((this.burnTime - this.containedRecipe.duration() * .5) / (double) this.containedRecipe.duration());
-                        level.addParticle(ParticleTypes.SOUL,
-                                blockPos.getX() + (3.0 * (1 - percentage) * Math.sin(percentage * 2 * Math.PI)) + 0.5,
-                                blockPos.getY() + 0.75,
-                                blockPos.getZ() + (3.0 * (1 - percentage) * Math.cos(percentage * 2 * Math.PI)) + 0.5,
-                                0,
-                                0,
-                                0
-                        );
-                    }
+                double percentage = this.burnTime / (double) this.containedRecipe.duration();
+                for (double increment = 0; increment < percentage; increment += 0.1) {
+                    level.addParticle(ParticleTypes.SOUL,
+                            blockPos.getX() + 0.75 * Math.sin(increment * 2 * Math.PI) + 0.5,
+                            blockPos.getY() + 1.25,
+                            blockPos.getZ() + 0.75 * Math.cos(increment * 2 * Math.PI) + 0.5,
+                            0,
+                            0,
+                            0
+                    );
                 }
             } else if (RecipeUtils.validatePedestals(blockPos, level, containedRecipe, true)) {
                 finishRecipe();

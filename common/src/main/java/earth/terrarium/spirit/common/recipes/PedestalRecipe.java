@@ -5,10 +5,12 @@ import earth.terrarium.spirit.api.storage.util.SoulIngredient;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,5 +32,14 @@ public interface PedestalRecipe<T> extends CodecRecipe<Container> {
             }
             return stackMatches;
         }).toList();
+    }
+
+    default List<Ingredient> getAllInputs() {
+        List<Ingredient> inputs = new ArrayList<>(itemInputs());
+        if (activationItem().isPresent()) {
+            inputs.add(activationItem().get());
+        }
+        inputs.addAll(entityInputs().stream().flatMap(SoulIngredient::getEntities).map(entityType -> Ingredient.of(SpawnEggItem.byId(entityType))).toList());
+        return inputs;
     }
 }

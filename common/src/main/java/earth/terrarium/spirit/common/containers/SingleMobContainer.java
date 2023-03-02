@@ -100,7 +100,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
         if (entityType != null) {
             entity.put(DATA_KEY, entityData);
             entity.putString(ID_KEY, EntityType.getKey(entityType).toString());
-            entity.putBoolean(SoulUtils.SOULFUL_TAG, soulless);
+            entity.putBoolean(SoulUtils.SOULLESS_TAG, soulless);
         }
         tag.put(MOB_KEY, entity);
         return tag;
@@ -112,7 +112,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
             CompoundTag entity = tag.getCompound(MOB_KEY);
             entityData = entity.getCompound(DATA_KEY);
             entityType = EntityType.byString(entity.getString(ID_KEY)).orElse(null);
-            soulless = entity.getBoolean(SoulUtils.SOULFUL_TAG);
+            soulless = entity.getBoolean(SoulUtils.SOULLESS_TAG);
         }
     }
 

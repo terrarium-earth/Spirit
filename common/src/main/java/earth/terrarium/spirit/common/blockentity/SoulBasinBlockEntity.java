@@ -16,6 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -80,9 +81,8 @@ public class SoulBasinBlockEntity extends BlockEntity implements SoulContainingO
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    public void setRecipe(@Nullable TransmutationRecipe recipe) {
-        this.containedRecipe = recipe;
-        if (recipe == null) burnTime = 0;
+    public void update() {
         this.setChanged();
+        if(getLevel() != null) getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), net.minecraft.world.level.block.Block.UPDATE_ALL);
     }
 }

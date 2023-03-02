@@ -1,6 +1,7 @@
 package earth.terrarium.spirit.common.blockentity;
 
 import earth.terrarium.spirit.common.recipes.SummoningRecipe;
+import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -9,13 +10,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class SummoningPedestalBlockEntity extends AbstractPedestalBlockEntity<SummoningRecipe> {
-    @Nullable
-    public SummoningRecipe containedRecipe;
-    public int burnTime = 0;
-    public int age;
-
     public SummoningPedestalBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(SpiritRecipes.SUMMONING.get(), blockPos, blockState);
+        super(SpiritBlockEntities.SUMMONING_PEDESTAL.get(), blockPos, blockState, SpiritRecipes.SUMMONING.get());
     }
 
     @Override

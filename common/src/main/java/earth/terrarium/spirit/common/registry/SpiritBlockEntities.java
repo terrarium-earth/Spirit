@@ -4,10 +4,7 @@ import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.common.blockentity.PedestalBlockEntity;
-import earth.terrarium.spirit.common.blockentity.SoulCageBlockEntity;
-import earth.terrarium.spirit.common.blockentity.SummoningPedestalBlockEntity;
-import earth.terrarium.spirit.common.blockentity.SoulBasinBlockEntity;
+import earth.terrarium.spirit.common.blockentity.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
@@ -25,7 +22,10 @@ public class SpiritBlockEntities {
     public static final Supplier<BlockEntityType<SoulCageBlockEntity>> SOUL_CAGE = BLOCK_ENTITIES.register("soul_cage", () -> create(SoulCageBlockEntity::new, SpiritBlocks.SOUL_CAGE.get()).build(null));
 
     public static final Supplier<BlockEntityType<PedestalBlockEntity>> PEDESTAL = BLOCK_ENTITIES.register("pedestal", () -> create(PedestalBlockEntity::new, SpiritBlocks.PEDESTAL.get()).build(null));
+
     public static final Supplier<BlockEntityType<SummoningPedestalBlockEntity>> SUMMONING_PEDESTAL = BLOCK_ENTITIES.register("summoning_pedestal", () -> create(SummoningPedestalBlockEntity::new, SpiritBlocks.SUMMONING_PEDESTAL.get()).build(null));
+    public static final Supplier<BlockEntityType<TransmutationPedestalBlockEntity>> TRANSMUTATION_PEDESTAL = BLOCK_ENTITIES.register("transmutation_pedestal", () -> create(TransmutationPedestalBlockEntity::new, SpiritBlocks.TRANSMUTATION_PEDESTAL.get()).build(null));
+
     public static final Supplier<BlockEntityType<SoulBasinBlockEntity>> SOUL_BASIN = BLOCK_ENTITIES.register("soul_basin", () -> create(SoulBasinBlockEntity::new, SpiritBlocks.SOUL_BASIN.get()).build(null));
 
     @ExpectPlatform

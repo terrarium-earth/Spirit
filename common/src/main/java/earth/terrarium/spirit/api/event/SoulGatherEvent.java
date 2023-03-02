@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EventHandler {
+public class SoulGatherEvent {
     private static final Map<ResourceLocation, SoulCollectionEvent> EVENTS = new HashMap<>();
 
     public static int gatherSoulCount(LivingEntity victim, Player player) {
@@ -23,7 +23,7 @@ public class EventHandler {
         return amount;
     }
 
-    public static void registerEvent(ResourceLocation id, SoulCollectionEvent event) {
+    public static void register(ResourceLocation id, SoulCollectionEvent event) {
         EVENTS.put(id, event);
     }
 }

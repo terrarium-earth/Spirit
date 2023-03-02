@@ -21,7 +21,10 @@ public class SpiritBlocks {
     public static final Supplier<Block> SOUL_CAGE = BLOCKS.register("soul_cage", () -> new SoulCageBlock(Block.Properties.of(Material.METAL).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
 
     public static final Supplier<Block> PEDESTAL = BLOCKS.register("pedestal", () -> new PedestalBlock(Block.Properties.of(Material.STONE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
+
     public static final Supplier<Block> SUMMONING_PEDESTAL = BLOCKS.register("summoning_pedestal", () -> new SummoningPedestalBlock(Block.Properties.of(Material.STONE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
+    public static final Supplier<Block> TRANSMUTATION_PEDESTAL = BLOCKS.register("transmutation_pedestal", () -> new TransmutationPedestalBlock(Block.Properties.of(Material.STONE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
+
     public static final Supplier<Block> SOUL_BASIN = BLOCKS.register("soul_basin", () -> new SoulBasinBlock(Block.Properties.of(Material.STONE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
 
     //Elemental fires ember, earth, water, ender

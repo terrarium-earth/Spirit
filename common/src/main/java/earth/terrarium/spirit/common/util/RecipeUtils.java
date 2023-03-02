@@ -12,6 +12,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class RecipeUtils {
         BlockPos.betweenClosedStream(box).forEach(pos -> {
             if(level.getBlockEntity(pos) instanceof PedestalBlockEntity pedestal) {
                 if(!pedestal.isEmpty()) {
-                    ingredients.put(pos, pedestal.getItem(0));
+                    ingredients.put(pos.immutable(), pedestal.getItem(0));
                 }
             }
         });
@@ -38,7 +39,7 @@ public class RecipeUtils {
         BlockPos.betweenClosedStream(box).forEach(pos -> {
             if(level.getBlockEntity(pos) instanceof SoulBasinBlockEntity basinBlock) {
                 if(!basinBlock.getContainer().isEmpty()) {
-                    ingredients.put(pos, basinBlock.getContainer().getSoulStack(0));
+                    ingredients.put(pos.immutable(), basinBlock.getContainer().getSoulStack(0));
                 }
             }
         });
@@ -49,23 +50,23 @@ public class RecipeUtils {
         Map<BlockPos, ItemStack> markedIngredients = new HashMap<>();
         Map<BlockPos, SoulStack> markedSoulIngredients = new HashMap<>();
 
-        List<Ingredient> recipeIngredients = recipe.itemInputs();
+        List<Ingredient> recipeIngredients = new ArrayList<>(recipe.itemInputs());
         ingredients.forEach((pos, stack) -> {
             var item = recipeIngredients.stream().filter(ingredient -> ingredient.test(stack)).findFirst();
             item.ifPresent(ingredient -> {
                 recipeIngredients.remove(ingredient);
-                markedIngredients.put(pos, stack);
+                markedIngredients.put(pos.immutable(), stack);
             });
         });
 
         if(!recipeIngredients.isEmpty()) return false;
 
-        List<SoulIngredient> recipeSoulIngredients = recipe.entityInputs();
+        List<SoulIngredient> recipeSoulIngredients = new ArrayList<>(recipe.entityInputs());
         soulIngredients.forEach((pos, stack) -> {
             var item = recipeSoulIngredients.stream().filter(ingredient -> ingredient.test(stack)).findFirst();
             item.ifPresent(ingredient -> {
                 recipeSoulIngredients.remove(ingredient);
-                markedSoulIngredients.put(pos, stack);
+                markedSoulIngredients.put(pos.immutable(), stack);
             });
         });
 

@@ -1,5 +1,6 @@
 package earth.terrarium.spirit;
 
+import earth.terrarium.spirit.api.event.SoulGatherEvent;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import earth.terrarium.spirit.common.registry.SpiritItems;
@@ -41,5 +42,12 @@ public class Spirit {
         SpiritBlockEntities.BLOCK_ENTITIES.init();
         SpiritRecipes.RECIPE_TYPES.init();
         SpiritRecipes.RECIPE_SERIALIZERS.init();
+
+        SoulGatherEvent.register(new ResourceLocation(MODID, "scythe"), (victim, player, amount) -> {
+            if (player.getMainHandItem().getItem() == SpiritItems.SCYTHE.get()) {
+                return amount + 1;
+            }
+            return amount;
+        });
     }
 }
