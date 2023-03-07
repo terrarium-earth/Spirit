@@ -1,2 +1,1 @@
-> Fix keybind issue
-> Fixed broken loot tables
+> Fix level being null occassionally in the soul crystal item
