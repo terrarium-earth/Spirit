@@ -6,6 +6,23 @@ architectury {
     forge()
 }
 
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+    forge {
+        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
+        mixinConfig "$project.mod_id-common.mixins.json"
+        mixinConfig "${project.mod_id}.mixins.json"
+        dataGen {
+            mod project.mod_id
+        }
+    }
+    runs {
+        data {
+            programArgs "--existing", project(":common").file("src/main/resources").absolutePath
+        }
+    }
+}
+
 configurations {
     common
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
@@ -15,13 +32,15 @@ configurations {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.forge_version}"
+    forge "net.minecraftforge:forge:$rootProject.minecraft_version-$rootProject.forge_version"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
-    include modImplementation("com.teamresourceful.resourcefullib:resourcefullib-forge-$rootProject.resourcefullib_version")
-    modCompileOnly("mezz.jei:jei-${minecraft_version}-forge:$jei_version") {exclude group: "mezz.jei"}
-    modRuntimeOnly("mezz.jei:jei-${project.minecraft_version}-forge:${project.jei_version}")
+
+    modCompileOnly "mezz.jei:jei-$rootProject.minecraft_version-forge-api:$rootProject.jei_version"
+    modLocalRuntime("mezz.jei:jei-$rootProject.minecraft_version-forge:$rootProject.jei_version") { transitive = false }
+
+    modApi "com.teamresourceful.resourcefullib:resourcefullib-forge-$rootProject.minecraft_version:$rootProject.resourcefullib_version"
 }
 
 processResources {

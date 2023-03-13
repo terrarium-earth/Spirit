@@ -10,14 +10,11 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.IModBusEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.core.net.Priority;
 
 @Mod(Spirit.MODID)
 public class SpiritForge {
@@ -28,11 +25,6 @@ public class SpiritForge {
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onItemUse);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::afterDeath);
-    }
-
-    @SubscribeEvent
-    public void registerContents(CreativeModeTabEvent.BuildContents event) {
-        SpiritItems.ITEMS.getEntries().forEach((item) -> event.registerSimple(CREATIVE_TAB, item.get()));
     }
 
     @SubscribeEvent

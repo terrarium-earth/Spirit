@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "earth.terrarium.spirit.mixin.forge",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8.5",
+  "mixins": [
+  ],
+  "client": [
+    "SoulSteelArmorMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
