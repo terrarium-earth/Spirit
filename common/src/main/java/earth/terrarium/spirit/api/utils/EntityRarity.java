@@ -25,10 +25,10 @@ public enum EntityRarity {
     }
 
     public static EntityRarity getRarity(EntityType<?> entity) {
-        if(entity.is(Spirit.UNCOMMON)) return UNCOMMON;
-        else if(entity.is(Spirit.RARE)) return RARE;
-        else if(entity.is(Spirit.EPIC)) return EPIC;
-        else if(entity.is(Spirit.LEGENDARY)) return LEGENDARY;
+        if (entity.is(Spirit.UNCOMMON)) return UNCOMMON;
+        else if (entity.is(Spirit.RARE)) return RARE;
+        else if (entity.is(Spirit.EPIC)) return EPIC;
+        else if (entity.is(Spirit.LEGENDARY)) return LEGENDARY;
         return COMMON;
     }
 

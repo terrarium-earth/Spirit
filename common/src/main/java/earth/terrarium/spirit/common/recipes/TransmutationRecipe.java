@@ -8,7 +8,6 @@ import com.teamresourceful.resourcefullib.common.recipe.CodecRecipe;
 import earth.terrarium.spirit.api.storage.util.SoulIngredient;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -22,8 +21,10 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.Optional;
 
-public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> activationItem, boolean consumesActivator, List<SoulIngredient> entityInputs, List<Ingredient> itemInputs,
-                                  ItemStack result, int duration) implements CodecRecipe<Container>, PedestalRecipe<ItemStack> {
+public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> activationItem, boolean consumesActivator,
+                                  List<SoulIngredient> entityInputs, List<Ingredient> itemInputs,
+                                  ItemStack result,
+                                  int duration) implements CodecRecipe<Container>, PedestalRecipe<ItemStack> {
     public static Codec<TransmutationRecipe> codec(ResourceLocation id) {
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(id),
@@ -54,7 +55,7 @@ public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> acti
     public static List<TransmutationRecipe> getRecipesForEntity(SoulStack entity, ItemStack stack, RecipeManager manager) {
         return manager.getAllRecipesFor(SpiritRecipes.TRANSMUTATION.get()).stream().filter(recipe -> {
             boolean stackMatches;
-            if(recipe.activationItem().isPresent()) {
+            if (recipe.activationItem().isPresent()) {
                 stackMatches = recipe.activationItem().get().test(stack);
             } else {
                 stackMatches = stack.isEmpty();

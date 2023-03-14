@@ -23,15 +23,15 @@ public class SingleTypeContainer extends SingleSoulStackContainer {
 
     @Override
     public int insertIntoSlot(SoulStack soulStack, int slot, InteractionMode mode) {
-        if(soulStack.getEntity() != null) {
-            if(stack.isEmpty()) {
+        if (soulStack.getEntity() != null) {
+            if (stack.isEmpty()) {
                 soulStack.copy().setAmount(Math.min(soulStack.getAmount(), maxCapacity()));
-                if(mode == InteractionMode.NO_TAKE_BACKSIES) stack = soulStack;
+                if (mode == InteractionMode.NO_TAKE_BACKSIES) stack = soulStack;
                 return soulStack.getAmount();
             } else {
-                if(soulStack.getEntity() == stack.getEntity()) {
+                if (soulStack.getEntity() == stack.getEntity()) {
                     int insert = Math.min(soulStack.getAmount(), maxCapacity() - stack.getAmount());
-                    if(mode == InteractionMode.NO_TAKE_BACKSIES) stack.setAmount(stack.getAmount() + insert);
+                    if (mode == InteractionMode.NO_TAKE_BACKSIES) stack.setAmount(stack.getAmount() + insert);
                     return insert;
                 }
             }
@@ -41,10 +41,10 @@ public class SingleTypeContainer extends SingleSoulStackContainer {
 
     @Override
     public SoulStack extractFromSlot(SoulStack soulStack, int slot, InteractionMode mode) {
-        if(!stack.isEmpty()) {
-            if(soulStack.getEntity() == stack.getEntity()) {
+        if (!stack.isEmpty()) {
+            if (soulStack.getEntity() == stack.getEntity()) {
                 int extract = Math.min(soulStack.getAmount(), stack.getAmount());
-                if(mode == InteractionMode.NO_TAKE_BACKSIES) stack.setAmount(stack.getAmount() - extract);
+                if (mode == InteractionMode.NO_TAKE_BACKSIES) stack.setAmount(stack.getAmount() - extract);
                 return new SoulStack(stack.getEntity(), extract);
             }
         }
@@ -53,7 +53,7 @@ public class SingleTypeContainer extends SingleSoulStackContainer {
 
     @Override
     public CompoundTag serialize(CompoundTag tag) {
-        if(stack != null && !stack.isEmpty()) {
+        if (stack != null && !stack.isEmpty()) {
             tag.put(KEY, stack.toTag(new CompoundTag()));
         } else {
             tag.remove(KEY);
@@ -63,7 +63,7 @@ public class SingleTypeContainer extends SingleSoulStackContainer {
 
     @Override
     public void deserialize(CompoundTag tag) {
-        if(tag.contains(KEY)) {
+        if (tag.contains(KEY)) {
             stack = SoulStack.fromTag(tag.getCompound(KEY));
         } else {
             stack = SoulStack.empty();

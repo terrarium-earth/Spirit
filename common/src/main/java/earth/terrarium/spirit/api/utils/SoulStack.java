@@ -3,7 +3,6 @@ package earth.terrarium.spirit.api.utils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -61,7 +60,7 @@ public class SoulStack {
     }
 
     public CompoundTag toTag(CompoundTag tag) {
-        if(entity != null) {
+        if (entity != null) {
             tag.putString(ENTITY_KEY, EntityType.getKey(entity).toString());
             tag.putInt(AMOUNT_KEY, amount);
         }

@@ -22,10 +22,10 @@ public class RecipeUtils {
     //get items and souls in the pedestals nearby
     public static Map<BlockPos, ItemStack> getPedestalItems(BlockPos blockPos, Level level) {
         Map<BlockPos, ItemStack> ingredients = new HashMap<>();
-        AABB box = new AABB(blockPos).inflate(3,0,3);
+        AABB box = new AABB(blockPos).inflate(3, 0, 3);
         BlockPos.betweenClosedStream(box).forEach(pos -> {
-            if(level.getBlockEntity(pos) instanceof PedestalBlockEntity pedestal) {
-                if(!pedestal.isEmpty()) {
+            if (level.getBlockEntity(pos) instanceof PedestalBlockEntity pedestal) {
+                if (!pedestal.isEmpty()) {
                     ingredients.put(pos.immutable(), pedestal.getItem(0));
                 }
             }
@@ -35,10 +35,10 @@ public class RecipeUtils {
 
     public static Map<BlockPos, SoulStack> getPedestalSouls(BlockPos blockPos, Level level) {
         Map<BlockPos, SoulStack> ingredients = new HashMap<>();
-        AABB box = new AABB(blockPos).inflate(3,0,3);
+        AABB box = new AABB(blockPos).inflate(3, 0, 3);
         BlockPos.betweenClosedStream(box).forEach(pos -> {
-            if(level.getBlockEntity(pos) instanceof SoulBasinBlockEntity basinBlock) {
-                if(!basinBlock.getContainer().isEmpty()) {
+            if (level.getBlockEntity(pos) instanceof SoulBasinBlockEntity basinBlock) {
+                if (!basinBlock.getContainer().isEmpty()) {
                     ingredients.put(pos.immutable(), basinBlock.getContainer().getSoulStack(0));
                 }
             }
@@ -59,7 +59,7 @@ public class RecipeUtils {
             });
         });
 
-        if(!recipeIngredients.isEmpty()) return false;
+        if (!recipeIngredients.isEmpty()) return false;
 
         List<SoulIngredient> recipeSoulIngredients = new ArrayList<>(recipe.entityInputs());
         soulIngredients.forEach((pos, stack) -> {
@@ -70,17 +70,17 @@ public class RecipeUtils {
             });
         });
 
-        if(!recipeSoulIngredients.isEmpty()) return false;
+        if (!recipeSoulIngredients.isEmpty()) return false;
 
         if (consumeItems) {
             markedIngredients.forEach((pos, stack) -> {
-                if(level.getBlockEntity(pos) instanceof PedestalBlockEntity pedestal) {
+                if (level.getBlockEntity(pos) instanceof PedestalBlockEntity pedestal) {
                     pedestal.getItem(0).shrink(1);
                     pedestal.update();
                 }
             });
             markedSoulIngredients.forEach((pos, stack) -> {
-                if(level.getBlockEntity(pos) instanceof SoulBasinBlockEntity basinBlock) {
+                if (level.getBlockEntity(pos) instanceof SoulBasinBlockEntity basinBlock) {
                     SoulStack toRemove = basinBlock.getContainer().getSoulStack(0).copy();
                     toRemove.setAmount(1);
                     basinBlock.getContainer().extract(toRemove, InteractionMode.NO_TAKE_BACKSIES);

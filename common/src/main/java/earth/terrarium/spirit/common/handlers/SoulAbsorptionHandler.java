@@ -5,8 +5,8 @@ import earth.terrarium.spirit.api.event.SoulGatherEvent;
 import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.storage.AutoAbsorbing;
 import earth.terrarium.spirit.api.storage.InteractionMode;
-import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
+import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.api.utils.SoulUtils;
 import earth.terrarium.spirit.common.config.SpiritConfig;
@@ -35,7 +35,7 @@ public class SoulAbsorptionHandler {
                         ItemStack crystal = getSoulCrystal(player, victim);
                         if (!crystal.isEmpty()) {
                             SoulContainer container = SoulUtils.getContainer(crystal);
-                            if(container != null) {
+                            if (container != null) {
                                 container.insert(new SoulStack(victim.getType(), SoulGatherEvent.gatherSoulCount(victim, player)), InteractionMode.NO_TAKE_BACKSIES);
                                 level.sendParticles(ParticleTypes.SOUL, victim.getX() + 0.5, victim.getY() + victim.getBbHeight() / 2, victim.getZ() + 0.5, 10, 0.5, 0.5, 0.5, 0.1);
                             }
@@ -50,7 +50,7 @@ public class SoulAbsorptionHandler {
         ItemStack savedStack = ItemStack.EMPTY;
         int savedSouls = 0;
         for (var currentInventory : List.of(player.getHandSlots(), player.getInventory().items, player.getArmorSlots())) {
-            for(var currentItem : currentInventory) {
+            for (var currentItem : currentInventory) {
                 if (!(currentItem.getItem() instanceof SoulContainingObject.Item crystal && currentItem.getItem() instanceof AutoAbsorbing autoAbsorbing)) {
                     continue;
                 }

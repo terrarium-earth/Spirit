@@ -16,7 +16,8 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "earth.terrarium.spirit.fabric.SpiritFabric"
+      "earth.terrarium.spirit.fabric.SpiritFabric",
+      "earth.terrarium.spirit.Spirit::postInit"
     ],
     "client": [
       "earth.terrarium.spirit.client.fabric.SpiritClientFabric"
@@ -29,7 +30,7 @@
     ]
   },
   "mixins": [
-    "spirit.common.mixins.json",
+    "spirit-common.mixins.json",
     "spirit.mixins.json"
   ],
   "depends": {

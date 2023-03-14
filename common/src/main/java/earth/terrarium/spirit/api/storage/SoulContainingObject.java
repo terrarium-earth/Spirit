@@ -10,6 +10,9 @@ public interface SoulContainingObject<T> {
     @Nullable
     SoulContainer getContainer(T object);
 
-    interface Item extends SoulContainingObject<ItemStack> {}
-    interface Block extends SoulContainingObject<BlockEntity> {}
+    interface Item extends SoulContainingObject<ItemStack> {
+    }
+
+    interface Block extends SoulContainingObject<BlockEntity> {
+    }
 }

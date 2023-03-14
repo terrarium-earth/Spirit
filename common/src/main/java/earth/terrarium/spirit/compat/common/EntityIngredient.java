@@ -2,7 +2,6 @@ package earth.terrarium.spirit.compat.common;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -14,9 +13,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 /**
  * This class was largely inspired by or taken from the Resourceful Bees repository with
  * the expressed permission from one of their developers.
+ *
  * @author Team Resourceful
  */
 public class EntityIngredient {
@@ -27,7 +28,7 @@ public class EntityIngredient {
     private final Optional<CompoundTag> nbt;
     private final float rotation;
 
-    public EntityIngredient(EntityType<?> entityType, float rotation){
+    public EntityIngredient(EntityType<?> entityType, float rotation) {
         this(entityType, rotation, Optional.empty());
     }
 
@@ -40,7 +41,7 @@ public class EntityIngredient {
         if (mc.level != null) {
             entity = this.entityType.create(mc.level);
             if (entity != null) nbt.ifPresent(entity::load);
-        }else {
+        } else {
             entity = null;
         }
     }

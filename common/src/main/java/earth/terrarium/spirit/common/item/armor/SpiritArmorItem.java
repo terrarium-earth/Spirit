@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public interface SpiritArmorItem {
-    ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type);
+    String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type);
 
     @Nullable
     ResourceLocation getUnderlayTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type);

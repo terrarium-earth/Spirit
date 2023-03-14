@@ -27,7 +27,7 @@ public class TransmutationPedestalBlock extends BasePedestalBlock<TransmutationR
     );
 
     public TransmutationPedestalBlock(Properties properties) {
-        super(SpiritRecipes.TRANSMUTATION.get(), properties);
+        super(SpiritRecipes.TRANSMUTATION, properties);
     }
 
     @Nullable

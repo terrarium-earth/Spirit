@@ -6,5 +6,6 @@ import org.jetbrains.annotations.Nullable;
 
 public interface MobContainer extends SoulContainer {
     boolean insertMob(LivingEntity mob);
+
     @Nullable LivingEntity extractMob(Level level);
 }

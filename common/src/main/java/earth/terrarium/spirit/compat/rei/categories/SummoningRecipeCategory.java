@@ -1,7 +1,6 @@
 package earth.terrarium.spirit.compat.rei.categories;
 
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.api.storage.util.SoulIngredient;
 import earth.terrarium.spirit.api.utils.SoulUtils;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import earth.terrarium.spirit.compat.common.EntityIngredient;
@@ -69,7 +68,7 @@ public class SummoningRecipeCategory implements DisplayCategory<SummoningDisplay
 
         for (int i = 0; i < recipe.itemInputs().size(); i++) {
             widgets.add(
-                    Widgets.createSlot(new Point(startX + 32 + 32 * Math.cos(((double) i/totalComponents) * Math.PI * 2 - startAngle), startY + 40 + 32 * Math.sin(((double) i/totalComponents) * Math.PI * 2 - startAngle)))
+                    Widgets.createSlot(new Point(startX + 32 + 32 * Math.cos(((double) i / totalComponents) * Math.PI * 2 - startAngle), startY + 40 + 32 * Math.sin(((double) i / totalComponents) * Math.PI * 2 - startAngle)))
                             .markInput()
                             .disableBackground()
                             .entries(EntryIngredients.ofIngredient(recipe.itemInputs().get(i)))
@@ -81,14 +80,14 @@ public class SummoningRecipeCategory implements DisplayCategory<SummoningDisplay
         for (int i = recipe.itemInputs().size(); i < recipe.itemInputs().size() + recipe.entityInputs().size(); i++) {
             var entityTypes = recipe.entityInputs().get(i - recipe.itemInputs().size()).getEntities().map(entityType -> new EntityIngredient(entityType, -45F, Optional.of(nbt))).toList();
             widgets.add(
-                    Widgets.createSlot(new Point(startX + 32 + 32 * Math.cos(((double) i/totalComponents) * Math.PI * 2 - startAngle), startY + 40 + 32 * Math.sin(((double) i/totalComponents) * Math.PI * 2 - startAngle)))
+                    Widgets.createSlot(new Point(startX + 32 + 32 * Math.cos(((double) i / totalComponents) * Math.PI * 2 - startAngle), startY + 40 + 32 * Math.sin(((double) i / totalComponents) * Math.PI * 2 - startAngle)))
                             .markInput()
                             .disableBackground()
                             .entries(EntryIngredients.of(SpiritPlugin.ENTITY_INGREDIENT, entityTypes))
             );
         }
 
-        if(recipe.activationItem().isPresent()) {
+        if (recipe.activationItem().isPresent()) {
             widgets.add(Widgets.createSlot(new Point(startX + 32, startY + 40)).disableBackground().entries(EntryIngredients.ofIngredient(recipe.activationItem().get()).map(stack -> {
                 if (recipe.consumesActivator()) {
                     stack.tooltip(Component.translatable("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));

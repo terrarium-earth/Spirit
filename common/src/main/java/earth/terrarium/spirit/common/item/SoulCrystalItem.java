@@ -2,7 +2,10 @@ package earth.terrarium.spirit.common.item;
 
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.souls.Tier;
-import earth.terrarium.spirit.api.storage.*;
+import earth.terrarium.spirit.api.storage.AutoAbsorbing;
+import earth.terrarium.spirit.api.storage.ItemStackContainer;
+import earth.terrarium.spirit.api.storage.SoulContainingObject;
+import earth.terrarium.spirit.api.storage.Tierable;
 import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.utils.EntityRarity;
 import earth.terrarium.spirit.api.utils.SoulStack;
@@ -39,13 +42,13 @@ public class SoulCrystalItem extends Item implements SoulContainingObject.Item, 
     public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
         SoulStack container = getContainer(itemStack).getSoulStack(0);
         Component component;
-        if(container.isEmpty() || container.getEntity() == null) {
+        if (container.isEmpty() || container.getEntity() == null) {
             component = Component.translatable("item.spirit.soul_crystal.none");
         } else {
             component = Component.translatable("item.spirit.soul_crystal.entity_component", container.getAmount(), container.getEntity().getDescription()).withStyle(EntityRarity.getRarity(container.getEntity()).color);
         }
         list.add(Component.translatable("item.spirit.soul_crystal.tooltip", component).withStyle(ChatFormatting.GRAY));
-        if(!container.isEmpty()) {
+        if (!container.isEmpty()) {
             List<Component> nonShift = new ArrayList<>();
             TooltipUtils.getNormalTooltips().forEach(tooltip -> tooltip.addTooltip(nonShift, itemStack, level));
             ClientUtils.shiftTooltip(list, shiftToolTipComponents(itemStack, level), nonShift);
@@ -56,19 +59,20 @@ public class SoulCrystalItem extends Item implements SoulContainingObject.Item, 
 
     public static List<Component> shiftToolTipComponents(@NotNull ItemStack itemStack, @Nullable Level level) {
         List<Component> list = new ArrayList<>();
-        if(!(itemStack.getItem() instanceof SoulCrystalItem soulCrystalItem && itemStack.getItem() instanceof Tierable tierable)) return List.of();
+        if (!(itemStack.getItem() instanceof SoulCrystalItem soulCrystalItem && itemStack.getItem() instanceof Tierable tierable))
+            return List.of();
         Tier tier = tierable.getTier(itemStack);
         Component display = Component.translatable(tier == null ? CrystalConfig.initialTierName : tier.displayName()).withStyle(ChatFormatting.GRAY);
         list.add(Component.translatable("misc.spirit.tier", display).withStyle(ChatFormatting.GRAY));
-        if(tier == null) {
+        if (tier == null) {
             list.add(Component.translatable("misc.spirit.not_viable").withStyle(ChatFormatting.RED));
         }
         Tier nextTier = tierable.getNextTier(itemStack);
         SoulStack container = soulCrystalItem.getContainer(itemStack).getSoulStack(0);
-        if(nextTier != null) {
+        if (nextTier != null) {
             list.add(Component.translatable("misc.spirit.next_tier", nextTier.requiredSouls() - container.getAmount(), Component.translatable(nextTier.displayName())).withStyle(ChatFormatting.GRAY));
         }
-        if(SoulUtils.isAllowed(itemStack, Spirit.BLACKLISTED_TAG)) {
+        if (SoulUtils.isAllowed(itemStack, Spirit.BLACKLISTED_TAG)) {
             list.add(Component.translatable("misc.spirit.soul_cage_compatible").withStyle(ChatFormatting.GREEN));
         } else {
             list.add(Component.translatable("misc.spirit.soul_cage_incompatible").withStyle(ChatFormatting.RED));
@@ -134,7 +138,7 @@ public class SoulCrystalItem extends Item implements SoulContainingObject.Item, 
         Tier tier = getNextTier(itemStack);
         if (tier == null) {
             tier = getTier(itemStack);
-            if(tier == null) {
+            if (tier == null) {
                 return 0;
             }
         }

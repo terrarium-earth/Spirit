@@ -34,7 +34,10 @@ public class ArmorRenderersImpl {
         String s1 = String.format(Locale.ROOT, "%s:textures/models/armor/%s_layer_%d%s.png", domain, texture, (slot == EquipmentSlot.LEGS ? 2 : 1), type == null ? "" : String.format(java.util.Locale.ROOT, "_%s", type));
 
         if (item instanceof SpiritArmorItem armour) {
-            s1 = armour.getArmorTexture(stack, entity, slot, type).toString();
+            String customTexture = armour.getArmorTexture(stack, entity, slot, type);
+            if (customTexture != null) {
+                s1 = customTexture;
+            }
         }
 
         ResourceLocation resourcelocation = ARMOR_ITEM_MODELS.get(s1);

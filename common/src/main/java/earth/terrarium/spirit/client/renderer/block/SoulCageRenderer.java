@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
 
 public class SoulCageRenderer implements BlockEntityRenderer<SoulCageBlockEntity> {
 

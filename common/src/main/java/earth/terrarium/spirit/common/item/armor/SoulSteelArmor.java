@@ -16,8 +16,8 @@ public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
     }
 
     @Override
-    public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return new ResourceLocation(Spirit.MODID, "textures/entity/armor/soul_steel_armor/soul_steel_armor" + (renderUnderlay ? "_empty" : "") + ".png");
+    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+        return new ResourceLocation(Spirit.MODID, "textures/entity/armor/soul_steel_armor/soul_steel_armor" + (renderUnderlay ? "_empty" : "") + ".png").toString();
     }
 
     // TODO currently hardcoded to ender armor.

@@ -15,9 +15,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * This class was largely inspired by or taken from the Resourceful Bees repository with
  * the expressed permission from one of their developers.
+ *
  * @author Team Resourceful
  */
 public class EntityRenderer implements IIngredientRenderer<EntityIngredient> {
@@ -52,7 +54,7 @@ public class EntityRenderer implements IIngredientRenderer<EntityIngredient> {
             matrixStack.translate(x, y, 1);
             matrixStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
             matrixStack.translate(0, 0, 100);
-            matrixStack.scale(- scaledSize * renderScale, scaledSize * renderScale, 30);
+            matrixStack.scale(-scaledSize * renderScale, scaledSize * renderScale, 30);
             matrixStack.mulPose(Axis.YP.rotationDegrees(rotation));
             EntityRenderDispatcher entityrenderermanager = mc.getEntityRenderDispatcher();
             MultiBufferSource.BufferSource renderTypeBuffer = mc.renderBuffers().bufferSource();

@@ -22,7 +22,7 @@ import java.util.List;
 public class ClientUtils {
     public static boolean isItemInHand(ItemStack stack) {
         LocalPlayer player = Minecraft.getInstance().player;
-        if(player != null) {
+        if (player != null) {
             return player.getMainHandItem().equals(stack) || player.getOffhandItem().equals(stack);
         }
         return false;
@@ -32,7 +32,7 @@ public class ClientUtils {
         Component shiftWord = Component.translatable("misc.spirit.shift.key").withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.AQUA);
         MutableComponent shift = Component.translatable("misc.spirit.shift.shift_info", shiftWord).withStyle(ChatFormatting.GRAY);
         components.add(shift);
-        if(Screen.hasShiftDown()) {
+        if (Screen.hasShiftDown()) {
             components.addAll(onShiftComponents);
         } else {
             components.addAll(notShiftComponents);

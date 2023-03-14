@@ -4,7 +4,6 @@ import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.elements.SoulElement;
 import earth.terrarium.spirit.common.recipes.SoulEngulfingRecipe;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -38,9 +37,9 @@ public class RagingSoulFireBlock extends SoulFireBlock {
             double d = (double) blockPos.getX() + randomSource.nextDouble();
             double e = (double) blockPos.getY() + randomSource.nextDouble();
             double f = (double) blockPos.getZ() + randomSource.nextDouble();
-            double r = (float)(element.getColor() >> 16 & 0xFF) / 255.0f;
-            double g = (float)(element.getColor() >> 8 & 0xFF) / 255.0f;
-            double b = (float)(element.getColor() & 0xFF) / 255.0f;
+            double r = (float) (element.getColor() >> 16 & 0xFF) / 255.0f;
+            double g = (float) (element.getColor() >> 8 & 0xFF) / 255.0f;
+            double b = (float) (element.getColor() & 0xFF) / 255.0f;
             level.addParticle(ParticleTypes.LARGE_SMOKE, d, e, f, 0.0, 0.0, 0.0);
             level.addParticle(new DustParticleOptions(Vec3.fromRGB24(element.getColor()).toVector3f(), 1f), d, e, f, 0.0, 0.0, 0.0);
             level.addParticle(ParticleTypes.EFFECT, d, e, f, r, g, b);
@@ -56,7 +55,7 @@ public class RagingSoulFireBlock extends SoulFireBlock {
                 }
             }
 
-            if(itemE.getItem().is(Spirit.SOUL_FIRE_IMMUNE)) {
+            if (itemE.getItem().is(Spirit.SOUL_FIRE_IMMUNE)) {
                 itemE.setInvulnerable(true);
             }
 

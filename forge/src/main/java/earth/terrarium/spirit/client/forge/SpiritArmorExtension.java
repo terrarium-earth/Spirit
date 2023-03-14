@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 
-public class SpiritArmourExtension implements IClientItemExtensions {
+public class SpiritArmorExtension implements IClientItemExtensions {
 
     private ArmorRenderers.ArmorModelSupplier renderer;
 

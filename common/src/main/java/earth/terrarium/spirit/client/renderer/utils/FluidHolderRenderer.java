@@ -3,11 +3,9 @@ package earth.terrarium.spirit.client.renderer.utils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.client.SpiritClient;
 import earth.terrarium.spirit.common.util.ClientUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
@@ -25,7 +23,7 @@ public class FluidHolderRenderer {
         if (percent > 0) {
             stack.pushPose();
             int color = Spirit.SOUL_COLOR;
-            createQuad(stack, source.getBuffer(ClientUtils.getBasinShader()), Mth.lerp(percent, (float)bounds().minY, (float)bounds().maxY), light, color, SPRITE);
+            createQuad(stack, source.getBuffer(ClientUtils.getBasinShader()), Mth.lerp(percent, (float) bounds().minY, (float) bounds().maxY), light, color, SPRITE);
             stack.popPose();
         }
     }

@@ -4,9 +4,7 @@ import earth.terrarium.spirit.api.storage.InteractionMode;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.blockentity.SoulBasinBlockEntity;
-import earth.terrarium.spirit.common.recipes.TransmutationRecipe;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
-import earth.terrarium.spirit.common.util.RecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -27,8 +25,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
 
 public class SoulBasinBlock extends BaseEntityBlock {
     public static final VoxelShape SHAPE = Shapes.or(
