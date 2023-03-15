@@ -17,24 +17,24 @@ import java.util.Optional;
 
 public class SummoningDisplay extends BasicDisplay {
     private final SummoningRecipe recipe;
-    
+
     public SummoningDisplay(SummoningRecipe recipe) {
         super(EntryIngredients.ofIngredients(recipe.getAllInputs()),
                 List.of(createEntityOutput(recipe)), Optional.ofNullable(recipe.getId()));
         this.recipe = recipe;
     }
-    
+
     public SummoningRecipe recipe() {
         return recipe;
     }
-    
+
     private static EntryIngredient createEntityOutput(SummoningRecipe recipe) {
         var nbt = new CompoundTag();
         nbt.putBoolean(SoulUtils.SOULLESS_TAG, true);
         return EntryIngredient.of(EntryStack.of(SpiritPlugin.ENTITY_INGREDIENT,
                 new EntityIngredient(recipe.result(), -45F, Optional.of(nbt))));
     }
-    
+
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
         return SummoningRecipeCategory.RECIPE;

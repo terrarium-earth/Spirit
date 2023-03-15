@@ -31,7 +31,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
@@ -117,7 +116,7 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
         stack.pushPose();
         Lighting.setupForFlatItems();
         float scaled = 1.6F * scale;
-        double width = recipe.getMultiblock().pattern().get(0).size() * OFFSET * (scaled/16f);
+        double width = recipe.getMultiblock().pattern().get(0).size() * OFFSET * (scaled / 16f);
         double height = recipe.blockMap.size() * 16 + (66 - recipe.blockMap.size() * OFFSET);
         stack.translate(52 - width, height, 100);
         stack.scale(scaled, -scaled, 1);
@@ -147,17 +146,16 @@ public class SoulEngulfingCategory extends BaseCategory<SoulEngulfingRecipeWrapp
             recipe.layer = Math.max(recipe.layer - 1, 0);
             return true;
         }
-        if(input.getValue() == InputConstants.KEY_MINUS) {
+        if (input.getValue() == InputConstants.KEY_MINUS) {
             scale = Math.max(scale - 1, 1);
             return true;
         }
-        if(input.getValue() == InputConstants.KEY_EQUALS) {
+        if (input.getValue() == InputConstants.KEY_EQUALS) {
             scale = Math.min(scale + 1, 20);
             return true;
         }
         return false;
     }
-
 
 
     public static List<SoulEngulfingRecipeWrapper> getRecipes(Collection<SoulEngulfingRecipe> recipes) {

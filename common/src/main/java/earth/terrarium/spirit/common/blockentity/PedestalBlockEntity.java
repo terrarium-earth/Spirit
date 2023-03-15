@@ -4,7 +4,6 @@ import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.ContainerHelper;
@@ -28,7 +27,7 @@ public class PedestalBlockEntity extends BlockEntity implements WorldlyContainer
     }
 
     public static void tick(Level level1, BlockPos blockPos, BlockState blockState1, BlockEntity blockEntity) {
-        if(blockEntity instanceof PedestalBlockEntity soulPedestal) {
+        if (blockEntity instanceof PedestalBlockEntity soulPedestal) {
             soulPedestal.age = (soulPedestal.age + 1) % Integer.MAX_VALUE;
         }
     }
@@ -50,7 +49,8 @@ public class PedestalBlockEntity extends BlockEntity implements WorldlyContainer
 
     public void update() {
         this.setChanged();
-        if(getLevel() != null) getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_ALL);
+        if (getLevel() != null)
+            getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_ALL);
     }
 
     @Override

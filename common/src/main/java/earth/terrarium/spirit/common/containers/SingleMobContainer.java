@@ -33,11 +33,11 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
 
     @Override
     public int insertIntoSlot(SoulStack soulStack, int slot, InteractionMode mode) {
-        if(entityType == null) {
+        if (entityType == null) {
             return 0;
         } else {
-            if(entityType == soulStack.getEntity()) {
-                if(!soulless) {
+            if (entityType == soulStack.getEntity()) {
+                if (!soulless) {
                     return 0;
                 } else {
                     if (mode == InteractionMode.NO_TAKE_BACKSIES) soulless = false;
@@ -50,12 +50,12 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
 
     @Override
     public SoulStack extractFromSlot(SoulStack soulStack, int slot, InteractionMode mode) {
-        if(entityType == null) {
+        if (entityType == null) {
             return SoulStack.empty();
         } else {
-            if(entityType == soulStack.getEntity()) {
-                if(!soulless) {
-                    if(mode == InteractionMode.NO_TAKE_BACKSIES) soulless = true;
+            if (entityType == soulStack.getEntity()) {
+                if (!soulless) {
+                    if (mode == InteractionMode.NO_TAKE_BACKSIES) soulless = true;
                     return new SoulStack(entityType, 1);
                 } else {
                     return SoulStack.empty();
@@ -67,7 +67,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
 
     @Override
     public boolean insertMob(LivingEntity mob) {
-        if(entityType == null) {
+        if (entityType == null) {
             entityType = mob.getType();
             entityData = mob.saveWithoutId(new CompoundTag());
             soulless = ((SoulfulCreature) mob).isSoulless();
@@ -78,7 +78,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
 
     @Nullable
     public LivingEntity extractMob(Level level) {
-        if(entityType == null) {
+        if (entityType == null) {
             return null;
         } else {
             LivingEntity mob = (LivingEntity) entityType.create(level);
@@ -124,7 +124,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
     public MutableComponent toComponent() {
         if (entityType != null) {
             MutableComponent component = Component.translatable(entityType.getDescriptionId()).withStyle(ChatFormatting.GRAY);
-            if(!soulless) {
+            if (!soulless) {
                 return Component.translatable("spirit.item.mob_container.soulful", component).withStyle(ChatFormatting.RED);
             } else {
                 return Component.translatable("spirit.item.mob_container.soulless", component).withStyle(ChatFormatting.AQUA);

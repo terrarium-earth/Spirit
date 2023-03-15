@@ -3,16 +3,13 @@ package earth.terrarium.spirit.common.recipes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teamresourceful.resourcefullib.common.codecs.recipes.IngredientCodec;
-import com.teamresourceful.resourcefullib.common.recipe.CodecRecipe;
 import earth.terrarium.spirit.api.storage.util.SoulIngredient;
-import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -22,7 +19,9 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.Optional;
 
-public record SummoningRecipe(ResourceLocation id, List<SoulIngredient> entityInputs, Optional<Ingredient> activationItem, boolean consumesActivator, List<Ingredient> itemInputs,
+public record SummoningRecipe(ResourceLocation id, List<SoulIngredient> entityInputs,
+                              Optional<Ingredient> activationItem, boolean consumesActivator,
+                              List<Ingredient> itemInputs,
                               int duration, EntityType<?> result,
                               Optional<CompoundTag> outputNbt) implements PedestalRecipe<EntityType<?>> {
     public static Codec<SummoningRecipe> codec(ResourceLocation id) {

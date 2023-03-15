@@ -2,10 +2,8 @@ package earth.terrarium.spirit.common.item;
 
 import earth.terrarium.spirit.api.storage.AutoAbsorbing;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
-import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.containers.ItemWrappedMobContainer;
 import earth.terrarium.spirit.common.containers.SingleMobContainer;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
@@ -30,8 +28,8 @@ public class MobCrystalItem extends Item implements SoulContainingObject.Item, A
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
         super.appendHoverText(itemStack, level, list, tooltipFlag);
         ItemWrappedMobContainer container = getContainer(itemStack);
-        if(container != null) {
-            if(container.container() instanceof SingleMobContainer singleMobContainer) {
+        if (container != null) {
+            if (container.container() instanceof SingleMobContainer singleMobContainer) {
                 list.add(singleMobContainer.toComponent());
             }
         }
@@ -44,7 +42,7 @@ public class MobCrystalItem extends Item implements SoulContainingObject.Item, A
 
     @Override
     public InteractionResult useOn(UseOnContext useOnContext) {
-        if(!useOnContext.getLevel().isClientSide) {
+        if (!useOnContext.getLevel().isClientSide) {
             Player player = useOnContext.getPlayer();
             if (player != null) {
                 ItemStack stack = player.getItemInHand(useOnContext.getHand());

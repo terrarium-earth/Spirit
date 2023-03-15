@@ -5,9 +5,9 @@ import com.teamresourceful.resourcefullib.common.collections.WeightedCollection;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.souls.Tier;
-import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.storage.Tierable;
+import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
@@ -45,7 +45,7 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
 
     public void tick() {
         if (!(level instanceof ServerLevel serverLevel)) {
-            if(this.isNearPlayer()) {
+            if (this.isNearPlayer()) {
                 double spinAmount = 20D;
                 Tier tier = getTier();
                 if (tier != null && tier.redstoneControlled() && level.hasNeighborSignal(this.getBlockPos())) {
@@ -65,7 +65,7 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
             Tier tier = getTier();
             if (tier != null && isNearPlayer()) {
                 if (work < tier.workTime()) {
-                    if(work % 2 == 0) {
+                    if (work % 2 == 0) {
                         double fraction = (double) work / tier.workTime();
                         double radius = tier.spawnRange() * fraction;
                         double increment = 3f / (2 * Math.PI * radius);
@@ -73,7 +73,8 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
                             double x = this.getBlockPos().getX() + 0.5;
                             double z = this.getBlockPos().getZ() + 0.5;
                             serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT, x + radius * Math.cos(i), this.getBlockPos().getY() + 0.5, z + radius * Math.sin(i), 1, 0, 0, 0, 0);
-                            if (work % 10 == 0) serverLevel.sendParticles(ParticleTypes.SCULK_SOUL, x + radius * Math.cos(i), this.getBlockPos().getY() + 0.5, z + radius * Math.sin(i), 1, 0, 0, 0, 0);
+                            if (work % 10 == 0)
+                                serverLevel.sendParticles(ParticleTypes.SCULK_SOUL, x + radius * Math.cos(i), this.getBlockPos().getY() + 0.5, z + radius * Math.sin(i), 1, 0, 0, 0, 0);
                         }
                     }
                     work++;
@@ -154,7 +155,7 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
                             entityStorage = Pair.of(crystalStorage.getTag().toString(), new ItemEntity(level, 0, 0, 0, crystalStorage));
                         } else {
                             SoulStack stack = container.getSoulStack(0);
-                            if(stack.getEntity() != null) {
+                            if (stack.getEntity() != null) {
                                 Entity o = stack.getEntity().create(level);
                                 if (o != null) {
                                     entityStorage = Pair.of(crystalStorage.getTag().toString(), o);
@@ -241,7 +242,7 @@ public class SoulCageBlockEntity extends BlockEntity implements WorldlyContainer
 
     @Override
     public void setItem(int i, ItemStack itemStack) {
-        if(crystalStorage == null || crystalStorage.isEmpty()) {
+        if (crystalStorage == null || crystalStorage.isEmpty()) {
             crystalStorage = itemStack;
             setChanged();
         }

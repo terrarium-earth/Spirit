@@ -17,7 +17,7 @@ public class TransmutationDisplay extends BasicDisplay {
                 List.of(EntryIngredients.of(recipe.result())), Optional.ofNullable(recipe.getId()));
         this.recipe = recipe;
     }
-    
+
     public TransmutationRecipe recipe() {
         return recipe;
     }

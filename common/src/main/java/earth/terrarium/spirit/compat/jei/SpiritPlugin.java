@@ -27,6 +27,7 @@ import java.util.List;
 @JeiPlugin
 public class SpiritPlugin implements IModPlugin {
     public static final IIngredientType<EntityIngredient> ENTITY_INGREDIENT = () -> EntityIngredient.class;
+
     @Override
     public ResourceLocation getPluginUid() {
         return new ResourceLocation(Spirit.MODID, "jei");
@@ -36,7 +37,7 @@ public class SpiritPlugin implements IModPlugin {
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
         IModPlugin.super.registerRecipes(registration);
         var level = Minecraft.getInstance().level;
-        if(level != null) {
+        if (level != null) {
             registration.addRecipes(PedestalRecipeCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritRecipes.SUMMONING.get()));
             registration.addRecipes(SoulEngulfingCategory.RECIPE, SoulEngulfingCategory.getRecipes(level.getRecipeManager().getAllRecipesFor(SpiritRecipes.SOUL_ENGULFING.get())));
         }

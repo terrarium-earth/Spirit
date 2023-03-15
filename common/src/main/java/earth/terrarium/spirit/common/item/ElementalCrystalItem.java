@@ -12,13 +12,17 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.BaseFireBlock;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.CandleBlock;
+import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public class ElementalCrystalItem extends Item {
     private final SoulElement element;
+
     public ElementalCrystalItem(SoulElement element, Properties properties) {
         super(properties);
         this.element = element;
@@ -38,7 +42,7 @@ public class ElementalCrystalItem extends Item {
                 level.gameEvent(player, GameEvent.BLOCK_PLACE, blockPos);
                 ItemStack itemStack = useOnContext.getItemInHand();
                 if (player instanceof ServerPlayer) {
-                    CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, blockPos2, itemStack);
+                    CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockPos2, itemStack);
                 }
 
                 return InteractionResult.sidedSuccess(level.isClientSide());

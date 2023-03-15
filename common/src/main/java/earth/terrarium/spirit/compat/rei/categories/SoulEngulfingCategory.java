@@ -94,6 +94,7 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
                     Tooltip.create(new Point(mouseX, mouseY), strings).queue();
                 }
             }
+
             public Rectangle getBounds() {
                 return new Rectangle(2, 26, 103, 74);
             }
@@ -105,7 +106,7 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
 
             @Override
             public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-                if(button == 1) {
+                if (button == 1) {
                     xOffset += deltaX * .5;
                     yOffset += deltaY * .5;
                 }
@@ -151,9 +152,9 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
             stack.pushPose();
             Lighting.setupForFlatItems();
             float scaled = 1.6F * scale;
-            double width = recipe.getMultiblock().pattern().get(0).size() * OFFSET * (scaled/16f);
-            double height = recipe.blockMap.size() * 16 + (66 - recipe.blockMap.size() * OFFSET  * (scaled/16f));
-            stack.translate(52 - width + xOffset, height + yOffset - ((16 - scaled)/16 * 48), 100);
+            double width = recipe.getMultiblock().pattern().get(0).size() * OFFSET * (scaled / 16f);
+            double height = recipe.blockMap.size() * 16 + (66 - recipe.blockMap.size() * OFFSET * (scaled / 16f));
+            stack.translate(52 - width + xOffset, height + yOffset - ((16 - scaled) / 16 * 48), 100);
             stack.scale(scaled, -scaled, 1);
             stack.mulPose(Axis.XP.rotationDegrees(45));
             stack.mulPose(Axis.YP.rotationDegrees(45));
@@ -181,11 +182,11 @@ public class SoulEngulfingCategory implements DisplayCategory<SoulEngulfingDispl
             recipe.layer = Math.max(recipe.layer - 1, 0);
             return true;
         }
-        if(keyCode == InputConstants.KEY_MINUS) {
+        if (keyCode == InputConstants.KEY_MINUS) {
             scale = Math.max(scale - 1, 1);
             return true;
         }
-        if(keyCode == InputConstants.KEY_EQUALS) {
+        if (keyCode == InputConstants.KEY_EQUALS) {
             scale = Math.min(scale + 1, 20);
             return true;
         }

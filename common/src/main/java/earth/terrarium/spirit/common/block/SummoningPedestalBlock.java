@@ -27,7 +27,7 @@ public class SummoningPedestalBlock extends BasePedestalBlock<SummoningRecipe> {
     );
 
     public SummoningPedestalBlock(Properties properties) {
-        super(SpiritRecipes.SUMMONING.get(), properties);
+        super(SpiritRecipes.SUMMONING, properties);
     }
 
     @Nullable

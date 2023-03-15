@@ -35,7 +35,7 @@ public class SoulEngulfingRecipeWrapper {
         var keys = new HashMap<>(multiblock.keys());
         keys.putAll(SoulfireMultiblock.RESERVED_VALUES);
         for (Map.Entry<BlockPos, Character> entry : placementMap.entrySet()) {
-            if(keys.get(String.valueOf(entry.getValue())).blocks().isPresent()) {
+            if (keys.get(String.valueOf(entry.getValue())).blocks().isPresent()) {
                 blocks.add(new BlockMap(entry.getKey(), convert(keys.get(String.valueOf(entry.getValue())).blocks().get())));
             }
         }

@@ -16,7 +16,8 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "earth.terrarium.spirit.fabric.SpiritFabric"
+      "earth.terrarium.spirit.fabric.SpiritFabric",
+      "earth.terrarium.spirit.Spirit::postInit"
     ],
     "client": [
       "earth.terrarium.spirit.client.fabric.SpiritClientFabric"
@@ -28,13 +29,13 @@
       "earth.terrarium.spirit.compat.rei.SpiritPlugin"
     ]
   },
-  "accessWidener": "spirit.accesswidener",
   "mixins": [
-    "spirit.common.mixins.json",
-    "spirit.fabric.mixins.json"
+    "spirit-common.mixins.json",
+    "spirit.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.10",
-    "minecraft": ">=1.19.2"
+    "fabric": "*",
+    "minecraft": ">=1.19",
+    "resourcefullib": ">=1.2.7"
   }
 }

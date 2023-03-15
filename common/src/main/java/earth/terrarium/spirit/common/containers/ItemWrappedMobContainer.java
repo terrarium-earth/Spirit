@@ -20,7 +20,7 @@ public record ItemWrappedMobContainer(ItemStack stack, MobContainer container) i
     @Override
     public boolean insertMob(LivingEntity mob) {
         boolean b = container.insertMob(mob);
-        if(b) update();
+        if (b) update();
         return b;
     }
 
@@ -28,7 +28,7 @@ public record ItemWrappedMobContainer(ItemStack stack, MobContainer container) i
     @Override
     public LivingEntity extractMob(Level level) {
         LivingEntity entity = container.extractMob(level);
-        if(entity != null) update();
+        if (entity != null) update();
         return entity;
     }
 
@@ -45,28 +45,28 @@ public record ItemWrappedMobContainer(ItemStack stack, MobContainer container) i
     @Override
     public int insertIntoSlot(SoulStack soulStack, int slot, InteractionMode mode) {
         int insert = container.insertIntoSlot(soulStack, slot, mode);
-        if(mode == InteractionMode.NO_TAKE_BACKSIES) update();
+        if (mode == InteractionMode.NO_TAKE_BACKSIES) update();
         return insert;
     }
 
     @Override
     public int insert(SoulStack soulStack, InteractionMode mode) {
         int insert = container.insert(soulStack, mode);
-        if(mode == InteractionMode.NO_TAKE_BACKSIES) update();
+        if (mode == InteractionMode.NO_TAKE_BACKSIES) update();
         return insert;
     }
 
     @Override
     public SoulStack extractFromSlot(SoulStack soulStack, int slot, InteractionMode mode) {
         SoulStack soulStack1 = container.extractFromSlot(soulStack, slot, mode);
-        if(mode == InteractionMode.NO_TAKE_BACKSIES) update();
+        if (mode == InteractionMode.NO_TAKE_BACKSIES) update();
         return soulStack1;
     }
 
     @Override
     public SoulStack extract(SoulStack soulStack, InteractionMode mode) {
         SoulStack extract = container.extract(soulStack, mode);
-        if(mode == InteractionMode.NO_TAKE_BACKSIES) update();
+        if (mode == InteractionMode.NO_TAKE_BACKSIES) update();
         return extract;
     }
 

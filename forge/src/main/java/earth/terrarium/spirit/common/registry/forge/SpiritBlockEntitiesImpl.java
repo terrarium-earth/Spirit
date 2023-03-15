@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class SpiritBlockEntitiesImpl {
-    public static <T extends BlockEntity>BlockEntityType.Builder<T>  create(SpiritBlockEntities.BlockEntitySupplier<T> supplier, Block... blocks) {
+    public static <T extends BlockEntity> BlockEntityType.Builder<T> create(SpiritBlockEntities.BlockEntitySupplier<T> supplier, Block... blocks) {
         return BlockEntityType.Builder.of(supplier::create, blocks);
     }
 }

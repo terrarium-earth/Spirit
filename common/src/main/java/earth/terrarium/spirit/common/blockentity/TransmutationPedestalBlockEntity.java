@@ -16,7 +16,7 @@ public class TransmutationPedestalBlockEntity extends AbstractPedestalBlockEntit
 
     @Override
     public void finishRecipe() {
-        if(level == null || this.containedRecipe == null) return;
+        if (level == null || this.containedRecipe == null) return;
         Entity entity = new ItemEntity(level, getBlockPos().getX() + 0.5, getBlockPos().getY() + 0.75, getBlockPos().getZ() + 0.5, this.containedRecipe.result().copy());
         level.addFreshEntity(entity);
         for (int i = 0; i < 10; i++) {

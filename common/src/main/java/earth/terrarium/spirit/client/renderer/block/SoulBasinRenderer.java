@@ -22,7 +22,7 @@ public class SoulBasinRenderer implements BlockEntityRenderer<SoulBasinBlockEnti
     @Override
     public void render(SoulBasinBlockEntity blockEntity, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource multiBufferSource, int i, int j) {
         if (!blockEntity.hasLevel()) return;
-        if( !blockEntity.getContainer().isEmpty()) {
+        if (!blockEntity.getContainer().isEmpty()) {
             var entity = blockEntity.getOrCreateEntity();
             entity.tickCount = blockEntity.age;
             entity.tick();
@@ -38,7 +38,7 @@ public class SoulBasinRenderer implements BlockEntityRenderer<SoulBasinBlockEnti
             var oldTick = Math.max(blockEntity.age - 1, 0);
             matrixStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, oldTick, degrees) % 360));
             matrixStack.scale(g, g, g);
-            matrixStack.translate(0, Math.sin(blockEntity.age * .1) * 0.05 + 0.05,0);
+            matrixStack.translate(0, Math.sin(blockEntity.age * .1) * 0.05 + 0.05, 0);
             Minecraft.getInstance().getEntityRenderDispatcher().render(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, matrixStack, multiBufferSource, i);
             matrixStack.popPose();
             FluidHolderRenderer.renderFluid(blockEntity.getContainer().getSoulStack(0).getAmount(), blockEntity.getContainer().maxCapacity(), matrixStack, multiBufferSource, i);

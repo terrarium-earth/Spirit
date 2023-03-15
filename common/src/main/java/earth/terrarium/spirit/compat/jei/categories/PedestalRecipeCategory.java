@@ -43,7 +43,7 @@ public class PedestalRecipeCategory extends BaseCategory<SummoningRecipe> {
         super(guiHelper,
                 RECIPE,
                 Component.translatable("spirit.jei.soul_transmutation.title"),
-                guiHelper.drawableBuilder(GUI_BACKGROUND, 0,0, 150, 100).build(),
+                guiHelper.drawableBuilder(GUI_BACKGROUND, 0, 0, 150, 100).build(),
                 guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, SpiritBlocks.SUMMONING_PEDESTAL.get().asItem().getDefaultInstance()));
     }
 
@@ -55,9 +55,10 @@ public class PedestalRecipeCategory extends BaseCategory<SummoningRecipe> {
         var nbt = new CompoundTag();
         nbt.putBoolean("Corrupted", true);
         var entityTypes = recipe.entityInputs().stream().flatMap(SoulIngredient::getEntities).map(entityType -> new EntityIngredient(entityType, -45F, Optional.of(nbt))).toList();
-        if(recipe.activationItem().isPresent()) {
+        if (recipe.activationItem().isPresent()) {
             builder.addSlot(RecipeIngredientRole.CATALYST, 93, 21).addIngredients(recipe.activationItem().get()).addTooltipCallback((recipeSlotView, tooltip) -> {
-                if(recipe.consumesActivator()) tooltip.add(Component.translatable("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));
+                if (recipe.consumesActivator())
+                    tooltip.add(Component.translatable("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));
             });
         }
         builder.addSlot(RecipeIngredientRole.INPUT, 28, 37).addIngredients(SpiritPlugin.ENTITY_INGREDIENT, entityTypes).setCustomRenderer(SpiritPlugin.ENTITY_INGREDIENT, BigEntityRenderer.INSTANCE);
@@ -67,7 +68,7 @@ public class PedestalRecipeCategory extends BaseCategory<SummoningRecipe> {
     @Override
     public List<Component> getTooltipStrings(SummoningRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
         List<Component> components = new ArrayList<>();
-        if(recipe.activationItem().isEmpty() && mouseX > 91 && mouseX < 111 && mouseY > 19 && mouseY < 39) {
+        if (recipe.activationItem().isEmpty() && mouseX > 91 && mouseX < 111 && mouseY > 19 && mouseY < 39) {
             components.add(Component.translatable("spirit.jei.soul_transmutation.empty_hand"));
         }
         return components;

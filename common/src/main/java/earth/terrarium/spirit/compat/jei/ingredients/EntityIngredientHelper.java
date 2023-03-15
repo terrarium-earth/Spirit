@@ -6,7 +6,6 @@ import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -18,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * This class was largely inspired by or taken from the Resourceful Bees repository with
  * the expressed permission from one of their developers.
+ *
  * @author Team Resourceful
  */
 public class EntityIngredientHelper implements IIngredientHelper<EntityIngredient> {

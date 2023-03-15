@@ -25,7 +25,7 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalBlockEntity
         matrixStack.translate(0.5D, 1.05D, 0.5D);
         matrixStack.mulPose(Axis.YP.rotationDegrees(blockEntity.age % 360));
         matrixStack.scale(0.55f, 0.55f, 0.55f);
-        matrixStack.translate(0, Math.sin(blockEntity.age * .1) * 0.05 + 0.05,0);
+        matrixStack.translate(0, Math.sin(blockEntity.age * .1) * 0.05 + 0.05, 0);
         itemRenderer.renderStatic(blockEntity.getItem(0), ItemTransforms.TransformType.NONE, i, OverlayTexture.NO_OVERLAY, matrixStack, multiBufferSource, 0);
         matrixStack.popPose();
     }

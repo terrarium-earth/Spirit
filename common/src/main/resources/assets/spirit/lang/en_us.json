@@ -1,5 +1,5 @@
 {
-  "creative_tab.spirit": "Spirit",
+  "itemGroup.spirit.main": "Spirit",
   "item.spirit.soul_crystal": "Soul Crystal",
   "item.spirit.crude_soul_crystal": "Crude Soul Crystal",
   "item.spirit.soul_crystal_shard": "Soul Crystal Shard",
@@ -110,5 +110,10 @@
 
   "spirit.item.mob_container.soulful": "❣ %s",
   "spirit.item.mob_container.soulless": "☠ %s",
-  "spirit.item.mob_container.empty": "❣ %s"
+  "spirit.item.mob_container.empty": "❣ %s",
+
+  "item.spirit.soul_steel_helmet": "Soul Steel Helmet",
+  "item.spirit.soul_steel_chestplate": "Soul Steel Chestplate",
+  "item.spirit.soul_steel_leggings": "Soul Steel Leggings",
+  "item.spirit.soul_steel_boots": "Soul Steel Boots"
 }

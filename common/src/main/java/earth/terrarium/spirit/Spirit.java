@@ -50,4 +50,8 @@ public class Spirit {
             return amount;
         });
     }
+
+    public static void postInit() {
+        SpiritBlocks.registerSoulElements();
+    }
 }

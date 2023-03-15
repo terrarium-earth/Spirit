@@ -1,27 +1,22 @@
 package earth.terrarium.spirit.common.blockentity;
 
-import earth.terrarium.spirit.api.storage.BlockEntitySoulContainer;
 import earth.terrarium.spirit.common.recipes.PedestalRecipe;
-import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.util.RecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-
 public abstract class AbstractPedestalBlockEntity<T extends PedestalRecipe<?>> extends BlockEntity {
-    @Nullable public Entity entity;
+    @Nullable
+    public Entity entity;
 
     @Nullable
     public T containedRecipe;

@@ -1,5 +1,6 @@
 package earth.terrarium.spirit.common.block;
 
+import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import earth.terrarium.spirit.common.blockentity.AbstractPedestalBlockEntity;
 import earth.terrarium.spirit.common.recipes.PedestalRecipe;
 import earth.terrarium.spirit.common.util.RecipeUtils;
@@ -9,22 +10,17 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class BasePedestalBlock<T extends PedestalRecipe<?>> extends BaseEntityBlock {
-    private final RecipeType<T> recipeType;
+    private final RegistryEntry<RecipeType<T>> recipeType;
 
-    public BasePedestalBlock(RecipeType<T> recipeType, Properties properties) {
+    public BasePedestalBlock(RegistryEntry<RecipeType<T>> recipeType, Properties properties) {
         super(properties);
         this.recipeType = recipeType;
     }
@@ -35,7 +31,7 @@ public abstract class BasePedestalBlock<T extends PedestalRecipe<?>> extends Bas
             ItemStack stack = player.getItemInHand(interactionHand);
             if (level.getBlockEntity(blockPos) instanceof AbstractPedestalBlockEntity<?>) {
                 AbstractPedestalBlockEntity<T> soulPedestal = (AbstractPedestalBlockEntity<T>) level.getBlockEntity(blockPos);
-                var recipes = PedestalRecipe.getRecipesForEntity(recipeType, stack, level.getRecipeManager());
+                var recipes = PedestalRecipe.getRecipesForEntity(recipeType.get(), stack, level.getRecipeManager());
                 if (!recipes.isEmpty()) {
                     var items = RecipeUtils.getPedestalItems(blockPos, level);
                     var souls = RecipeUtils.getPedestalSouls(blockPos, level);

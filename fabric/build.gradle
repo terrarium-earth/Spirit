@@ -15,25 +15,19 @@ configurations {
     developmentFabric.extendsFrom common
 }
 
-loom {
-    accessWidenerPath.set(project(":fabric").file("src/main/resources/spirit.accesswidener"))
-}
-
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    modApi "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version+$rootProject.minecraft_version"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-    include modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-$rootProject.resourcefullib_version")
 
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rootProject.rei_version"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:$rootProject.rei_version"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:$rootProject.rei_version"
     modLocalRuntime "dev.architectury:architectury-fabric:7.0.66"
-    modLocalRuntime modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}") {
-        exclude group: "net.fabricmc.fabric-api"
-    }
 
-    //modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric:$jei_version") {exclude group: "mezz.jei"}
-    //modRuntimeOnly("mezz.jei:jei-${project.jei_minecraft_release}-fabric:${project.jei_version}")
+    modApi "com.teamresourceful.resourcefullib:resourcefullib-fabric-$rootProject.minecraft_version:$rootProject.resourcefullib_version"
 }
 
 processResources {
