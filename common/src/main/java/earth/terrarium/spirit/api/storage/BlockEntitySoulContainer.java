@@ -3,6 +3,7 @@ package earth.terrarium.spirit.api.storage;
 import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.List;
@@ -63,5 +64,6 @@ public record BlockEntitySoulContainer(BlockEntity entity, SoulContainer contain
 
     private void update() {
         entity.setChanged();
+        entity.getLevel().sendBlockUpdated(entity.getBlockPos(), entity.getBlockState(), entity.getBlockState(), Block.UPDATE_ALL_IMMEDIATE);
     }
 }

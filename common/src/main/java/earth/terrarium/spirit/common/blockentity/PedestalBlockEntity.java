@@ -49,28 +49,22 @@ public class PedestalBlockEntity extends BlockEntity implements WorldlyContainer
 
     public void update() {
         this.setChanged();
-        if (getLevel() != null)
-            getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_ALL);
+        if(getLevel() != null) getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_ALL_IMMEDIATE);
     }
 
     @Override
     public ItemStack removeItem(int i, int j) {
-        ItemStack stack = ContainerHelper.removeItem(inventory, i, j);
-        update();
-        return stack;
+        return ContainerHelper.removeItem(inventory, i, j);
     }
 
     @Override
     public ItemStack removeItemNoUpdate(int i) {
-        ItemStack stack = ContainerHelper.takeItem(inventory, i);
-        update();
-        return stack;
+        return ContainerHelper.takeItem(inventory, i);
     }
 
     @Override
     public void setItem(int i, @NotNull ItemStack itemStack) {
         inventory.set(i, itemStack);
-        update();
     }
 
     @Override
@@ -86,6 +80,7 @@ public class PedestalBlockEntity extends BlockEntity implements WorldlyContainer
     @Override
     public void load(@NotNull CompoundTag compoundTag) {
         super.load(compoundTag);
+        inventory = NonNullList.withSize(1, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(compoundTag, inventory);
     }
 

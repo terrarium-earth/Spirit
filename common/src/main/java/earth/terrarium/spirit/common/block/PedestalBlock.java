@@ -1,6 +1,7 @@
 package earth.terrarium.spirit.common.block;
 
 import earth.terrarium.spirit.common.blockentity.PedestalBlockEntity;
+import earth.terrarium.spirit.common.blockentity.SoulCageBlockEntity;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -40,24 +41,24 @@ public class PedestalBlock extends BaseEntityBlock {
     }
 
     public @NotNull InteractionResult use(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
-        if (interactionHand != InteractionHand.OFF_HAND) {
-            ItemStack itemStack = player.getMainHandItem();
-            if (level.getBlockEntity(blockPos) instanceof PedestalBlockEntity soulPedestal) {
-                if (soulPedestal.isEmpty()) {
-                    soulPedestal.setItem(0, itemStack.copy());
-                    if (!player.getAbilities().instabuild) itemStack.setCount(0);
-                    soulPedestal.update();
+        if (!level.isClientSide && interactionHand == InteractionHand.MAIN_HAND) {
+            //insert item
+            ItemStack stack = player.getItemInHand(interactionHand);
+            BlockEntity blockEntity = level.getBlockEntity(blockPos);
+            if (blockEntity instanceof PedestalBlockEntity cage) {
+                if (cage.isEmpty() && !stack.isEmpty()) {
+                    cage.setItem(0, stack);
+                    player.setItemInHand(interactionHand, ItemStack.EMPTY);
+                    cage.update();
                     return InteractionResult.SUCCESS;
-                } else if (itemStack.isEmpty()) {
-                    ItemStack soulCrystal = soulPedestal.removeItemNoUpdate(0);
-                    player.getInventory().placeItemBackInInventory(soulCrystal);
-                    soulPedestal.update();
+                } else if (stack.isEmpty()) {
+                    player.setItemInHand(interactionHand, cage.removeItemNoUpdate(0));
+                    cage.update();
                     return InteractionResult.SUCCESS;
                 }
             }
         }
-
-        return InteractionResult.PASS;
+        return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
     }
 
     @Nullable

@@ -10,6 +10,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -61,6 +62,12 @@ public class SoulBasinBlock extends BaseEntityBlock {
                         SoulStack extract = soulPedestal.getContainer().extract(soulStack, InteractionMode.SIMULATE);
                         int inserted = soulContainer.insert(extract.copy(), InteractionMode.NO_TAKE_BACKSIES);
                         soulPedestal.getContainer().extract(new SoulStack(soulStack.getEntity(), inserted), InteractionMode.NO_TAKE_BACKSIES);
+                        return InteractionResult.sidedSuccess(level.isClientSide());
+                    }
+                } if (stack.getItem() instanceof SpawnEggItem spawnEggItem) {
+                    var soulStack = new SoulStack(spawnEggItem.getType(stack.getTag()), 1);
+                    if (soulPedestal.getContainer().insert(soulStack, InteractionMode.SIMULATE) == 1) {
+                        soulPedestal.getContainer().insert(soulStack, InteractionMode.NO_TAKE_BACKSIES);
                         return InteractionResult.sidedSuccess(level.isClientSide());
                     }
                 }

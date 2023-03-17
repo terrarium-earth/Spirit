@@ -2,7 +2,11 @@ package earth.terrarium.spirit.common.block;
 
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.elements.SoulElement;
+import earth.terrarium.spirit.common.blockentity.AbstractPedestalBlockEntity;
+import earth.terrarium.spirit.common.recipes.PedestalRecipe;
 import earth.terrarium.spirit.common.recipes.SoulEngulfingRecipe;
+import earth.terrarium.spirit.common.registry.SpiritRecipes;
+import earth.terrarium.spirit.common.util.RecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -10,6 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -49,27 +54,18 @@ public class RagingSoulFireBlock extends SoulFireBlock {
     @Override
     public void entityInside(BlockState blockState, Level level, BlockPos blockPos, Entity entity) {
         if (entity instanceof ItemEntity itemE && level instanceof ServerLevel serverLevel) {
-            for (var recipe : SoulEngulfingRecipe.getRecipesForStack(itemE.getItem(), level.getRecipeManager())) {
-                if (recipe.validateRecipe(blockPos, itemE, serverLevel)) {
-                    return;
-                }
-            }
-
-            if (itemE.getItem().is(Spirit.SOUL_FIRE_IMMUNE)) {
-                itemE.setInvulnerable(true);
-            }
-
-            if (itemE.getItem().is(Spirit.SOUL_FIRE_REPAIRABLE)) {
-                itemE.setInvulnerable(true);
-                ItemStack tool = itemE.getItem();
-                if (tool.isDamaged() && level.random.nextBoolean()) {
-                    tool.setDamageValue(tool.getDamageValue() - 1);
-                    serverLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 5, 0.5, 0.75, 0.5, 0);
+            var recipes = PedestalRecipe.getRecipesForEntity(SpiritRecipes.TRANSMUTATION.get(), itemE.getItem(), level.getRecipeManager());
+            if (!recipes.isEmpty()) {
+                var items = RecipeUtils.getPedestalItems(blockPos, level);
+                var souls = RecipeUtils.getPedestalSouls(blockPos, level);
+                for (var recipe : recipes) {
+                    if (RecipeUtils.validatePedestals(level, recipe, items, souls, true)) {
+                        itemE.getItem().shrink(1);
+                        ItemEntity itemEntity = new ItemEntity(level, itemE.getX(), itemE.getY(), itemE.getZ(), recipe.result().copy());
+                        level.addFreshEntity(itemEntity);
+                    }
                 }
             }
         }
-        super.entityInside(blockState, level, blockPos, entity);
     }
-
-
 }

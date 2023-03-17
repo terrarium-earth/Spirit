@@ -27,9 +27,8 @@ public class SoulBasinRenderer implements BlockEntityRenderer<SoulBasinBlockEnti
             entity.tickCount = blockEntity.age;
             entity.tick();
             float g = 0.5F;
-            float h = Math.max(entity.getBbWidth(), entity.getBbHeight());
-            if ((double) h > 1.0D) {
-                g /= h;
+            if ((double) entity.getBbWidth() > 0.75D) {
+                g /= entity.getBbWidth();
             }
 
             matrixStack.pushPose();

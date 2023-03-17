@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "spirit:item/soul_crystal_tier_2"
-  }
-}

@@ -1,0 +1,11 @@
+{
+  "type": "spirit:soul_engulfing",
+  "input": {
+    "ingredient": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "duration": 2,
+  "destroysStructure": false,
+  "outputItem": "spirit:crystal_shard"
+}

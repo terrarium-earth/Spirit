@@ -1,0 +1,11 @@
+{
+  "type": "spirit:soul_engulfing",
+  "input": {
+    "ingredient": {
+      "item": "minecraft:tinted_glass"
+    }
+  },
+  "duration": 2,
+  "destroysStructure": false,
+  "outputItem": "spirit:soul_glass"
+}

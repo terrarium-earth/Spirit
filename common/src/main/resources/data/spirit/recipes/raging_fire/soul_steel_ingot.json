@@ -1,0 +1,11 @@
+{
+  "type": "spirit:soul_engulfing",
+  "input": {
+    "ingredient": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "duration": 2,
+  "destroysStructure": false,
+  "outputItem": "spirit:soul_steel_ingot"
+}

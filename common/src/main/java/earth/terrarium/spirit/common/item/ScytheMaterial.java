@@ -34,6 +34,6 @@ public class ScytheMaterial implements Tier {
 
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.of(SpiritItems.SOUL_SHARD.get());
+        return Ingredient.of(SpiritItems.CRYSTAL_SHARD.get());
     }
 }

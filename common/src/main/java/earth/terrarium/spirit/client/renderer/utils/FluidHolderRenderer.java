@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 public class FluidHolderRenderer {
-    public static TextureAtlasSprite SPRITE = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(new ResourceLocation(Spirit.MODID, "block/soul_glass"));
+    public static TextureAtlasSprite SPRITE = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(new ResourceLocation(Spirit.MODID, "block/soul_glass.png"));
 
     public static void renderFluid(int amount, int maxAmount, PoseStack stack, MultiBufferSource source, int light) {
         float percent = (float) amount / (float) maxAmount;
@@ -39,12 +39,12 @@ public class FluidHolderRenderer {
         int b = FastColor.ARGB32.blue(color);
         int a = FastColor.ARGB32.alpha(color);
         builder.vertex(matrix4f, x1, verticalOffset, z2).color(r, g, b, a).uv(texture.getU(0), texture.getV(0)).uv2(light).normal(0, 0F, 0).endVertex();
-        builder.vertex(matrix4f, x2, verticalOffset, z2).color(r, g, b, a).uv(texture.getU(16), texture.getV(0)).uv2(light).normal(0, 0F, 0).endVertex();
-        builder.vertex(matrix4f, x2, verticalOffset, z1).color(r, g, b, a).uv(texture.getU(16), texture.getV(16)).uv2(light).normal(0, 0F, 0).endVertex();
-        builder.vertex(matrix4f, x1, verticalOffset, z1).color(r, g, b, a).uv(texture.getU(0), texture.getV(16)).uv2(light).normal(0, 0F, 0).endVertex();
+        builder.vertex(matrix4f, x2, verticalOffset, z2).color(r, g, b, a).uv(texture.getU(64), texture.getV(0)).uv2(light).normal(0, 0F, 0).endVertex();
+        builder.vertex(matrix4f, x2, verticalOffset, z1).color(r, g, b, a).uv(texture.getU(64), texture.getV(64)).uv2(light).normal(0, 0F, 0).endVertex();
+        builder.vertex(matrix4f, x1, verticalOffset, z1).color(r, g, b, a).uv(texture.getU(0), texture.getV(64)).uv2(light).normal(0, 0F, 0).endVertex();
     }
 
     public static @NotNull AABB bounds() {
-        return new AABB(0.25, 0.6875, 0.25, 0.75, 0.9375, 0.75);
+        return new AABB(0.25, 0.6875, 0.25, 0.75, 0.875, 0.75);
     }
 }

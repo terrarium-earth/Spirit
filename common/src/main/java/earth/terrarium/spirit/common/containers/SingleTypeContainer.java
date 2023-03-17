@@ -56,7 +56,7 @@ public class SingleTypeContainer extends SingleSoulStackContainer {
         if (stack != null && !stack.isEmpty()) {
             tag.put(KEY, stack.toTag(new CompoundTag()));
         } else {
-            tag.remove(KEY);
+            tag.put(KEY, new CompoundTag());
         }
         return tag;
     }

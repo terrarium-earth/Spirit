@@ -7,6 +7,8 @@ import earth.terrarium.spirit.common.blockentity.PedestalBlockEntity;
 import earth.terrarium.spirit.common.blockentity.SoulBasinBlockEntity;
 import earth.terrarium.spirit.common.recipes.PedestalRecipe;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -22,7 +24,7 @@ public class RecipeUtils {
     //get items and souls in the pedestals nearby
     public static Map<BlockPos, ItemStack> getPedestalItems(BlockPos blockPos, Level level) {
         Map<BlockPos, ItemStack> ingredients = new HashMap<>();
-        AABB box = new AABB(blockPos).inflate(3, 0, 3);
+        AABB box = new AABB(blockPos).inflate(4,0,4);
         BlockPos.betweenClosedStream(box).forEach(pos -> {
             if (level.getBlockEntity(pos) instanceof PedestalBlockEntity pedestal) {
                 if (!pedestal.isEmpty()) {
@@ -35,7 +37,7 @@ public class RecipeUtils {
 
     public static Map<BlockPos, SoulStack> getPedestalSouls(BlockPos blockPos, Level level) {
         Map<BlockPos, SoulStack> ingredients = new HashMap<>();
-        AABB box = new AABB(blockPos).inflate(3, 0, 3);
+        AABB box = new AABB(blockPos).inflate(4,0,4);
         BlockPos.betweenClosedStream(box).forEach(pos -> {
             if (level.getBlockEntity(pos) instanceof SoulBasinBlockEntity basinBlock) {
                 if (!basinBlock.getContainer().isEmpty()) {
@@ -77,6 +79,9 @@ public class RecipeUtils {
                 if (level.getBlockEntity(pos) instanceof PedestalBlockEntity pedestal) {
                     pedestal.getItem(0).shrink(1);
                     pedestal.update();
+                    if (level instanceof ServerLevel serverLevel) {
+                        serverLevel.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, 3, 0,0.1,0,0.01);
+                    }
                 }
             });
             markedSoulIngredients.forEach((pos, stack) -> {
@@ -84,6 +89,9 @@ public class RecipeUtils {
                     SoulStack toRemove = basinBlock.getContainer().getSoulStack(0).copy();
                     toRemove.setAmount(1);
                     basinBlock.getContainer().extract(toRemove, InteractionMode.NO_TAKE_BACKSIES);
+                    if (level instanceof ServerLevel serverLevel) {
+                        serverLevel.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, 3, 0,0.1,0,0.01);
+                    }
                 }
             });
         }

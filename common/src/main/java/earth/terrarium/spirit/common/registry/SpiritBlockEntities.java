@@ -14,6 +14,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.NotImplementedException;
 
+import java.util.function.Supplier;
+
 public class SpiritBlockEntities {
 
     public static final ResourcefulRegistry<BlockEntityType<?>> BLOCK_ENTITIES = ResourcefulRegistries.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, Spirit.MODID);
@@ -22,10 +24,7 @@ public class SpiritBlockEntities {
 
     public static final RegistryEntry<BlockEntityType<PedestalBlockEntity>> PEDESTAL = BLOCK_ENTITIES.register("pedestal", () -> create(PedestalBlockEntity::new, SpiritBlocks.PEDESTAL.get()).build(null));
 
-    public static final RegistryEntry<BlockEntityType<SummoningPedestalBlockEntity>> SUMMONING_PEDESTAL = BLOCK_ENTITIES.register("summoning_pedestal", () -> create(SummoningPedestalBlockEntity::new, SpiritBlocks.SUMMONING_PEDESTAL.get()).build(null));
-    public static final RegistryEntry<BlockEntityType<TransmutationPedestalBlockEntity>> TRANSMUTATION_PEDESTAL = BLOCK_ENTITIES.register("transmutation_pedestal", () -> create(TransmutationPedestalBlockEntity::new, SpiritBlocks.TRANSMUTATION_PEDESTAL.get()).build(null));
-
-    public static final RegistryEntry<BlockEntityType<SoulBasinBlockEntity>> SOUL_BASIN = BLOCK_ENTITIES.register("soul_basin", () -> create(SoulBasinBlockEntity::new, SpiritBlocks.SOUL_BASIN.get()).build(null));
+    public static final Supplier<BlockEntityType<SoulBasinBlockEntity>> SOUL_BASIN = BLOCK_ENTITIES.register("soul_basin", () -> create(SoulBasinBlockEntity::new, SpiritBlocks.SOUL_BASIN.get()).build(null));
 
     @ExpectPlatform
     public static <T extends BlockEntity> BlockEntityType.Builder<T> create(BlockEntitySupplier<T> supplier, Block... blocks) {

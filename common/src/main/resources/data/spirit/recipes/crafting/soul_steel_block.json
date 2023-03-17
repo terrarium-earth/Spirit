@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    }
+  ],
+  "result": {
+    "item": "spirit:soul_steel_block"
+  }
+}

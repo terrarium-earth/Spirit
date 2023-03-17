@@ -4,7 +4,6 @@ import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.api.elements.BaseElements;
 import earth.terrarium.spirit.common.item.ElementalCrystalItem;
 import earth.terrarium.spirit.common.item.MobCrystalItem;
 import earth.terrarium.spirit.common.item.ScytheItem;
@@ -34,8 +33,6 @@ public class SpiritItems {
 
     //pedestals
     public static final RegistryEntry<Item> PEDESTAL = ITEMS.register("pedestal", () -> new BlockItem(SpiritBlocks.PEDESTAL.get(), new Item.Properties()));
-    public static final RegistryEntry<Item> SUMMONING_PEDESTAL = ITEMS.register("summoning_pedestal", () -> new BlockItem(SpiritBlocks.SUMMONING_PEDESTAL.get(), new Item.Properties()));
-    public static final RegistryEntry<Item> TRANSMUTATION_PEDESTAL = ITEMS.register("transmutation_pedestal", () -> new BlockItem(SpiritBlocks.TRANSMUTATION_PEDESTAL.get(), new Item.Properties()));
     public static final RegistryEntry<Item> SOUL_BASIN = ITEMS.register("soul_basin", () -> new BlockItem(SpiritBlocks.SOUL_BASIN.get(), new Item.Properties()));
 
     //tools
@@ -44,12 +41,6 @@ public class SpiritItems {
     //crafting materials
     public static final RegistryEntry<Item> SOUL_SHARD = ITEMS.register("soul_shard", () -> new Item(new Item.Properties()));
     public static final RegistryEntry<Item> SOUL_STEEL_INGOT = ITEMS.register("soul_steel_ingot", () -> new Item(new Item.Properties()));
-
-    //elemental crystals fire, water, earth, ender
-    public static final RegistryEntry<Item> EMBER_CRYSTAL = ITEMS.register("ember_crystal", () -> new ElementalCrystalItem(BaseElements.EMBER, new Item.Properties()));
-    public static final RegistryEntry<Item> WATER_CRYSTAL = ITEMS.register("water_crystal", () -> new ElementalCrystalItem(BaseElements.WATER, new Item.Properties()));
-    public static final RegistryEntry<Item> EARTH_CRYSTAL = ITEMS.register("earth_crystal", () -> new ElementalCrystalItem(BaseElements.EARTH, new Item.Properties()));
-    public static final RegistryEntry<Item> ENDER_CRYSTAL = ITEMS.register("ender_crystal", () -> new ElementalCrystalItem(BaseElements.ENDER, new Item.Properties()));
 
     // armor
     private static final ArmorMaterial SOUL_STEEL_ARMOR_MATERIAL = new SoulSteelArmorMaterial();

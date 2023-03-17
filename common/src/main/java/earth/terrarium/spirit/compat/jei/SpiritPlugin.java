@@ -37,8 +37,8 @@ public class SpiritPlugin implements IModPlugin {
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
         IModPlugin.super.registerRecipes(registration);
         var level = Minecraft.getInstance().level;
-        if (level != null) {
-            registration.addRecipes(PedestalRecipeCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritRecipes.SUMMONING.get()));
+        if(level != null) {
+            registration.addRecipes(PedestalRecipeCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritRecipes.TRANSMUTATION.get()));
             registration.addRecipes(SoulEngulfingCategory.RECIPE, SoulEngulfingCategory.getRecipes(level.getRecipeManager().getAllRecipesFor(SpiritRecipes.SOUL_ENGULFING.get())));
         }
     }
@@ -50,7 +50,6 @@ public class SpiritPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(SpiritBlocks.SUMMONING_PEDESTAL.get().asItem().getDefaultInstance(), PedestalRecipeCategory.RECIPE);
         registration.addRecipeCatalyst(SpiritBlocks.PEDESTAL.get().asItem().getDefaultInstance(), PedestalRecipeCategory.RECIPE);
         registration.addRecipeCatalyst(Blocks.SOUL_SAND.asItem().getDefaultInstance(), SoulEngulfingCategory.RECIPE);
         registration.addRecipeCatalyst(Items.FLINT_AND_STEEL.getDefaultInstance(), SoulEngulfingCategory.RECIPE);

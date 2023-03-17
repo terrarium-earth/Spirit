@@ -1,0 +1,33 @@
+{
+  "type": "spirit:transmutation",
+  "entityInputs": [
+    "minecraft:villager"
+  ],
+  "itemInputs": [
+    {
+      "item": "minecraft:golden_apple"
+    },
+    {
+      "item": "minecraft:golden_apple"
+    },
+    {
+      "item": "minecraft:ghast_tear"
+    },
+    {
+      "item": "minecraft:glistering_melon_slice"
+    },
+    {
+      "item": "minecraft:glistering_melon_slice"
+    },
+    {
+      "item": "spirit:earth_powder"
+    },
+    {
+      "item": "spirit:earth_powder"
+    }
+  ],
+  "activatorItem": {
+    "item": "spirit:earth_crystal"
+  },
+  "result":  "minecraft:totem_of_undying"
+}

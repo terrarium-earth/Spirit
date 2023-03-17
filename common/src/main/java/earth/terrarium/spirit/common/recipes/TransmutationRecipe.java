@@ -21,7 +21,7 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.Optional;
 
-public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> activationItem, boolean consumesActivator,
+public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> activationItem,
                                   List<SoulIngredient> entityInputs, List<Ingredient> itemInputs,
                                   ItemStack result,
                                   int duration) implements CodecRecipe<Container>, PedestalRecipe<ItemStack> {
@@ -29,7 +29,6 @@ public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> acti
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(id),
                 IngredientCodec.CODEC.optionalFieldOf("activatorItem").forGetter(TransmutationRecipe::activationItem),
-                Codec.BOOL.fieldOf("consumesActivator").orElse(false).forGetter(TransmutationRecipe::consumesActivator),
                 SoulIngredient.CODEC.listOf().fieldOf("entityInputs").forGetter(TransmutationRecipe::entityInputs),
                 IngredientCodec.CODEC.listOf().fieldOf("itemInputs").forGetter(TransmutationRecipe::itemInputs),
                 ItemStackCodec.CODEC.fieldOf("result").forGetter(TransmutationRecipe::result),
@@ -71,5 +70,10 @@ public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> acti
 
     public ItemEntity createEntity(Level level, double x, double y, double z) {
         return new ItemEntity(level, x, y, z, result.copy());
+    }
+
+    @Override
+    public boolean consumesActivator() {
+        return true;
     }
 }

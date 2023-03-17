@@ -1,11 +1,11 @@
 package earth.terrarium.spirit.common.item;
 
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.api.souls.Tier;
 import earth.terrarium.spirit.api.storage.AutoAbsorbing;
 import earth.terrarium.spirit.api.storage.ItemStackContainer;
 import earth.terrarium.spirit.api.storage.SoulContainingObject;
 import earth.terrarium.spirit.api.storage.Tierable;
+import earth.terrarium.spirit.api.souls.SoulData;
 import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.utils.EntityRarity;
 import earth.terrarium.spirit.api.utils.SoulStack;
@@ -24,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class SoulCrystalItem extends Item implements SoulContainingObject.Item, AutoAbsorbing, Tierable {
@@ -35,7 +34,7 @@ public class SoulCrystalItem extends Item implements SoulContainingObject.Item, 
     @Override
     @NotNull
     public SoulContainer getContainer(ItemStack object) {
-        return new ItemStackContainer(object, new SingleTypeContainer(512));
+        return new ItemStackContainer(object, new SingleTypeContainer(CrystalConfig.soulCrystalCap));
     }
 
     @Override
@@ -59,20 +58,14 @@ public class SoulCrystalItem extends Item implements SoulContainingObject.Item, 
 
     public static List<Component> shiftToolTipComponents(@NotNull ItemStack itemStack, @Nullable Level level) {
         List<Component> list = new ArrayList<>();
-        if (!(itemStack.getItem() instanceof SoulCrystalItem soulCrystalItem && itemStack.getItem() instanceof Tierable tierable))
-            return List.of();
-        Tier tier = tierable.getTier(itemStack);
-        Component display = Component.translatable(tier == null ? CrystalConfig.initialTierName : tier.displayName()).withStyle(ChatFormatting.GRAY);
+        if(!(itemStack.getItem() instanceof Tierable tierable)) return List.of();
+        SoulData tier = tierable.getSoulData(itemStack);
+        Component display = Component.translatable("misc.spirit." + (tier == null ? "untiered" : "tiered")).withStyle(ChatFormatting.GRAY);
         list.add(Component.translatable("misc.spirit.tier", display).withStyle(ChatFormatting.GRAY));
         if (tier == null) {
             list.add(Component.translatable("misc.spirit.not_viable").withStyle(ChatFormatting.RED));
         }
-        Tier nextTier = tierable.getNextTier(itemStack);
-        SoulStack container = soulCrystalItem.getContainer(itemStack).getSoulStack(0);
-        if (nextTier != null) {
-            list.add(Component.translatable("misc.spirit.next_tier", nextTier.requiredSouls() - container.getAmount(), Component.translatable(nextTier.displayName())).withStyle(ChatFormatting.GRAY));
-        }
-        if (SoulUtils.isAllowed(itemStack, Spirit.BLACKLISTED_TAG)) {
+        if(SoulUtils.isAllowed(itemStack, Spirit.BLACKLISTED_TAG)) {
             list.add(Component.translatable("misc.spirit.soul_cage_compatible").withStyle(ChatFormatting.GREEN));
         } else {
             list.add(Component.translatable("misc.spirit.soul_cage_incompatible").withStyle(ChatFormatting.RED));
@@ -87,37 +80,11 @@ public class SoulCrystalItem extends Item implements SoulContainingObject.Item, 
     }
 
     @Override
-    public Tier getTier(ItemStack stack) {
+    public SoulData getSoulData(ItemStack stack) {
         int amount = getContainer(stack).getSoulStack(0).getAmount();
-        return getTier(amount, false);
+        return amount > CrystalConfig.minRequiredAmount ? CrystalConfig.defaultData : null;
     }
 
-    @Override
-    public Tier getNextTier(ItemStack stack) {
-        int amount = getContainer(stack).getSoulStack(0).getAmount();
-        return getTier(amount, true);
-    }
-
-    @Nullable
-    public static Tier getTier(int souls, boolean getNextTier) {
-        Tier storedTier = null;
-        List<Tier> tiers = new ArrayList<>(getTiers());
-        if (tiers.isEmpty()) return null;
-        tiers.sort(Comparator.comparingInt(value -> -value.requiredSouls()));
-        if (!getNextTier && souls < tiers.get(tiers.size() - 1).requiredSouls()) return null;
-        for (Tier tier : tiers) {
-            if (souls < tier.requiredSouls()) storedTier = tier;
-            else if (!getNextTier) {
-                storedTier = tier;
-                break;
-            } else break;
-        }
-        return storedTier;
-    }
-
-    public static List<Tier> getTiers() {
-        return CrystalConfig.tiers;
-    }
 
     @Override
     public int getBarColor(@NotNull ItemStack itemStack) {
@@ -135,16 +102,7 @@ public class SoulCrystalItem extends Item implements SoulContainingObject.Item, 
     }
 
     public double getPercentage(ItemStack itemStack) {
-        Tier tier = getNextTier(itemStack);
-        if (tier == null) {
-            tier = getTier(itemStack);
-            if (tier == null) {
-                return 0;
-            }
-        }
-
-        double percentage = ((double) getContainer(itemStack).getSoulStack(0).getAmount() / (tier.requiredSouls()));
-
+        double percentage = ((double) getContainer(itemStack).getSoulStack(0).getAmount() / (CrystalConfig.soulCrystalCap));
         return Math.min(percentage, 1);
     }
 }
