@@ -1,7 +1,6 @@
 package earth.terrarium.spirit.common.block;
 
 import earth.terrarium.spirit.common.blockentity.PedestalBlockEntity;
-import earth.terrarium.spirit.common.blockentity.SoulCageBlockEntity;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;

@@ -26,10 +26,10 @@ public record SoulfireMultiblock(List<List<String>> pattern, Map<String, Strippe
 
     public static final Codec<List<List<String>>> PATTERN_CODEC = Codec.STRING.listOf().listOf()
             .flatXmap(lists -> {
-                if (shouldFail(lists)) return DataResult.error("Size invalid");
+                if (shouldFail(lists)) return DataResult.error(() -> "Size invalid");
                 return DataResult.success(lists);
             }, lists -> {
-                if (shouldFail(lists)) return DataResult.error("Size invalid");
+                if (shouldFail(lists)) return DataResult.error(() -> "Size invalid");
                 return DataResult.success(lists);
             });
 

@@ -18,8 +18,6 @@ import java.util.function.Supplier;
 public class SpiritBlocks {
     public static final ResourcefulRegistry<Block> BLOCKS = ResourcefulRegistries.create(BuiltInRegistries.BLOCK, Spirit.MODID);
 
-    public static final RegistryEntry<Block> SOUL_CAGE = BLOCKS.register("soul_cage", () -> new SoulCageBlock(Block.Properties.of(Material.METAL).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
-
     public static final RegistryEntry<Block> PEDESTAL = BLOCKS.register("pedestal", () -> new PedestalBlock(Block.Properties.of(Material.STONE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
 
     public static final RegistryEntry<Block> SOUL_BASIN = BLOCKS.register("soul_basin", () -> new SoulBasinBlock(Block.Properties.of(Material.STONE).strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));

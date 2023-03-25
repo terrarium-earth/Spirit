@@ -42,11 +42,6 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
     }
 
     @Override
-    public @NotNull ItemStack getResultItem() {
-        return output;
-    }
-
-    @Override
     public RecipeSerializer<?> getSerializer() {
         return SpiritRecipes.SOUL_ENGULFING_SERIALIZER.get();
     }
@@ -68,13 +63,13 @@ public record SoulEngulfingRecipe(ResourceLocation id, SoulEngulfingInput input,
                 }
                 if (engulfableItem.isFullyEngulfed() && multiblock.validateMultiblock(blockPos, level, breaksBlocks())) {
                     itemE.setInvulnerable(true);
-                    ItemEntity output = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), this.getResultItem());
+                    ItemEntity output = new ItemEntity(itemE.level, itemE.getX(), itemE.getY(), itemE.getZ(), this.output().copy());
                     output.setInvulnerable(true);
                     itemE.level.addFreshEntity(output);
                     if (output instanceof EngulfableItem outputEngulf) outputEngulf.setRecipeOutput();
                     itemE.getItem().shrink(1);
                     engulfableItem.resetEngulfing();
-                    level.sendParticles(ParticleTypes.SOUL, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 40, 1, 2, 1, 0);
+                    level.sendParticles(ParticleTypes.SOUL, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 40, 0.4, 0.2, 0.4, 0.01);
                 }
             }
             return true;

@@ -4,6 +4,7 @@ import earth.terrarium.spirit.common.registry.SpiritItems;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -14,13 +15,13 @@ public class SoulSteelArmorMaterial implements ArmorMaterial {
     private static final int[] PROTECTION_VALUES = new int[]{2, 5, 6, 2};
 
     @Override
-    public int getDurabilityForSlot(EquipmentSlot slot) {
-        return BASE_DURABILITY[slot.getIndex()] * 25;
+    public int getDurabilityForType(ArmorItem.Type type) {
+        return BASE_DURABILITY[type.getSlot().getIndex()] * 25;
     }
 
     @Override
-    public int getDefenseForSlot(EquipmentSlot slot) {
-        return PROTECTION_VALUES[slot.getIndex()];
+    public int getDefenseForType(ArmorItem.Type type) {
+        return PROTECTION_VALUES[type.getSlot().getIndex()];
     }
 
     @Override

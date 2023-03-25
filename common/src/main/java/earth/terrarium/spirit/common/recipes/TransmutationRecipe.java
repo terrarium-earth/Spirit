@@ -51,27 +51,6 @@ public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> acti
         return SpiritRecipes.TRANSMUTATION.get();
     }
 
-    public static List<TransmutationRecipe> getRecipesForEntity(SoulStack entity, ItemStack stack, RecipeManager manager) {
-        return manager.getAllRecipesFor(SpiritRecipes.TRANSMUTATION.get()).stream().filter(recipe -> {
-            boolean stackMatches;
-            if (recipe.activationItem().isPresent()) {
-                stackMatches = recipe.activationItem().get().test(stack);
-            } else {
-                stackMatches = stack.isEmpty();
-            }
-
-            return stackMatches;
-        }).toList();
-    }
-
-    public static Optional<TransmutationRecipe> getEffect(String id, RecipeManager manager) {
-        return (Optional<TransmutationRecipe>) manager.byKey(ResourceLocation.tryParse(id));
-    }
-
-    public ItemEntity createEntity(Level level, double x, double y, double z) {
-        return new ItemEntity(level, x, y, z, result.copy());
-    }
-
     @Override
     public boolean consumesActivator() {
         return true;

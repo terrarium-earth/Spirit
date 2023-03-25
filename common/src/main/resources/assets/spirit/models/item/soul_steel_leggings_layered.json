@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "spirit:item/soul_steel_leggings",
+    "layer1": "spirit:item/soul_steel_leggings_layer_1",
+    "layer2": "spirit:item/soul_steel_leggings_layer_2",
+    "layer3": "spirit:item/soul_steel_leggings_layer_3"
+  }
+}

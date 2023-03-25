@@ -1,10 +1,13 @@
 package earth.terrarium.spirit.forge;
 
 import earth.terrarium.spirit.Spirit;
+import earth.terrarium.spirit.api.armor_abilities.BlankAbility;
 import earth.terrarium.spirit.client.SpiritClient;
 import earth.terrarium.spirit.client.forge.SpiritClientForge;
 import earth.terrarium.spirit.common.handlers.MobCrystalHandler;
 import earth.terrarium.spirit.common.handlers.SoulAbsorptionHandler;
+import earth.terrarium.spirit.api.armor_abilities.ArmorAbility;
+import earth.terrarium.spirit.api.armor_abilities.ArmorAbilityManager;
 import earth.terrarium.spirit.common.registry.SpiritItems;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,13 +22,18 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryBuilder;
 
 @Mod(Spirit.MODID)
 public class SpiritForge {
     public SpiritForge() {
-        Spirit.init();
+        DeferredRegister<ArmorAbility> armorAbilityRegistry = DeferredRegister.create(ArmorAbilityManager.ARMOR_ABILITY_REGISTRY_KEY, Spirit.MODID);
+        armorAbilityRegistry.makeRegistry(() -> new RegistryBuilder<ArmorAbility>().setDefaultKey(ArmorAbilityManager.NO_ABILITY));
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        bus.addListener(SpiritForge::onClientSetup);
+        armorAbilityRegistry.register("no_ability", BlankAbility::new);
+        armorAbilityRegistry.register(bus);
+        Spirit.init();
         bus.addListener(SpiritForge::commonSetup);
         bus.addListener(SpiritForge::onRegisterCreativeTabs);
         MinecraftForge.EVENT_BUS.addListener(this::onItemUse);
@@ -37,16 +45,11 @@ public class SpiritForge {
         Spirit.postInit();
     }
 
-    public static void onClientSetup(FMLClientSetupEvent event) {
-        SpiritClient.init();
-        SpiritClientForge.postInit();
-    }
-
     public static void onRegisterCreativeTabs(CreativeModeTabEvent.Register event) {
         SpiritItems.onRegisterCreativeTabs((loc, item, items) -> event.registerCreativeModeTab(loc, b -> b
                 .title(Component.translatable("itemGroup." + loc.getNamespace() + "." + loc.getPath()))
                 .icon(() -> item.get().getDefaultInstance())
-                .displayItems((featureFlagSet, output, bl) -> items.forEach(output::accept))
+                .displayItems((featureFlagSet, output) -> items.forEach(output::accept))
                 .build()));
     }
 

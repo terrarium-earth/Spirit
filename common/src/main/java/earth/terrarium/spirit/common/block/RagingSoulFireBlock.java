@@ -1,10 +1,7 @@
 package earth.terrarium.spirit.common.block;
 
-import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.elements.SoulElement;
-import earth.terrarium.spirit.common.blockentity.AbstractPedestalBlockEntity;
 import earth.terrarium.spirit.common.recipes.PedestalRecipe;
-import earth.terrarium.spirit.common.recipes.SoulEngulfingRecipe;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
 import earth.terrarium.spirit.common.util.RecipeUtils;
 import net.minecraft.core.BlockPos;
@@ -14,11 +11,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoulFireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -53,7 +52,8 @@ public class RagingSoulFireBlock extends SoulFireBlock {
 
     @Override
     public void entityInside(BlockState blockState, Level level, BlockPos blockPos, Entity entity) {
-        if (entity instanceof ItemEntity itemE && level instanceof ServerLevel serverLevel) {
+        if(!(level instanceof ServerLevel serverLevel)) return;
+        if (entity instanceof ItemEntity itemE) {
             var recipes = PedestalRecipe.getRecipesForEntity(SpiritRecipes.TRANSMUTATION.get(), itemE.getItem(), level.getRecipeManager());
             if (!recipes.isEmpty()) {
                 var items = RecipeUtils.getPedestalItems(blockPos, level);
@@ -63,8 +63,14 @@ public class RagingSoulFireBlock extends SoulFireBlock {
                         itemE.getItem().shrink(1);
                         ItemEntity itemEntity = new ItemEntity(level, itemE.getX(), itemE.getY(), itemE.getZ(), recipe.result().copy());
                         level.addFreshEntity(itemEntity);
+                        level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
                     }
                 }
+            }
+        } else if (entity instanceof LivingEntity livingEntity) {
+            if (!entity.fireImmune()) {
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 40, 0));
+                livingEntity.hurt(livingEntity.damageSources().inFire(), 3.0F);
             }
         }
     }

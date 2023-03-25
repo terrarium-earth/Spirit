@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "spirit:item/soul_steel_chestplate",
+    "layer1": "spirit:item/soul_steel_chestplate_layer_1",
+    "layer2": "spirit:item/soul_steel_chestplate_layer_2",
+    "layer3": "spirit:item/soul_steel_chestplate_layer_3"
+  }
+}

@@ -23,4 +23,5 @@ public class SpiritRecipes {
     //Transmutation
     public static final RegistryEntry<RecipeType<TransmutationRecipe>> TRANSMUTATION = RECIPE_TYPES.register("transmutation", () -> CodecRecipeType.of("transmutation"));
     public static final RegistryEntry<RecipeSerializer<TransmutationRecipe>> TRANSMUTATION_SERIALIZER = RECIPE_SERIALIZERS.register("transmutation", () -> new CodecRecipeSerializer<>(TRANSMUTATION.get(), TransmutationRecipe::codec));
+
 }

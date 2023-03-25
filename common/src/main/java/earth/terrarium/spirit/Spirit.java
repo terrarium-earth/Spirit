@@ -1,10 +1,8 @@
 package earth.terrarium.spirit;
 
+import earth.terrarium.spirit.api.armor_abilities.ColorPalette;
 import earth.terrarium.spirit.api.event.SoulGatherEvent;
-import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
-import earth.terrarium.spirit.common.registry.SpiritBlocks;
-import earth.terrarium.spirit.common.registry.SpiritItems;
-import earth.terrarium.spirit.common.registry.SpiritRecipes;
+import earth.terrarium.spirit.common.registry.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -32,9 +30,12 @@ public class Spirit {
     public static final TagKey<Item> SOUL_FIRE_IMMUNE = TagKey.create(Registries.ITEM, new ResourceLocation(MODID, "soul_fire_immune"));
     public static final TagKey<Item> SOUL_FIRE_REPAIRABLE = TagKey.create(Registries.ITEM, new ResourceLocation(MODID, "soul_fire_repairable"));
 
+    public static final TagKey<Item> DOGGY_TREATS = TagKey.create(Registries.ITEM, new ResourceLocation(MODID, "doggy_treats"));
+
     public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
-    public static final int SOUL_COLOR = 0xFF00fffb;
+    public static final int SOUL_COLOR = 0xFF4fedff;
+    public static final ColorPalette SOUL_COLOR_PALETTE = new ColorPalette(SOUL_COLOR, 0xFF349dc9, 0xFF8cedfa);
 
     public static void init() {
         SpiritItems.ITEMS.init();
@@ -42,6 +43,7 @@ public class Spirit {
         SpiritBlockEntities.BLOCK_ENTITIES.init();
         SpiritRecipes.RECIPE_TYPES.init();
         SpiritRecipes.RECIPE_SERIALIZERS.init();
+        SpiritArmorAbilities.ARMOR_ABILITIES.init();
 
         SoulGatherEvent.register(new ResourceLocation(MODID, "scythe"), (victim, player, amount) -> {
             if (player.getMainHandItem().getItem() == SpiritItems.SCYTHE.get()) {
@@ -52,6 +54,5 @@ public class Spirit {
     }
 
     public static void postInit() {
-        SpiritBlocks.registerSoulElements();
     }
 }

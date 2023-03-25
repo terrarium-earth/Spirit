@@ -1,5 +1,13 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "predicate": {
+        "spirit:ability": 1
+      },
+      "model": "spirit:item/soul_steel_chestplate_layered"
+    }
+  ],
   "textures": {
     "layer0": "spirit:item/soul_steel_chestplate"
   }

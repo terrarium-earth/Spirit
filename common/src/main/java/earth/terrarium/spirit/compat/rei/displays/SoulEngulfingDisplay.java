@@ -40,7 +40,7 @@ public class SoulEngulfingDisplay implements Display {
         }
         input = EntryIngredients.ofIngredient(recipe.input().item());
         catalyst = EntryIngredients.ofIngredient(Ingredient.of(items.stream()));
-        output = EntryIngredients.of(recipe.getResultItem());
+        output = EntryIngredients.of(recipe.output().copy());
     }
 
     @Override

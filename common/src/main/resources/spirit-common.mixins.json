@@ -6,7 +6,11 @@
   "mixins": [
     "BaseFireBlockMixin",
     "ItemEntityMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "MobMixin",
+    "PhantomSpawnerMixin",
+    "PiglinMixin",
+    "VillagerMixin"
   ],
   "client": [
     "EntityRendererMixin"

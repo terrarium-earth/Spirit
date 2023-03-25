@@ -4,7 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teamresourceful.resourcefullib.client.CloseablePoseStack;
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.common.item.armor.SpiritArmorItem;
+import earth.terrarium.spirit.api.armor_abilities.ArmorAbility;
+import earth.terrarium.spirit.api.armor_abilities.ColorPalette;
+import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -15,6 +17,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -30,6 +33,7 @@ public class SoulSteelArmorModel extends HumanoidModel<LivingEntity> {
     private final ModelPart leftBoot;
     @Nullable
     private final ResourceLocation innerTexture;
+    private final ColorPalette color;
 
     public SoulSteelArmorModel(ModelPart root, HumanoidModel<LivingEntity> contextModel, LivingEntity entity, EquipmentSlot slot, ItemStack stack) {
         super(root);
@@ -38,11 +42,17 @@ public class SoulSteelArmorModel extends HumanoidModel<LivingEntity> {
         this.rightBoot = root.getChild("left_boot");
         this.leftBoot = root.getChild("right_boot");
 
-        if (stack.getItem() instanceof SpiritArmorItem item) {
-            ResourceLocation armourTexture = item.getUnderlayTexture(stack, entity, slot, null);
-            this.innerTexture = armourTexture == null ? new ResourceLocation("") : armourTexture;
+        if (stack.getItem() instanceof SoulSteelArmor item) {
+            this.innerTexture = item.getUnderlayTexture(stack, entity, slot, null);
+            ArmorAbility ability = item.getAbility(stack);
+            if (ability == null) {
+                this.color = new ColorPalette(Spirit.SOUL_COLOR);
+            } else {
+                this.color = ability.getColor();
+            }
         } else {
-            this.innerTexture = new ResourceLocation("");
+            this.innerTexture = null;
+            this.color = new ColorPalette(Spirit.SOUL_COLOR);
         }
 
         setVisible(slot);
@@ -111,27 +121,34 @@ public class SoulSteelArmorModel extends HumanoidModel<LivingEntity> {
             }
 
             // outer layer
-            renderParts(poseStack, packedLight, packedOverlay, vertices);
+            renderParts(poseStack, packedLight, packedOverlay, vertices, 0xFFFFFF);
 
             // inner glowing layer
             if (innerTexture != null) {
                 MultiBufferSource provider = Minecraft.getInstance().renderBuffers().bufferSource();
-                VertexConsumer buffer = provider.getBuffer(RenderType.eyes(innerTexture));
-                renderParts(poseStack, packedLight, packedOverlay, buffer);
+                for (int i = 1; i <= 3; i++) {
+                    ResourceLocation resourceLocation = innerTexture.withPath(innerTexture.getPath() + "_" + i + ".png");
+                    VertexConsumer buffer = provider.getBuffer(RenderType.beaconBeam(resourceLocation, true));
+                    renderParts(poseStack, packedLight, packedOverlay, buffer, color.asArray()[i - 1]);
+                }
             }
         }
     }
 
-    private void renderParts(PoseStack poseStack, int packedLight, int packedOverlay, VertexConsumer buffer) {
-        this.head.render(poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
-        this.body.render(poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
-        this.rightArm.render(poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
-        this.leftArm.render(poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
-        this.leggings.render(poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
-        this.rightLeg.render(poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
-        this.leftLeg.render(poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
-        this.rightBoot.render(poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
-        this.leftBoot.render(poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
+    private void renderParts(PoseStack poseStack, int packedLight, int packedOverlay, VertexConsumer buffer, int color) {
+        float r = FastColor.ARGB32.red(color) / 255f;
+        float g = FastColor.ARGB32.green(color) / 255f;
+        float b = FastColor.ARGB32.blue(color) / 255f;
+        float a = 1;
+        this.head.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
+        this.body.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
+        this.rightArm.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
+        this.leftArm.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
+        this.leggings.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
+        this.rightLeg.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
+        this.leftLeg.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
+        this.rightBoot.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
+        this.leftBoot.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
     }
 
     private void setVisible(EquipmentSlot slot) {

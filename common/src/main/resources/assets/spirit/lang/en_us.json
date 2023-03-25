@@ -109,5 +109,14 @@
   "item.spirit.soul_steel_helmet": "Soul Steel Helmet",
   "item.spirit.soul_steel_chestplate": "Soul Steel Chestplate",
   "item.spirit.soul_steel_leggings": "Soul Steel Leggings",
-  "item.spirit.soul_steel_boots": "Soul Steel Boots"
+  "item.spirit.soul_steel_boots": "Soul Steel Boots",
+
+  "item.spirit.iron_golem_charm": "Iron Golem Charm",
+  "item.spirit.cat_charm": "Cat Charm",
+  "item.spirit.piglin_charm": "Piglin Charm",
+  "item.spirit.phantom_charm": "Phantom Charm",
+  "item.spirit.allay_charm": "Allay Charm",
+
+  "misc.spirit.trinket_enabled": "§2✔§r Trinket Enabled",
+  "misc.spirit.trinket_disabled": "§4❌§r Trinket Disabled"
 }

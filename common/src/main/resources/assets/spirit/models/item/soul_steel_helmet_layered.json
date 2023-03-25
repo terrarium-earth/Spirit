@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "spirit:item/soul_steel_helmet",
+    "layer1": "spirit:item/soul_steel_helmet_layer_1",
+    "layer2": "spirit:item/soul_steel_helmet_layer_2"
+  }
+}

@@ -40,7 +40,7 @@ public class SoulBasinRenderer implements BlockEntityRenderer<SoulBasinBlockEnti
             matrixStack.translate(0, Math.sin(blockEntity.age * .1) * 0.05 + 0.05, 0);
             Minecraft.getInstance().getEntityRenderDispatcher().render(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, matrixStack, multiBufferSource, i);
             matrixStack.popPose();
-            FluidHolderRenderer.renderFluid(blockEntity.getContainer().getSoulStack(0).getAmount(), blockEntity.getContainer().maxCapacity(), matrixStack, multiBufferSource, i);
+            FluidHolderRenderer.renderFluid(entity, blockEntity.getContainer().getSoulStack(0).getAmount(), blockEntity.getContainer().maxCapacity(), matrixStack, multiBufferSource, i);
         }
     }
 }

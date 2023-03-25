@@ -20,8 +20,6 @@ public class SpiritBlockEntities {
 
     public static final ResourcefulRegistry<BlockEntityType<?>> BLOCK_ENTITIES = ResourcefulRegistries.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, Spirit.MODID);
 
-    public static final RegistryEntry<BlockEntityType<SoulCageBlockEntity>> SOUL_CAGE = BLOCK_ENTITIES.register("soul_cage", () -> create(SoulCageBlockEntity::new, SpiritBlocks.SOUL_CAGE.get()).build(null));
-
     public static final RegistryEntry<BlockEntityType<PedestalBlockEntity>> PEDESTAL = BLOCK_ENTITIES.register("pedestal", () -> create(PedestalBlockEntity::new, SpiritBlocks.PEDESTAL.get()).build(null));
 
     public static final Supplier<BlockEntityType<SoulBasinBlockEntity>> SOUL_BASIN = BLOCK_ENTITIES.register("soul_basin", () -> create(SoulBasinBlockEntity::new, SpiritBlocks.SOUL_BASIN.get()).build(null));

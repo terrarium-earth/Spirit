@@ -1,7 +1,9 @@
 package earth.terrarium.spirit.client.fabric;
 
 import earth.terrarium.spirit.client.SpiritClient;
+import earth.terrarium.spirit.common.registry.SpiritItems;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -13,6 +15,7 @@ public class SpiritClientFabric implements ClientModInitializer {
     public void onInitializeClient() {
         SpiritClient.init();
         registerRenderers();
+        ColorProviderRegistry.ITEM.register(SpiritClient.ARMOR_COLOR, SpiritItems.SOUL_STEEL_HELMET.get(), SpiritItems.SOUL_STEEL_CHESTPLATE.get(), SpiritItems.SOUL_STEEL_LEGGINGS.get(), SpiritItems.SOUL_STEEL_BOOTS.get());
     }
 
     private static void registerRenderers() {
