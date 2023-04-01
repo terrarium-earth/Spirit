@@ -1,5 +1,6 @@
 package earth.terrarium.spirit.common.block;
 
+import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.elements.SoulElement;
 import earth.terrarium.spirit.common.recipes.PedestalRecipe;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
@@ -22,12 +23,12 @@ import net.minecraft.world.level.block.SoulFireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-public class RagingSoulFireBlock extends SoulFireBlock {
-    private final SoulElement element;
+import java.util.function.Supplier;
 
-    public RagingSoulFireBlock(SoulElement element, Properties properties) {
+public class RagingSoulFireBlock extends SoulFireBlock {
+
+    public RagingSoulFireBlock(Properties properties) {
         super(properties);
-        this.element = element;
     }
 
     @Override
@@ -38,21 +39,18 @@ public class RagingSoulFireBlock extends SoulFireBlock {
 
         //add a colored particle
         for (int i = 0; i < 2; ++i) {
-            double d = (double) blockPos.getX() + randomSource.nextDouble();
-            double e = (double) blockPos.getY() + randomSource.nextDouble();
-            double f = (double) blockPos.getZ() + randomSource.nextDouble();
-            double r = (float) (element.getColor() >> 16 & 0xFF) / 255.0f;
-            double g = (float) (element.getColor() >> 8 & 0xFF) / 255.0f;
-            double b = (float) (element.getColor() & 0xFF) / 255.0f;
-            level.addParticle(ParticleTypes.LARGE_SMOKE, d, e, f, 0.0, 0.0, 0.0);
-            level.addParticle(new DustParticleOptions(Vec3.fromRGB24(element.getColor()).toVector3f(), 1f), d, e, f, 0.0, 0.0, 0.0);
-            level.addParticle(ParticleTypes.EFFECT, d, e, f, r, g, b);
+            Supplier<Double> d = () -> (double) blockPos.getX() + randomSource.nextDouble();
+            Supplier<Double> e = () -> (double) blockPos.getY() + randomSource.nextDouble();
+            Supplier<Double> f = () -> (double) blockPos.getZ() + randomSource.nextDouble();
+            level.addParticle(ParticleTypes.SOUL, d.get(), e.get(), f.get(), 0.0, 0.03, 0.0);
+            level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, d.get(), e.get(), f.get(), 0.0, 0.03, 0.0);
+            level.addParticle(new DustParticleOptions(Vec3.fromRGB24(Spirit.SOUL_COLOR).toVector3f(), 1f), d.get(), e.get(), f.get(), 0.0, 0.03, 0.0);
         }
     }
 
     @Override
     public void entityInside(BlockState blockState, Level level, BlockPos blockPos, Entity entity) {
-        if(!(level instanceof ServerLevel serverLevel)) return;
+        if(!(level instanceof ServerLevel)) return;
         if (entity instanceof ItemEntity itemE) {
             var recipes = PedestalRecipe.getRecipesForEntity(SpiritRecipes.TRANSMUTATION.get(), itemE.getItem(), level.getRecipeManager());
             if (!recipes.isEmpty()) {

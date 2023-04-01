@@ -18,9 +18,7 @@ import java.util.Optional;
 public interface InfusionRecipe extends CodecRecipe<Container> {
     Optional<EnchantmentCategory> inputType();
 
-    List<Ingredient> itemInputs();
-
-    List<SoulIngredient> entityInputs();
+    SoulIngredient entityInput();
 
     int duration();
 
@@ -43,9 +41,9 @@ public interface InfusionRecipe extends CodecRecipe<Container> {
     }
 
     default List<Ingredient> getAllInputs() {
-        List<Ingredient> inputs = new ArrayList<>(itemInputs());
+        List<Ingredient> inputs = new ArrayList<>();
         inputs.addAll(BuiltInRegistries.ITEM.stream().filter(item -> inputType().map(category -> category.canEnchant(item)).orElse(true)).map(Ingredient::of).toList());
-        inputs.addAll(entityInputs().stream().flatMap(SoulIngredient::getEntities).map(entityType -> Ingredient.of(SpawnEggItem.byId(entityType))).toList());
+        inputs.addAll(entityInput().getEntities().map(entity -> Ingredient.of(SpawnEggItem.byId(entity))).toList());
         return inputs;
     }
 }

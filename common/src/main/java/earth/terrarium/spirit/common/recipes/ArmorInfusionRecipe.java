@@ -1,9 +1,12 @@
 package earth.terrarium.spirit.common.recipes;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import earth.terrarium.spirit.api.armor_abilities.ArmorAbility;
 import earth.terrarium.spirit.api.armor_abilities.ArmorAbilityManager;
 import earth.terrarium.spirit.api.storage.util.SoulIngredient;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
+import earth.terrarium.spirit.common.registry.SpiritRecipes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -17,9 +20,18 @@ import java.util.List;
 import java.util.Optional;
 
 public record ArmorInfusionRecipe(ResourceLocation id, Optional<EnchantmentCategory> inputType,
-                                  List<SoulIngredient> entityInputs, List<Ingredient> itemInputs,
-                                  ArmorAbility result,
+                                  SoulIngredient entityInput, ArmorAbility result,
                                   int duration) implements InfusionRecipe {
+
+    public static Codec<ArmorInfusionRecipe> codec(ResourceLocation location) {
+        return RecordCodecBuilder.create(instance -> instance.group(
+                RecordCodecBuilder.point(location),
+                Codec.STRING.xmap(EnchantmentCategory::valueOf, EnchantmentCategory::toString).optionalFieldOf("input_type").forGetter(ArmorInfusionRecipe::inputType),
+                SoulIngredient.CODEC.fieldOf("entity_input").forGetter(ArmorInfusionRecipe::entityInput),
+                ArmorAbilityManager.getAbilityRegistry().byNameCodec().fieldOf("result").forGetter(ArmorInfusionRecipe::result),
+                Codec.INT.fieldOf("duration").forGetter(ArmorInfusionRecipe::duration)
+        ).apply(instance, ArmorInfusionRecipe::new));
+    }
 
     @Override
     public boolean matches(Container container, Level level) {
@@ -28,12 +40,12 @@ public record ArmorInfusionRecipe(ResourceLocation id, Optional<EnchantmentCateg
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return null;
+        return SpiritRecipes.ARMOR_INFUSION_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType() {
-        return null;
+        return SpiritRecipes.ARMOR_INFUSION.get();
     }
 
     @Override

@@ -1,12 +1,16 @@
 package earth.terrarium.spirit.common.util;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.network.chat.Component;
@@ -17,6 +21,10 @@ import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+import static net.minecraft.client.renderer.RenderStateShard.*;
 
 @Environment(EnvType.CLIENT)
 public class ClientUtils {
@@ -28,7 +36,7 @@ public class ClientUtils {
         return false;
     }
 
-    public static void shiftTooltip(List<Component> components, List<Component> onShiftComponents, List<Component> notShiftComponents) {
+    public static void shiftTooltip(List<Component> components, List<? extends Component> onShiftComponents, List<? extends Component> notShiftComponents) {
         Component shiftWord = Component.translatable("misc.spirit.shift.key").withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.AQUA);
         MutableComponent shift = Component.translatable("misc.spirit.shift.shift_info", shiftWord).withStyle(ChatFormatting.GRAY);
         components.add(shift);
@@ -56,5 +64,14 @@ public class ClientUtils {
     @ExpectPlatform
     public static void setSoulShader(ShaderInstance shader) {
         throw new NotImplementedException();
+    }
+
+    private static final Function<ResourceLocation, RenderType> BEACON_BEAM = Util.memoize((resourceLocation) -> {
+        RenderType.CompositeState compositeState = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER).setTextureState(new RenderStateShard.TextureStateShard(resourceLocation, false, false)).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(CULL).setWriteMaskState(COLOR_WRITE).setOverlayState(OVERLAY).createCompositeState(true);
+        return RenderType.create("entity_translucent_emissive", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, compositeState);
+    });
+
+    public static RenderType armorRenderType(ResourceLocation resourceLocation) {
+        return BEACON_BEAM.apply(resourceLocation);
     }
 }

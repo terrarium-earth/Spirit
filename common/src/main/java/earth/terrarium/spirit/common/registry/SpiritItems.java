@@ -33,6 +33,7 @@ public class SpiritItems {
 
     //pedestals
     public static final RegistryEntry<Item> PEDESTAL = ITEMS.register("pedestal", () -> new BlockItem(SpiritBlocks.PEDESTAL.get(), new Item.Properties()));
+    public static final RegistryEntry<Item> INFUSION_PEDESTAL = ITEMS.register("infusion_pedestal", () -> new BlockItem(SpiritBlocks.INFUSION_PEDESTAL.get(), new Item.Properties()));
     public static final RegistryEntry<Item> SOUL_BASIN = ITEMS.register("soul_basin", () -> new BlockItem(SpiritBlocks.SOUL_BASIN.get(), new Item.Properties()));
 
     //tools
@@ -55,6 +56,11 @@ public class SpiritItems {
     public static final RegistryEntry<Item> PHANTOM_CHARM = ITEMS.register("phantom_charm", () -> new BaseTrinket(new Item.Properties()));
     public static final RegistryEntry<Item> ALLAY_CHARM = ITEMS.register("allay_charm", () -> new AllayCharm(new Item.Properties()));
     public static final RegistryEntry<Item> IRON_GOLEM_CHARM = ITEMS.register("iron_golem_charm", () -> new BaseTrinket(new Item.Properties()));
+
+    //blocks
+    public static final RegistryEntry<Item> SOUL_STEEL_BLOCK = ITEMS.register("soul_steel_block", () -> new BlockItem(SpiritBlocks.SOUL_STEEL_BLOCK.get(), new Item.Properties()));
+    public static final RegistryEntry<Item> SOUL_SLATE = ITEMS.register("soul_slate", () -> new BlockItem(SpiritBlocks.SOUL_SLATE.get(), new Item.Properties()));
+    public static final RegistryEntry<Item> SOUL_GLASS = ITEMS.register("soul_glass", () -> new BlockItem(SpiritBlocks.SOUL_GLASS.get(), new Item.Properties()));
 
     public static void onRegisterCreativeTabs(TriConsumer<ResourceLocation, RegistryEntry<Item>, List<Item>> consumer) {
         consumer.accept(new ResourceLocation(Spirit.MODID, "main"), SOUL_CRYSTAL, BuiltInRegistries.ITEM

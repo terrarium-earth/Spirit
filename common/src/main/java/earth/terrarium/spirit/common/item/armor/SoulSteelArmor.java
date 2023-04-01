@@ -5,6 +5,11 @@ import dev.architectury.injectables.annotations.PlatformOnly;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.armor_abilities.ArmorAbility;
 import earth.terrarium.spirit.api.armor_abilities.ArmorAbilityManager;
+import earth.terrarium.spirit.common.util.ClientUtils;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -14,14 +19,35 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
     public static final String ABILITY_KEY = "Ability";
 
     public SoulSteelArmor(ArmorMaterial armorMaterial, Type equipmentSlot, Properties properties) {
         super(armorMaterial, equipmentSlot, properties);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
+        super.appendHoverText(itemStack, level, list, tooltipFlag);
+        var ability = getAbility(itemStack);
+        if(ability != null) {
+            list.add(Component.translatable("misc.spirit.armor_ability_prefix").withStyle(Style.EMPTY.withColor(ability.getColor().primary())).append(Component.translatable(ability.getNameId()).withStyle(ChatFormatting.GRAY)));
+            var contents = Component.translatable(ability.getDescriptionId()).getString();
+            List<MutableComponent> components = Arrays.stream(contents.split("<br>"))
+                    .map(String::trim)
+                    .filter(str -> !str.isEmpty())
+                    .map(Component::literal)
+                    .map(mutableComponent -> mutableComponent.withStyle(ChatFormatting.GRAY))
+                    .toList();
+            ClientUtils.shiftTooltip(list, components, List.of());
+        }
     }
 
     @PlatformOnly("fabric")
@@ -43,6 +69,7 @@ public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
         return base;
     }
 
+    @Nullable
     public ArmorAbility getAbility(ItemStack stack) {
         if(stack.getTag() == null) return null;
         return stack.getTag().contains(ABILITY_KEY) ? ArmorAbilityManager.getAbilityRegistry().get(new ResourceLocation(stack.getOrCreateTag().getString(ABILITY_KEY))) : null;
@@ -72,12 +99,6 @@ public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
         if(ability != null) {
             ability.onArmorTick(stack, level, player);
         }
-    }
-
-    @Override
-    public int getBarColor(ItemStack itemStack) {
-        ArmorAbility ability = getAbility(itemStack);
-        return ability == null ? super.getBarColor(itemStack) : ability.getColor().primary();
     }
 
     @Override

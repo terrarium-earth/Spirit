@@ -46,6 +46,8 @@ public class SpiritClient {
         registerBlockEntityRenderers(SpiritBlockEntities.PEDESTAL.get(), PedestalRenderer::new);
         registerBlockEntityRenderers(SpiritBlockEntities.SOUL_BASIN.get(), SoulBasinRenderer::new);
         registerRenderLayer(SpiritBlocks.SOUL_GLASS.get(), RenderType.translucent());
+        registerRenderLayer(SpiritBlocks.RAGING_SOUL_FIRE.get(), RenderType.cutout());
+        registerRenderLayer(SpiritBlocks.INFUSION_PEDESTAL.get(), RenderType.cutout());
         ArmorRenderers.init();
     }
 

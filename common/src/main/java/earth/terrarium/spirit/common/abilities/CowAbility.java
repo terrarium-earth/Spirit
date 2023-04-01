@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 
-public class CowAbility implements ArmorAbility {
+public class CowAbility extends ArmorAbility {
     @Override
     public void onArmorTick(ItemStack stack, Level level, Player player) {
         if (level.isClientSide) return;

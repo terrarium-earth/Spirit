@@ -112,10 +112,30 @@
   "item.spirit.soul_steel_boots": "Soul Steel Boots",
 
   "item.spirit.iron_golem_charm": "Iron Golem Charm",
+  "item.spirit.iron_golem_charm.desc": "Villagers will trust you, giving you <br>better prices",
   "item.spirit.cat_charm": "Cat Charm",
+  "item.spirit.cat_charm.desc": "Creepers will be wary of you, and will <br>run from you if they see you",
   "item.spirit.piglin_charm": "Piglin Charm",
-  "item.spirit.phantom_charm": "Phantom Charm",
+  "item.spirit.piglin_charm.desc": "Piglins will admire the shine of your <br>trinket, and not attack you",
   "item.spirit.allay_charm": "Allay Charm",
+  "item.spirit.allay_charm.desc": "The magnetic personality of Allays <br>resides in you, and items will <br>gravitate towards you",
+  "item.spirit.phantom_charm": "Phantom Charm",
+  "item.spirit.phantom_charm.desc": "Phantoms see you as one of their own, <br>and will not pester you",
+
+  "misc.spirit.armor_ability_prefix": "\uD83D\uDD25 ",
+
+  "armor_ability.spirit.no_ability": "No Ability",
+  "armor_ability.spirit.no_ability.desc": "This armor piece has no ability. <br>I have no idea how you got this.",
+  "armor_ability.spirit.axolotl": "Axolotl",
+  "armor_ability.spirit.axolotl.desc": "The fighting spirit of the axolotl <br>resides in you, and you will <br>gain strength when you are <br>in water",
+  "armor_ability.spirit.blaze": "Blaze",
+  "armor_ability.spirit.blaze.desc": "The fire of the blaze resides in you, <br>and you will gain strength when <br>you are on fire",
+  "armor_ability.spirit.cow": "Cow",
+  "armor_ability.spirit.cow.desc": "The cleansing strength of the cow <br> resides in you, and negative <br> effects are automatically <br> removed",
+  "armor_ability.spirit.strider": "Strider",
+  "armor_ability.spirit.strider.desc": "The resistance of the strider <br>resides in you, lava will cool<br>temporarily beneath your feet",
+  "armor_ability.spirit.wolf": "Wolf",
+  "armor_ability.spirit.wolf.desc": "The perseverance of the wolf resides in you, <br>and you will gain strength when <br>you are near death",
 
   "misc.spirit.trinket_enabled": "§2✔§r Trinket Enabled",
   "misc.spirit.trinket_disabled": "§4❌§r Trinket Disabled"

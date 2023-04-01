@@ -1,5 +1,6 @@
 package earth.terrarium.spirit.client.renderer.armor;
 
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teamresourceful.resourcefullib.client.CloseablePoseStack;
@@ -7,6 +8,7 @@ import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.armor_abilities.ArmorAbility;
 import earth.terrarium.spirit.api.armor_abilities.ColorPalette;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
+import earth.terrarium.spirit.common.util.ClientUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -127,9 +129,11 @@ public class SoulSteelArmorModel extends HumanoidModel<LivingEntity> {
             if (innerTexture != null) {
                 MultiBufferSource provider = Minecraft.getInstance().renderBuffers().bufferSource();
                 for (int i = 1; i <= 3; i++) {
+                    poseStack.pushPose();
                     ResourceLocation resourceLocation = innerTexture.withPath(innerTexture.getPath() + "_" + i + ".png");
-                    VertexConsumer buffer = provider.getBuffer(RenderType.beaconBeam(resourceLocation, true));
-                    renderParts(poseStack, packedLight, packedOverlay, buffer, color.asArray()[i - 1]);
+                    VertexConsumer buffer = provider.getBuffer(RenderType.entityTranslucent(resourceLocation));
+                    renderParts(poseStack, 0xFF00F0, packedOverlay, buffer, color.asArray()[i - 1]);
+                    poseStack.popPose();
                 }
             }
         }
