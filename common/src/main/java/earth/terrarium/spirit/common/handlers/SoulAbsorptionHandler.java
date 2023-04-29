@@ -1,6 +1,7 @@
 package earth.terrarium.spirit.common.handlers;
 
 import earth.terrarium.spirit.Spirit;
+import earth.terrarium.spirit.api.abilities.tool.ToolAbility;
 import earth.terrarium.spirit.api.event.SoulGatherEvent;
 import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.storage.AutoAbsorbing;
@@ -10,6 +11,7 @@ import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.api.utils.SoulUtils;
 import earth.terrarium.spirit.common.config.SpiritConfig;
+import earth.terrarium.spirit.common.item.tools.SoulSteelTool;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -40,6 +42,13 @@ public class SoulAbsorptionHandler {
                                 level.sendParticles(ParticleTypes.SOUL, victim.getX() + 0.5, victim.getY() + victim.getBbHeight() / 2, victim.getZ() + 0.5, 10, 0.5, 0.5, 0.5, 0.1);
                             }
                         }
+                    }
+                }
+                ItemStack stack = player.getMainHandItem();
+                if (stack.getItem() instanceof SoulSteelTool tool) {
+                    ToolAbility ability = tool.getAbility(stack);
+                    if (ability != null) {
+                        ability.onKill(player, stack, victim);
                     }
                 }
             }

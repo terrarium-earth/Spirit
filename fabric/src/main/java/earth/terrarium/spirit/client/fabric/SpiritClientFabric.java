@@ -16,6 +16,7 @@ public class SpiritClientFabric implements ClientModInitializer {
         SpiritClient.init();
         registerRenderers();
         ColorProviderRegistry.ITEM.register(SpiritClient.ARMOR_COLOR, SpiritItems.SOUL_STEEL_HELMET.get(), SpiritItems.SOUL_STEEL_CHESTPLATE.get(), SpiritItems.SOUL_STEEL_LEGGINGS.get(), SpiritItems.SOUL_STEEL_BOOTS.get());
+        ColorProviderRegistry.ITEM.register(SpiritClient.TOOL_COLOR, SpiritItems.SOUL_STEEL_HAMMER.get(), SpiritItems.SOUL_STEEL_EXCAVATOR.get(), SpiritItems.SOUL_STEEL_BATTLEAXE.get());
     }
 
     private static void registerRenderers() {

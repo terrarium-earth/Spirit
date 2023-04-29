@@ -10,10 +10,12 @@ import earth.terrarium.spirit.common.item.ScytheItem;
 import earth.terrarium.spirit.common.item.SoulCrystalItem;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmorMaterial;
+import earth.terrarium.spirit.common.item.tools.SoulSteelToolItem;
 import earth.terrarium.spirit.common.item.trinkets.AllayCharm;
 import earth.terrarium.spirit.common.item.trinkets.BaseTrinket;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -26,6 +28,8 @@ import java.util.List;
 public class SpiritItems {
 
     public static final ResourcefulRegistry<Item> ITEMS = ResourcefulRegistries.create(BuiltInRegistries.ITEM, Spirit.MODID);
+    public static final ResourcefulRegistry<Item> ARMOR = ResourcefulRegistries.create(ITEMS);
+    public static final ResourcefulRegistry<Item> TOOLS = ResourcefulRegistries.create(ITEMS);
 
     //crystals
     public static final RegistryEntry<Item> SOUL_CRYSTAL = ITEMS.register("soul_crystal", () -> new SoulCrystalItem(new Item.Properties()));
@@ -37,7 +41,10 @@ public class SpiritItems {
     public static final RegistryEntry<Item> SOUL_BASIN = ITEMS.register("soul_basin", () -> new BlockItem(SpiritBlocks.SOUL_BASIN.get(), new Item.Properties()));
 
     //tools
-    public static final RegistryEntry<Item> SCYTHE = ITEMS.register("scythe", () -> new ScytheItem(new Item.Properties()));
+    public static final RegistryEntry<Item> SCYTHE = TOOLS.register("scythe", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_HOE, new Item.Properties()));
+    public static final RegistryEntry<Item> SOUL_STEEL_HAMMER = TOOLS.register("soul_steel_hammer", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_PICKAXE, new Item.Properties()));
+    public static final RegistryEntry<Item> SOUL_STEEL_EXCAVATOR = TOOLS.register("soul_steel_excavator", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_SHOVEL, new Item.Properties()));
+    public static final RegistryEntry<Item> SOUL_STEEL_BATTLEAXE = TOOLS.register("soul_steel_battleaxe", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_SHOVEL, new Item.Properties()));
 
     //crafting materials
     public static final RegistryEntry<Item> CRYSTAL_SHARD = ITEMS.register("crystal_shard", () -> new Item(new Item.Properties()));
@@ -45,10 +52,10 @@ public class SpiritItems {
 
     // armor
     private static final ArmorMaterial SOUL_STEEL_ARMOR_MATERIAL = new SoulSteelArmorMaterial();
-    public static final RegistryEntry<Item> SOUL_STEEL_HELMET = ITEMS.register("soul_steel_helmet", () -> new SoulSteelArmor(SOUL_STEEL_ARMOR_MATERIAL, ArmorItem.Type.HELMET, new Item.Properties()));
-    public static final RegistryEntry<Item> SOUL_STEEL_CHESTPLATE = ITEMS.register("soul_steel_chestplate", () -> new SoulSteelArmor(SOUL_STEEL_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
-    public static final RegistryEntry<Item> SOUL_STEEL_LEGGINGS = ITEMS.register("soul_steel_leggings", () -> new SoulSteelArmor(SOUL_STEEL_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS, new Item.Properties()));
-    public static final RegistryEntry<Item> SOUL_STEEL_BOOTS = ITEMS.register("soul_steel_boots", () -> new SoulSteelArmor(SOUL_STEEL_ARMOR_MATERIAL, ArmorItem.Type.BOOTS, new Item.Properties()));
+    public static final RegistryEntry<Item> SOUL_STEEL_HELMET = ARMOR.register("soul_steel_helmet", () -> new SoulSteelArmor(SOUL_STEEL_ARMOR_MATERIAL, ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryEntry<Item> SOUL_STEEL_CHESTPLATE = ARMOR.register("soul_steel_chestplate", () -> new SoulSteelArmor(SOUL_STEEL_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryEntry<Item> SOUL_STEEL_LEGGINGS = ARMOR.register("soul_steel_leggings", () -> new SoulSteelArmor(SOUL_STEEL_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryEntry<Item> SOUL_STEEL_BOOTS = ARMOR.register("soul_steel_boots", () -> new SoulSteelArmor(SOUL_STEEL_ARMOR_MATERIAL, ArmorItem.Type.BOOTS, new Item.Properties()));
 
     //trinkets
     public static final RegistryEntry<Item> CAT_CHARM = ITEMS.register("cat_charm", () -> new BaseTrinket(new Item.Properties()));

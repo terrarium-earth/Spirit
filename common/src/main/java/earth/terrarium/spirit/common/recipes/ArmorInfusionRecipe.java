@@ -2,11 +2,14 @@ package earth.terrarium.spirit.common.recipes;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import earth.terrarium.spirit.api.armor_abilities.ArmorAbility;
-import earth.terrarium.spirit.api.armor_abilities.ArmorAbilityManager;
+import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
+import earth.terrarium.spirit.api.abilities.armor.ArmorAbility;
+import earth.terrarium.spirit.api.abilities.armor.ArmorAbilityManager;
 import earth.terrarium.spirit.api.storage.util.SoulIngredient;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
+import earth.terrarium.spirit.common.registry.SpiritItems;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -58,5 +61,12 @@ public record ArmorInfusionRecipe(ResourceLocation id, Optional<EnchantmentCateg
     @Override
     public boolean allowInfusion(ItemStack input) {
         return input.getItem() instanceof SoulSteelArmor && !input.getOrCreateTag().contains(SoulSteelArmor.ABILITY_KEY) && InfusionRecipe.super.allowInfusion(input);
+    }
+
+    @Override
+    public List<Ingredient> getAllInputs() {
+        List<Ingredient> allInputs = InfusionRecipe.super.getAllInputs();
+        allInputs.addAll(SpiritItems.ARMOR.stream().filter(item -> inputType().map(category -> category.canEnchant(item.get())).orElse(true)).map(RegistryEntry::get).map(Ingredient::of).toList());
+        return allInputs;
     }
 }

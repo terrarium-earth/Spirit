@@ -1,10 +1,11 @@
 package earth.terrarium.spirit.common.item.armor;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import dev.architectury.injectables.annotations.PlatformOnly;
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.api.armor_abilities.ArmorAbility;
-import earth.terrarium.spirit.api.armor_abilities.ArmorAbilityManager;
+import earth.terrarium.spirit.api.abilities.armor.ArmorAbility;
+import earth.terrarium.spirit.api.abilities.armor.ArmorAbilityManager;
 import earth.terrarium.spirit.common.util.ClientUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -61,10 +62,10 @@ public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
     }
 
     public Multimap<Attribute, AttributeModifier> abilityAttributes(EquipmentSlot slot, ItemStack stack) {
-        var base = stack.getItem().getDefaultAttributeModifiers(slot);
+        Multimap<Attribute, AttributeModifier> base = HashMultimap.create(super.getDefaultAttributeModifiers(slot));
         var ability = getAbility(stack);
-        if(ability != null) {
-            ability.modifyAttributes(slot, stack, base);
+        if(ability != null && slot == this.type.getSlot()) {
+            ability.modifyAttributes(ARMOR_MODIFIER_UUID_PER_TYPE.get(getType()), slot, stack, base);
         }
         return base;
     }

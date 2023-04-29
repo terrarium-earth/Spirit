@@ -1,14 +1,12 @@
 package earth.terrarium.spirit.client.renderer.armor;
 
-import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teamresourceful.resourcefullib.client.CloseablePoseStack;
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.api.armor_abilities.ArmorAbility;
-import earth.terrarium.spirit.api.armor_abilities.ColorPalette;
+import earth.terrarium.spirit.api.abilities.armor.ArmorAbility;
+import earth.terrarium.spirit.api.abilities.ColorPalette;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
-import earth.terrarium.spirit.common.util.ClientUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;

@@ -5,14 +5,16 @@
   "minVersion": "0.8.5",
   "mixins": [
     "BaseFireBlockMixin",
+    "BlockMixin",
     "ItemEntityMixin",
     "LivingEntityMixin",
     "MobMixin",
     "PhantomSpawnerMixin",
     "PiglinMixin",
+    "PlayerMixin",
     "VillagerMixin"
   ],
   "client": [
-    "EntityRendererMixin"
+    "LivingEntityRendererMixin"
   ]
 }

@@ -2,6 +2,10 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
+loom {
+    accessWidenerPath.set(project(":common").file("src/main/resources/spirit.accesswidener"))
+}
+
 architectury {
     platformSetupLoomIde()
     fabric()

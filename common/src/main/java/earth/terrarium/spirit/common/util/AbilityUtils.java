@@ -12,9 +12,6 @@ public class AbilityUtils {
     public static ItemStack getCookedResult(Level level, ItemStack itemStack) {
         ItemStack result = itemStack.copy();
         Optional<SmeltingRecipe> first = level.getRecipeManager().getAllRecipesFor(RecipeType.SMELTING).stream().filter(recipe -> recipe.getIngredients().get(0).test(result)).findFirst();
-        if (first.isPresent()) {
-            return first.get().getResultItem(level.registryAccess()).copy();
-        }
-        return ItemStack.EMPTY;
+        return first.map(smeltingRecipe -> smeltingRecipe.getResultItem(level.registryAccess()).copy()).orElse(itemStack);
     }
 }

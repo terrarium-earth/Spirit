@@ -42,7 +42,6 @@ public interface InfusionRecipe extends CodecRecipe<Container> {
 
     default List<Ingredient> getAllInputs() {
         List<Ingredient> inputs = new ArrayList<>();
-        inputs.addAll(BuiltInRegistries.ITEM.stream().filter(item -> inputType().map(category -> category.canEnchant(item)).orElse(true)).map(Ingredient::of).toList());
         inputs.addAll(entityInput().getEntities().map(entity -> Ingredient.of(SpawnEggItem.byId(entity))).toList());
         return inputs;
     }

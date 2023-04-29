@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/handheld",
+  "overrides": [
+    {
+      "predicate": {
+        "spirit:ability": 1
+      },
+      "model": "spirit:item/soul_steel_excavator_layered"
+    }
+  ],
+  "textures": {
+    "layer0": "spirit:item/soul_steel_excavator"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "spirit:item/soul_steel_battleaxe",
+    "layer1": "spirit:item/soul_steel_battleaxe_layer_1",
+    "layer2": "spirit:item/soul_steel_battleaxe_layer_2",
+    "layer3": "spirit:item/soul_steel_battleaxe_layer_3"
+  }
+}
+

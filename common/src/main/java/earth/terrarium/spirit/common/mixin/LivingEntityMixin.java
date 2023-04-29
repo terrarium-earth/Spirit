@@ -1,6 +1,6 @@
 package earth.terrarium.spirit.common.mixin;
 
-import earth.terrarium.spirit.api.armor_abilities.ArmorAbility;
+import earth.terrarium.spirit.api.abilities.armor.ArmorAbility;
 import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.utils.SoulUtils;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;

@@ -2,13 +2,16 @@ package earth.terrarium.spirit.client;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import earth.terrarium.spirit.Spirit;
+import earth.terrarium.spirit.api.abilities.armor.ArmorAbility;
+import earth.terrarium.spirit.api.abilities.tool.ToolAbility;
 import earth.terrarium.spirit.client.renderer.armor.ArmorRenderers;
 import earth.terrarium.spirit.client.renderer.armor.SoulSteelArmorModel;
 import earth.terrarium.spirit.client.renderer.block.PedestalRenderer;
 import earth.terrarium.spirit.client.renderer.block.SoulBasinRenderer;
 import earth.terrarium.spirit.common.handlers.MobCrystalHandler;
-import earth.terrarium.spirit.common.handlers.SoulArmorHandler;
+import earth.terrarium.spirit.common.handlers.SoulAbilityHandler;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
+import earth.terrarium.spirit.common.item.tools.SoulSteelTool;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import earth.terrarium.spirit.common.registry.SpiritItems;
@@ -19,7 +22,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -31,7 +33,22 @@ public class SpiritClient {
     public static final ItemColor ARMOR_COLOR = (itemStack, i) -> {
         for (int j = 1; j <= 3; j++) {
             if (itemStack.getItem() instanceof SoulSteelArmor armor && i == j) {
-                return armor.getAbility(itemStack).getColor().asArray()[j - 1];
+                ArmorAbility ability = armor.getAbility(itemStack);
+                if (ability != null) {
+                    return ability.getColor().asArray()[j - 1];
+                }
+            }
+        }
+        return -1;
+    };
+
+    public static final ItemColor TOOL_COLOR = (itemStack, i) -> {
+        for (int j = 1; j <= 3; j++) {
+            if (itemStack.getItem() instanceof SoulSteelTool armor && i == j) {
+                ToolAbility ability = armor.getAbility(itemStack);
+                if (ability != null) {
+                    return ability.getColor().asArray()[j - 1];
+                }
             }
         }
         return -1;
@@ -39,10 +56,13 @@ public class SpiritClient {
 
     public static void init() {
         registerItemProperties(SpiritItems.MOB_CRYSTAL.get(), new ResourceLocation(Spirit.MODID, "mob"), (itemStack, clientLevel, livingEntity, i) -> MobCrystalHandler.mobCrystalProperty(itemStack));
-        registerItemProperties(SpiritItems.SOUL_STEEL_HELMET.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulArmorHandler.soulArmorProperty(itemStack));
-        registerItemProperties(SpiritItems.SOUL_STEEL_CHESTPLATE.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulArmorHandler.soulArmorProperty(itemStack));
-        registerItemProperties(SpiritItems.SOUL_STEEL_LEGGINGS.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulArmorHandler.soulArmorProperty(itemStack));
-        registerItemProperties(SpiritItems.SOUL_STEEL_BOOTS.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulArmorHandler.soulArmorProperty(itemStack));
+        registerItemProperties(SpiritItems.SOUL_STEEL_HELMET.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulAbilityHandler.soulArmorProperty(itemStack));
+        registerItemProperties(SpiritItems.SOUL_STEEL_CHESTPLATE.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulAbilityHandler.soulArmorProperty(itemStack));
+        registerItemProperties(SpiritItems.SOUL_STEEL_LEGGINGS.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulAbilityHandler.soulArmorProperty(itemStack));
+        registerItemProperties(SpiritItems.SOUL_STEEL_BOOTS.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulAbilityHandler.soulArmorProperty(itemStack));
+        registerItemProperties(SpiritItems.SOUL_STEEL_HAMMER.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulAbilityHandler.toolAbilityProperty(itemStack));
+        registerItemProperties(SpiritItems.SOUL_STEEL_BATTLEAXE.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulAbilityHandler.toolAbilityProperty(itemStack));
+        registerItemProperties(SpiritItems.SOUL_STEEL_EXCAVATOR.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulAbilityHandler.toolAbilityProperty(itemStack));
         registerBlockEntityRenderers(SpiritBlockEntities.PEDESTAL.get(), PedestalRenderer::new);
         registerBlockEntityRenderers(SpiritBlockEntities.SOUL_BASIN.get(), SoulBasinRenderer::new);
         registerRenderLayer(SpiritBlocks.SOUL_GLASS.get(), RenderType.translucent());
