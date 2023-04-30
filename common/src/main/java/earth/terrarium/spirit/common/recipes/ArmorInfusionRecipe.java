@@ -2,6 +2,8 @@ package earth.terrarium.spirit.common.recipes;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.teamresourceful.resourcefullib.common.codecs.recipes.IngredientCodec;
+import com.teamresourceful.resourcefullib.common.codecs.recipes.ItemStackCodec;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import earth.terrarium.spirit.api.abilities.armor.ArmorAbility;
 import earth.terrarium.spirit.api.abilities.armor.ArmorAbilityManager;
@@ -18,21 +20,24 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
 
-public record ArmorInfusionRecipe(ResourceLocation id, Optional<EnchantmentCategory> inputType,
-                                  SoulIngredient entityInput, ArmorAbility result,
-                                  int duration) implements InfusionRecipe {
+public record ArmorInfusionRecipe(ResourceLocation id, Ingredient receptacleIngredient,
+                                  List<SoulIngredient> entityInputs, List<Ingredient> itemInputs,
+                                  ArmorAbility result,
+                                  int duration) implements InfusionRecipe<ArmorAbility> {
 
     public static Codec<ArmorInfusionRecipe> codec(ResourceLocation location) {
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(location),
-                Codec.STRING.xmap(EnchantmentCategory::valueOf, EnchantmentCategory::toString).optionalFieldOf("input_type").forGetter(ArmorInfusionRecipe::inputType),
-                SoulIngredient.CODEC.fieldOf("entity_input").forGetter(ArmorInfusionRecipe::entityInput),
+                IngredientCodec.CODEC.fieldOf("activatorIngredient").forGetter(ArmorInfusionRecipe::receptacleIngredient),
+                SoulIngredient.CODEC.listOf().fieldOf("entityIngredients").forGetter(ArmorInfusionRecipe::entityInputs),
+                IngredientCodec.CODEC.listOf().fieldOf("ingredients").forGetter(ArmorInfusionRecipe::itemInputs),
                 ArmorAbilityManager.getAbilityRegistry().byNameCodec().fieldOf("result").forGetter(ArmorInfusionRecipe::result),
-                Codec.INT.fieldOf("duration").forGetter(ArmorInfusionRecipe::duration)
+                Codec.INT.fieldOf("duration").orElse(60).forGetter(ArmorInfusionRecipe::duration)
         ).apply(instance, ArmorInfusionRecipe::new));
     }
 
@@ -42,31 +47,21 @@ public record ArmorInfusionRecipe(ResourceLocation id, Optional<EnchantmentCateg
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return SpiritRecipes.ARMOR_INFUSION_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public @NotNull RecipeType<?> getType() {
         return SpiritRecipes.ARMOR_INFUSION.get();
     }
 
     @Override
     public ItemStack getInfusionResult(ItemStack input) {
-        var result = input.copy();
-        result.getOrCreateTag().putString(SoulSteelArmor.ABILITY_KEY, ArmorAbilityManager.getAbilityRegistry().getKey(result()).toString());
+        ItemStack result = input.copy();
+        if (allowInfusion(result)) {
+            result.getOrCreateTag().putString(InfusionRecipe.ABILITY_KEY, ArmorAbilityManager.getAbilityRegistry().getKey(result()).toString());
+        }
         return result;
-    }
-
-    @Override
-    public boolean allowInfusion(ItemStack input) {
-        return input.getItem() instanceof SoulSteelArmor && !input.getOrCreateTag().contains(SoulSteelArmor.ABILITY_KEY) && InfusionRecipe.super.allowInfusion(input);
-    }
-
-    @Override
-    public List<Ingredient> getAllInputs() {
-        List<Ingredient> allInputs = InfusionRecipe.super.getAllInputs();
-        allInputs.addAll(SpiritItems.ARMOR.stream().filter(item -> inputType().map(category -> category.canEnchant(item.get())).orElse(true)).map(RegistryEntry::get).map(Ingredient::of).toList());
-        return allInputs;
     }
 }

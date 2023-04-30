@@ -28,9 +28,9 @@ public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> acti
     public static Codec<TransmutationRecipe> codec(ResourceLocation id) {
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(id),
-                IngredientCodec.CODEC.optionalFieldOf("activatorItem").forGetter(TransmutationRecipe::activationItem),
-                SoulIngredient.CODEC.listOf().fieldOf("entityInputs").forGetter(TransmutationRecipe::entityInputs),
-                IngredientCodec.CODEC.listOf().fieldOf("itemInputs").forGetter(TransmutationRecipe::itemInputs),
+                IngredientCodec.CODEC.optionalFieldOf("activatorIngredient").forGetter(TransmutationRecipe::activationItem),
+                SoulIngredient.CODEC.listOf().fieldOf("entityIngredients").forGetter(TransmutationRecipe::entityInputs),
+                IngredientCodec.CODEC.listOf().fieldOf("ingredients").forGetter(TransmutationRecipe::itemInputs),
                 ItemStackCodec.CODEC.fieldOf("result").forGetter(TransmutationRecipe::result),
                 Codec.INT.fieldOf("duration").orElse(60).forGetter(TransmutationRecipe::duration)
         ).apply(instance, TransmutationRecipe::new));

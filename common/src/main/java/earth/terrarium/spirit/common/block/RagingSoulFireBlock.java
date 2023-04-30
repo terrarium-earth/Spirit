@@ -2,7 +2,9 @@ package earth.terrarium.spirit.common.block;
 
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.elements.SoulElement;
+import earth.terrarium.spirit.common.entity.SoulReceptacle;
 import earth.terrarium.spirit.common.recipes.PedestalRecipe;
+import earth.terrarium.spirit.common.registry.SpiritEntities;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
 import earth.terrarium.spirit.common.util.RecipeUtils;
 import net.minecraft.core.BlockPos;
@@ -59,8 +61,12 @@ public class RagingSoulFireBlock extends SoulFireBlock {
                 for (var recipe : recipes) {
                     if (RecipeUtils.validatePedestals(level, recipe, items, souls, true)) {
                         itemE.getItem().shrink(1);
-                        ItemEntity itemEntity = new ItemEntity(level, itemE.getX(), itemE.getY(), itemE.getZ(), recipe.result().copy());
-                        level.addFreshEntity(itemEntity);
+                        SoulReceptacle soulReceptacle = SpiritEntities.SOUL_RECEPTACLE.get().create(level);
+                        if (soulReceptacle != null) {
+                            soulReceptacle.setResult(recipe.result().copy(), recipe.duration());
+                            soulReceptacle.setPos(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
+                            level.addFreshEntity(soulReceptacle);
+                        }
                         level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
                     }
                 }

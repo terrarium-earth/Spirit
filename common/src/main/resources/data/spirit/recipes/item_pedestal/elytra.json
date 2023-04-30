@@ -1,10 +1,13 @@
 {
   "type": "spirit:transmutation",
-  "entityInputs": [
+  "activatorIngredient": {
+    "item": "minecraft:ender_pearl"
+  },
+  "entityIngredients": [
     "minecraft:phantom",
     "minecraft:phantom"
   ],
-  "itemInputs": [
+  "ingredients": [
     {
       "item": "minecraft:phantom_membrane"
     },
@@ -24,8 +27,5 @@
       "item": "spirit:crystal_shard"
     }
   ],
-  "activatorItem": {
-    "item": "minecraft:ender_pearl"
-  },
-  "result":  "minecraft:elytra"
+  "result": "minecraft:elytra"
 }

@@ -4,6 +4,7 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.abilities.armor.ArmorAbility;
 import earth.terrarium.spirit.api.abilities.tool.ToolAbility;
+import earth.terrarium.spirit.client.entity.SoulReceptacleModel;
 import earth.terrarium.spirit.client.renderer.armor.ArmorRenderers;
 import earth.terrarium.spirit.client.renderer.armor.SoulSteelArmorModel;
 import earth.terrarium.spirit.client.renderer.block.PedestalRenderer;
@@ -73,6 +74,7 @@ public class SpiritClient {
 
     public static void registerEntityLayers(LayerDefinitionRegistry registry) {
         registry.register(SoulSteelArmorModel.LAYER_LOCATION, SoulSteelArmorModel::createBodyLayer);
+        registry.register(SoulReceptacleModel.LAYER_LOCATION, SoulReceptacleModel::createBodyLayer);
     }
 
     @ExpectPlatform

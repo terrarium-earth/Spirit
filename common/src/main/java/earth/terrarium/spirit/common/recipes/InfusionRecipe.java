@@ -2,6 +2,7 @@ package earth.terrarium.spirit.common.recipes;
 
 import com.teamresourceful.resourcefullib.common.recipe.CodecRecipe;
 import earth.terrarium.spirit.api.storage.util.SoulIngredient;
+import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -15,17 +16,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public interface InfusionRecipe extends CodecRecipe<Container> {
-    Optional<EnchantmentCategory> inputType();
-
-    SoulIngredient entityInput();
-
+public interface InfusionRecipe<T> extends PedestalRecipe<T> {
+    String ABILITY_KEY = "Ability";
     int duration();
+
+    Ingredient receptacleIngredient();
+
+    @Override
+    default Optional<Ingredient> activationItem() {
+        return Optional.of(receptacleIngredient());
+    }
+
+    @Override
+    default boolean consumesActivator() {
+        return true;
+    }
 
     ItemStack getInfusionResult(ItemStack input);
 
     default boolean allowInfusion(ItemStack input) {
-        return inputType().map(category -> category.canEnchant(input.getItem())).orElse(true) ;
+        return !input.getOrCreateTag().contains(SoulSteelArmor.ABILITY_KEY);
     }
 
     static <Q extends PedestalRecipe<?>> List<Q> getRecipesForEntity(RecipeType<Q> type, ItemStack stack, RecipeManager manager) {
@@ -38,11 +48,5 @@ public interface InfusionRecipe extends CodecRecipe<Container> {
             }
             return stackMatches;
         }).toList();
-    }
-
-    default List<Ingredient> getAllInputs() {
-        List<Ingredient> inputs = new ArrayList<>();
-        inputs.addAll(entityInput().getEntities().map(entity -> Ingredient.of(SpawnEggItem.byId(entity))).toList());
-        return inputs;
     }
 }

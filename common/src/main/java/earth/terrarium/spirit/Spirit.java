@@ -45,6 +45,7 @@ public class Spirit {
         SpiritRecipes.RECIPE_SERIALIZERS.init();
         SpiritArmorAbilities.ARMOR_ABILITIES.init();
         SpiritToolAbilities.TOOL_ABILITIES.init();
+        SpiritEntities.ENTITIES.init();
 
         SoulGatherEvent.register(new ResourceLocation(MODID, "scythe"), (victim, player, amount) -> {
             if (player.getMainHandItem().getItem() == SpiritItems.SCYTHE.get()) {

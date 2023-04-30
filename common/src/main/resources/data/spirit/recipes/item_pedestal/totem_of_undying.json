@@ -1,9 +1,12 @@
 {
   "type": "spirit:transmutation",
-  "entityInputs": [
+  "activatorIngredient": {
+    "item": "spirit:earth_crystal"
+  },
+  "entityIngredients": [
     "minecraft:villager"
   ],
-  "itemInputs": [
+  "ingredients": [
     {
       "item": "minecraft:golden_apple"
     },
@@ -26,8 +29,5 @@
       "item": "spirit:earth_powder"
     }
   ],
-  "activatorItem": {
-    "item": "spirit:earth_crystal"
-  },
   "result":  "minecraft:totem_of_undying"
 }

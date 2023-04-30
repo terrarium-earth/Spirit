@@ -4,10 +4,7 @@ import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.common.item.ElementalCrystalItem;
-import earth.terrarium.spirit.common.item.MobCrystalItem;
-import earth.terrarium.spirit.common.item.ScytheItem;
-import earth.terrarium.spirit.common.item.SoulCrystalItem;
+import earth.terrarium.spirit.common.item.*;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmorMaterial;
 import earth.terrarium.spirit.common.item.tools.SoulSteelToolItem;
@@ -49,6 +46,7 @@ public class SpiritItems {
     //crafting materials
     public static final RegistryEntry<Item> CRYSTAL_SHARD = ITEMS.register("crystal_shard", () -> new Item(new Item.Properties()));
     public static final RegistryEntry<Item> SOUL_STEEL_INGOT = ITEMS.register("soul_steel_ingot", () -> new Item(new Item.Properties()));
+    public static final RegistryEntry<Item> SOUL_FIRE_CHARGE = ITEMS.register("soul_fire_charge", () -> new SoulFireChargeItem(new Item.Properties()));
 
     // armor
     private static final ArmorMaterial SOUL_STEEL_ARMOR_MATERIAL = new SoulSteelArmorMaterial();

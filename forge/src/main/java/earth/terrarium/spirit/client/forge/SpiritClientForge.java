@@ -2,6 +2,8 @@ package earth.terrarium.spirit.client.forge;
 
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.client.SpiritClient;
+import earth.terrarium.spirit.client.entity.SoulReceptacleRenderer;
+import earth.terrarium.spirit.common.registry.SpiritEntities;
 import earth.terrarium.spirit.common.registry.SpiritItems;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -27,11 +29,17 @@ public class SpiritClientForge {
                 event.registerLayerDefinition(location, definition);
             }
         });
+
     }
 
     @SubscribeEvent
     public static void registerColor(RegisterColorHandlersEvent.Item event) {
         event.register(SpiritClient.ARMOR_COLOR, SpiritItems.SOUL_STEEL_HELMET.get(), SpiritItems.SOUL_STEEL_CHESTPLATE.get(), SpiritItems.SOUL_STEEL_LEGGINGS.get(), SpiritItems.SOUL_STEEL_BOOTS.get());
         event.register(SpiritClient.TOOL_COLOR, SpiritItems.SOUL_STEEL_HAMMER.get(), SpiritItems.SOUL_STEEL_EXCAVATOR.get(), SpiritItems.SOUL_STEEL_BATTLEAXE.get());
+    }
+
+    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(SpiritEntities.SOUL_RECEPTACLE.get(), SoulReceptacleRenderer::new);
+
     }
 }

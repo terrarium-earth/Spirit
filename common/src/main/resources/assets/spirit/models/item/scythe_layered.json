@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "spirit:item/scythe",
+    "layer1": "spirit:item/scythe_layer_1",
+    "layer2": "spirit:item/scythe_layer_2",
+    "layer3": "spirit:item/scythe_layer_3"
+  }
+}
+
