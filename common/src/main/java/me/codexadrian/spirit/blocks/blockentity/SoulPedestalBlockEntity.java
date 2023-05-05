@@ -73,19 +73,15 @@ public class SoulPedestalBlockEntity extends BlockEntity {
                         }
                     }
                 } else if (RecipeUtils.validatePedestals(blockPos, level1, new ArrayList<>(soulPedestal.containedRecipe.ingredients()), true)) {
-                    if (soulPedestal.containedRecipe.shouldSummon()) {
-                        Entity entity = soulPedestal.containedRecipe.entityOutput().create(level1);
-                        if (entity != null) {
-                            if(soulPedestal.containedRecipe.outputNbt().isPresent()) entity.load(soulPedestal.containedRecipe.outputNbt().get());
-                            entity.setPos(blockPos.getX() + 0.5, blockPos.getY() + 0.75, blockPos.getZ() + 0.5);
-                            level1.addFreshEntity(entity);
-                            for (int i = 0; i < 10; i++) {
-                                level1.addParticle(ParticleTypes.SOUL, entity.getX(), entity.getY(), entity.getZ(), 0, 0, 0);
-                            }
-                            soulPedestal.setType(null);
+                    Entity entity = soulPedestal.containedRecipe.entityOutput().create(level1);
+                    if (entity != null) {
+                        if(soulPedestal.containedRecipe.outputNbt().isPresent()) entity.load(soulPedestal.containedRecipe.outputNbt().get());
+                        entity.setPos(blockPos.getX() + 0.5, blockPos.getY() + 0.75, blockPos.getZ() + 0.5);
+                        level1.addFreshEntity(entity);
+                        for (int i = 0; i < 10; i++) {
+                            level1.addParticle(ParticleTypes.SOUL, entity.getX(), entity.getY(), entity.getZ(), 0, 0, 0);
                         }
-                    } else {
-                        soulPedestal.setType(soulPedestal.containedRecipe.entityOutput());
+                        soulPedestal.setType(null);
                     }
                     level1.sendBlockUpdated(blockPos, blockState1, blockState1, Block.UPDATE_ALL);
                     soulPedestal.setRecipe(null);

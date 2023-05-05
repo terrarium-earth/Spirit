@@ -31,7 +31,7 @@ public class PedestalDisplay extends BasicDisplay {
         var nbt = new CompoundTag();
         nbt.putBoolean("Corrupted", true);
         return EntryIngredient.of(EntryStack.of(SpiritPlugin.ENTITY_INGREDIENT,
-                new EntityIngredient(recipe.entityOutput(), -45F, recipe.shouldSummon() ? Optional.empty() : Optional.of(nbt))));
+                new EntityIngredient(recipe.entityOutput(), -45F, Optional.of(nbt))));
     }
     
     @Override
