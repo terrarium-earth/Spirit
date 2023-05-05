@@ -22,8 +22,8 @@ public class PedestalBlockEntity extends BlockEntity implements WorldlyContainer
     NonNullList<ItemStack> inventory = NonNullList.withSize(1, ItemStack.EMPTY);
     public int age;
 
-    public PedestalBlockEntity(BlockPos $$1, BlockState $$2) {
-        super(SpiritBlockEntities.PEDESTAL.get(), $$1, $$2);
+    public PedestalBlockEntity(BlockPos blockPos, BlockState state) {
+        super(SpiritBlockEntities.PEDESTAL.get(), blockPos, state);
     }
 
     public static void tick(Level level1, BlockPos blockPos, BlockState blockState1, BlockEntity blockEntity) {
@@ -43,7 +43,7 @@ public class PedestalBlockEntity extends BlockEntity implements WorldlyContainer
     }
 
     @Override
-    public ItemStack getItem(int i) {
+    public @NotNull ItemStack getItem(int i) {
         return inventory.get(i);
     }
 
@@ -53,12 +53,12 @@ public class PedestalBlockEntity extends BlockEntity implements WorldlyContainer
     }
 
     @Override
-    public ItemStack removeItem(int i, int j) {
+    public @NotNull ItemStack removeItem(int i, int j) {
         return ContainerHelper.removeItem(inventory, i, j);
     }
 
     @Override
-    public ItemStack removeItemNoUpdate(int i) {
+    public @NotNull ItemStack removeItemNoUpdate(int i) {
         return ContainerHelper.takeItem(inventory, i);
     }
 

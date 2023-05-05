@@ -6,7 +6,9 @@ import earth.terrarium.spirit.api.abilities.armor.ArmorAbilityManager;
 import earth.terrarium.spirit.api.abilities.tool.DataToolAbility;
 import earth.terrarium.spirit.api.abilities.tool.ToolAbility;
 import earth.terrarium.spirit.api.abilities.tool.ToolAbilityManager;
+import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -35,5 +37,18 @@ public interface SoulSteelTool {
             return toolAbility;
         }
         return null;
+    }
+
+    default boolean allowInfusion(ItemStack stack) {
+        return !stack.getOrCreateTag().contains(SoulSteelArmor.ABILITY_KEY);
+    }
+
+    default void addAbility(ToolAbility ability, ItemStack stack) {
+        if (allowInfusion(stack)) {
+            stack.getOrCreateTag().putString(ABILITY_KEY, ToolAbilityManager.getAbilityRegistry().getKey(ability).toString());
+            if (ability instanceof DataToolAbility dataToolAbility) {
+                stack.getOrCreateTag().put(DATA_KEY, dataToolAbility.serialize(new CompoundTag()));
+            }
+        }
     }
 }

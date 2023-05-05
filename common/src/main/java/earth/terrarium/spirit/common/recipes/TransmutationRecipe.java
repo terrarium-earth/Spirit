@@ -17,22 +17,23 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
 
-public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> activationItem,
+public record TransmutationRecipe(ResourceLocation id, Ingredient activationItem,
                                   List<SoulIngredient> entityInputs, List<Ingredient> itemInputs,
-                                  ItemStack result,
-                                  int duration) implements CodecRecipe<Container>, PedestalRecipe<ItemStack> {
+                                  ItemStack result, int duration, boolean consumesFlame) implements CodecRecipe<Container>, PedestalRecipe<ItemStack> {
     public static Codec<TransmutationRecipe> codec(ResourceLocation id) {
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(id),
-                IngredientCodec.CODEC.optionalFieldOf("activatorIngredient").forGetter(TransmutationRecipe::activationItem),
+                IngredientCodec.CODEC.fieldOf("activatorIngredient").forGetter(TransmutationRecipe::activationItem),
                 SoulIngredient.CODEC.listOf().fieldOf("entityIngredients").forGetter(TransmutationRecipe::entityInputs),
                 IngredientCodec.CODEC.listOf().fieldOf("ingredients").forGetter(TransmutationRecipe::itemInputs),
                 ItemStackCodec.CODEC.fieldOf("result").forGetter(TransmutationRecipe::result),
-                Codec.INT.fieldOf("duration").orElse(60).forGetter(TransmutationRecipe::duration)
+                Codec.INT.fieldOf("duration").orElse(60).forGetter(TransmutationRecipe::duration),
+                Codec.BOOL.fieldOf("consumesFlame").orElse(false).forGetter(TransmutationRecipe::consumesFlame)
         ).apply(instance, TransmutationRecipe::new));
     }
 
@@ -42,17 +43,12 @@ public record TransmutationRecipe(ResourceLocation id, Optional<Ingredient> acti
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return SpiritRecipes.TRANSMUTATION_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public @NotNull RecipeType<?> getType() {
         return SpiritRecipes.TRANSMUTATION.get();
-    }
-
-    @Override
-    public boolean consumesActivator() {
-        return true;
     }
 }

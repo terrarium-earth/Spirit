@@ -1,11 +1,12 @@
 package earth.terrarium.spirit.compat.jei;
 
 import earth.terrarium.spirit.Spirit;
+import earth.terrarium.spirit.common.recipes.InfusionRecipe;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
 import earth.terrarium.spirit.compat.common.EntityIngredient;
+import earth.terrarium.spirit.compat.jei.categories.InfusionRecipeCategory;
 import earth.terrarium.spirit.compat.jei.categories.PedestalRecipeCategory;
-import earth.terrarium.spirit.compat.jei.categories.SoulEngulfingCategory;
 import earth.terrarium.spirit.compat.jei.ingredients.EntityIngredientHelper;
 import earth.terrarium.spirit.compat.jei.ingredients.EntityRenderer;
 import mezz.jei.api.IModPlugin;
@@ -22,6 +23,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @JeiPlugin
@@ -29,7 +31,7 @@ public class SpiritPlugin implements IModPlugin {
     public static final IIngredientType<EntityIngredient> ENTITY_INGREDIENT = () -> EntityIngredient.class;
 
     @Override
-    public ResourceLocation getPluginUid() {
+    public @NotNull ResourceLocation getPluginUid() {
         return new ResourceLocation(Spirit.MODID, "jei");
     }
 
@@ -39,7 +41,9 @@ public class SpiritPlugin implements IModPlugin {
         var level = Minecraft.getInstance().level;
         if(level != null) {
             registration.addRecipes(PedestalRecipeCategory.RECIPE, level.getRecipeManager().getAllRecipesFor(SpiritRecipes.TRANSMUTATION.get()));
-            registration.addRecipes(SoulEngulfingCategory.RECIPE, SoulEngulfingCategory.getRecipes(level.getRecipeManager().getAllRecipesFor(SpiritRecipes.SOUL_ENGULFING.get())));
+            List<InfusionRecipe<?>> infusionRecipes = new ArrayList<>(level.getRecipeManager().getAllRecipesFor(SpiritRecipes.ARMOR_INFUSION.get()));
+            infusionRecipes.addAll(level.getRecipeManager().getAllRecipesFor(SpiritRecipes.TOOL_INFUSION.get()));
+            registration.addRecipes(InfusionRecipeCategory.RECIPE, infusionRecipes);
         }
     }
 
@@ -51,8 +55,6 @@ public class SpiritPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(SpiritBlocks.PEDESTAL.get().asItem().getDefaultInstance(), PedestalRecipeCategory.RECIPE);
-        registration.addRecipeCatalyst(Blocks.SOUL_SAND.asItem().getDefaultInstance(), SoulEngulfingCategory.RECIPE);
-        registration.addRecipeCatalyst(Items.FLINT_AND_STEEL.getDefaultInstance(), SoulEngulfingCategory.RECIPE);
     }
 
     @Override
@@ -60,6 +62,6 @@ public class SpiritPlugin implements IModPlugin {
         IModPlugin.super.registerCategories(registration);
         IGuiHelper guiHelper = registration.getJeiHelpers().getGuiHelper();
         registration.addRecipeCategories(new PedestalRecipeCategory(guiHelper));
-        registration.addRecipeCategories(new SoulEngulfingCategory(guiHelper));
+        registration.addRecipeCategories(new InfusionRecipeCategory(guiHelper));
     }
 }

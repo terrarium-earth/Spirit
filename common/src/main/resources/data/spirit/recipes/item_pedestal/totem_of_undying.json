@@ -1,7 +1,7 @@
 {
   "type": "spirit:transmutation",
   "activatorIngredient": {
-    "item": "spirit:earth_crystal"
+    "item": "minecraft:emerald"
   },
   "entityIngredients": [
     "minecraft:villager"

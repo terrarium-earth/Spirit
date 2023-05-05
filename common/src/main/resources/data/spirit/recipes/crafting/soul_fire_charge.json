@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spirit:crystal_shard"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "tag": "minecraft:coals"
+    }
+  ],
+  "result": {
+    "item": "spirit:soul_fire_charge",
+    "count": 4
+  }
+}

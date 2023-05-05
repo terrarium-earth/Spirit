@@ -1,0 +1,34 @@
+{
+  "type": "spirit:transmutation",
+  "activatorIngredient": {
+    "item": "minecraft:netherite_helmet"
+  },
+  "entityIngredients": [],
+  "ingredients": [
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:crystal_shard"
+    },
+    {
+      "item": "spirit:crystal_shard"
+    },
+    {
+      "item": "spirit:crystal_shard"
+    },
+    {
+      "item": "spirit:crystal_shard"
+    }
+  ],
+  "result":  "spirit:soul_steel_helmet"
+}

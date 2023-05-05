@@ -31,6 +31,8 @@ public class SpiritItems {
     //crystals
     public static final RegistryEntry<Item> SOUL_CRYSTAL = ITEMS.register("soul_crystal", () -> new SoulCrystalItem(new Item.Properties()));
     public static final RegistryEntry<Item> MOB_CRYSTAL = ITEMS.register("mob_crystal", () -> new MobCrystalItem(new Item.Properties()));
+    public static final RegistryEntry<Item> IGNITION_CRYSTAL = ITEMS.register("ignition_crystal", () -> new IgnitionCrystalItem(new Item.Properties().durability(128)));
+    public static final RegistryEntry<Item> INSIGHT_CRYSTAL = ITEMS.register("insight_crystal", () -> new InsightCrystalItem(new Item.Properties()));
 
     //pedestals
     public static final RegistryEntry<Item> PEDESTAL = ITEMS.register("pedestal", () -> new BlockItem(SpiritBlocks.PEDESTAL.get(), new Item.Properties()));
@@ -41,7 +43,7 @@ public class SpiritItems {
     public static final RegistryEntry<Item> SCYTHE = TOOLS.register("scythe", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_HOE, new Item.Properties()));
     public static final RegistryEntry<Item> SOUL_STEEL_HAMMER = TOOLS.register("soul_steel_hammer", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_PICKAXE, new Item.Properties()));
     public static final RegistryEntry<Item> SOUL_STEEL_EXCAVATOR = TOOLS.register("soul_steel_excavator", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_SHOVEL, new Item.Properties()));
-    public static final RegistryEntry<Item> SOUL_STEEL_BATTLEAXE = TOOLS.register("soul_steel_battleaxe", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_SHOVEL, new Item.Properties()));
+    public static final RegistryEntry<Item> SOUL_STEEL_BATTLEAXE = TOOLS.register("soul_steel_battleaxe", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_AXE, new Item.Properties()));
 
     //crafting materials
     public static final RegistryEntry<Item> CRYSTAL_SHARD = ITEMS.register("crystal_shard", () -> new Item(new Item.Properties()));
@@ -56,11 +58,11 @@ public class SpiritItems {
     public static final RegistryEntry<Item> SOUL_STEEL_BOOTS = ARMOR.register("soul_steel_boots", () -> new SoulSteelArmor(SOUL_STEEL_ARMOR_MATERIAL, ArmorItem.Type.BOOTS, new Item.Properties()));
 
     //trinkets
-    public static final RegistryEntry<Item> CAT_CHARM = ITEMS.register("cat_charm", () -> new BaseTrinket(new Item.Properties()));
-    public static final RegistryEntry<Item> PIGLIN_CHARM = ITEMS.register("piglin_charm", () -> new BaseTrinket(new Item.Properties()));
-    public static final RegistryEntry<Item> PHANTOM_CHARM = ITEMS.register("phantom_charm", () -> new BaseTrinket(new Item.Properties()));
-    public static final RegistryEntry<Item> ALLAY_CHARM = ITEMS.register("allay_charm", () -> new AllayCharm(new Item.Properties()));
-    public static final RegistryEntry<Item> IRON_GOLEM_CHARM = ITEMS.register("iron_golem_charm", () -> new BaseTrinket(new Item.Properties()));
+    public static final RegistryEntry<Item> CAT_CHARM = ITEMS.register("cat_charm", () -> new BaseTrinket(new Item.Properties().stacksTo(1)));
+    public static final RegistryEntry<Item> PIGLIN_CHARM = ITEMS.register("piglin_charm", () -> new BaseTrinket(new Item.Properties().stacksTo(1)));
+    public static final RegistryEntry<Item> PHANTOM_CHARM = ITEMS.register("phantom_charm", () -> new BaseTrinket(new Item.Properties().stacksTo(1)));
+    public static final RegistryEntry<Item> ALLAY_CHARM = ITEMS.register("allay_charm", () -> new AllayCharm(new Item.Properties().stacksTo(1)));
+    public static final RegistryEntry<Item> IRON_GOLEM_CHARM = ITEMS.register("iron_golem_charm", () -> new BaseTrinket(new Item.Properties().stacksTo(1)));
 
     //blocks
     public static final RegistryEntry<Item> SOUL_STEEL_BLOCK = ITEMS.register("soul_steel_block", () -> new BlockItem(SpiritBlocks.SOUL_STEEL_BLOCK.get(), new Item.Properties()));

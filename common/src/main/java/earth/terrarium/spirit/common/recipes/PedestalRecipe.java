@@ -14,9 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PedestalRecipe<T> extends CodecRecipe<Container> {
-    Optional<Ingredient> activationItem();
-
-    boolean consumesActivator();
+    Ingredient activationItem();
 
     List<Ingredient> itemInputs();
 
@@ -27,22 +25,12 @@ public interface PedestalRecipe<T> extends CodecRecipe<Container> {
     T result();
 
     static <Q extends PedestalRecipe<?>> List<Q> getRecipesForEntity(RecipeType<Q> type, ItemStack stack, RecipeManager manager) {
-        return manager.getAllRecipesFor(type).stream().filter(recipe -> {
-            boolean stackMatches;
-            if (recipe.activationItem().isPresent()) {
-                stackMatches = recipe.activationItem().get().test(stack);
-            } else {
-                stackMatches = stack.isEmpty();
-            }
-            return stackMatches;
-        }).toList();
+        return manager.getAllRecipesFor(type).stream().filter(recipe -> recipe.activationItem().test(stack)).toList();
     }
 
     default List<Ingredient> getAllInputs() {
         List<Ingredient> inputs = new ArrayList<>(itemInputs());
-        if (activationItem().isPresent()) {
-            inputs.add(activationItem().get());
-        }
+        inputs.add(activationItem());
         inputs.addAll(entityInputs().stream().flatMap(SoulIngredient::getEntities).map(entityType -> Ingredient.of(SpawnEggItem.byId(entityType))).toList());
         return inputs;
     }

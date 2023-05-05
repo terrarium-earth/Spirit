@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -67,10 +68,14 @@ public class SoulStack {
         return tag;
     }
 
-    //toEntity method
     @Nullable
     public LivingEntity toEntity(Level level) {
         if (getEntity() == null) return null;
         return (LivingEntity) this.getEntity().create(level);
+    }
+
+    public Component toComponent() {
+        if (getEntity() == null) return Component.translatable("item.spirit.soul_crystal.none");
+        return Component.translatable("item.spirit.soul_crystal.entity_component", this.getEntity().getDescription(), this.getAmount());
     }
 }

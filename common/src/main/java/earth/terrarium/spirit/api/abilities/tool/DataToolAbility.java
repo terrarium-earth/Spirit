@@ -6,7 +6,10 @@ import net.minecraft.nbt.CompoundTag;
 public class DataToolAbility extends ToolAbility {
 
     public void deserialize(CompoundTag tag) {
+    }
 
+    public CompoundTag serialize(CompoundTag tag) {
+        return tag;
     }
 
     @Override

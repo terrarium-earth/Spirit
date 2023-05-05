@@ -4,6 +4,7 @@ import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -32,7 +33,7 @@ public class SoulFireChargeItem extends Item {
         boolean bl = false;
         if (!CampfireBlock.canLight(blockState) && !CandleBlock.canLight(blockState) && !CandleCakeBlock.canLight(blockState)) {
             blockPos = blockPos.relative(useOnContext.getClickedFace());
-            if (BaseFireBlock.canBePlacedAt(level, blockPos, useOnContext.getHorizontalDirection())) {
+            if (BaseFireBlock.canBePlacedAt(level, blockPos, useOnContext.getHorizontalDirection()) && blockState.is(BlockTags.SOUL_FIRE_BASE_BLOCKS)) {
                 this.playSound(level, blockPos);
                 level.setBlockAndUpdate(blockPos, SpiritBlocks.RAGING_SOUL_FIRE.get().defaultBlockState());
                 level.gameEvent(useOnContext.getPlayer(), GameEvent.BLOCK_PLACE, blockPos);

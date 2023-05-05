@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static earth.terrarium.spirit.compat.rei.SpiritPlugin.setupPedestal;
+
 public class TransmutationRecipeCategory implements DisplayCategory<TransmutationDisplay> {
     public static final ResourceLocation GUI_BACKGROUND = new ResourceLocation(Spirit.MODID, "textures/gui/item_transmutation.png");
     public static final ResourceLocation ID = new ResourceLocation(Spirit.MODID, "transmutation");
@@ -58,48 +60,12 @@ public class TransmutationRecipeCategory implements DisplayCategory<Transmutatio
     @Override
     public List<Widget> setupDisplay(TransmutationDisplay display, Rectangle bounds) {
         var widgets = new ArrayList<Widget>();
-        widgets.add(Widgets.createRecipeBase(bounds));
-        int displayWidth = getDisplayWidth(display);
-        int displayHeight = getDisplayHeight();
-        var startX = bounds.getCenterX() - displayWidth / 2;
-        var startY = bounds.getCenterY() - displayHeight / 2;
-        widgets.add(Widgets.createTexturedWidget(GUI_BACKGROUND, startX, startY, displayWidth, displayHeight));
         var recipe = display.recipe();
-        var totalComponents = recipe.itemInputs().size() + recipe.entityInputs().size();
-        var startAngle = Math.PI / 2;
-        var range = 26;
-        for (int i = 0; i < recipe.itemInputs().size(); i++) {
-            widgets.add(
-                    Widgets.createSlot(new Point(startX + 38 + range * Math.cos(((double) i/totalComponents) * Math.PI * 2 - startAngle), startY + 35 + range * Math.sin(((double) i/totalComponents) * Math.PI * 2 - startAngle)))
-                            .markInput()
-                            .disableBackground()
-                            .entries(EntryIngredients.ofIngredient(recipe.itemInputs().get(i)))
-            );
-        }
+        setupPedestal(display, bounds, getDisplayWidth(display), getDisplayHeight(), widgets, recipe);
+        var startX = bounds.getCenterX() - getDisplayWidth(display) / 2;
+        var startY = bounds.getCenterY() - getDisplayHeight() / 2;
 
-        var nbt = new CompoundTag();
-        nbt.putBoolean(SoulUtils.SOULLESS_TAG, true);
-        for (int i = recipe.itemInputs().size(); i < recipe.itemInputs().size() + recipe.entityInputs().size(); i++) {
-            var entityTypes = recipe.entityInputs().get(i - recipe.itemInputs().size()).getEntities().map(entityType -> new EntityIngredient(entityType, -45F, Optional.of(nbt))).toList();
-            widgets.add(
-                    Widgets.createSlot(new Point(startX + 38 + range * Math.cos(((double) i/totalComponents) * Math.PI * 2 - startAngle), startY + 35 + range * Math.sin(((double) i/totalComponents) * Math.PI * 2 - startAngle)))
-                            .markInput()
-                            .disableBackground()
-                            .entries(EntryIngredients.of(SpiritPlugin.ENTITY_INGREDIENT, entityTypes))
-            );
-        }
-
-        if(recipe.activationItem().isPresent()) {
-            widgets.add(Widgets.createSlot(new Point(startX + 38, startY + 35)).disableBackground().entries(EntryIngredients.ofIngredient(recipe.activationItem().get()).map(stack -> {
-                if (recipe.consumesActivator()) {
-                    stack.tooltip(Component.translatable("spirit.jei.soul_transmutation.consumes").withStyle(ChatFormatting.RED));
-                }
-
-                return stack;
-            })));
-        } else {
-            widgets.add(Widgets.createTooltip(new Rectangle(startX + 38, startY + 35, 18, 18), Component.translatable("spirit.jei.soul_transmutation.empty_hand")));
-        }
+        widgets.add(Widgets.createSlot(new Point(startX + 37, startY + 34)).disableBackground().entries(EntryIngredients.ofIngredient(recipe.activationItem())));
         widgets.add(Widgets.createSlot(new Point(startX + 116, startY + 34)).markOutput().disableBackground().entry(EntryStacks.of(recipe.result())));
         return widgets;
     }

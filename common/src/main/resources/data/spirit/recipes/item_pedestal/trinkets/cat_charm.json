@@ -1,0 +1,27 @@
+{
+  "type": "spirit:transmutation",
+  "activatorIngredient": {
+    "tag": "minecraft:wool"
+  },
+  "entityIngredients": [
+    "minecraft:cat"
+  ],
+  "ingredients": [
+    {
+      "item": "minecraft:string"
+    },
+    {
+      "item": "minecraft:stick"
+    },
+    {
+      "item": "minecraft:tnt"
+    },
+    {
+      "item": "spirit:crystal_shard"
+    },
+    {
+      "item": "minecraft:feather"
+    }
+  ],
+  "result":  "spirit:cat_charm"
+}

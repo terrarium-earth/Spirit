@@ -1,0 +1,24 @@
+{
+  "type": "spirit:transmutation",
+  "activatorIngredient": {
+    "item": "minecraft:iron_block"
+  },
+  "entityIngredients": [],
+  "consumeFlames": false,
+  "duration": 0,
+  "ingredients": [
+    {
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "item": "minecraft:glowstone"
+    },
+    {
+      "item": "minecraft:glowstone"
+    },
+    {
+      "item": "minecraft:coal_block"
+    }
+  ],
+  "result":  "spirit:soul_steel_block"
+}

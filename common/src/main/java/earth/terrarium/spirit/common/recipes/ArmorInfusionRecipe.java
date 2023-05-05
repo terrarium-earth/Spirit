@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -25,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Optional;
 
-public record ArmorInfusionRecipe(ResourceLocation id, Ingredient receptacleIngredient,
+public record ArmorInfusionRecipe(ResourceLocation id, Ingredient activationItem,
                                   List<SoulIngredient> entityInputs, List<Ingredient> itemInputs,
                                   ArmorAbility result,
                                   int duration) implements InfusionRecipe<ArmorAbility> {
@@ -33,7 +34,7 @@ public record ArmorInfusionRecipe(ResourceLocation id, Ingredient receptacleIngr
     public static Codec<ArmorInfusionRecipe> codec(ResourceLocation location) {
         return RecordCodecBuilder.create(instance -> instance.group(
                 RecordCodecBuilder.point(location),
-                IngredientCodec.CODEC.fieldOf("activatorIngredient").forGetter(ArmorInfusionRecipe::receptacleIngredient),
+                IngredientCodec.CODEC.fieldOf("activatorIngredient").forGetter(ArmorInfusionRecipe::activationItem),
                 SoulIngredient.CODEC.listOf().fieldOf("entityIngredients").forGetter(ArmorInfusionRecipe::entityInputs),
                 IngredientCodec.CODEC.listOf().fieldOf("ingredients").forGetter(ArmorInfusionRecipe::itemInputs),
                 ArmorAbilityManager.getAbilityRegistry().byNameCodec().fieldOf("result").forGetter(ArmorInfusionRecipe::result),
@@ -59,9 +60,21 @@ public record ArmorInfusionRecipe(ResourceLocation id, Ingredient receptacleIngr
     @Override
     public ItemStack getInfusionResult(ItemStack input) {
         ItemStack result = input.copy();
-        if (allowInfusion(result)) {
-            result.getOrCreateTag().putString(InfusionRecipe.ABILITY_KEY, ArmorAbilityManager.getAbilityRegistry().getKey(result()).toString());
+        if (allowInfusion(result) && input.getItem() instanceof SoulSteelArmor armor) {
+            armor.addAbility(result, result());
         }
         return result;
+    }
+
+    @Override
+    public boolean allowInfusion(ItemStack input) {
+        return input.getItem() instanceof SoulSteelArmor armor && armor.allowInfusion(input);
+    }
+
+    public static ArmorInfusionRecipe getRecipeFromId(ResourceLocation name, RecipeManager manager) {
+        return manager.getAllRecipesFor(SpiritRecipes.ARMOR_INFUSION.get()).stream()
+                .filter(recipe -> recipe.getId().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 }

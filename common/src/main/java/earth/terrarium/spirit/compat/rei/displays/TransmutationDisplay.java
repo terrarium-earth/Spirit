@@ -14,7 +14,7 @@ public class TransmutationDisplay extends BasicDisplay {
 
     public TransmutationDisplay(TransmutationRecipe recipe) {
         super(EntryIngredients.ofIngredients(recipe.getAllInputs()),
-                List.of(EntryIngredients.of(recipe.result())), Optional.ofNullable(recipe.getId()));
+                List.of(EntryIngredients.of(recipe.result())), Optional.of(recipe.getId()));
         this.recipe = recipe;
     }
 

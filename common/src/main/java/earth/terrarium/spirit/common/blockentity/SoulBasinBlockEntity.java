@@ -2,7 +2,7 @@ package earth.terrarium.spirit.common.blockentity;
 
 import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.storage.BlockEntitySoulContainer;
-import earth.terrarium.spirit.api.storage.SoulContainingObject;
+import earth.terrarium.spirit.api.storage.SoulContainingBlock;
 import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.common.containers.SingleTypeContainer;
 import earth.terrarium.spirit.common.recipes.TransmutationRecipe;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class SoulBasinBlockEntity extends BlockEntity implements SoulContainingObject.Block {
+public class SoulBasinBlockEntity extends BlockEntity implements SoulContainingBlock {
     @Nullable
     public Entity entity;
     private BlockEntitySoulContainer soulContainer;
@@ -47,12 +47,8 @@ public class SoulBasinBlockEntity extends BlockEntity implements SoulContainingO
     }
 
     @Override
-    public @NotNull SoulContainer getContainer(BlockEntity ignored) {
-        return soulContainer == null ? soulContainer = new BlockEntitySoulContainer(ignored, new SingleTypeContainer(16)) : soulContainer;
-    }
-
     public @NotNull SoulContainer getContainer() {
-        return getContainer(this);
+        return soulContainer == null ? soulContainer = new BlockEntitySoulContainer(this, new SingleTypeContainer(16)) : soulContainer;
     }
 
     public Entity getOrCreateEntity() {

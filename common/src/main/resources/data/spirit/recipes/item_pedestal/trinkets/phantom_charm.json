@@ -1,0 +1,27 @@
+{
+  "type": "spirit:transmutation",
+  "activatorIngredient": {
+    "item": "minecraft:phantom_membrane"
+  },
+  "entityIngredients": [
+    "minecraft:phantom"
+  ],
+  "ingredients": [
+    {
+      "tag": "minecraft:beds"
+    },
+    {
+      "item": "minecraft:milk_bucket"
+    },
+    {
+      "item": "minecraft:string"
+    },
+    {
+      "tag": "minecraft:wool"
+    },
+    {
+      "item": "spirit:crystal_shard"
+    }
+  ],
+  "result":  "spirit:phantom_charm"
+}

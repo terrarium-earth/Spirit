@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 public class BlazeAbility extends ArmorAbility {
     @Override
     public void onArmorTick(ItemStack stack, Level level, Player player) {
-        if(player.isOnFire()) {
+        if(player.isOnFire() || player.isInLava()) {
             player.extinguishFire();
             player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 0, true, true, true));
             player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200, 0, true, true, true));

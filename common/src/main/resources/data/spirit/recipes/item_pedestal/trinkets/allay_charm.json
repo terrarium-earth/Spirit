@@ -1,0 +1,27 @@
+{
+  "type": "spirit:transmutation",
+  "activatorIngredient": {
+    "item": "minecraft:cookie"
+  },
+  "entityIngredients": [
+    "minecraft:allay"
+  ],
+  "ingredients": [
+    {
+      "item": "minecraft:experience_bottle"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "spirit:crystal_shard"
+    },
+    {
+      "item": "minecraft:chest"
+    }
+  ],
+  "result":  "spirit:allay_charm"
+}

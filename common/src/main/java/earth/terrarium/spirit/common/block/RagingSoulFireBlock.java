@@ -52,7 +52,7 @@ public class RagingSoulFireBlock extends SoulFireBlock {
 
     @Override
     public void entityInside(BlockState blockState, Level level, BlockPos blockPos, Entity entity) {
-        if(!(level instanceof ServerLevel)) return;
+        if(!(level instanceof ServerLevel serverLevel)) return;
         if (entity instanceof ItemEntity itemE) {
             var recipes = PedestalRecipe.getRecipesForEntity(SpiritRecipes.TRANSMUTATION.get(), itemE.getItem(), level.getRecipeManager());
             if (!recipes.isEmpty()) {
@@ -61,13 +61,22 @@ public class RagingSoulFireBlock extends SoulFireBlock {
                 for (var recipe : recipes) {
                     if (RecipeUtils.validatePedestals(level, recipe, items, souls, true)) {
                         itemE.getItem().shrink(1);
-                        SoulReceptacle soulReceptacle = SpiritEntities.SOUL_RECEPTACLE.get().create(level);
-                        if (soulReceptacle != null) {
-                            soulReceptacle.setResult(recipe.result().copy(), recipe.duration());
-                            soulReceptacle.setPos(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
-                            level.addFreshEntity(soulReceptacle);
+                        if (recipe.duration() > 0) {
+                            SoulReceptacle soulReceptacle = SpiritEntities.SOUL_RECEPTACLE.get().create(level);
+                            if (soulReceptacle != null) {
+                                soulReceptacle.setResult(recipe.result().copy(), recipe.duration());
+                                soulReceptacle.setPos(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
+                                level.addFreshEntity(soulReceptacle);
+                            }
+                        } else {
+                            serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, 20, 0.5, 0.5, 0.5, 0.1);
+                            serverLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, 20, 0.5, 0.5, 0.5, 0.1);
+                            serverLevel.addFreshEntity(new ItemEntity(level, blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, recipe.result().copy()));
                         }
-                        level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
+                        if (recipe.consumesFlame()) {
+                            level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
+                        }
+                        break;
                     }
                 }
             }

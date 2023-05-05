@@ -1,7 +1,7 @@
 package earth.terrarium.spirit.common.block;
 
 import earth.terrarium.spirit.api.storage.InteractionMode;
-import earth.terrarium.spirit.api.storage.SoulContainingObject;
+import earth.terrarium.spirit.api.storage.SoulContainingItem;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.blockentity.SoulBasinBlockEntity;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
@@ -50,7 +50,7 @@ public class SoulBasinBlock extends BaseEntityBlock {
         if (interactionHand != InteractionHand.OFF_HAND) {
             ItemStack stack = player.getItemInHand(interactionHand);
             if (level.getBlockEntity(blockPos) instanceof SoulBasinBlockEntity soulPedestal) {
-                if (stack.getItem() instanceof SoulContainingObject.Item soulContainingObject) {
+                if (stack.getItem() instanceof SoulContainingItem soulContainingObject) {
                     var soulContainer = soulContainingObject.getContainer(stack);
                     if (soulContainer == null) return InteractionResult.FAIL;
                     if (soulPedestal.getContainer().insert(new SoulStack(soulContainer.getSoulStack(0).getEntity(), 1), InteractionMode.SIMULATE) == 1 && soulContainer.extract(new SoulStack(soulContainer.getSoulStack(0).getEntity(), 1), InteractionMode.SIMULATE).getAmount() == 1) {

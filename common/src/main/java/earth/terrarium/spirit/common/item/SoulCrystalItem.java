@@ -3,7 +3,7 @@ package earth.terrarium.spirit.common.item;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.storage.AutoAbsorbing;
 import earth.terrarium.spirit.api.storage.ItemStackContainer;
-import earth.terrarium.spirit.api.storage.SoulContainingObject;
+import earth.terrarium.spirit.api.storage.SoulContainingItem;
 import earth.terrarium.spirit.api.storage.Tierable;
 import earth.terrarium.spirit.api.souls.SoulData;
 import earth.terrarium.spirit.api.storage.container.SoulContainer;
@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SoulCrystalItem extends Item implements SoulContainingObject.Item, AutoAbsorbing, Tierable {
+public class SoulCrystalItem extends Item implements SoulContainingItem, AutoAbsorbing, Tierable {
     public SoulCrystalItem(Properties properties) {
         super(properties);
     }

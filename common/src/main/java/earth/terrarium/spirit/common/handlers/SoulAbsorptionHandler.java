@@ -6,7 +6,7 @@ import earth.terrarium.spirit.api.event.SoulGatherEvent;
 import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.storage.AutoAbsorbing;
 import earth.terrarium.spirit.api.storage.InteractionMode;
-import earth.terrarium.spirit.api.storage.SoulContainingObject;
+import earth.terrarium.spirit.api.storage.SoulContainingItem;
 import earth.terrarium.spirit.api.storage.container.SoulContainer;
 import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.api.utils.SoulUtils;
@@ -60,7 +60,7 @@ public class SoulAbsorptionHandler {
         int savedSouls = 0;
         for (var currentInventory : List.of(player.getHandSlots(), player.getInventory().items, player.getArmorSlots())) {
             for (var currentItem : currentInventory) {
-                if (!(currentItem.getItem() instanceof SoulContainingObject.Item crystal && currentItem.getItem() instanceof AutoAbsorbing autoAbsorbing)) {
+                if (!(currentItem.getItem() instanceof SoulContainingItem crystal && currentItem.getItem() instanceof AutoAbsorbing autoAbsorbing)) {
                     continue;
                 }
                 SoulContainer container = crystal.getContainer(currentItem);

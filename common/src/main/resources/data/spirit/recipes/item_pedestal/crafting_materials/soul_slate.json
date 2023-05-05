@@ -1,0 +1,11 @@
+{
+  "type": "spirit:transmutation",
+  "activatorIngredient": {
+    "item": "minecraft:deepslate"
+  },
+  "entityIngredients": [],
+  "ingredients": [],
+  "consumeFlames": false,
+  "duration": 0,
+  "result":  "spirit:soul_slate"
+}

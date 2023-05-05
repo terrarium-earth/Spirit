@@ -1,0 +1,33 @@
+{
+  "type": "spirit:armor_infusion",
+  "activatorIngredient": {
+    "item": "spirit:soul_steel_helmet"
+  },
+  "entityIngredients": [
+    "minecraft:blaze"
+  ],
+  "ingredients": [
+    {
+      "item": "minecraft:blaze_rod"
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "result": "spirit:blaze"
+}

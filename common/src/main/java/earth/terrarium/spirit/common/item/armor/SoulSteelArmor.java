@@ -76,6 +76,14 @@ public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
         return stack.getTag().contains(ABILITY_KEY) ? ArmorAbilityManager.getAbilityRegistry().get(new ResourceLocation(stack.getOrCreateTag().getString(ABILITY_KEY))) : null;
     }
 
+    public boolean allowInfusion(ItemStack stack) {
+        return getAbility(stack) == null;
+    }
+
+    public void addAbility(ItemStack stack, ArmorAbility ability) {
+        stack.getOrCreateTag().putString(ABILITY_KEY, ArmorAbilityManager.getAbilityRegistry().getKey(ability).toString());
+    }
+
     @PlatformOnly("forge")
     public void onArmorTick(ItemStack stack, Level level, Player player) {
         abilityTick(stack, level, player);
