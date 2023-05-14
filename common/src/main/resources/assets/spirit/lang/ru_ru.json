@@ -70,7 +70,7 @@
     "spirit.jei.soul_cage_info.required_souls": "Требует душ: %s",
     "spirit.jei.soul_cage_info.spawn_delay": "Задержка от %s до %s тактов.",
     "spirit.jei.soul_cage_info.spawn_count": "Возрождает %s монстров за цикл.",
-    "spirit.jei.soul_cage_info.spawn_range": "Возрождает до %s блоков в радиусе.",
+    "spirit.jei.soul_cage_info.spawn_range": "Возрождает в радиусе до %s блоков.",
     "spirit.jei.soul_cage_info.player_nearby": "Нужен игрок в пределах %s блоков.",
     "spirit.jei.soul_cage_info.player_nearby_not_required": "Не требует рядом игрока.",
     "spirit.jei.soul_cage_info.redstone_controlled_true": "Управляем редстоуном.",
