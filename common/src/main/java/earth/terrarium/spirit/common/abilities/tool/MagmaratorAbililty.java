@@ -16,7 +16,7 @@ public class MagmaratorAbililty extends ToolAbility {
         for (int i = 0; i < drops.size(); i++) {
             ItemStack itemStack = drops.get(i);
             if (itemStack.isEdible()) {
-                drops.set(i, AbilityUtils.getCookedResult(player.level, itemStack));
+                drops.set(i, AbilityUtils.getCookedResult(player.level(), itemStack));
             }
         }
     }

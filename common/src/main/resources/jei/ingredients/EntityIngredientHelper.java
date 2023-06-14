@@ -1,4 +1,4 @@
-package earth.terrarium.spirit.compat.jei.ingredients;
+package jei.ingredients;
 
 import earth.terrarium.spirit.compat.common.EntityIngredient;
 import earth.terrarium.spirit.compat.jei.SpiritPlugin;

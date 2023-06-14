@@ -59,7 +59,7 @@ public class SoulReceptacle extends Entity implements SoulfulCreature {
     @Override
     public void tick() {
         super.tick();
-        if (this.getLevel() instanceof ServerLevel serverLevel) {
+        if (this.level() instanceof ServerLevel serverLevel) {
             if (result != null) {
                 if (processTime < maxProcessTime) {
                     //summon particles in a circle around this position
@@ -70,7 +70,7 @@ public class SoulReceptacle extends Entity implements SoulfulCreature {
                 } else {
                     serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, this.getX(), this.getY()  + 0.5, this.getZ(), 20, 0.5, 0.5, 0.5, 0.1);
                     serverLevel.sendParticles(ParticleTypes.SOUL, this.getX(), this.getY()  + 0.5, this.getZ(), 20, 0.5, 0.5, 0.5, 0.1);
-                    serverLevel.addFreshEntity(new ItemEntity(this.level, this.getX(), this.getY(), this.getZ(), result));
+                    serverLevel.addFreshEntity(new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), result));
                     this.remove(RemovalReason.DISCARDED);
                 }
             }

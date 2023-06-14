@@ -1,4 +1,4 @@
-package earth.terrarium.spirit.compat.jei;
+package jei;
 
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.common.recipes.InfusionRecipe;
@@ -19,8 +19,6 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

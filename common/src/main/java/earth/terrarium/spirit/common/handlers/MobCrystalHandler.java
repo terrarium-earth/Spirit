@@ -17,7 +17,7 @@ public class MobCrystalHandler {
         if (entity instanceof LivingEntity livingEntity && livingEntity.getType().getCategory() != MobCategory.MISC) {
             ItemStack stack = player.getItemInHand(hand);
             if (stack.getItem() instanceof MobCrystalItem item) {
-                if (!player.level.isClientSide) {
+                if (!player.level().isClientSide) {
                     ItemWrappedMobContainer container = item.getContainer(stack);
                     if (container != null) {
                         if (container.insertMob(livingEntity)) {

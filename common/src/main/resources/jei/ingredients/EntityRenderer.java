@@ -1,4 +1,4 @@
-package earth.terrarium.spirit.compat.jei.ingredients;
+package jei.ingredients;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;

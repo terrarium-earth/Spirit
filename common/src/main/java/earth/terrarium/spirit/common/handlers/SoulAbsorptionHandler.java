@@ -28,7 +28,7 @@ public class SoulAbsorptionHandler {
 
     public static void onEntityDeath(LivingEntity victim, DamageSource source) {
         SoulfulCreature creature = (SoulfulCreature) victim;
-        if (victim.level instanceof ServerLevel level) {
+        if (victim.level() instanceof ServerLevel level) {
             Entity entity = source.getEntity();
             if (entity instanceof Projectile projectile) entity = projectile.getOwner();
             if (entity instanceof Player player) {

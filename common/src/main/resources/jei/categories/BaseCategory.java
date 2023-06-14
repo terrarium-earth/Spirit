@@ -1,8 +1,7 @@
-package earth.terrarium.spirit.compat.jei.categories;
+package jei.categories;
 
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.common.recipes.PedestalRecipe;
-import earth.terrarium.spirit.common.recipes.TransmutationRecipe;
 import earth.terrarium.spirit.compat.common.EntityIngredient;
 import earth.terrarium.spirit.compat.jei.SpiritPlugin;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

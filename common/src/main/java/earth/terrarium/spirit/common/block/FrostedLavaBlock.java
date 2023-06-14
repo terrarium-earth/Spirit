@@ -19,7 +19,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.PushReaction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -102,8 +101,8 @@ public class FrostedLavaBlock extends Block {
                 level.removeBlock(blockPos, false);
                 return;
             }
-            Material material = level.getBlockState(blockPos.below()).getMaterial();
-            if (material.blocksMotion() || material.isLiquid()) {
+            BlockState material = level.getBlockState(blockPos.below());
+            if (material.blocksMotion() || material.liquid()) {
                 level.setBlockAndUpdate(blockPos, Blocks.LAVA.defaultBlockState());
             }
         }
@@ -112,10 +111,5 @@ public class FrostedLavaBlock extends Block {
     protected void melt(BlockState blockState, Level level, BlockPos blockPos) {
         level.setBlockAndUpdate(blockPos, Blocks.LAVA.defaultBlockState());
         level.neighborChanged(blockPos, Blocks.LAVA, blockPos);
-    }
-
-    @Override
-    public @NotNull PushReaction getPistonPushReaction(BlockState blockState) {
-        return PushReaction.IGNORE;
     }
 }

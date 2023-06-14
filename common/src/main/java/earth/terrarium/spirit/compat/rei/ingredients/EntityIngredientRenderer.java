@@ -9,6 +9,7 @@ import me.shedaniel.rei.api.client.gui.widgets.Tooltip;
 import me.shedaniel.rei.api.client.gui.widgets.TooltipContext;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
@@ -21,15 +22,15 @@ import java.util.List;
 
 public class EntityIngredientRenderer implements EntryRenderer<EntityIngredient> {
     @Override
-    public void render(EntryStack<EntityIngredient> entry, PoseStack matrices, Rectangle bounds, int mouseX, int mouseY, float delta) {
+    public void render(EntryStack<EntityIngredient> entry, GuiGraphics graphics, Rectangle bounds, int mouseX, int mouseY, float delta) {
         Minecraft mc = Minecraft.getInstance();
         EntityIngredient value = entry.getValue();
         if (mc.level != null && value.getEntity() != null) {
             int y = 0;
-            matrices.pushPose();
-            matrices.translate(bounds.getX(), bounds.getY(), 0);
-            renderEntity(matrices, value.getEntity(), mc.level, -2, y, value.getRotation(), 1);
-            matrices.popPose();
+            graphics.pose().pushPose();
+            graphics.pose().translate(bounds.getX(), bounds.getY(), 0);
+            renderEntity(graphics.pose(), value.getEntity(), mc.level, -2, y, value.getRotation(), 1);
+            graphics.pose().popPose();
         }
     }
 

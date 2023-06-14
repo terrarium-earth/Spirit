@@ -91,7 +91,7 @@ public abstract class LivingEntityMixin extends Entity implements SoulfulCreatur
             if (stack.getItem() instanceof SoulSteelArmor armor) {
                 ArmorAbility ability = armor.getAbility(stack);
                 if (ability != null) {
-                    ability.onEntityMove(stack, (LivingEntity) (Object) this, this.level, this.blockPosition());
+                    ability.onEntityMove(stack, (LivingEntity) (Object) this, this.level(), this.blockPosition());
                 }
             }
         });
