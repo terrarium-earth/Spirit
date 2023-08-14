@@ -5,6 +5,7 @@ import earth.terrarium.spirit.api.abilities.armor.ArmorAbilityManager;
 import earth.terrarium.spirit.api.abilities.ColorPalette;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -17,31 +18,25 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class ToolAbility {
-    private String descriptionId;
+public interface ToolAbility {
+    default void onHit(Player player, ItemStack stack, LivingEntity target) {}
+    default void onKill(Player player, ItemStack stack, LivingEntity target) {}
+    default void onBlockBreak(ItemStack stack, Level level, BlockState state, BlockPos pos, Player player) {}
+    default void modifyAttributes(ItemStack stack, Multimap<Attribute, AttributeModifier> attributes) {}
+    default void modifyDrops(Player player, List<ItemStack> drops) {}
+    default void whileHeld(Player player, ItemStack stack) {}
 
-    public void onHit(Player player, ItemStack stack, LivingEntity target) {}
-    public void onKill(Player player, ItemStack stack, LivingEntity target) {}
-    public void onBlockBreak(ItemStack stack, Level level, BlockState state, BlockPos pos, Player player) {}
-    public void modifyAttributes(ItemStack stack, Multimap<Attribute, AttributeModifier> attributes) {}
-    public void modifyDrops(Player player, List<ItemStack> drops) {}
-    public void whileHeld(Player player, ItemStack stack) {}
-    public int illuminationLevel() { return 0; }
+    ColorPalette getColor();
 
-    public abstract ColorPalette getColor();
-
-    public String getOrCreateNameId() {
-        if (this.descriptionId == null) {
-            this.descriptionId = Util.makeDescriptionId("tool_ability", ToolAbilityManager.getAbilityRegistry().getKey(this));
-        }
-        return this.descriptionId;
+    default String getOrCreateNameId() {
+        return Util.makeDescriptionId("tool_ability", ResourceLocation.tryParse(ToolAbilityManager.getName(this)));
     }
 
-    public String getNameId() {
+    default String getNameId() {
         return this.getOrCreateNameId();
     }
 
-    public String getDescriptionId() {
+    default String getDescriptionId() {
         return this.getOrCreateNameId() + ".desc";
     }
 }

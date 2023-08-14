@@ -1,21 +1,30 @@
 package earth.terrarium.spirit.api.abilities.tool;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
-import earth.terrarium.spirit.Spirit;
-import net.minecraft.core.DefaultedRegistry;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.NotImplementedException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ToolAbilityManager {
-    public static final ResourceLocation TOOL_ABILITY_REGISTRY = new ResourceLocation(Spirit.MODID, "tool_ability");
-    public static final ResourceKey<Registry<ToolAbility>> TOOL_ABILITY_REGISTRY_KEY = ResourceKey.createRegistryKey(TOOL_ABILITY_REGISTRY);
+    private static final Map<String, ToolAbility> ABILITY_MAP = new HashMap<>();
 
-    public static final ResourceLocation NO_ABILITY = new ResourceLocation(Spirit.MODID, "no_ability");
+    public static final ToolAbility BLANK = registerAbility("spirit:blank", new BlankToolAbility());
 
-    @ExpectPlatform
-    public static DefaultedRegistry<ToolAbility> getAbilityRegistry() {
-        throw new NotImplementedException();
+    public static ToolAbility registerAbility(String name, ToolAbility ability) {
+        ABILITY_MAP.put(name, ability);
+        return ability;
+    }
+
+    public static ToolAbility getAbility(String name) {
+        return ABILITY_MAP.get(name);
+    }
+
+    public static String getName(ToolAbility ability) {
+        for (Map.Entry<String, ToolAbility> entry : ABILITY_MAP.entrySet()) {
+            if (entry.getValue() == ability) {
+                return entry.getKey();
+            }
+        }
+        throw new NotImplementedException("Ability " + ability + " is not registered!");
     }
 }

@@ -7,15 +7,11 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class GlowSquidAbility extends ToolAbility {
+// Right-clicking with a tool will place a glowing particle effect on the floor
+public class GlowSquidAbility implements ToolAbility {
     @Override
     public void whileHeld(Player player, ItemStack stack) {
         player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 20, 100));
-    }
-
-    @Override
-    public int illuminationLevel() {
-        return 15;
     }
 
     @Override

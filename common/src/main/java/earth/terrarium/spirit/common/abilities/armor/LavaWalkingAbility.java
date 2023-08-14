@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 
-public class StriderAbility extends ArmorAbility {
+public class LavaWalkingAbility implements ArmorAbility {
     @Override
     public void onEntityMove(ItemStack stack, LivingEntity livingEntity, Level level, BlockPos blockPos) {
         if (!livingEntity.onGround()) {

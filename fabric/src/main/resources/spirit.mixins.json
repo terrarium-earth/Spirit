@@ -1,12 +1,11 @@
 {
   "required": true,
-  "package": "earth.terrarium.spirit.client.mixin",
+  "package": "earth.terrarium.spirit.common.mixin.fabric",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8.5",
   "mixins": [
-  ],
-  "client": [
-    "GameRendererMixin"
+    "FabricLivingEntityMixin",
+    "EnderpearlProjectileMixin"
   ],
   "injectors": {
     "defaultRequire": 1

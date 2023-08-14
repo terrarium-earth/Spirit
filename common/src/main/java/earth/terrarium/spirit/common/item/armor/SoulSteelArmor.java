@@ -73,7 +73,7 @@ public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
     @Nullable
     public ArmorAbility getAbility(ItemStack stack) {
         if(stack.getTag() == null) return null;
-        return stack.getTag().contains(ABILITY_KEY) ? ArmorAbilityManager.getAbilityRegistry().get(new ResourceLocation(stack.getOrCreateTag().getString(ABILITY_KEY))) : null;
+        return stack.getTag().contains(ABILITY_KEY) ? ArmorAbilityManager.getAbility(stack.getOrCreateTag().getString(ABILITY_KEY)) : null;
     }
 
     public boolean allowInfusion(ItemStack stack) {
@@ -81,7 +81,7 @@ public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
     }
 
     public void addAbility(ItemStack stack, ArmorAbility ability) {
-        stack.getOrCreateTag().putString(ABILITY_KEY, ArmorAbilityManager.getAbilityRegistry().getKey(ability).toString());
+        stack.getOrCreateTag().putString(ABILITY_KEY, ArmorAbilityManager.getName(ability));
     }
 
     @PlatformOnly("forge")
@@ -119,4 +119,6 @@ public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
     public ResourceLocation getUnderlayTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
         return getAbility(stack) != null ? new ResourceLocation(Spirit.MODID, "textures/entity/armor/soul_steel_armor/soul_steel_armor_layer") : null;
     }
+
+
 }

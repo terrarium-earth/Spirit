@@ -18,8 +18,8 @@ public class SpiritBlocks {
     public static final RegistryEntry<Block> INFUSION_PEDESTAL = BLOCKS.register("infusion_pedestal", () -> new InfusionPedestalBlock(Block.Properties.of().strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
     public static final RegistryEntry<Block> SOUL_BASIN = BLOCKS.register("soul_basin", () -> new SoulBasinBlock(Block.Properties.of().strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
 
-    //Elemental fires ember, earth, water, ender
     public static final RegistryEntry<Block> RAGING_SOUL_FIRE = BLOCKS.register("raging_soul_fire", () -> new RagingSoulFireBlock(BlockBehaviour.Properties.of().noCollission().instabreak().lightLevel(arg -> 15).sound(SoundType.WOOL)));
+    public static final RegistryEntry<Block> FLOO_FIRE = BLOCKS.register("floo_fire", () -> new FlooFireBlock(BlockBehaviour.Properties.of().noCollission().instabreak().lightLevel(arg -> 15).sound(SoundType.WOOL)));
 
     public static final RegistryEntry<Block> FROSTED_LAVA = BLOCKS.register("frosted_lava", () -> new FrostedLavaBlock(Block.Properties.of().lightLevel(arg -> 10).sound(SoundType.NETHERRACK)));
 

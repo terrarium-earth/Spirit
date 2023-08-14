@@ -11,18 +11,18 @@ import earth.terrarium.spirit.common.item.tools.SoulSteelToolItem;
 import earth.terrarium.spirit.common.item.trinkets.AllayCharm;
 import earth.terrarium.spirit.common.item.trinkets.BaseTrinket;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.List;
 
 public class SpiritItems {
+
+    public static final ResourcefulRegistry<CreativeModeTab> CREATIVE_MODE_TABS = ResourcefulRegistries.create(BuiltInRegistries.CREATIVE_MODE_TAB, Spirit.MODID);
 
     public static final ResourcefulRegistry<Item> ITEMS = ResourcefulRegistries.create(BuiltInRegistries.ITEM, Spirit.MODID);
     public static final ResourcefulRegistry<Item> ARMOR = ResourcefulRegistries.create(ITEMS);
@@ -33,6 +33,8 @@ public class SpiritItems {
     public static final RegistryEntry<Item> MOB_CRYSTAL = ITEMS.register("mob_crystal", () -> new MobCrystalItem(new Item.Properties()));
     public static final RegistryEntry<Item> IGNITION_CRYSTAL = ITEMS.register("ignition_crystal", () -> new IgnitionCrystalItem(new Item.Properties().durability(128)));
     public static final RegistryEntry<Item> INSIGHT_CRYSTAL = ITEMS.register("insight_crystal", () -> new InsightCrystalItem(new Item.Properties()));
+
+    public static final RegistryEntry<CreativeModeTab> SPIRIT_TAB = CREATIVE_MODE_TABS.register("main", () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0).icon(() -> SOUL_CRYSTAL.get().getDefaultInstance()).title(Component.translatable("itemGroup.spirit.main")).build());
 
     //pedestals
     public static final RegistryEntry<Item> PEDESTAL = ITEMS.register("pedestal", () -> new BlockItem(SpiritBlocks.PEDESTAL.get(), new Item.Properties()));
@@ -70,9 +72,6 @@ public class SpiritItems {
     public static final RegistryEntry<Item> SOUL_GLASS = ITEMS.register("soul_glass", () -> new BlockItem(SpiritBlocks.SOUL_GLASS.get(), new Item.Properties()));
 
     public static void onRegisterCreativeTabs(TriConsumer<ResourceLocation, RegistryEntry<Item>, List<Item>> consumer) {
-        consumer.accept(new ResourceLocation(Spirit.MODID, "main"), SOUL_CRYSTAL, BuiltInRegistries.ITEM
-                .stream()
-                .filter(i -> BuiltInRegistries.ITEM.getKey(i).getNamespace().equals(Spirit.MODID))
-                .toList());
+        consumer.accept(new ResourceLocation(Spirit.MODID, "main"), SOUL_CRYSTAL, ITEMS.stream().map(RegistryEntry::get).toList());
     }
 }

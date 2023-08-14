@@ -31,11 +31,12 @@
   },
   "mixins": [
     "spirit-common.mixins.json",
-    "spirit.mixins.json"
+    "spirit.mixins.json",
+    "spirit-client.mixins.json"
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.19",
+    "minecraft": ">=1.20",
     "resourcefullib": ">=1.2.7"
   }
 }

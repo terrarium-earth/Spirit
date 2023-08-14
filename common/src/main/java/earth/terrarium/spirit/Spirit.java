@@ -39,13 +39,13 @@ public class Spirit {
 
     public static void init() {
         SpiritItems.ITEMS.init();
+        SpiritItems.CREATIVE_MODE_TABS.init();
         SpiritBlocks.BLOCKS.init();
         SpiritBlockEntities.BLOCK_ENTITIES.init();
         SpiritRecipes.RECIPE_TYPES.init();
         SpiritRecipes.RECIPE_SERIALIZERS.init();
-        SpiritArmorAbilities.ARMOR_ABILITIES.init();
-        SpiritToolAbilities.TOOL_ABILITIES.init();
         SpiritEntities.ENTITIES.init();
+        SpiritAbilities.init();
 
         SoulGatherEvent.register(new ResourceLocation(MODID, "scythe"), (victim, player, amount) -> {
             if (player.getMainHandItem().getItem() == SpiritItems.SCYTHE.get()) {

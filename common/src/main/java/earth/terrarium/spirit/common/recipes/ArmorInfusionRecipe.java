@@ -37,7 +37,7 @@ public record ArmorInfusionRecipe(ResourceLocation id, Ingredient activationItem
                 IngredientCodec.CODEC.fieldOf("activatorIngredient").forGetter(ArmorInfusionRecipe::activationItem),
                 SoulIngredient.CODEC.listOf().fieldOf("entityIngredients").forGetter(ArmorInfusionRecipe::entityInputs),
                 IngredientCodec.CODEC.listOf().fieldOf("ingredients").forGetter(ArmorInfusionRecipe::itemInputs),
-                ArmorAbilityManager.getAbilityRegistry().byNameCodec().fieldOf("result").forGetter(ArmorInfusionRecipe::result),
+                Codec.STRING.fieldOf("result").xmap(ArmorAbilityManager::getAbility, ArmorAbilityManager::getName).forGetter(ArmorInfusionRecipe::result),
                 Codec.INT.fieldOf("duration").orElse(60).forGetter(ArmorInfusionRecipe::duration)
         ).apply(instance, ArmorInfusionRecipe::new));
     }

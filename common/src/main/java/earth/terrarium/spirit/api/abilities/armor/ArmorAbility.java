@@ -4,6 +4,7 @@ import com.google.common.collect.Multimap;
 import earth.terrarium.spirit.api.abilities.ColorPalette;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -14,27 +15,25 @@ import net.minecraft.world.level.Level;
 
 import java.util.UUID;
 
-public abstract class ArmorAbility {
-    private String descriptionId;
+public interface ArmorAbility {
+    default void modifyAttributes(UUID uuid, EquipmentSlot slot, ItemStack stack, Multimap<Attribute, AttributeModifier> attributes) {}
+    default void onArmorTick(ItemStack stack, Level level, Player player) {}
+    default void onEntityMove(ItemStack stack, LivingEntity livingEntity, Level level, BlockPos blockPos) {}
+    default void onEat(ItemStack armor, ItemStack food, Level level, Player player) {}
+    default void onEquip(Player player, EquipmentSlot slot, ItemStack stack) {}
+    default void onUnequip(Player player, EquipmentSlot slot, ItemStack stack) {}
 
-    public void modifyAttributes(UUID uuid, EquipmentSlot slot, ItemStack stack, Multimap<Attribute, AttributeModifier> attributes) {}
-    public void onArmorTick(ItemStack stack, Level level, Player player) {}
-    public void onEntityMove(ItemStack stack, LivingEntity livingEntity, Level level, BlockPos blockPos) {}
-    public void onEat(ItemStack armor, ItemStack food, Level level, Player player) {}
-    public abstract ColorPalette getColor();
+    ColorPalette getColor();
 
-    public String getOrCreateNameId() {
-        if (this.descriptionId == null) {
-            this.descriptionId = Util.makeDescriptionId("armor_ability", ArmorAbilityManager.getAbilityRegistry().getKey(this));
-        }
-        return this.descriptionId;
+    default String getOrCreateNameId() {
+        return Util.makeDescriptionId("armor_ability", ResourceLocation.tryParse(ArmorAbilityManager.getName(this)));
     }
 
-    public String getNameId() {
+    default String getNameId() {
         return this.getOrCreateNameId();
     }
 
-    public String getDescriptionId() {
+    default String getDescriptionId() {
         return this.getOrCreateNameId() + ".desc";
     }
 }

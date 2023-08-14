@@ -35,7 +35,7 @@ public record ToolInfusionRecipe(ResourceLocation id, Ingredient activationItem,
                 IngredientCodec.CODEC.fieldOf("activatorIngredient").forGetter(ToolInfusionRecipe::activationItem),
                 SoulIngredient.CODEC.listOf().fieldOf("entityIngredients").forGetter(ToolInfusionRecipe::entityInputs),
                 IngredientCodec.CODEC.listOf().fieldOf("ingredients").forGetter(ToolInfusionRecipe::itemInputs),
-                ToolAbilityManager.getAbilityRegistry().byNameCodec().fieldOf("result").forGetter(ToolInfusionRecipe::result),
+                Codec.STRING.fieldOf("result").xmap(ToolAbilityManager::getAbility, ToolAbilityManager::getName).forGetter(ToolInfusionRecipe::result),
                 Codec.INT.fieldOf("duration").orElse(60).forGetter(ToolInfusionRecipe::duration)
         ).apply(instance, ToolInfusionRecipe::new));
     }

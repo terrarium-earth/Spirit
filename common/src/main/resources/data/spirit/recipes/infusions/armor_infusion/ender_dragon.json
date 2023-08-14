@@ -1,0 +1,33 @@
+{
+  "type": "spirit:armor_infusion",
+  "activatorIngredient": {
+    "item": "spirit:soul_steel_chestplate"
+  },
+  "entityIngredients": [
+    "minecraft:ender_dragon"
+  ],
+  "ingredients": [
+    {
+      "item": "minecraft:ender_eye"
+    },
+    {
+      "item": "minecraft:ender_eye"
+    },
+    {
+      "item": "minecraft:end_crystal"
+    },
+    {
+      "item": "minecraft:end_crystal"
+    },
+    {
+      "item": "minecraft:chorus_flower"
+    },
+    {
+      "item": "minecraft:chorus_fruit"
+    },
+    {
+      "item": "minecraft:dragon_breath"
+    }
+  ],
+  "result": "spirit:dragon"
+}
