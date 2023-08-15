@@ -5,6 +5,7 @@ import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.common.handlers.MobCrystalHandler;
 import earth.terrarium.spirit.common.handlers.SoulAbsorptionHandler;
 import earth.terrarium.spirit.common.registry.SpiritItems;
+import earth.terrarium.spirit.common.util.AbilityUtils;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
@@ -23,7 +24,7 @@ public class SpiritFabric implements ModInitializer {
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> MobCrystalHandler.mobInteraction(entity, player, hand));
         registerCreativeTabs();
         ItemGroupEvents.modifyEntriesEvent(ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(Spirit.MODID, "main"))).register(entries -> SpiritItems.ITEMS.stream().map(RegistryEntry::get).forEach(entries::accept));
-
+        ServerLivingEntityEvents.ALLOW_DAMAGE.register(AbilityUtils::onEntityHit);
     }
 
     public static void registerCreativeTabs() {

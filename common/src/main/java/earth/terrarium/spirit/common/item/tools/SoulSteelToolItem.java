@@ -64,16 +64,4 @@ public class SoulSteelToolItem extends DiggerItem implements SoulSteelTool {
         }
         return b;
     }
-
-    @Override
-    public boolean hurtEnemy(ItemStack itemStack, LivingEntity livingEntity, LivingEntity livingEntity2) {
-        boolean b = super.hurtEnemy(itemStack, livingEntity, livingEntity2);
-        if (b) {
-            var ability = getAbility(itemStack);
-            if(ability != null && livingEntity2 instanceof Player player) {
-                ability.onHit(player, itemStack, livingEntity);
-            }
-        }
-        return b;
-    }
 }

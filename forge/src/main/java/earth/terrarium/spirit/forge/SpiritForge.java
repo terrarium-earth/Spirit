@@ -21,6 +21,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -64,6 +65,7 @@ public class SpiritForge {
                 }
             }
         });
+        bus.addListener((LivingDamageEvent event) -> AbilityUtils.onEntityHit(event.getEntity(), event.getSource(), event.getAmount()));
     }
 
     public static void commonSetup(FMLCommonSetupEvent event) {

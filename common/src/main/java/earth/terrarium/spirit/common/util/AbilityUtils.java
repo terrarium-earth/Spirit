@@ -1,8 +1,13 @@
 package earth.terrarium.spirit.common.util;
 
 import earth.terrarium.spirit.api.abilities.armor.ArmorAbility;
+import earth.terrarium.spirit.api.abilities.tool.ToolAbility;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
+import earth.terrarium.spirit.common.item.tools.SoulSteelTool;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -36,6 +41,19 @@ public class AbilityUtils {
                 ability.onUnequip(player, slot, stack);
             }
         }
+    }
+
+    public static boolean onEntityHit(LivingEntity victim, DamageSource source, float amount) {
+        if (source.getEntity() instanceof Player player) {
+            ItemStack stack = player.getMainHandItem();
+            if (stack.getItem() instanceof SoulSteelTool tool) {
+                ToolAbility ability = tool.getAbility(stack);
+                if (ability != null) {
+                    return ability.onHit(source, victim, amount);
+                }
+            }
+        }
+        return true;
     }
 
     public static boolean hasArmorAbility(Player player, ArmorAbility ability, @Nullable EquipmentSlot slot) {

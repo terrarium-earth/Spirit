@@ -6,6 +6,7 @@ import earth.terrarium.spirit.api.abilities.ColorPalette;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ToolAbility {
-    default void onHit(Player player, ItemStack stack, LivingEntity target) {}
+    default boolean onHit(DamageSource source, LivingEntity victim, float amount) { return true; }
     default void onKill(Player player, ItemStack stack, LivingEntity target) {}
     default void onBlockBreak(ItemStack stack, Level level, BlockState state, BlockPos pos, Player player) {}
     default void modifyAttributes(ItemStack stack, Multimap<Attribute, AttributeModifier> attributes) {}
