@@ -1,5 +1,9 @@
 package earth.terrarium.spirit.common.blockentity;
 
+import earth.terrarium.botarium.common.fluid.base.BotariumFluidBlock;
+import earth.terrarium.botarium.common.fluid.impl.SimpleFluidContainer;
+import earth.terrarium.botarium.common.fluid.impl.WrappedBlockFluidContainer;
+import earth.terrarium.botarium.common.fluid.utils.FluidHooks;
 import earth.terrarium.spirit.api.souls.SoulfulCreature;
 import earth.terrarium.spirit.api.storage.BlockEntitySoulContainer;
 import earth.terrarium.spirit.api.storage.SoulContainingBlock;
@@ -16,14 +20,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class SoulBasinBlockEntity extends BlockEntity implements SoulContainingBlock {
-    @Nullable
-    public Entity entity;
-    private BlockEntitySoulContainer soulContainer;
-
-    @Nullable
-    public TransmutationRecipe containedRecipe;
-    public int burnTime = 0;
+public class SoulBasinBlockEntity extends BlockEntity implements BotariumFluidBlock<WrappedBlockFluidContainer> {
+    private WrappedBlockFluidContainer fluidContainer;
     public int age;
 
     public SoulBasinBlockEntity(BlockPos blockPos, BlockState blockState) {
@@ -35,32 +33,7 @@ public class SoulBasinBlockEntity extends BlockEntity implements SoulContainingB
     }
 
     @Override
-    protected void saveAdditional(CompoundTag compoundTag) {
-        super.saveAdditional(compoundTag);
-        getContainer().serialize(compoundTag);
-    }
-
-    @Override
-    public void load(CompoundTag compoundTag) {
-        super.load(compoundTag);
-        getContainer().deserialize(compoundTag);
-    }
-
-    @Override
-    public @NotNull SoulContainer getContainer() {
-        return soulContainer == null ? soulContainer = new BlockEntitySoulContainer(this, new SingleTypeContainer(16)) : soulContainer;
-    }
-
-    public Entity getOrCreateEntity() {
-        if ((this.entity == null || this.entity.getType() != this.getContainer().getSoulStack(0).getEntity()) && this.hasLevel() && getContainer().getSoulStack(0).getEntity() != null) {
-            this.entity = this.getContainer().getSoulStack(0).getEntity().create(getLevel());
-            if (entity instanceof SoulfulCreature corrupted) corrupted.setIfSoulless(true);
-        }
-        return entity;
-    }
-
-    @Override
-    public CompoundTag getUpdateTag() {
+    public @NotNull CompoundTag getUpdateTag() {
         return saveWithoutMetadata();
     }
 
@@ -70,9 +43,11 @@ public class SoulBasinBlockEntity extends BlockEntity implements SoulContainingB
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    public void update() {
-        this.setChanged();
-        if (getLevel() != null)
-            getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), net.minecraft.world.level.block.Block.UPDATE_ALL);
+    @Override
+    public WrappedBlockFluidContainer getFluidContainer() {
+        if (fluidContainer == null) {
+            fluidContainer = new WrappedBlockFluidContainer(this, new SimpleFluidContainer(FluidHooks.buckets(4), 1, (integer, fluidHolder) -> true));
+        }
+        return fluidContainer;
     }
 }

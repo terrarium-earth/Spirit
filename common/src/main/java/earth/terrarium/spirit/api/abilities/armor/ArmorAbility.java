@@ -10,6 +10,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -22,6 +24,8 @@ public interface ArmorAbility {
     default void onEat(ItemStack armor, ItemStack food, Level level, Player player) {}
     default void onEquip(Player player, EquipmentSlot slot, ItemStack stack) {}
     default void onUnequip(Player player, EquipmentSlot slot, ItemStack stack) {}
+    default boolean onLand(Player player, EquipmentSlot slot, ItemStack stack, float distance) { return false; }
+    default boolean overrideStackedOnOther(ItemStack itemStack, Slot slot, ClickAction clickAction, Player player) { return false; }
 
     ColorPalette getColor();
 

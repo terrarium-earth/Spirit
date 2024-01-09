@@ -1,18 +1,25 @@
 {
   "type": "spirit:transmutation",
-  "activatorIngredient": {
+  "catalyst": {
     "item": "minecraft:iron_ingot"
   },
-  "entityIngredients": [],
-  "consumeFlames": false,
   "duration": 0,
-  "ingredients": [
+  "inputs": [
     {
-      "item": "minecraft:glowstone_dust"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:glowstone_dust"
+      }
     },
     {
-      "item": "minecraft:coal"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:coal"
+      }
     }
   ],
-  "result":  "spirit:soul_steel_ingot"
+  "result": {
+    "type": "spirit:item",
+    "item": "spirit:soul_steel_ingot"
+  }
 }

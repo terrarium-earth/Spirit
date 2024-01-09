@@ -5,10 +5,14 @@ import earth.terrarium.spirit.client.SpiritClient;
 import earth.terrarium.spirit.client.entity.SoulReceptacleRenderer;
 import earth.terrarium.spirit.common.registry.SpiritEntities;
 import earth.terrarium.spirit.common.registry.SpiritItems;
+import earth.terrarium.spirit.common.util.ClientUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -19,6 +23,11 @@ public class SpiritClientForge {
 
     public static void init() {
         SpiritClient.init();
+        MinecraftForge.EVENT_BUS.addListener((TickEvent.ClientTickEvent event) -> {
+            if (event.phase == TickEvent.Phase.START) {
+                ClientUtils.onStartTick(Minecraft.getInstance());
+            }
+        });
     }
 
     @SubscribeEvent
@@ -40,6 +49,5 @@ public class SpiritClientForge {
 
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(SpiritEntities.SOUL_RECEPTACLE.get(), SoulReceptacleRenderer::new);
-
     }
 }

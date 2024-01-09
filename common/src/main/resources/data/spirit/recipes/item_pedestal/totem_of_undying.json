@@ -1,33 +1,58 @@
 {
   "type": "spirit:transmutation",
-  "activatorIngredient": {
+  "catalyst": {
     "item": "minecraft:emerald"
   },
-  "entityIngredients": [
-    "minecraft:villager"
-  ],
-  "ingredients": [
+  "inputs": [
     {
-      "item": "minecraft:golden_apple"
+      "type": "spirit:soul",
+      "soul": "minecraft:villager"
     },
     {
-      "item": "minecraft:golden_apple"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:golden_apple"
+      }
     },
     {
-      "item": "minecraft:ghast_tear"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:golden_apple"
+      }
     },
     {
-      "item": "minecraft:glistering_melon_slice"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:ghast_tear"
+      }
     },
     {
-      "item": "minecraft:glistering_melon_slice"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:glistering_melon_slice"
+      }
     },
     {
-      "item": "spirit:earth_powder"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:glistering_melon_slice"
+      }
     },
     {
-      "item": "spirit:earth_powder"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:earth_powder"
+      }
+    },
+    {
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:earth_powder"
+      }
     }
   ],
-  "result":  "minecraft:totem_of_undying"
+  "result": {
+    "type": "spirit:item",
+    "item": "minecraft:totem_of_undying"
+  }
 }

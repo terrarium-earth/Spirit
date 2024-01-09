@@ -26,20 +26,16 @@ public class AbilityUtils {
     }
 
     public static void onArmorEquip(Player player, EquipmentSlot slot, ItemStack stack) {
-        if (stack.getItem() instanceof SoulSteelArmor armor) {
-            ArmorAbility ability = armor.getAbility(stack);
-            if (ability != null) {
-                ability.onEquip(player, slot, stack);
-            }
+        ArmorAbility ability = SoulSteelArmor.getAbility(stack);
+        if (ability != null) {
+            ability.onEquip(player, slot, stack);
         }
     }
 
     public static void onArmorUnequip(Player player, EquipmentSlot slot, ItemStack stack) {
-        if (stack.getItem() instanceof SoulSteelArmor armor) {
-            ArmorAbility ability = armor.getAbility(stack);
-            if (ability != null) {
-                ability.onUnequip(player, slot, stack);
-            }
+        ArmorAbility ability = SoulSteelArmor.getAbility(stack);
+        if (ability != null) {
+            ability.onUnequip(player, slot, stack);
         }
     }
 
@@ -59,17 +55,13 @@ public class AbilityUtils {
     public static boolean hasArmorAbility(Player player, ArmorAbility ability, @Nullable EquipmentSlot slot) {
         if (slot == null) {
             for (ItemStack stack : player.getArmorSlots()) {
-                if (stack.getItem() instanceof SoulSteelArmor armor) {
-                    if (armor.getAbility(stack) == ability) {
-                        return true;
-                    }
+                if (SoulSteelArmor.getAbility(stack) == ability) {
+                    return true;
                 }
             }
         } else {
             ItemStack stack = player.getItemBySlot(slot);
-            if (stack.getItem() instanceof SoulSteelArmor armor) {
-                return armor.getAbility(stack) == ability;
-            }
+            return SoulSteelArmor.getAbility(stack) == ability;
         }
         return false;
     }

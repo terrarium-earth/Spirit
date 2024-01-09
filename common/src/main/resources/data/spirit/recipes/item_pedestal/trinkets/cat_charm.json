@@ -1,27 +1,46 @@
 {
   "type": "spirit:transmutation",
-  "activatorIngredient": {
+  "catalyst": {
     "tag": "minecraft:wool"
   },
-  "entityIngredients": [
-    "minecraft:cat"
-  ],
-  "ingredients": [
+  "inputs": [
     {
-      "item": "minecraft:string"
+      "type": "spirit:soul",
+      "soul": "minecraft:cat"
     },
     {
-      "item": "minecraft:stick"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:experience_bottle"
+      }
     },
     {
-      "item": "minecraft:tnt"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:diamond"
+      }
     },
     {
-      "item": "spirit:crystal_shard"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:iron_ingot"
+      }
     },
     {
-      "item": "minecraft:feather"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:crystal_shard"
+      }
+    },
+    {
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:chest"
+      }
     }
   ],
-  "result":  "spirit:cat_charm"
+  "result": {
+    "type": "spirit:item",
+    "item": "spirit:cat_charm"
+  }
 }

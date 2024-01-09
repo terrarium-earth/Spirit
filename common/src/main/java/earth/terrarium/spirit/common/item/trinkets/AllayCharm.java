@@ -25,7 +25,7 @@ public class AllayCharm extends BaseTrinket {
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int i, boolean bl) {
         if (level instanceof ServerLevel serverLevel && isEnabled(itemStack)) {
-            //on tick, push all items in a 5x5x5 area toward the player
+            //on tick, push all item in a 5x5x5 area toward the player
             AABB magnetBox = entity.getBoundingBox().inflate(5, 5, 5);
             level.getEntitiesOfClass(ItemEntity.class, magnetBox).forEach(e -> {
                 if (e != entity) {

@@ -14,22 +14,28 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 
 public class LavaWalkingAbility implements ArmorAbility {
+    public static final BlockState FROSTED_LAVA = SpiritBlocks.FROSTED_LAVA.get().defaultBlockState();
+    public static final int MIN_LIFETIME = 60;
+    public static final int MAX_LIFETIME = 120;
+
     @Override
-    public void onEntityMove(ItemStack stack, LivingEntity livingEntity, Level level, BlockPos blockPos) {
+    public void onEntityMove(ItemStack stack, LivingEntity livingEntity, Level level, BlockPos pos) {
         if (!livingEntity.onGround()) {
             return;
         }
-        BlockState blockState = SpiritBlocks.FROSTED_LAVA.get().defaultBlockState();
-        int j = 2;
-        BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
-        for (BlockPos blockPos2 : BlockPos.betweenClosed(blockPos.offset(-j, -1, -j), blockPos.offset(j, -1, j))) {
-            BlockState blockState3;
-            if (!blockPos2.closerToCenterThan(livingEntity.position(), j)) continue;
-            mutableBlockPos.set(blockPos2.getX(), blockPos2.getY() + 1, blockPos2.getZ());
-            BlockState blockState2 = level.getBlockState(mutableBlockPos);
-            if (!blockState2.isAir() || (blockState3 = level.getBlockState(blockPos2)).is(Blocks.LAVA) || blockState3.getValue(LiquidBlock.LEVEL) != 0 || !blockState.canSurvive(level, blockPos2) || !level.isUnobstructed(blockState, blockPos2, CollisionContext.empty())) continue;
-            level.setBlockAndUpdate(blockPos2, blockState);
-            level.scheduleTick(blockPos2, SpiritBlocks.FROSTED_LAVA.get(), Mth.nextInt(livingEntity.getRandom(), 60, 120));
+        int radius = 2;
+        BlockPos.MutableBlockPos posAbove = new BlockPos.MutableBlockPos();
+        for (BlockPos floorPos : BlockPos.betweenClosed(pos.offset(-radius, -1, -radius), pos.offset(radius, -1, radius))) {
+            if (!floorPos.closerToCenterThan(livingEntity.position(), radius)) continue;
+            posAbove.set(floorPos.getX(), floorPos.getY() + 1, floorPos.getZ());
+            BlockState stateAbove = level.getBlockState(posAbove);
+            BlockState floorState = level.getBlockState(floorPos);
+            if (!stateAbove.isAir()) continue;
+            if (!floorState.is(Blocks.LAVA) || floorState.getValue(LiquidBlock.LEVEL) != 0) continue;
+            if (!FROSTED_LAVA.canSurvive(level, floorPos)) continue;
+            if (!level.isUnobstructed(FROSTED_LAVA, floorPos, CollisionContext.empty())) continue;
+            level.setBlockAndUpdate(floorPos, FROSTED_LAVA);
+            level.scheduleTick(floorPos, FROSTED_LAVA.getBlock(), Mth.nextInt(livingEntity.getRandom(), MIN_LIFETIME, MAX_LIFETIME));
         }
     }
 

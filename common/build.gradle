@@ -15,6 +15,7 @@ dependencies {
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin:$rootProject.rei_version"
 
     modApi "com.teamresourceful.resourcefullib:resourcefullib-common-1.20:$rootProject.resourcefullib_version"
+    modApi "earth.terrarium:botarium-common-1.20.1:$rootProject.botarium_version"
 }
 
 publishing {

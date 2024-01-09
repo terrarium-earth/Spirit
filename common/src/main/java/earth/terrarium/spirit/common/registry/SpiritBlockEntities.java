@@ -21,10 +21,10 @@ public class SpiritBlockEntities {
     public static final ResourcefulRegistry<BlockEntityType<?>> BLOCK_ENTITIES = ResourcefulRegistries.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, Spirit.MODID);
 
     public static final RegistryEntry<BlockEntityType<PedestalBlockEntity>> PEDESTAL = BLOCK_ENTITIES.register("pedestal", () -> create(PedestalBlockEntity::new, SpiritBlocks.PEDESTAL.get()).build(null));
-    public static final RegistryEntry<BlockEntityType<InfusionTableBlockEntity>> INFUSION_PEDESTAL = BLOCK_ENTITIES.register("infusion_pedestal", () -> create(InfusionTableBlockEntity::new, SpiritBlocks.INFUSION_PEDESTAL.get()).build(null));
 
     public static final Supplier<BlockEntityType<SoulBasinBlockEntity>> SOUL_BASIN = BLOCK_ENTITIES.register("soul_basin", () -> create(SoulBasinBlockEntity::new, SpiritBlocks.SOUL_BASIN.get()).build(null));
     public static final Supplier<BlockEntityType<FlooFireBlockEntity>> FLOO_FIRE = BLOCK_ENTITIES.register("soul_fire", () -> create(FlooFireBlockEntity::new, SpiritBlocks.FLOO_FIRE.get()).build(null));
+    public static final Supplier<BlockEntityType<SoulCrystalBlockEntity>> SOUL_CRYSTAL = BLOCK_ENTITIES.register("soul_crystal", () -> create(SoulCrystalBlockEntity::new, SpiritBlocks.SOUL_CRYSTAL.get()).build(null));
 
     @ExpectPlatform
     public static <T extends BlockEntity> BlockEntityType.Builder<T> create(BlockEntitySupplier<T> supplier, Block... blocks) {

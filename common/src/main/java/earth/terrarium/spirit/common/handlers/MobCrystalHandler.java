@@ -2,7 +2,7 @@ package earth.terrarium.spirit.common.handlers;
 
 import earth.terrarium.spirit.common.containers.ItemWrappedMobContainer;
 import earth.terrarium.spirit.common.containers.SingleMobContainer;
-import earth.terrarium.spirit.common.item.MobCrystalItem;
+import earth.terrarium.spirit.common.item.crystals.MobCrystalItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;

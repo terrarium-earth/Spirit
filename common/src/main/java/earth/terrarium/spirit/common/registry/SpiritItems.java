@@ -4,17 +4,17 @@ import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.common.item.*;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmorMaterial;
+import earth.terrarium.spirit.common.item.crystals.*;
 import earth.terrarium.spirit.common.item.tools.SoulSteelToolItem;
 import earth.terrarium.spirit.common.item.trinkets.AllayCharm;
 import earth.terrarium.spirit.common.item.trinkets.BaseTrinket;
+import earth.terrarium.spirit.common.item.utilities.SkeletonsBow;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import org.apache.logging.log4j.util.TriConsumer;
 
@@ -38,7 +38,6 @@ public class SpiritItems {
 
     //pedestals
     public static final RegistryEntry<Item> PEDESTAL = ITEMS.register("pedestal", () -> new BlockItem(SpiritBlocks.PEDESTAL.get(), new Item.Properties()));
-    public static final RegistryEntry<Item> INFUSION_PEDESTAL = ITEMS.register("infusion_pedestal", () -> new BlockItem(SpiritBlocks.INFUSION_PEDESTAL.get(), new Item.Properties()));
     public static final RegistryEntry<Item> SOUL_BASIN = ITEMS.register("soul_basin", () -> new BlockItem(SpiritBlocks.SOUL_BASIN.get(), new Item.Properties()));
 
     //tools
@@ -46,6 +45,7 @@ public class SpiritItems {
     public static final RegistryEntry<Item> SOUL_STEEL_HAMMER = TOOLS.register("soul_steel_hammer", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_PICKAXE, new Item.Properties()));
     public static final RegistryEntry<Item> SOUL_STEEL_EXCAVATOR = TOOLS.register("soul_steel_excavator", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_SHOVEL, new Item.Properties()));
     public static final RegistryEntry<Item> SOUL_STEEL_BATTLEAXE = TOOLS.register("soul_steel_battleaxe", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_AXE, new Item.Properties()));
+    public static final RegistryEntry<Item> SKELETON_BOW = TOOLS.register("skeleton_bow", () -> new SkeletonsBow(new Item.Properties()));
 
     //crafting materials
     public static final RegistryEntry<Item> CRYSTAL_SHARD = ITEMS.register("crystal_shard", () -> new Item(new Item.Properties()));

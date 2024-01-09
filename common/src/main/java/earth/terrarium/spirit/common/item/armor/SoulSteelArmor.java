@@ -17,6 +17,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
+public class SoulSteelArmor extends ArmorItem {
     public static final String ABILITY_KEY = "Ability";
 
     public SoulSteelArmor(ArmorMaterial armorMaterial, Type equipmentSlot, Properties properties) {
@@ -51,6 +53,15 @@ public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
         }
     }
 
+    @Override
+    public boolean overrideStackedOnOther(ItemStack itemStack, Slot slot, ClickAction clickAction, Player player) {
+        ArmorAbility ability = getAbility(itemStack);
+        if (ability != null) {
+            return ability.overrideStackedOnOther(itemStack, slot, clickAction, player);
+        }
+        return super.overrideStackedOnOther(itemStack, slot, clickAction, player);
+    }
+
     @PlatformOnly("fabric")
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
         return abilityAttributes(slot, stack);
@@ -71,8 +82,8 @@ public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
     }
 
     @Nullable
-    public ArmorAbility getAbility(ItemStack stack) {
-        if(stack.getTag() == null) return null;
+    public static ArmorAbility getAbility(ItemStack stack) {
+        if(stack.getTag() == null || !(stack.getItem() instanceof SoulSteelArmor)) return null;
         return stack.getTag().contains(ABILITY_KEY) ? ArmorAbilityManager.getAbility(stack.getOrCreateTag().getString(ABILITY_KEY)) : null;
     }
 
@@ -95,7 +106,7 @@ public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
         super.inventoryTick(itemStack, level, entity, i, bl);
         entity.getArmorSlots().iterator().forEachRemaining(stack -> {
             if(stack == itemStack && entity instanceof Player player) {
-                var ability = ((SoulSteelArmor) stack.getItem()).getAbility(stack);
+                var ability = SoulSteelArmor.getAbility(stack);
                 if(ability != null) {
                     ability.onArmorTick(stack, level, player);
                 }
@@ -110,15 +121,12 @@ public class SoulSteelArmor extends ArmorItem implements SpiritArmorItem {
         }
     }
 
-    @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
         return new ResourceLocation(Spirit.MODID, "textures/entity/armor/soul_steel_armor/soul_steel_armor" + (getAbility(stack) != null ? "_empty" : "") + ".png").toString();
     }
 
-    @Override @Nullable
+    @Nullable
     public ResourceLocation getUnderlayTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
         return getAbility(stack) != null ? new ResourceLocation(Spirit.MODID, "textures/entity/armor/soul_steel_armor/soul_steel_armor_layer") : null;
     }
-
-
 }

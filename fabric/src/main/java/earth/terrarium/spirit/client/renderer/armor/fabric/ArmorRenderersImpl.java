@@ -1,7 +1,7 @@
 package earth.terrarium.spirit.client.renderer.armor.fabric;
 
 import earth.terrarium.spirit.client.renderer.armor.ArmorRenderers;
-import earth.terrarium.spirit.common.item.armor.SpiritArmorItem;
+import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -33,7 +33,7 @@ public class ArmorRenderersImpl {
         }
         String s1 = String.format(Locale.ROOT, "%s:textures/models/armor/%s_layer_%d%s.png", domain, texture, (slot == EquipmentSlot.LEGS ? 2 : 1), type == null ? "" : String.format(java.util.Locale.ROOT, "_%s", type));
 
-        if (item instanceof SpiritArmorItem armour) {
+        if (item instanceof SoulSteelArmor armour) {
             String customTexture = armour.getArmorTexture(stack, entity, slot, type);
             if (customTexture != null) {
                 s1 = customTexture;

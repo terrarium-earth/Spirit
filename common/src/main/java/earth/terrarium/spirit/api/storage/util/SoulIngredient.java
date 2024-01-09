@@ -78,6 +78,8 @@ public class SoulIngredient implements Predicate<SoulStack> {
     }
 
     public boolean contains(EntityType<?> entityType) {
+        if(entityType == null) return false;
+
         for (HolderSet<EntityType<?>> set : this.sets) {
             if (set.contains(entityType.builtInRegistryHolder())) {
                 return true;

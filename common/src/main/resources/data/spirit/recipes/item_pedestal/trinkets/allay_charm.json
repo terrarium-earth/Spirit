@@ -1,27 +1,46 @@
 {
   "type": "spirit:transmutation",
-  "activatorIngredient": {
+  "catalyst": {
     "item": "minecraft:cookie"
   },
-  "entityIngredients": [
-    "minecraft:allay"
-  ],
-  "ingredients": [
+  "inputs": [
     {
-      "item": "minecraft:experience_bottle"
+      "type": "spirit:soul",
+      "soul": "minecraft:allay"
     },
     {
-      "item": "minecraft:diamond"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:experience_bottle"
+      }
     },
     {
-      "item": "minecraft:iron_ingot"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:diamond"
+      }
     },
     {
-      "item": "spirit:crystal_shard"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:iron_ingot"
+      }
     },
     {
-      "item": "minecraft:chest"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:crystal_shard"
+      }
+    },
+    {
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:chest"
+      }
     }
   ],
-  "result":  "spirit:allay_charm"
+  "result": {
+    "type": "spirit:item",
+    "item": "spirit:allay_charm"
+  }
 }

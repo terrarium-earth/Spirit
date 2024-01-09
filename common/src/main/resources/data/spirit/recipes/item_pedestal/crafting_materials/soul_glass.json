@@ -1,11 +1,12 @@
 {
   "type": "spirit:transmutation",
-  "activatorIngredient": {
+  "catalyst": {
     "item": "minecraft:tinted_glass"
   },
-  "entityIngredients": [],
-  "ingredients": [],
-  "consumeFlames": false,
+  "inputs": [],
   "duration": 0,
-  "result":  "spirit:soul_glass"
+  "result": {
+    "type": "spirit:item",
+    "item": "spirit:soul_glass"
+  }
 }

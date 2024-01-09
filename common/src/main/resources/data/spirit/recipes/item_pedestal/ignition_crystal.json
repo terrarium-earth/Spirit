@@ -1,30 +1,36 @@
 {
   "type": "spirit:transmutation",
-  "activatorIngredient": {
-    "item": "minecraft:ender_pearl"
+  "catalyst": {
+    "item": "spirit:soul_fire_charge"
   },
-  "entityIngredients": [
-    "minecraft:phantom"
-  ],
-  "ingredients": [
+  "inputs": [
     {
-      "item": "minecraft:phantom_membrane"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:crystal_shard"
+      }
     },
     {
-      "item": "minecraft:phantom_membrane"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:crystal_shard"
+      }
     },
     {
-      "item": "minecraft:dragon_breath"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:crystal_shard"
+      }
     },
     {
-      "item": "minecraft:dragon_breath"
-    },
-    {
-      "item": "spirit:crystal_shard"
-    },
-    {
-      "item": "spirit:crystal_shard"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:crystal_shard"
+      }
     }
   ],
-  "result": "minecraft:elytra"
+  "result": {
+    "type": "spirit:item",
+    "item": "spirit:ignition_crystal"
+  }
 }

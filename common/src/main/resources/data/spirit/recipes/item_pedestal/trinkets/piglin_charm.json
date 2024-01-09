@@ -1,27 +1,46 @@
 {
   "type": "spirit:transmutation",
-  "activatorIngredient": {
+  "catalyst": {
     "item": "minecraft:golden_axe"
   },
-  "entityIngredients": [
-    "minecraft:piglin"
-  ],
-  "ingredients": [
+  "inputs": [
     {
-      "item": "minecraft:gold_ingot"
+      "type": "spirit:soul",
+      "soul": "minecraft:piglin"
     },
     {
-      "item": "minecraft:blackstone"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:gold_ingot"
+      }
     },
     {
-      "item": "minecraft:blackstone"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:blackstone"
+      }
     },
     {
-      "item": "spirit:crystal_shard"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:blackstone"
+      }
     },
     {
-      "item": "minecraft:gold_ingot"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:crystal_shard"
+      }
+    },
+    {
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:gold_ingot"
+      }
     }
   ],
-  "result":  "spirit:piglin_charm"
+  "result": {
+    "type": "spirit:item",
+    "item": "spirit:piglin_charm"
+  }
 }

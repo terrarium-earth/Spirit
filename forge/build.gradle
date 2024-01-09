@@ -41,6 +41,7 @@ dependencies {
     //modLocalRuntime("mezz.jei:jei-$rootProject.minecraft_version-forge:$rootProject.jei_version") { transitive = false }
 
     modApi "com.teamresourceful.resourcefullib:resourcefullib-forge-1.20:$rootProject.resourcefullib_version"
+    modApi "earth.terrarium:botarium-forge-1.20.1:$rootProject.botarium_version"
 }
 
 processResources {

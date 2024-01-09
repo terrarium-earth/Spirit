@@ -1,12 +1,13 @@
 package earth.terrarium.spirit.common.block;
 
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.api.elements.SoulElement;
+import earth.terrarium.spirit.api.rituals.components.RitualComponent;
 import earth.terrarium.spirit.common.entity.SoulReceptacle;
-import earth.terrarium.spirit.common.recipes.PedestalRecipe;
+import earth.terrarium.spirit.common.recipes.MultiblockRecipe;
+import earth.terrarium.spirit.common.recipes.TransmutationRecipe;
+import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import earth.terrarium.spirit.common.registry.SpiritEntities;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
-import earth.terrarium.spirit.common.util.RecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -20,11 +21,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoulFireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class RagingSoulFireBlock extends SoulFireBlock {
@@ -54,29 +56,64 @@ public class RagingSoulFireBlock extends SoulFireBlock {
     public void entityInside(BlockState blockState, Level level, BlockPos blockPos, Entity entity) {
         if(!(level instanceof ServerLevel serverLevel)) return;
         if (entity instanceof ItemEntity itemE) {
-            var recipes = PedestalRecipe.getRecipesForEntity(SpiritRecipes.TRANSMUTATION.get(), itemE.getItem(), level.getRecipeManager());
-            if (!recipes.isEmpty()) {
-                var items = RecipeUtils.getPedestalItems(blockPos, level);
-                var souls = RecipeUtils.getPedestalSouls(blockPos, level);
-                for (var recipe : recipes) {
-                    if (RecipeUtils.validatePedestals(level, recipe, items, souls, true)) {
-                        itemE.getItem().shrink(1);
-                        if (recipe.duration() > 0) {
-                            SoulReceptacle soulReceptacle = SpiritEntities.SOUL_RECEPTACLE.get().create(level);
-                            if (soulReceptacle != null) {
-                                soulReceptacle.setResult(recipe.result().copy(), recipe.duration());
-                                soulReceptacle.setPos(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
-                                level.addFreshEntity(soulReceptacle);
+            if (blockState.is(SpiritBlocks.RAGING_SOUL_FIRE.get())) {
+                if (level.getBlockState(blockPos.below()).is(SpiritBlocks.SOUL_GLASS.get())) {
+                    // Multiblock recipe
+                    for (MultiblockRecipe multiblockRecipe : level.getRecipeManager().getAllRecipesFor(SpiritRecipes.MULTIBLOCK.get())) {
+                        if (multiblockRecipe.catalyst().test(itemE.getItem()) && multiblockRecipe.multiblock().validateMultiblock(blockPos, serverLevel, false)) {
+                            if (multiblockRecipe.duration() > 0) {
+                                SoulReceptacle soulReceptacle = SpiritEntities.SOUL_RECEPTACLE.get().create(level);
+                                if (soulReceptacle != null) {
+                                    soulReceptacle.setResult(itemE.getItem().copyWithCount(1), multiblockRecipe, blockPos);
+                                    itemE.setItem(itemE.getItem().copyWithCount(itemE.getItem().getCount() - 1));
+                                    soulReceptacle.setPos(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
+                                    level.addFreshEntity(soulReceptacle);
+                                }
+                                break;
+                            } else {
+                                multiblockRecipe.result().onRitualComplete(level, blockPos, itemE.getItem());
+                                multiblockRecipe.multiblock().validateMultiblock(blockPos, serverLevel, true);
+                                itemE.setItem(itemE.getItem().copyWithCount(itemE.getItem().getCount() - 1));
+                                break;
                             }
-                        } else {
-                            serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, 20, 0.5, 0.5, 0.5, 0.1);
-                            serverLevel.sendParticles(ParticleTypes.SOUL, blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, 20, 0.5, 0.5, 0.5, 0.1);
-                            serverLevel.addFreshEntity(new ItemEntity(level, blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, recipe.result().copy()));
                         }
-                        if (recipe.consumesFlame()) {
-                            level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
+                    }
+                } else {
+                    // Transmutation recipe
+                    for (TransmutationRecipe transmutationRecipe : level.getRecipeManager().getAllRecipesFor(SpiritRecipes.TRANSMUTATION.get())) {
+                        if (transmutationRecipe.catalyst().test(itemE.getItem())) {
+                            Map<BlockPos, RitualComponent<?>> components = new HashMap<>();
+                            if (!transmutationRecipe.inputs().isEmpty()) {
+                                for (RitualComponent<?> input : transmutationRecipe.inputs()) {
+                                    boolean foundMatch = false;
+                                    for (BlockPos componentPos : BlockPos.betweenClosedStream(blockPos.offset(-3, 0, -3), blockPos.offset(3, 0, 3)).map(BlockPos::immutable).filter(pos -> !components.containsKey(pos)).toList()) {
+                                        if (input.matches(level, componentPos.immutable(), blockPos)) {
+                                            components.put(componentPos, input);
+                                            foundMatch = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!foundMatch) {
+                                        break;
+                                    }
+                                }
+                            }
+                            if (transmutationRecipe.inputs().isEmpty() || components.size() == transmutationRecipe.inputs().size()) {
+                                if (transmutationRecipe.duration() > 0) {
+                                    SoulReceptacle soulReceptacle = SpiritEntities.SOUL_RECEPTACLE.get().create(level);
+                                    if (soulReceptacle != null) {
+                                        soulReceptacle.setResult(itemE.getItem().copyWithCount(1), transmutationRecipe, blockPos);
+                                        itemE.setItem(itemE.getItem().copyWithCount(itemE.getItem().getCount() - 1));
+                                        soulReceptacle.setPos(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
+                                        level.addFreshEntity(soulReceptacle);
+                                    }
+                                } else {
+                                    transmutationRecipe.result().onRitualComplete(level, blockPos, itemE.getItem());
+                                    components.forEach((pos, component) -> component.onRitualComplete(level, pos, blockPos));
+                                    itemE.setItem(itemE.getItem().copyWithCount(itemE.getItem().getCount() - 1));
+                                }
+                            }
                         }
-                        break;
                     }
                 }
             }

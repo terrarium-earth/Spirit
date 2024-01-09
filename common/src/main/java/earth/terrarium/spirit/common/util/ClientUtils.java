@@ -3,6 +3,8 @@ package earth.terrarium.spirit.common.util;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import earth.terrarium.spirit.common.network.NetworkHandling;
+import earth.terrarium.spirit.common.network.messages.JumpKeyPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -28,6 +30,9 @@ import static net.minecraft.client.renderer.RenderStateShard.*;
 
 @Environment(EnvType.CLIENT)
 public class ClientUtils {
+    public static boolean clickingJump;
+    private static boolean sentJumpPacket;
+
     public static boolean isItemInHand(ItemStack stack) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null) {
@@ -73,5 +78,24 @@ public class ClientUtils {
 
     public static RenderType armorRenderType(ResourceLocation resourceLocation) {
         return BEACON_BEAM.apply(resourceLocation);
+    }
+
+    public static void onStartTick(Minecraft minecraft) {
+        if (minecraft.level != null) {
+            clickingJump = minecraft.options.keyJump.isDown();
+
+            if (clickingJump && sentJumpPacket) {
+                NetworkHandling.CHANNEL.sendToServer(new JumpKeyPacket(true));
+                sentJumpPacket = false;
+            }
+
+            if (!(clickingJump || sentJumpPacket)) {
+                NetworkHandling.CHANNEL.sendToServer(new JumpKeyPacket(false));
+                sentJumpPacket = true;
+            }
+        }
+    }
+
+    public static void init() {
     }
 }

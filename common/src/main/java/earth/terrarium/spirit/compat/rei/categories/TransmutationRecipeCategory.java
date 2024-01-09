@@ -1,11 +1,8 @@
 package earth.terrarium.spirit.compat.rei.categories;
 
 import earth.terrarium.spirit.Spirit;
-import earth.terrarium.spirit.api.utils.SoulUtils;
-import earth.terrarium.spirit.common.registry.SpiritBlocks;
+import earth.terrarium.spirit.api.rituals.components.RitualComponent;
 import earth.terrarium.spirit.common.registry.SpiritItems;
-import earth.terrarium.spirit.compat.common.EntityIngredient;
-import earth.terrarium.spirit.compat.rei.SpiritPlugin;
 import earth.terrarium.spirit.compat.rei.displays.TransmutationDisplay;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
@@ -16,16 +13,11 @@ import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static earth.terrarium.spirit.compat.rei.SpiritPlugin.setupPedestal;
 
 public class TransmutationRecipeCategory implements DisplayCategory<TransmutationDisplay> {
     public static final ResourceLocation GUI_BACKGROUND = new ResourceLocation(Spirit.MODID, "textures/gui/item_transmutation.png");
@@ -61,12 +53,22 @@ public class TransmutationRecipeCategory implements DisplayCategory<Transmutatio
     public List<Widget> setupDisplay(TransmutationDisplay display, Rectangle bounds) {
         var widgets = new ArrayList<Widget>();
         var recipe = display.recipe();
-        setupPedestal(display, bounds, getDisplayWidth(display), getDisplayHeight(), widgets, recipe);
         var startX = bounds.getCenterX() - getDisplayWidth(display) / 2;
         var startY = bounds.getCenterY() - getDisplayHeight() / 2;
 
-        widgets.add(Widgets.createSlot(new Point(startX + 37, startY + 34)).disableBackground().entries(EntryIngredients.ofIngredient(recipe.activationItem())));
-        widgets.add(Widgets.createSlot(new Point(startX + 116, startY + 34)).markOutput().disableBackground().entry(EntryStacks.of(recipe.result())));
+        widgets.add(Widgets.createRecipeBase(bounds));
+        widgets.add(Widgets.createTexturedWidget(GUI_BACKGROUND, startX, startY, getDisplayWidth(display), getDisplayHeight()));
+        var totalComponents = recipe.inputs().size();
+        var startAngle = Math.PI / 2;
+        var range = 26;
+
+        for (int i = 0; i < totalComponents; i++) {
+            RitualComponent<?> ritualComponent = recipe.inputs().get(i);
+            ritualComponent.getREIPlacer().placeWidget(startX + 38 + range * Math.cos(((double) i/totalComponents) * Math.PI * 2 - startAngle), startY + 35 + range * Math.sin(((double) i/totalComponents) * Math.PI * 2 - startAngle), display, bounds, widgets);
+        }
+
+        widgets.add(Widgets.createSlot(new Point(startX + 37, startY + 34)).disableBackground().entries(EntryIngredients.ofIngredient(recipe.catalyst())));
+        recipe.result().getREIPlacer().placeWidget(startX + 116, startY + 34, display, bounds, widgets);
         return widgets;
     }
 }

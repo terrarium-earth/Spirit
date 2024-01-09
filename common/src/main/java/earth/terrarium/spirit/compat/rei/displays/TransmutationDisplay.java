@@ -13,9 +13,11 @@ public class TransmutationDisplay extends BasicDisplay {
     private final TransmutationRecipe recipe;
 
     public TransmutationDisplay(TransmutationRecipe recipe) {
-        super(EntryIngredients.ofIngredients(recipe.getAllInputs()),
-                List.of(EntryIngredients.of(recipe.result())), Optional.of(recipe.getId()));
+        super(EntryIngredients.ofIngredients(recipe.getIngredients()),
+                List.of(EntryIngredients.of(recipe.result().getItemRepresentation())), Optional.of(recipe.getId()));
         this.recipe = recipe;
+
+        // TODO make this use a function to make input more accurate
     }
 
     public TransmutationRecipe recipe() {

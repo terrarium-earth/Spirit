@@ -3,6 +3,8 @@ package earth.terrarium.spirit.client.renderer.utils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import earth.terrarium.botarium.common.fluid.base.FluidHolder;
+import earth.terrarium.botarium.common.fluid.utils.ClientFluidHooks;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.common.util.ClientUtils;
 import net.minecraft.client.Minecraft;
@@ -20,13 +22,14 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 public class FluidHolderRenderer {
-    public static void renderFluid(Entity entity, int amount, int maxAmount, PoseStack stack, MultiBufferSource source, int light) {
-        float percent = (float) amount / (float) maxAmount;
+    public static void renderFluid(FluidHolder fluid, long maxAmount, PoseStack stack, MultiBufferSource source, int light) {
+        float percent = (float) fluid.getFluidAmount() / (float) maxAmount;
         if (percent > 0) {
             stack.pushPose();
-            int color = Spirit.SOUL_COLOR;
+            int color = ClientFluidHooks.getFluidColor(fluid);
+            TextureAtlasSprite sprite = ClientFluidHooks.getFluidSprite(fluid);
             RenderType type = Minecraft.useShaderTransparency() ? RenderType.translucentMovingBlock() : RenderType.translucentNoCrumbling();
-            createQuad(stack, source.getBuffer(type), Mth.lerp(percent, (float) bounds().minY, (float) bounds().maxY), light, color, getWaterSprite());
+            createQuad(stack, source.getBuffer(type), Mth.lerp(percent, (float)bounds().minY, (float)bounds().maxY), light, color, sprite);
             stack.popPose();
         }
     }
@@ -49,10 +52,5 @@ public class FluidHolderRenderer {
 
     public static @NotNull AABB bounds() {
         return new AABB(0.25, 0.6875, 0.25, 0.75, 0.875, 0.75);
-    }
-
-    @ExpectPlatform
-    public static TextureAtlasSprite getWaterSprite() {
-        throw new AssertionError();
     }
 }

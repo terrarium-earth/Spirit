@@ -4,12 +4,11 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.abilities.armor.ArmorAbility;
 import earth.terrarium.spirit.api.abilities.tool.ToolAbility;
-import earth.terrarium.spirit.client.entity.SoulReceptacleModel;
 import earth.terrarium.spirit.client.renderer.armor.ArmorRenderers;
 import earth.terrarium.spirit.client.renderer.armor.SoulSteelArmorModel;
-import earth.terrarium.spirit.client.renderer.block.InfusionPedestalRenderer;
 import earth.terrarium.spirit.client.renderer.block.PedestalRenderer;
 import earth.terrarium.spirit.client.renderer.block.SoulBasinRenderer;
+import earth.terrarium.spirit.client.renderer.block.SoulCrystalRenderer;
 import earth.terrarium.spirit.common.handlers.MobCrystalHandler;
 import earth.terrarium.spirit.common.handlers.SoulAbilityHandler;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
@@ -17,6 +16,7 @@ import earth.terrarium.spirit.common.item.tools.SoulSteelTool;
 import earth.terrarium.spirit.common.registry.SpiritBlockEntities;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
 import earth.terrarium.spirit.common.registry.SpiritItems;
+import earth.terrarium.spirit.common.util.ClientUtils;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -66,18 +66,18 @@ public class SpiritClient {
         registerItemProperties(SpiritItems.SOUL_STEEL_HAMMER.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulAbilityHandler.toolAbilityProperty(itemStack));
         registerItemProperties(SpiritItems.SOUL_STEEL_BATTLEAXE.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulAbilityHandler.toolAbilityProperty(itemStack));
         registerItemProperties(SpiritItems.SOUL_STEEL_EXCAVATOR.get(), new ResourceLocation(Spirit.MODID, "ability"), (itemStack, clientLevel, livingEntity, i) -> SoulAbilityHandler.toolAbilityProperty(itemStack));
-        registerBlockEntityRenderers(SpiritBlockEntities.INFUSION_PEDESTAL.get(), InfusionPedestalRenderer::new);
         registerBlockEntityRenderers(SpiritBlockEntities.PEDESTAL.get(), PedestalRenderer::new);
         registerBlockEntityRenderers(SpiritBlockEntities.SOUL_BASIN.get(), SoulBasinRenderer::new);
+        registerBlockEntityRenderers(SpiritBlockEntities.SOUL_CRYSTAL.get(), SoulCrystalRenderer::new);
         registerRenderLayer(SpiritBlocks.SOUL_GLASS.get(), RenderType.translucent());
         registerRenderLayer(SpiritBlocks.RAGING_SOUL_FIRE.get(), RenderType.cutout());
-        registerRenderLayer(SpiritBlocks.INFUSION_PEDESTAL.get(), RenderType.cutout());
+        registerRenderLayer(SpiritBlocks.SOUL_CRYSTAL.get(), RenderType.cutout());
         ArmorRenderers.init();
+        ClientUtils.init();
     }
 
     public static void registerEntityLayers(LayerDefinitionRegistry registry) {
         registry.register(SoulSteelArmorModel.LAYER_LOCATION, SoulSteelArmorModel::createBodyLayer);
-        registry.register(SoulReceptacleModel.LAYER_LOCATION, SoulReceptacleModel::createBodyLayer);
     }
 
     @ExpectPlatform

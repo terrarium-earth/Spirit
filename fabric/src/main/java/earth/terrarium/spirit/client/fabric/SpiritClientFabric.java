@@ -4,7 +4,9 @@ import earth.terrarium.spirit.client.SpiritClient;
 import earth.terrarium.spirit.client.entity.SoulReceptacleRenderer;
 import earth.terrarium.spirit.common.registry.SpiritEntities;
 import earth.terrarium.spirit.common.registry.SpiritItems;
+import earth.terrarium.spirit.common.util.ClientUtils;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -21,6 +23,7 @@ public class SpiritClientFabric implements ClientModInitializer {
         ColorProviderRegistry.ITEM.register(SpiritClient.ARMOR_COLOR, SpiritItems.SOUL_STEEL_HELMET.get(), SpiritItems.SOUL_STEEL_CHESTPLATE.get(), SpiritItems.SOUL_STEEL_LEGGINGS.get(), SpiritItems.SOUL_STEEL_BOOTS.get());
         ColorProviderRegistry.ITEM.register(SpiritClient.TOOL_COLOR, SpiritItems.SOUL_STEEL_HAMMER.get(), SpiritItems.SOUL_STEEL_EXCAVATOR.get(), SpiritItems.SOUL_STEEL_BATTLEAXE.get(), SpiritItems.SCYTHE.get());
         EntityRendererRegistry.register(SpiritEntities.SOUL_RECEPTACLE.get(), SoulReceptacleRenderer::new);
+        ClientTickEvents.START_CLIENT_TICK.register(ClientUtils::onStartTick);
     }
 
     private static void registerRenderers() {

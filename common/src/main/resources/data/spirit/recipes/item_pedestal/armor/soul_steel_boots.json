@@ -1,34 +1,60 @@
 {
   "type": "spirit:transmutation",
-  "activatorIngredient": {
+  "catalyst": {
     "item": "minecraft:netherite_boots"
   },
-  "entityIngredients": [],
-  "ingredients": [
+  "inputs": [
     {
-      "item": "spirit:soul_steel_ingot"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:soul_steel_ingot"
+      }
     },
     {
-      "item": "spirit:soul_steel_ingot"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:soul_steel_ingot"
+      }
     },
     {
-      "item": "spirit:soul_steel_ingot"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:soul_steel_ingot"
+      }
     },
     {
-      "item": "spirit:soul_steel_ingot"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:soul_steel_ingot"
+      }
     },
     {
-      "item": "spirit:crystal_shard"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:crystal_shard"
+      }
     },
     {
-      "item": "spirit:crystal_shard"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:crystal_shard"
+      }
     },
     {
-      "item": "spirit:crystal_shard"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:crystal_shard"
+      }
     },
     {
-      "item": "spirit:crystal_shard"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:crystal_shard"
+      }
     }
   ],
-  "result":  "spirit:soul_steel_boots"
+  "result": {
+    "type": "spirit:item",
+    "item": "spirit:soul_steel_boots"
+  }
 }

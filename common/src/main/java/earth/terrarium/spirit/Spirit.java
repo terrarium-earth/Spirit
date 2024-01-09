@@ -2,6 +2,7 @@ package earth.terrarium.spirit;
 
 import earth.terrarium.spirit.api.abilities.ColorPalette;
 import earth.terrarium.spirit.api.event.SoulGatherEvent;
+import earth.terrarium.spirit.common.network.NetworkHandling;
 import earth.terrarium.spirit.common.registry.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -45,6 +46,7 @@ public class Spirit {
         SpiritRecipes.RECIPE_TYPES.init();
         SpiritRecipes.RECIPE_SERIALIZERS.init();
         SpiritEntities.ENTITIES.init();
+        NetworkHandling.init();
         SpiritAbilities.init();
 
         SoulGatherEvent.register(new ResourceLocation(MODID, "scythe"), (victim, player, amount) -> {

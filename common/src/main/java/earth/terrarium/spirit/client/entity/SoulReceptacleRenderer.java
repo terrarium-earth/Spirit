@@ -13,10 +13,8 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class SoulReceptacleRenderer extends EntityRenderer<SoulReceptacle> {
-    private final SoulReceptacleModel model;
     public SoulReceptacleRenderer(EntityRendererProvider.Context context) {
         super(context);
-        model = new SoulReceptacleModel(context.bakeLayer(SoulReceptacleModel.LAYER_LOCATION));
     }
 
     @Override
@@ -30,7 +28,7 @@ public class SoulReceptacleRenderer extends EntityRenderer<SoulReceptacle> {
         poseStack.pushPose();
         poseStack.translate(0, -0.75, 0);
         poseStack.translate(0, Math.cos(entity.tickCount / 10.0) / 4, 0);
-        model.renderToBuffer(poseStack, multiBufferSource.getBuffer(ClientUtils.getSoulShader(entity, this.getTextureLocation(entity))), i, getOverlayCoords(0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+
         poseStack.popPose();
     }
 

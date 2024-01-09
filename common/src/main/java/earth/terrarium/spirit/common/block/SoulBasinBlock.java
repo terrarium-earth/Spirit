@@ -1,5 +1,10 @@
 package earth.terrarium.spirit.common.block;
 
+import earth.terrarium.botarium.common.fluid.FluidApi;
+import earth.terrarium.botarium.common.fluid.base.FluidContainer;
+import earth.terrarium.botarium.common.fluid.base.FluidHolder;
+import earth.terrarium.botarium.common.fluid.utils.FluidHooks;
+import earth.terrarium.botarium.common.item.ItemStackHolder;
 import earth.terrarium.spirit.api.storage.InteractionMode;
 import earth.terrarium.spirit.api.storage.SoulContainingItem;
 import earth.terrarium.spirit.api.utils.SoulStack;
@@ -49,31 +54,61 @@ public class SoulBasinBlock extends BaseEntityBlock {
     public @NotNull InteractionResult use(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
         if (interactionHand != InteractionHand.OFF_HAND) {
             ItemStack stack = player.getItemInHand(interactionHand);
+            ItemStackHolder holder = new ItemStackHolder(stack);
             if (level.getBlockEntity(blockPos) instanceof SoulBasinBlockEntity soulPedestal) {
-                if (stack.getItem() instanceof SoulContainingItem soulContainingObject) {
-                    var soulContainer = soulContainingObject.getContainer(stack);
-                    if (soulContainer == null) return InteractionResult.FAIL;
-                    if (soulPedestal.getContainer().insert(new SoulStack(soulContainer.getSoulStack(0).getEntity(), 1), InteractionMode.SIMULATE) == 1 && soulContainer.extract(new SoulStack(soulContainer.getSoulStack(0).getEntity(), 1), InteractionMode.SIMULATE).getAmount() == 1) {
-                        soulPedestal.getContainer().insert(new SoulStack(soulContainer.getSoulStack(0).getEntity(), 1), InteractionMode.NO_TAKE_BACKSIES);
-                        soulContainer.extract(new SoulStack(soulContainer.getSoulStack(0).getEntity(), 1), InteractionMode.NO_TAKE_BACKSIES);
-                        return InteractionResult.sidedSuccess(level.isClientSide());
-                    } else if (soulContainer.insert(new SoulStack(soulPedestal.getContainer().getSoulStack(0).getEntity(), 1), InteractionMode.SIMULATE) == 1) {
-                        var soulStack = soulPedestal.getContainer().getSoulStack(0).copy();
-                        SoulStack extract = soulPedestal.getContainer().extract(soulStack, InteractionMode.SIMULATE);
-                        int inserted = soulContainer.insert(extract.copy(), InteractionMode.NO_TAKE_BACKSIES);
-                        soulPedestal.getContainer().extract(new SoulStack(soulStack.getEntity(), inserted), InteractionMode.NO_TAKE_BACKSIES);
-                        return InteractionResult.sidedSuccess(level.isClientSide());
-                    }
-                } if (stack.getItem() instanceof SpawnEggItem spawnEggItem) {
-                    var soulStack = new SoulStack(spawnEggItem.getType(stack.getTag()), 1);
-                    if (soulPedestal.getContainer().insert(soulStack, InteractionMode.SIMULATE) == 1) {
-                        soulPedestal.getContainer().insert(soulStack, InteractionMode.NO_TAKE_BACKSIES);
-                        return InteractionResult.sidedSuccess(level.isClientSide());
+                if (FluidApi.isFluidContainingItem(stack)) {
+                    FluidContainer basinContainer = soulPedestal.getFluidContainer();
+                    FluidContainer itemContainer = FluidApi.getItemFluidContainer(holder);
+                    if (basinContainer.isEmpty() && !itemContainer.isEmpty()) {
+                        FluidHolder extracted = itemContainer.extractFluid(itemContainer.getFluids().get(0), true);
+                        if (!extracted.isEmpty()) {
+                            var inserted = basinContainer.insertFluid(extracted, true);
+                            FluidHolder finalExtraction = itemContainer.extractFluid(itemContainer.getFluids().get(0).copyWithAmount(inserted), false);
+                            basinContainer.insertFluid(finalExtraction, false);
+                            if (holder.isDirty()) {
+                                player.setItemInHand(interactionHand, holder.getStack());
+                            }
+                            return InteractionResult.SUCCESS;
+                        }
+                    } else if (!basinContainer.isEmpty() && itemContainer.isEmpty()) {
+                        FluidHolder extracted = basinContainer.extractFluid(basinContainer.getFluids().get(0), true);
+                        if (!extracted.isEmpty()) {
+                            var inserted = itemContainer.insertFluid(extracted, true);
+                            FluidHolder finalExtraction = basinContainer.extractFluid(basinContainer.getFluids().get(0).copyWithAmount(inserted), false);
+                            itemContainer.insertFluid(finalExtraction, false);
+                            if (holder.isDirty()) {
+                                player.setItemInHand(interactionHand, holder.getStack());
+                            }
+                            return InteractionResult.SUCCESS;
+                        }
+                    } else if (!basinContainer.isEmpty() && !itemContainer.isEmpty()) {
+                        FluidHolder extracted = itemContainer.extractFluid(itemContainer.getFluids().get(0), true);
+                        if (!extracted.isEmpty()) {
+                            long inserted = basinContainer.insertFluid(extracted, true);
+                            if (inserted > 0) {
+                                FluidHolder finalExtraction = itemContainer.extractFluid(itemContainer.getFluids().get(0).copyWithAmount(inserted), false);
+                                basinContainer.insertFluid(finalExtraction, false);
+                                if (holder.isDirty()) {
+                                    player.setItemInHand(interactionHand, holder.getStack());
+                                }
+                                return InteractionResult.SUCCESS;
+                            } else {
+                                extracted = basinContainer.extractFluid(basinContainer.getFluids().get(0), true);
+                                inserted = itemContainer.insertFluid(extracted, true);
+                                if (inserted > 0) {
+                                    FluidHolder finalExtraction = basinContainer.extractFluid(basinContainer.getFluids().get(0).copyWithAmount(inserted), false);
+                                    itemContainer.insertFluid(finalExtraction, false);
+                                    if (holder.isDirty()) {
+                                        player.setItemInHand(interactionHand, holder.getStack());
+                                    }
+                                    return InteractionResult.SUCCESS;
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
-
         return InteractionResult.PASS;
     }
 

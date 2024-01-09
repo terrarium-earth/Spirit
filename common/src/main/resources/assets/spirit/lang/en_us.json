@@ -58,7 +58,6 @@
   "category.spirit.keybinds": "Spirit",
 
   "item.spirit.soul_crystal.tooltip": "§b☠§r %s",
-  "item.spirit.soul_crystal.entity_component": "%s \uD83D\uDD25 %s",
   "item.spirit.soul_crystal.none": "Empty",
   "misc.spirit.shift.shift_info": "Hold §8[%s§8]§r for more info",
   "misc.spirit.shift.key": "SHIFT",

@@ -1,27 +1,46 @@
 {
   "type": "spirit:transmutation",
-  "activatorIngredient": {
+  "catalyst": {
     "item": "minecraft:phantom_membrane"
   },
-  "entityIngredients": [
-    "minecraft:phantom"
-  ],
-  "ingredients": [
+  "inputs": [
     {
-      "tag": "minecraft:beds"
+      "type": "spirit:soul",
+      "soul": "minecraft:phantom"
     },
     {
-      "item": "minecraft:milk_bucket"
+      "type": "spirit:item",
+      "ingredient": {
+        "tag": "minecraft:beds"
+      }
     },
     {
-      "item": "minecraft:string"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:milk_bucket"
+      }
     },
     {
-      "tag": "minecraft:wool"
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "minecraft:string"
+      }
     },
     {
-      "item": "spirit:crystal_shard"
+      "type": "spirit:item",
+      "ingredient": {
+        "tag": "minecraft:wool"
+      }
+    },
+    {
+      "type": "spirit:item",
+      "ingredient": {
+        "item": "spirit:crystal_shard"
+      }
     }
   ],
-  "result":  "spirit:phantom_charm"
+  "result": {
+    "type": "spirit:item",
+    "item": "spirit:phantom_charm"
+  }
 }
