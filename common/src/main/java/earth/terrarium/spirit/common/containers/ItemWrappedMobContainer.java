@@ -1,8 +1,8 @@
 package earth.terrarium.spirit.common.containers;
 
-import earth.terrarium.spirit.api.storage.InteractionMode;
-import earth.terrarium.spirit.api.storage.container.MobContainer;
-import earth.terrarium.spirit.api.utils.SoulStack;
+import earth.terrarium.spirit.api.souls.InteractionMode;
+import earth.terrarium.spirit.api.souls.base.MobContainer;
+import earth.terrarium.spirit.api.souls.stack.SoulStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;

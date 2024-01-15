@@ -1,7 +1,6 @@
 package earth.terrarium.spirit.common.item.crystals;
 
-import earth.terrarium.spirit.api.storage.AutoAbsorbing;
-import earth.terrarium.spirit.api.storage.SoulContainingItem;
+import earth.terrarium.spirit.api.souls.base.SoulContainingItem;
 import earth.terrarium.spirit.common.containers.ItemWrappedMobContainer;
 import earth.terrarium.spirit.common.containers.SingleMobContainer;
 import net.minecraft.core.BlockPos;
@@ -18,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class MobCrystalItem extends Item implements SoulContainingItem, AutoAbsorbing {
+public class MobCrystalItem extends Item implements SoulContainingItem {
 
     public MobCrystalItem(Properties properties) {
         super(properties);
@@ -62,10 +61,5 @@ public class MobCrystalItem extends Item implements SoulContainingItem, AutoAbso
             }
         }
         return super.useOn(useOnContext);
-    }
-
-    @Override
-    public int getPriority() {
-        return 15;
     }
 }

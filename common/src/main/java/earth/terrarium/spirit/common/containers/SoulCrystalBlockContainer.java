@@ -1,18 +1,17 @@
 package earth.terrarium.spirit.common.containers;
 
-import earth.terrarium.spirit.api.storage.BlockEntitySoulContainer;
-import earth.terrarium.spirit.api.storage.InteractionMode;
-import earth.terrarium.spirit.api.storage.container.SoulContainer;
-import earth.terrarium.spirit.api.utils.SoulStack;
+import earth.terrarium.spirit.api.souls.InteractionMode;
+import earth.terrarium.spirit.api.souls.Updatable;
+import earth.terrarium.spirit.api.souls.base.SoulContainer;
+import earth.terrarium.spirit.api.souls.stack.SoulStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.List;
 
-public class SoulCrystalBlockContainer implements SoulContainer {
+public class SoulCrystalBlockContainer implements SoulContainer, Updatable {
     private EntityType<?> type = null;
     private final BlockEntity blockEntity;
 
@@ -70,6 +69,7 @@ public class SoulCrystalBlockContainer implements SoulContainer {
         return 1;
     }
 
+    @Override
     public void update() {
         if (blockEntity.hasLevel()) {
             blockEntity.getLevel().sendBlockUpdated(blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity.getBlockState(), Block.UPDATE_ALL);

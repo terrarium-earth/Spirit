@@ -34,7 +34,8 @@ dependencies {
     modLocalRuntime "dev.architectury:architectury-fabric:7.0.66"
 
     modApi "com.teamresourceful.resourcefullib:resourcefullib-fabric-1.20:$rootProject.resourcefullib_version"
-    modApi "earth.terrarium:botarium-fabric-1.20.1:$rootProject.botarium_version"
+    modApi "earth.terrarium.botarium:botarium-fabric-1.20.1:$rootProject.botarium_version"
+    modImplementation "dev.emi:trinkets:$rootProject.trinketsVersion"
 }
 
 processResources {

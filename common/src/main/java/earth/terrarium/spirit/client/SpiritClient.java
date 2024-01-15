@@ -4,6 +4,10 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.abilities.armor.ArmorAbility;
 import earth.terrarium.spirit.api.abilities.tool.ToolAbility;
+import earth.terrarium.spirit.api.client.ReceptacleRenderer;
+import earth.terrarium.spirit.api.client.SpiritClientApi;
+import earth.terrarium.spirit.api.rituals.results.impl.EntityResult;
+import earth.terrarium.spirit.api.rituals.results.impl.ItemResult;
 import earth.terrarium.spirit.client.renderer.armor.ArmorRenderers;
 import earth.terrarium.spirit.client.renderer.armor.SoulSteelArmorModel;
 import earth.terrarium.spirit.client.renderer.block.PedestalRenderer;
@@ -72,6 +76,8 @@ public class SpiritClient {
         registerRenderLayer(SpiritBlocks.SOUL_GLASS.get(), RenderType.translucent());
         registerRenderLayer(SpiritBlocks.RAGING_SOUL_FIRE.get(), RenderType.cutout());
         registerRenderLayer(SpiritBlocks.SOUL_CRYSTAL.get(), RenderType.cutout());
+        SpiritClientApi.registerReceptacleRenderer(ItemResult.class, ReceptacleRenderer.ITEM_RENDERER);
+        SpiritClientApi.registerReceptacleRenderer(EntityResult.class, ReceptacleRenderer.ENTITY_RENDERER);
         ArmorRenderers.init();
         ClientUtils.init();
     }

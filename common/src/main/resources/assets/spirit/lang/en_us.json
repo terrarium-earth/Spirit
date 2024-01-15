@@ -1,7 +1,6 @@
 {
   "itemGroup.spirit.main": "Spirit",
   "itemGroup.spirit.itemgroup": "Spirit",
-  "item.spirit.soul_crystal": "Soul Crystal",
   "item.spirit.soul_crystal_shard": "Soul Crystal Shard",
   "item.spirit.mob_crystal": "Mob Crystal",
   "item.spirit.crystal_shard": "Crystal Shard",
@@ -9,6 +8,7 @@
   "item.spirit.soul_steel_ingot": "Soul Steel Ingot",
   "item.spirit.soul_fire_charge": "Soulfire Charge",
   "item.spirit.ignition_crystal": "Ignition Crystal",
+  "block.spirit.soul_crystal": "Soul Crystal",
   "block.spirit.soul_cage": "Soul Cage",
   "block.spirit.soul_slate": "Soul Slate",
   "block.spirit.soul_glass": "Soul Glass",

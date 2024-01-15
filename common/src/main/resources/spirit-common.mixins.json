@@ -14,7 +14,10 @@
     "VillagerMixin"
   ],
   "client": [
+    "CompositeStateAccessor",
     "LivingEntityRendererMixin",
-    "MinecraftMixin"
+    "MinecraftMixin",
+    "RenderStateShardAccessor",
+    "TextureStateShardAccessor"
   ]
 }

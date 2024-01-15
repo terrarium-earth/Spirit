@@ -3,22 +3,16 @@ package earth.terrarium.spirit.common.recipes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teamresourceful.resourcefullib.common.codecs.recipes.IngredientCodec;
-import com.teamresourceful.resourcefullib.common.codecs.recipes.ItemStackCodec;
 import com.teamresourceful.resourcefullib.common.recipe.CodecRecipe;
 import earth.terrarium.spirit.api.rituals.components.RitualComponent;
 import earth.terrarium.spirit.api.rituals.components.RitualComponentManager;
 import earth.terrarium.spirit.api.rituals.results.RitualResult;
 import earth.terrarium.spirit.api.rituals.results.RitualResultManager;
-import earth.terrarium.spirit.api.storage.util.SoulIngredient;
-import earth.terrarium.spirit.api.utils.SoulStack;
 import earth.terrarium.spirit.common.registry.SpiritRecipes;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -26,8 +20,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public record TransmutationRecipe(ResourceLocation id, Ingredient catalyst, short duration,
                                   List<RitualComponent<?>> inputs, RitualResult<?> result) implements CodecRecipe<Container> {

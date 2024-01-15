@@ -5,13 +5,14 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.api.rituals.components.RitualComponent;
 import earth.terrarium.spirit.api.rituals.components.RitualComponentSerializer;
-import earth.terrarium.spirit.api.storage.InteractionMode;
-import earth.terrarium.spirit.api.storage.SoulContainingBlock;
-import earth.terrarium.spirit.api.storage.util.SoulIngredient;
-import earth.terrarium.spirit.api.utils.SoulStack;
+import earth.terrarium.spirit.api.souls.InteractionMode;
+import earth.terrarium.spirit.api.souls.SoulApi;
+import earth.terrarium.spirit.api.souls.base.SoulContainer;
+import earth.terrarium.spirit.api.souls.base.SoulContainingBlock;
+import earth.terrarium.spirit.api.souls.util.SoulIngredient;
+import earth.terrarium.spirit.api.souls.stack.SoulStack;
 import earth.terrarium.spirit.common.registry.SpiritItems;
 import earth.terrarium.spirit.compat.rei.ComponentUtils;
-import earth.terrarium.spirit.compat.rei.categories.TransmutationRecipeCategory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -27,8 +28,9 @@ public record SoulComponent(SoulIngredient soulIngredient) implements RitualComp
 
     @Override
     public boolean matches(Level level, BlockPos blockPos, BlockPos ritualPos) {
-        if (level.getBlockEntity(blockPos) instanceof SoulContainingBlock soulContainer && soulContainer.getContainer() != null) {
-            for (SoulStack stack : soulContainer.getContainer().getSouls()) {
+        SoulContainer soulContainer = SoulContainer.of(level, blockPos, null);
+        if (soulContainer != null) {
+            for (SoulStack stack : soulContainer.getSouls()) {
                 if (soulIngredient.test(stack)) {
                     return true;
                 }
@@ -39,10 +41,11 @@ public record SoulComponent(SoulIngredient soulIngredient) implements RitualComp
 
     @Override
     public void onRitualComplete(Level level, BlockPos componentPos, BlockPos ritualPos) {
-        if (level.getBlockEntity(componentPos) instanceof SoulContainingBlock soulContainer && soulContainer.getContainer() != null) {
-            for (SoulStack stack : soulContainer.getContainer().getSouls()) {
+        SoulContainer soulContainer = SoulContainer.of(level, componentPos, null);
+        if (soulContainer != null) {
+            for (SoulStack stack : soulContainer.getSouls()) {
                 if (soulIngredient.test(stack)) {
-                    soulContainer.getContainer().extract(new SoulStack(stack.getEntity(), 1), InteractionMode.NO_TAKE_BACKSIES);
+                    soulContainer.extract(new SoulStack(stack.getEntity(), 1), InteractionMode.NO_TAKE_BACKSIES);
                     BlockState state = level.getBlockState(componentPos);
                     level.sendBlockUpdated(componentPos, state, state, Block.UPDATE_ALL);
                     return;

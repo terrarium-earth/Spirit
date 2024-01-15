@@ -10,6 +10,7 @@ import earth.terrarium.spirit.common.item.crystals.*;
 import earth.terrarium.spirit.common.item.tools.SoulSteelToolItem;
 import earth.terrarium.spirit.common.item.trinkets.AllayCharm;
 import earth.terrarium.spirit.common.item.trinkets.BaseTrinket;
+import earth.terrarium.spirit.common.item.trinkets.PetrificationCharm;
 import earth.terrarium.spirit.common.item.utilities.SkeletonsBow;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -33,6 +34,7 @@ public class SpiritItems {
     public static final RegistryEntry<Item> MOB_CRYSTAL = ITEMS.register("mob_crystal", () -> new MobCrystalItem(new Item.Properties()));
     public static final RegistryEntry<Item> IGNITION_CRYSTAL = ITEMS.register("ignition_crystal", () -> new IgnitionCrystalItem(new Item.Properties().durability(128)));
     public static final RegistryEntry<Item> INSIGHT_CRYSTAL = ITEMS.register("insight_crystal", () -> new InsightCrystalItem(new Item.Properties()));
+    public static final RegistryEntry<Item> PETRIFICATION_CRYSTAL = ITEMS.register("petrification_charm", () -> new PetrificationCharm(new Item.Properties()));
 
     public static final RegistryEntry<CreativeModeTab> SPIRIT_TAB = CREATIVE_MODE_TABS.register("main", () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0).icon(() -> SOUL_CRYSTAL.get().getDefaultInstance()).title(Component.translatable("itemGroup.spirit.main")).build());
 

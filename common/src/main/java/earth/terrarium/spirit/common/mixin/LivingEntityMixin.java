@@ -1,8 +1,8 @@
 package earth.terrarium.spirit.common.mixin;
 
 import earth.terrarium.spirit.api.abilities.armor.ArmorAbility;
-import earth.terrarium.spirit.api.souls.SoulfulCreature;
-import earth.terrarium.spirit.api.utils.SoulUtils;
+import earth.terrarium.spirit.api.utils.SoulfulCreature;
+import earth.terrarium.spirit.api.souls.SoulApi;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -38,12 +38,12 @@ public abstract class LivingEntityMixin extends Entity implements SoulfulCreatur
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readCorrupted(CompoundTag compoundTag, CallbackInfo ci) {
-        setIfSoulless(compoundTag.getBoolean(SoulUtils.SOULLESS_TAG));
+        setIfSoulless(compoundTag.getBoolean(SoulApi.SOULLESS_TAG));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void saveCorrupted(CompoundTag compoundTag, CallbackInfo ci) {
-        compoundTag.putBoolean(SoulUtils.SOULLESS_TAG, isSoulless());
+        compoundTag.putBoolean(SoulApi.SOULLESS_TAG, isSoulless());
     }
 
     @Override

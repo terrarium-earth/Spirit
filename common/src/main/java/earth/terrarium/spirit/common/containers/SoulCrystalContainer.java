@@ -1,15 +1,16 @@
 package earth.terrarium.spirit.common.containers;
 
-import earth.terrarium.spirit.api.storage.InteractionMode;
-import earth.terrarium.spirit.api.storage.container.SoulContainer;
-import earth.terrarium.spirit.api.utils.SoulStack;
+import earth.terrarium.spirit.api.souls.InteractionMode;
+import earth.terrarium.spirit.api.souls.Updatable;
+import earth.terrarium.spirit.api.souls.base.SoulContainer;
+import earth.terrarium.spirit.api.souls.stack.SoulStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class SoulCrystalContainer implements SoulContainer {
+public class SoulCrystalContainer implements SoulContainer, Updatable {
     private EntityType<?> type = null;
     private final ItemStack stack;
 
@@ -68,6 +69,7 @@ public class SoulCrystalContainer implements SoulContainer {
         return stack.getMaxStackSize();
     }
 
+    @Override
     public void update() {
     }
 

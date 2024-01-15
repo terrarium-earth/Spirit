@@ -1,7 +1,7 @@
 package earth.terrarium.spirit.common.item.crystals;
 
-import earth.terrarium.spirit.api.storage.SoulContainingBlock;
-import earth.terrarium.spirit.api.utils.SoulStack;
+import earth.terrarium.spirit.api.souls.base.SoulContainer;
+import earth.terrarium.spirit.api.souls.base.SoulContainingBlock;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
@@ -15,9 +15,10 @@ public class InsightCrystalItem extends Item {
     @Override
     public @NotNull InteractionResult useOn(UseOnContext useOnContext) {
         if (useOnContext.getLevel().isClientSide) return InteractionResult.SUCCESS;
-        if (useOnContext.getLevel().getBlockEntity(useOnContext.getClickedPos()) instanceof SoulContainingBlock block) {
-            if (block.getContainer() != null && useOnContext.getPlayer() != null) {
-                useOnContext.getPlayer().displayClientMessage(block.getContainer().getSoulStack(0).toComponent(), true);
+        SoulContainer container = SoulContainer.of(useOnContext.getLevel(), useOnContext.getClickedPos(), null);
+        if (container != null) {
+            if (useOnContext.getPlayer() != null) {
+                useOnContext.getPlayer().displayClientMessage(container.getSoulStack(0).toComponent(), true);
                 return InteractionResult.SUCCESS;
             }
         }

@@ -1,11 +1,11 @@
 package earth.terrarium.spirit.common.containers;
 
-import earth.terrarium.spirit.api.souls.SoulfulCreature;
-import earth.terrarium.spirit.api.storage.InteractionMode;
-import earth.terrarium.spirit.api.storage.container.MobContainer;
-import earth.terrarium.spirit.api.storage.container.SingleSoulStackContainer;
-import earth.terrarium.spirit.api.utils.SoulStack;
-import earth.terrarium.spirit.api.utils.SoulUtils;
+import earth.terrarium.spirit.api.utils.SoulfulCreature;
+import earth.terrarium.spirit.api.souls.InteractionMode;
+import earth.terrarium.spirit.api.souls.base.MobContainer;
+import earth.terrarium.spirit.api.souls.base.SingleSoulStackContainer;
+import earth.terrarium.spirit.api.souls.stack.SoulStack;
+import earth.terrarium.spirit.api.souls.SoulApi;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -100,7 +100,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
         if (entityType != null) {
             entity.put(DATA_KEY, entityData);
             entity.putString(ID_KEY, EntityType.getKey(entityType).toString());
-            entity.putBoolean(SoulUtils.SOULLESS_TAG, soulless);
+            entity.putBoolean(SoulApi.SOULLESS_TAG, soulless);
         }
         tag.put(MOB_KEY, entity);
         return tag;
@@ -112,7 +112,7 @@ public class SingleMobContainer extends SingleSoulStackContainer implements MobC
             CompoundTag entity = tag.getCompound(MOB_KEY);
             entityData = entity.getCompound(DATA_KEY);
             entityType = EntityType.byString(entity.getString(ID_KEY)).orElse(null);
-            soulless = entity.getBoolean(SoulUtils.SOULLESS_TAG);
+            soulless = entity.getBoolean(SoulApi.SOULLESS_TAG);
         }
     }
 

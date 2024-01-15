@@ -64,10 +64,10 @@ public class RagingSoulFireBlock extends SoulFireBlock {
                             if (multiblockRecipe.duration() > 0) {
                                 SoulReceptacle soulReceptacle = SpiritEntities.SOUL_RECEPTACLE.get().create(level);
                                 if (soulReceptacle != null) {
-                                    soulReceptacle.setResult(itemE.getItem().copyWithCount(1), multiblockRecipe, blockPos);
                                     itemE.setItem(itemE.getItem().copyWithCount(itemE.getItem().getCount() - 1));
                                     soulReceptacle.setPos(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
                                     level.addFreshEntity(soulReceptacle);
+                                    soulReceptacle.setResult(itemE.getItem().copyWithCount(1), multiblockRecipe, blockPos);
                                 }
                                 break;
                             } else {
@@ -102,10 +102,10 @@ public class RagingSoulFireBlock extends SoulFireBlock {
                                 if (transmutationRecipe.duration() > 0) {
                                     SoulReceptacle soulReceptacle = SpiritEntities.SOUL_RECEPTACLE.get().create(level);
                                     if (soulReceptacle != null) {
-                                        soulReceptacle.setResult(itemE.getItem().copyWithCount(1), transmutationRecipe, blockPos);
                                         itemE.setItem(itemE.getItem().copyWithCount(itemE.getItem().getCount() - 1));
                                         soulReceptacle.setPos(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
                                         level.addFreshEntity(soulReceptacle);
+                                        soulReceptacle.setResult(itemE.getItem().copyWithCount(1), transmutationRecipe, blockPos);
                                     }
                                 } else {
                                     transmutationRecipe.result().onRitualComplete(level, blockPos, itemE.getItem());

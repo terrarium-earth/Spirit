@@ -1,14 +1,17 @@
 package earth.terrarium.spirit.common.item.crystals;
 
-import earth.terrarium.spirit.api.storage.container.SoulContainer;
+import earth.terrarium.spirit.api.souls.base.SoulContainer;
+import earth.terrarium.spirit.api.souls.base.SoulContainingItem;
 import earth.terrarium.spirit.api.utils.EntityRarity;
-import earth.terrarium.spirit.api.utils.SoulStack;
+import earth.terrarium.spirit.api.souls.stack.SoulStack;
 import earth.terrarium.spirit.common.blockentity.SoulCrystalBlockEntity;
 import earth.terrarium.spirit.common.containers.SoulCrystalContainer;
 import earth.terrarium.spirit.common.registry.SpiritBlocks;
+import earth.terrarium.spirit.common.registry.SpiritItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -20,13 +23,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SoulCrystalItem extends BlockItem {
+public class SoulCrystalItem extends BlockItem implements SoulContainingItem<SoulCrystalContainer> {
     public SoulCrystalItem(Properties properties) {
         super(SpiritBlocks.SOUL_CRYSTAL.get(), properties);
     }
 
     @NotNull
-    public SoulContainer getContainer(ItemStack object) {
+    public SoulCrystalContainer getContainer(ItemStack object) {
         return new SoulCrystalContainer(object);
     }
 
@@ -50,5 +53,11 @@ public class SoulCrystalItem extends BlockItem {
             container.getContainer().deserialize(blockPlaceContext.getItemInHand().getOrCreateTag());
         }
         return place;
+    }
+
+    public static ItemStack createSoulCrystal(EntityType<?> type) {
+        ItemStack itemStack = new ItemStack(SpiritItems.SOUL_CRYSTAL.get());
+        itemStack.getOrCreateTag().putString("Entity", EntityType.getKey(type).toString());
+        return itemStack;
     }
 }
