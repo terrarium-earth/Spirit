@@ -46,7 +46,7 @@ public class SoulCrystalItem extends BlockItem implements SoulContainingItem<Sou
     }
 
     @Override
-    public InteractionResult place(BlockPlaceContext blockPlaceContext) {
+    public @NotNull InteractionResult place(BlockPlaceContext blockPlaceContext) {
         InteractionResult place = super.place(blockPlaceContext);
         BlockEntity blockEntity = blockPlaceContext.getLevel().getBlockEntity(blockPlaceContext.getClickedPos());
         if (blockEntity instanceof SoulCrystalBlockEntity container) {

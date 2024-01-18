@@ -26,6 +26,8 @@ public class SpiritBlockEntities {
     public static final Supplier<BlockEntityType<FlooFireBlockEntity>> FLOO_FIRE = BLOCK_ENTITIES.register("soul_fire", () -> create(FlooFireBlockEntity::new, SpiritBlocks.FLOO_FIRE.get()).build(null));
     public static final Supplier<BlockEntityType<SoulCrystalBlockEntity>> SOUL_CRYSTAL = BLOCK_ENTITIES.register("soul_crystal", () -> create(SoulCrystalBlockEntity::new, SpiritBlocks.SOUL_CRYSTAL.get()).build(null));
 
+    public static final Supplier<BlockEntityType<SoulCageBlockEntity>> SOUL_CAGE = BLOCK_ENTITIES.register("soul_cage", () -> create(SoulCageBlockEntity::new, SpiritBlocks.SOUL_CAGE.get()).build(null));
+
     @ExpectPlatform
     public static <T extends BlockEntity> BlockEntityType.Builder<T> create(BlockEntitySupplier<T> supplier, Block... blocks) {
         throw new NotImplementedException();

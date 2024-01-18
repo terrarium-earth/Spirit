@@ -22,6 +22,8 @@ public class SpiritBlocks {
 
     public static final RegistryEntry<Block> FROSTED_LAVA = BLOCKS.register("frosted_lava", () -> new FrostedLavaBlock(Block.Properties.of().lightLevel(arg -> 10).sound(SoundType.NETHERRACK)));
 
+    public static final RegistryEntry<Block> SOUL_CAGE = BLOCKS.register("soul_cage", () -> new SoulCageBlock(Block.Properties.of().strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
+
     //Normal Blocks
     public static final RegistryEntry<Block> SOUL_STEEL_BLOCK = BLOCKS.register("soul_steel_block", () -> new Block(Block.Properties.of().strength(5.0F, 6.0F).sound(SoundType.METAL).noOcclusion()));
     public static final RegistryEntry<Block> SOUL_GLASS = BLOCKS.register("soul_glass", () -> new Block(Block.Properties.of().strength(0.3F).sound(SoundType.GLASS).noOcclusion()));

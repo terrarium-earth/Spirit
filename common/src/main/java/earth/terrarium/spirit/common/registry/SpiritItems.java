@@ -6,6 +6,7 @@ import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import earth.terrarium.spirit.Spirit;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmor;
 import earth.terrarium.spirit.common.item.armor.SoulSteelArmorMaterial;
+import earth.terrarium.spirit.common.item.block.SoulCageBlockItem;
 import earth.terrarium.spirit.common.item.crystals.*;
 import earth.terrarium.spirit.common.item.tools.SoulSteelToolItem;
 import earth.terrarium.spirit.common.item.trinkets.AllayCharm;
@@ -41,6 +42,7 @@ public class SpiritItems {
     //pedestals
     public static final RegistryEntry<Item> PEDESTAL = ITEMS.register("pedestal", () -> new BlockItem(SpiritBlocks.PEDESTAL.get(), new Item.Properties()));
     public static final RegistryEntry<Item> SOUL_BASIN = ITEMS.register("soul_basin", () -> new BlockItem(SpiritBlocks.SOUL_BASIN.get(), new Item.Properties()));
+    public static final RegistryEntry<Item> SOUL_CAGE = ITEMS.register("soul_cage", () -> new SoulCageBlockItem(new Item.Properties()));
 
     //tools
     public static final RegistryEntry<Item> SCYTHE = TOOLS.register("scythe", () -> new SoulSteelToolItem(BlockTags.MINEABLE_WITH_HOE, new Item.Properties()));
